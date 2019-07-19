@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Dots.Properties
+namespace NN.Properties
 {
 
 
