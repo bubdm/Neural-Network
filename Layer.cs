@@ -29,8 +29,9 @@ namespace Dots
 
             Range.For(height, y =>
             {
-                A[y] = 0; E[y] = 0;
-                Range.For(width, x => W[y, x] = -1 + 2 * Math.Pow(Rand.Flat.NextDouble(), 3));
+                A[y] = -1 + 2 * Rand.Flat.NextDouble();
+                E[y] = 0;
+                Range.For(width, x => W[y, x] = -1 + 2 * Rand.Flat.NextDouble()); // - 1 + 2 * Math.Pow(Rand.Flat.NextDouble(), 3));
             });
         }
 

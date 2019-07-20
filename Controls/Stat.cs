@@ -17,6 +17,7 @@ namespace Dots.Controls
 
         public void DrawStat(Dictionary<string, string> stat)
         {
+            StartRender();
             Clear();
 
             G.TextRenderingHint = TextRenderingHint.AntiAlias;
@@ -24,8 +25,8 @@ namespace Dots.Controls
             int y = 0;
             foreach (var pair in stat)
             {
-                y += Font.Height;
                 G.DrawString(pair.Key + ": " + pair.Value, Font, Brushes.Black, 10, y);
+                y += Font.Height;
             };
 
             Invalidate();

@@ -12,7 +12,7 @@ namespace Dots.Controls
 {
     class NetBox : DrawBox
     {
-        const int WIDTH = 630;
+        //const int WIDTH = 630;
         const int NEURON_MAX_DIST = 40;
         const int HORIZONTAL_OFFSET = 10;
         const int VERTICAL_OFFSET = 10;
@@ -22,33 +22,47 @@ namespace Dots.Controls
         Network Network;
 
         int LayersCount;
-        int MaxNeuronCount;
-        int LayerDistance;
+        //int MaxNeuronCount;
+
+        public NetBox()
+        {
+            SizeChanged += NetBox_SizeChanged;
+        }
+
+        private void NetBox_SizeChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        public int LayerDistance()
+        {
+            return (Width - 2 * HORIZONTAL_OFFSET) / (LayersCount - 1);
+        }
 
         public void SetNetwork(Network network)
         {
             Network = network;
 
             LayersCount = Network.L.Length;
-            MaxNeuronCount = Network.L.Max(L => L == Network.L.First() ? 0 : L.Height);
-            LayerDistance = (WIDTH - 2 * HORIZONTAL_OFFSET) / (LayersCount - 1);
+            //MaxNeuronCount = Network.L.Max(L => L == Network.L.First() ? 0 : L.Height);
+            //LayerDistance = (WIDTH - 2 * HORIZONTAL_OFFSET) / (LayersCount - 1);
 
-            int height = (int)(VERTICAL_OFFSET * 2 + MaxNeuronCount * VertDist(MaxNeuronCount));
+            //int height = (int)(VERTICAL_OFFSET * 2 + MaxNeuronCount * VertDist(MaxNeuronCount));
 
-            Size = new Size(WIDTH, height);
+            //Size = new Size(WIDTH, height);
         }
 
         private float VertDist(int count)
         {
-            return Math.Min(600f / count, NEURON_MAX_DIST);
+            return Math.Min(((float)Height - 220) / count, NEURON_MAX_DIST);
         }
 
         private int LayerX(Layer L)
         {
-            return HORIZONTAL_OFFSET + LayerDistance * L.Id;
+            return HORIZONTAL_OFFSET + LayerDistance() * L.Id;
         }
 
-        public void DrawLayersLink(Layer L1 , Layer L2)
+        private void DrawLayersLink(Layer L1 , Layer L2)
         {
             Range.For(L1.Height, y1 =>
             {
@@ -67,7 +81,7 @@ namespace Dots.Controls
             });
         }
 
-        public void DrawLayerNeurons(Layer L)
+        private void DrawLayerNeurons(Layer L)
         {
             Range.For(L.Height, y =>
             {
@@ -86,6 +100,7 @@ namespace Dots.Controls
 
         public void Draw()
         {
+            StartRender();
             Clear();
             Range.For(Network.L.Length - 1, n => DrawLayersLink(Network.L[n], Network.L[n + 1]));
             Range.For(Network.L.Length, n => DrawLayerNeurons(Network.L[n]));

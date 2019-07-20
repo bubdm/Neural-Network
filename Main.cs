@@ -22,6 +22,7 @@ namespace NN
 
         Network N;
         DateTime StartTime;
+        long Round;
 
         // Visual controls
 
@@ -46,13 +47,15 @@ namespace NN
 
             NetBox = new NetBox();
             NetBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            NetBox.Dock = DockStyle.Fill;
             CtlNetPanel.Controls.Add(NetBox);
+            CtlTime.SizeChanged += CtlTime_SizeChanged;
 
             CtlPointsCount.ValueChanged += CtlPointsCount_ValueChanged;
-            CtlPointsCount.Value = (int)Config.GetNumber(Config.POINTS_COUNT, 1000);
+            CtlPointsCount.Value = Config.GetInt(Config.Param.PointsCount, 1000);
             CtlPointsCount_ValueChanged(null, null);
 
-            N = new Network(Config.GetArray(Config.LAYERS_SIZE, $"{(int)CtlPointsCount.Value} , 22, 22, 11"));
+            N = new Network(Config.GetArray(Config.Param.LayersSize, $"{(int)CtlPointsCount.Value} , 22, 22, 11"));
             NetBox.SetNetwork(N);
             CtlNetPanel.Width = NetBox.Width;
 
@@ -60,17 +63,24 @@ namespace NN
             Plot.Height = 200;
             Plot.Width = 200;
             Plot.Left = 0;
-            Plot.Top = NetBox.Height;
+            Plot.Top = NetBox.Height - Plot.Height;
             CtlNetPanel.Controls.Add(Plot);
+            Plot.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
             Plot.BringToFront();
 
             Stat = new Stat();
             Stat.Height = 200;
             Stat.Width = 250;
             Stat.Left = Plot.Left + Plot.Width;
-            Stat.Top = NetBox.Height;
+            Stat.Top = NetBox.Height - Stat.Top;
             CtlNetPanel.Controls.Add(Stat);
+            Stat.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             Stat.BringToFront();
+        }
+
+        private void CtlTime_SizeChanged(object sender, EventArgs e)
+        {
+            CtlTime.Left = CtlNetPanel.Width - CtlTime.Width;
         }
 
         private void Log(Dictionary<string, string> data)
@@ -103,6 +113,7 @@ namespace NN
                     ++correct;
                 }
                 ++total;
+                ++Round;
 
                 N.BackPropagation();
 
@@ -127,7 +138,15 @@ namespace NN
 
             BeginInvoke((Action)(() =>
             {
-                Draw(100 * (double)correct / total);
+                try
+                {
+                    Draw(100 * (double)correct / total);
+                }
+                catch (Exception ex)
+                {
+                    int a =1;
+                }
+
                 ev.Set();
             }));
 
@@ -139,6 +158,10 @@ namespace NN
             CtlLog.Clear();
 
             N.RandomizeWeights();
+            N.FeedForward(); // initialize state
+
+            Round = 0;
+            StartTime = DateTime.Now;
 
             Draw(0);
 
@@ -147,34 +170,47 @@ namespace NN
             var ts = new ThreadStart(Work);
             WorkThread = new Thread(ts);
             WorkThread.Start();
-
-            StartTime = DateTime.Now;
         }
 
         private void Draw(double percent)
         {
             DataBox.SetInputState(N.L[0].A);
+            var renderStart = DateTime.Now;
             NetBox.Draw();
+            var renderStop = DateTime.Now;
             Plot.AddPoint(percent);
 
             var number = N.L[0].A.Sum();
 
             var stat = new Dictionary<string, string>();
-            stat.Add("Time", DateTime.Now.Subtract(StartTime).ToString(@"hh\:mm\:ss"));
-            stat.Add("Number", number.ToString());
+            var span = DateTime.Now.Subtract(StartTime);
+            stat.Add("Time", new DateTime(span.Ticks).ToString(@"HH\:mm\:ss"));
+
+            if (percent > 0)
+            {
+                var remains = new DateTime((long)(span.Ticks * 100 / percent) - span.Ticks);
+                stat.Add("Time remaining", new DateTime(remains.Ticks).ToString(@"HH\:mm\:ss"));
+            }
+            else
+            {
+                stat.Add("Time remaining", "N/A");
+            }
+
+            stat.Add("Input", number.ToString());
             var max = N.GetOutValue();
-            stat.Add("Answer", max.Item1.ToString());
+            stat.Add("Output", max.Item1.ToString() + $" ({(100 * N.L.Last().A[max.Item1]).ToString("N4")}%)");
             stat.Add("Cost", N.Cost((int)number).ToString("G"));
             stat.Add("Percent", percent.ToString("G") + " %");
-            stat.Add("Rate", N.LearningRate.ToString("G"));
+            stat.Add("Learning rate", N.LearningRate.ToString("G"));
+            stat.Add("Rounds", Round.ToString());
+            stat.Add("Rounds/sec", ((int)((double)Round / DateTime.Now.Subtract(StartTime).TotalSeconds)).ToString());
+            stat.Add("Render time, msec", ((int)(renderStop.Subtract(renderStart).TotalMilliseconds)).ToString());
             Stat.DrawStat(stat);
             Log(stat);
         }
 
         private void Work()
         {
-            StartTime = DateTime.Now;
-
             while (!CancellationToken.IsCancellationRequested)
             {
                 Recalc();

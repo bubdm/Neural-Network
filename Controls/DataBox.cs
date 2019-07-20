@@ -13,16 +13,16 @@ namespace Dots.Controls
     class DataBox : DrawBox
     {
         int PointSize;
-        int PointsReaarrangeSnap;
+        int PointsRearrangeSnap;
         int PointsCount;
         double[] Data;
 
         public DataBox() 
         {
-            PointSize = (int)Config.GetNumber(Config.POINT_SIZE, 7);
-            PointsReaarrangeSnap = (int)Config.GetNumber(Config.POINT_ARRANGE_SNAP, 10);
+            PointSize = Config.GetInt(Config.Param.PointSize, 7);
+            PointsRearrangeSnap = Config.GetInt(Config.Param.PointsArrangeSnap, 10);
 
-            Size = new Size(PointsReaarrangeSnap * PointSize + 1, PointSize + 1);
+            //Size = new Size(PointsRearrangeSnap * PointSize + 1, PointSize + 1);
         }
 
         public void SetPointsCount(int count)
@@ -39,7 +39,7 @@ namespace Dots.Controls
             G.DrawRectangle(Pens.Black, x * PointSize, y * PointSize, PointSize, PointSize);
         }
 
-        public void TogglePoint(int c, bool isOn)
+        private void TogglePoint(int c, bool isOn)
         {
             var pos = GetPointPosition(c);
             DrawPoint(pos.Item1, pos.Item2, isOn);
@@ -49,27 +49,21 @@ namespace Dots.Controls
         {
             Data = new double[data.Length];
             data.CopyTo(Data, 0);
-            DrawData();
+            Rearrange(Width, PointsCount);
             Invalidate();
-        }
-
-        private void DrawData()
-        {
-            if (Data != null)
-            {
-                Range.For(Data.Length, y => TogglePoint(y, Data[y] == 1));
-            }
         }
 
         public void Rearrange(int width, int pointsCount)
         {
             PointsCount = pointsCount;
-            width = Math.Max(width, PointsReaarrangeSnap * PointSize);
+            width = Math.Max(width, PointsRearrangeSnap * PointSize);
 
-            int snaps = width / (PointsReaarrangeSnap * PointSize);
+            int snaps = width / (PointsRearrangeSnap * PointSize);
 
             Width = width;
-            Height = 1 + PointSize * (int)Math.Ceiling(1 + (double)(PointsCount / (snaps * PointsReaarrangeSnap)));
+            Height = 1 + PointSize * (int)Math.Ceiling(1 + (double)(PointsCount / (snaps * PointsRearrangeSnap)));
+
+            StartRender();
 
             Range.For(PointsCount, p =>
             {
@@ -77,16 +71,19 @@ namespace Dots.Controls
                 DrawPoint(pos.Item1, pos.Item2, false);
             });
 
-            DrawData();
+            if (Data != null)
+            {
+                Range.For(Data.Length, y => TogglePoint(y, Data[y] == 1));
+            }
         }
 
         private Tuple<int, int> GetPointPosition(int pointNumber)
         {
-            int width = Math.Max(Width, PointsReaarrangeSnap * PointSize);
+            int width = Math.Max(Width, PointsRearrangeSnap * PointSize);
 
-            int snaps = width / (PointsReaarrangeSnap * PointSize);
-            int y = (int)Math.Ceiling((double)(pointNumber / (snaps * PointsReaarrangeSnap)));
-            int x = pointNumber - (y * snaps * PointsReaarrangeSnap);
+            int snaps = width / (PointsRearrangeSnap * PointSize);
+            int y = (int)Math.Ceiling((double)(pointNumber / (snaps * PointsRearrangeSnap)));
+            int x = pointNumber - (y * snaps * PointsRearrangeSnap);
 
             return new Tuple<int, int>(x, y);
         }

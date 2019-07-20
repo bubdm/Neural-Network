@@ -33,13 +33,23 @@ namespace Dots
             return Range.Sum(L.Last().Height, y => Math.Pow(L.Last().A[y] - (y == x ? 1 : 0), 2));
         }
 
+        public long WeightsCount()
+        {
+            long count = L[0].Height;
+
+            for (int l = 1; l < L.Length; ++l)
+            {
+                count *= L[l].Height;
+            }
+
+            return count;
+        }
+
 
         public void RandomizeWeights()
         {
-            //RandHe();
             RandDefault();
-            //RandFlatInput();
-            //RandLinerInput();
+            //UniqValues();
         }
 
         private double GetRand()
@@ -69,12 +79,63 @@ namespace Dots
                 {
                     if (l % 2 == 0)
                     {
-                        L[l].W[y, x] = GetRand() * (1 / (x + y + 1));
+                        L[l].W[y, x] = GetRand() * (1 / ((double)x + (double)y + 1));
                     }
                     else
                     {
-                        L[l].W[y, x] = GetRand() * (1 - 1 / (x + y + 1));
+                        L[l].W[y, x] = GetRand() * (1 - 1 / ((double)x + (double)y + 1));
                     }
+                });
+            });
+        }
+
+        private void RandDefault2()
+        {
+            double c = 0;
+
+            Range.For(L.Length, l =>
+            {
+                Range.For(L[l].Height, L[l].Width, (y, x) =>
+                {
+                    if (l % 2 == 0)
+                    {
+                        L[l].W[y, x] = GetRand() * (1 / (c + 1));
+                    }
+                    else
+                    {
+                        L[l].W[y, x] = GetRand() * (1 - 1 / (c + 1));
+                    }
+
+                    ++c;
+
+                });
+            });
+        }
+
+        private void UniqValues()
+        {
+            var values = Uniq.GetUniq(2, WeightsCount());
+
+            long prevCount = 0;
+
+            Range.For(L.Length - 1, l =>
+            {
+                var part = new double[L[l].Height * L[l + 1].Height];
+                Array.Copy(values, prevCount, part, 0, part.Length);
+                prevCount = part.Length;
+                
+                part = part.OrderBy(x => Rand.Flat.Next()).ToArray();
+                long c = 0;
+                for (c = 0; c < part.Length; c += 2)
+                {
+                    part[c] *= -1; 
+                }
+
+                c = 0;
+                Range.For(L[l].Height, L[l].Width, (y, x) =>
+                {
+                    L[l].W[y, x] = part[c];
+                    ++c;
                 });
             });
         }

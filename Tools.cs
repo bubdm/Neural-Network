@@ -27,9 +27,14 @@ namespace Tools
             return new SolidBrush(GetColor(v));
         }
 
-        public static Pen GetPen(double v)
+        public static Pen GetPen(double v, float width = 1)
         {
-            return new Pen(new SolidBrush(GetColor(v)));
+            return new Pen(new SolidBrush(GetColor(v)), width);
+        }
+
+        public static Pen GetPen(Color c, float width = 1)
+        {
+            return new Pen(new SolidBrush(c), width);
         }
     }
 
@@ -132,6 +137,25 @@ namespace Tools
             _hasDeviate = true;
             // return second deviate
             return v1 * polar * sigma + mu;
+        }
+    }
+
+    public static class Uniq
+    {
+        public static double[] GetUniq(double spread, long count)
+        {
+            var result = new double[count];
+
+            double step = 1 / (double)count;
+            double a = step;
+
+            for (long c = 0; c < count; ++c)
+            {
+                result[c] = spread * a;// (Math.Pow(a, 6) + a / spread);
+                a += step;
+            }
+
+            return result;
         }
     }
 }   

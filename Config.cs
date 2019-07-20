@@ -11,21 +11,27 @@ namespace Dots
     {
         const string CONFIG_NAME = "config.txt";
 
-        public const string SCREEN_WIDTH = "screen_width";
+        public enum Param
+        {
+            ScreenWidth,
+            ScreenHeight,
+            ScreenLeft,
+            ScreenTop,
+            OnTop,
+            PointsCount,
+            PointSize,
+            PointsArrangeSnap,
+            LayersSize,
+            DataPanelWidth,
+            AxisOffset
+        }
 
-        public const string POINTS_COUNT = "points_count";
-        public const string POINT_SIZE = "point_size";
-        public const string POINT_ARRANGE_SNAP = "point_arrange_snap";
-        public const string LAYERS_SIZE = "layers_size";
-        public const string DATA_PANEL_WIDTH = "data_panel_width";
-        public const string AXIS_OFFSET = "axis_offset";
-
-        public static string GetString(string name, string defaultValue = null)
+        public static string GetString(Param name, string defaultValue = null)
         {
             return GetValue(name, defaultValue);
         }
 
-        public static double GetNumber(string name, double defaultValue = 0)
+        public static double GetDouble(Param name, double defaultValue = 0)
         {
             if (double.TryParse(GetValue(name, defaultValue.ToString("G")), out double value))
             {
@@ -38,29 +44,49 @@ namespace Dots
             }
         }
 
-        public static int[] GetArray(string name, string defaultValue = null)
+        public static int GetInt(Param name, int defaultValue = 0)
         {
-            string value = GetValue(name, defaultValue);
-            return value.Split(new[] { ',' }).Select(s => int.Parse(s)).ToArray();
+            return (int)GetDouble(name, defaultValue);
         }
 
-        public static void AddValue(string name, string value)
+        public static bool GetBool(Param name, bool defaultValue = false)
+        {
+            return 1 == GetInt(name, defaultValue ? 1 : 0);
+        }
+
+        public static int[] GetArray(Param name, string defaultValue = null)
+        {
+            string value = GetValue(name, defaultValue);
+            return value.Split(new[] { ',' }).Select(s => int.Parse(s.Trim())).ToArray();
+        }
+
+        public static void AddValue(Param name, string value)
         {
             var values = GetValues();
-            values[name] = value;
+            values[name.ToString("G")] = value;
             SaveValues(values);
         }
 
-        public static void AddValue(string name, double value)
+        public static void AddValue(Param name, double value)
         {
             AddValue(name, value.ToString("G"));
         }
 
-        private static string GetValue(string name, string defaultValue = null)
+        public static void AddValue(Param name, int value)
+        {
+            AddValue(name, value.ToString());
+        }
+
+        public static void AddValue(Param name, bool value)
+        {
+            AddValue(name, value ? 1 : 0);
+        }
+
+        private static string GetValue(Param name, string defaultValue = null)
         {
             var values = GetValues();
 
-            if (values.TryGetValue(name, out string value))
+            if (values.TryGetValue(name.ToString("G"), out string value))
             {
                 return value;
             }

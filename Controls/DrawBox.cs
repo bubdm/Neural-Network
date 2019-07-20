@@ -12,25 +12,35 @@ namespace Dots.Controls
     {
         public Graphics G;
 
-        Bitmap DrawArea;        
+        Bitmap DrawArea;
+        bool RenderNeeded = true;
 
         public DrawBox() 
         {
             Disposed += DrawBox_Disposed;
             SizeChanged += DrawBox_SizeChanged;
-
             BackColor = Color.White;
         }
 
         private void DrawBox_SizeChanged(object sender, EventArgs e)
         {
-            DrawArea = new Bitmap(Width, Height);
-            Image = DrawArea;
-            if (G != null)
+            RenderNeeded = true;
+        }
+
+        public void StartRender()
+        {
+            if (RenderNeeded && Width > 0 && Height > 0)
             {
-                G.Dispose();
+                RenderNeeded = false;
+
+                DrawArea = new Bitmap(Width, Height);
+                Image = DrawArea;
+                if (G != null)
+                {
+                    G.Dispose();
+                }
+                G = Graphics.FromImage(DrawArea);
             }
-            G = Graphics.FromImage(DrawArea);
         }
 
         public void Clear()
@@ -40,7 +50,10 @@ namespace Dots.Controls
 
         private void DrawBox_Disposed(object sender, EventArgs e)
         {
-            G.Dispose();
+            if (G != null)
+            {
+                G.Dispose();
+            }
         }
     }
 }

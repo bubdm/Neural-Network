@@ -16,11 +16,12 @@ namespace Dots.Controls
 
         public Plot()
         {
-            AxisOffset = (int)Config.GetNumber(Config.AXIS_OFFSET, 6);
+            AxisOffset = Config.GetInt(Config.Param.AxisOffset, 6);
         }
 
         public void Draw()
         {
+            StartRender();
             Clear();
 
             var pen = Pens.Black;
@@ -43,24 +44,41 @@ namespace Dots.Controls
                 G.DrawLine(pen, (float)x, (float)(Height - AxisOffset - step * y), (float)(x + AxisOffset), (float)(Height - AxisOffset - step * y));
             }
 
-            var f = PercentData.First();
-            var l = PercentData.Last();
-
-            var d = l.Item2.Subtract(f.Item2).Ticks;
-
-            var prev = f;
-            foreach (var p in PercentData)
+            for (int n = 1; n <= PercentData.Count; ++n)
             {
-                var pp = GetPoint(p, d);
-                G.DrawLine(Pens.Orange, GetPoint(prev, d), pp);
-                G.FillEllipse(Brushes.Orange, pp.X - 7/2, pp.Y - 7/2, 7, 7);
-                prev = p;
-            }
+                var data = PercentData.Take(n);
 
+                var f = data.First();
+                var l = data.Last();
+
+                var d = l.Item2.Subtract(f.Item2).Ticks;
+
+                using (pen = Tools.Draw.GetPen(Color.FromArgb(10, Color.Orange), 2))
+                {
+                    if (n == PercentData.Count)
+                    {
+                        pen.Width = 1;
+                        pen.Color = Color.Orange;
+                    }
+
+                    var prev = f;
+                    foreach (var p in data)
+                    {
+                        var pp = GetPoint(p, d);
+                        G.DrawLine(pen, GetPoint(prev, d), pp);
+
+                        if (n == PercentData.Count)
+                        {
+                            G.FillEllipse(Brushes.Orange, pp.X - 7 / 2, pp.Y - 7 / 2, 7, 7);
+                        }
+                        prev = p;
+                    }
+                }
+            }
             
             var font = new Font("Tahoma", 7, FontStyle.Bold);
             G.TextRenderingHint = TextRenderingHint.AntiAlias;
-            G.DrawString(new DateTime(d).ToString("HH:mm:ss") + " / " + l.Item1.ToString("N4") + " %", font, Brushes.Black, AxisOffset * 3, Height - AxisOffset - 20);
+            G.DrawString(new DateTime(PercentData.Last().Item2.Subtract(PercentData.First().Item2).Ticks).ToString("HH:mm:ss") + " / " + PercentData.Last().Item1.ToString("N4") + " %", font, Brushes.Black, AxisOffset * 3, Height - AxisOffset - 20);
             
             Invalidate();
         }
