@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Tools;
@@ -46,10 +47,12 @@ namespace Dots
         }
 
 
-        public void RandomizeWeights()
+        public void RandomizeWeights(string randomizer)
         {
-            RandDefault();
-            //UniqValues();
+            MethodInfo method = typeof(RandomizeMode).GetMethod(randomizer);
+            method.Invoke(null, new object[] { this });
+
+            //RandDefault();
         }
 
         private double GetRand()

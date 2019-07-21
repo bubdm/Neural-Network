@@ -19,10 +19,8 @@ namespace Dots.Controls
 
         public DataBox() 
         {
-            PointSize = Config.GetInt(Config.Param.PointSize, 7);
-            PointsRearrangeSnap = Config.GetInt(Config.Param.PointsArrangeSnap, 10);
-
-            //Size = new Size(PointsRearrangeSnap * PointSize + 1, PointSize + 1);
+            PointSize = Config.Main.GetInt(Config.Param.PointSize, 7);
+            PointsRearrangeSnap = Config.Main.GetInt(Config.Param.PointsArrangeSnap, 10);
         }
 
         public void SetPointsCount(int count)

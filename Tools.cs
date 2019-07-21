@@ -36,6 +36,13 @@ namespace Tools
         {
             return new Pen(new SolidBrush(c), width);
         }
+
+        public static Color GetRandomColor(int offset)
+        {
+            return Color.FromArgb(255 - offset + Rand.Flat.Next(offset),
+                                  255 - offset + Rand.Flat.Next(offset),
+                                  255 - offset + Rand.Flat.Next(offset));
+        }
     }
 
     public static class Range

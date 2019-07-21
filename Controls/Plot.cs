@@ -16,7 +16,7 @@ namespace Dots.Controls
 
         public Plot()
         {
-            AxisOffset = Config.GetInt(Config.Param.AxisOffset, 6);
+            AxisOffset = Config.Main.GetInt(Config.Param.AxisOffset, 6);
         }
 
         public void Draw()

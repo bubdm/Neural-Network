@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace Dots
 {
-    public static class Config
+    public class Config
     {
-        const string CONFIG_NAME = "config.txt";
+        public static Config Main = new Config("config.txt");
+
+        string Name;
+        string Extender;
 
         public enum Param
         {
@@ -23,15 +26,34 @@ namespace Dots
             PointsArrangeSnap,
             LayersSize,
             DataPanelWidth,
-            AxisOffset
+            AxisOffset,
+
+            NetworkName,
+            InputMinimum,
+            InputMaximum,
+            InputCount,
+            Randomizer,
+            LayersCount,
+            NeuronsCount
         }
 
-        public static string GetString(Param name, string defaultValue = null)
+        public Config(string name)
+        {
+            Name = name;
+        }
+
+        public Config Extend(string name)
+        {
+            Extender += name;
+            return this;
+        }
+
+        public string GetString(Param name, string defaultValue = null)
         {
             return GetValue(name, defaultValue);
         }
 
-        public static double GetDouble(Param name, double defaultValue = 0)
+        public double GetDouble(Param name, double defaultValue = 0)
         {
             if (double.TryParse(GetValue(name, defaultValue.ToString("G")), out double value))
             {
@@ -39,65 +61,67 @@ namespace Dots
             }
             else
             {
-                AddValue(name, defaultValue);
+                Set(name, defaultValue);
                 return defaultValue;
             }
         }
 
-        public static int GetInt(Param name, int defaultValue = 0)
+        public int GetInt(Param name, int defaultValue = 0)
         {
             return (int)GetDouble(name, defaultValue);
         }
 
-        public static bool GetBool(Param name, bool defaultValue = false)
+        public bool GetBool(Param name, bool defaultValue = false)
         {
             return 1 == GetInt(name, defaultValue ? 1 : 0);
         }
 
-        public static int[] GetArray(Param name, string defaultValue = null)
+        public int[] GetArray(Param name, string defaultValue = null)
         {
             string value = GetValue(name, defaultValue);
             return value.Split(new[] { ',' }).Select(s => int.Parse(s.Trim())).ToArray();
         }
 
-        public static void AddValue(Param name, string value)
+        public void Set(Param name, string value)
         {
             var values = GetValues();
-            values[name.ToString("G")] = value;
+            values[name.ToString("G") + Extender] = value;
             SaveValues(values);
+            Extender = null;
         }
 
-        public static void AddValue(Param name, double value)
+        public void Set(Param name, double value)
         {
-            AddValue(name, value.ToString("G"));
+            Set(name, value.ToString("G"));
         }
 
-        public static void AddValue(Param name, int value)
+        public void Set(Param name, int value)
         {
-            AddValue(name, value.ToString());
+            Set(name, value.ToString());
         }
 
-        public static void AddValue(Param name, bool value)
+        public void Set(Param name, bool value)
         {
-            AddValue(name, value ? 1 : 0);
+            Set(name, value ? 1 : 0);
         }
 
-        private static string GetValue(Param name, string defaultValue = null)
+        private string GetValue(Param name, string defaultValue = null)
         {
             var values = GetValues();
 
-            if (values.TryGetValue(name.ToString("G"), out string value))
+            if (values.TryGetValue(name.ToString("G") + Extender, out string value))
             {
+                Extender = null;
                 return value;
             }
             else
             {
-                AddValue(name, defaultValue);
+                Set(name, defaultValue);
                 return defaultValue;
             }
         }
 
-        private static void SaveValues(Dictionary<string, string> values)
+        private void SaveValues(Dictionary<string, string> values)
         {
             var lines = new List<string>();
             foreach (var pair in values)
@@ -105,20 +129,20 @@ namespace Dots
                 lines.Add(pair.Key + ":" + pair.Value);
             }
 
-            File.WriteAllLines(CONFIG_NAME, lines);
+            File.WriteAllLines(Name, lines);
         }
 
-        private static Dictionary<string, string> GetValues()
+        private Dictionary<string, string> GetValues()
         {
             var result = new Dictionary<string, string>();
 
-            if (!File.Exists(CONFIG_NAME))
+            if (!File.Exists(Name))
             {
-                var f = File.CreateText(CONFIG_NAME);
+                var f = File.CreateText(Name);
                 f.Close();
             }
 
-            var lines = File.ReadAllLines(CONFIG_NAME);
+            var lines = File.ReadAllLines(Name);
 
             foreach (var line in lines)
             {
@@ -135,9 +159,9 @@ namespace Dots
             return result;
         }
 
-        public static void Clear()
+        public void Clear()
         {
-            File.WriteAllLines(CONFIG_NAME, new string[] { });
+            File.WriteAllLines(Name, new string[] { });
         }
     }
 }

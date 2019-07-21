@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -39,7 +40,7 @@ namespace NN
 
         private void Main_Load(object sender, EventArgs e)
         {
-            Config.Clear();
+            Config.Main.Clear();
 
             DataBox = new DataBox();
             DataBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
@@ -51,11 +52,11 @@ namespace NN
             CtlNetPanel.Controls.Add(NetBox);
             CtlTime.SizeChanged += CtlTime_SizeChanged;
 
-            CtlPointsCount.ValueChanged += CtlPointsCount_ValueChanged;
-            CtlPointsCount.Value = Config.GetInt(Config.Param.PointsCount, 1000);
+            CtlDefaultInputCount.ValueChanged += CtlPointsCount_ValueChanged;
+            CtlDefaultInputCount.Value = Config.Main.GetInt(Config.Param.PointsCount, 1000);
             CtlPointsCount_ValueChanged(null, null);
 
-            N = new Network(Config.GetArray(Config.Param.LayersSize, $"{(int)CtlPointsCount.Value} , 22, 22, 11"));
+            N = new Network(Config.Main.GetArray(Config.Param.LayersSize, $"{(int)CtlDefaultInputCount.Value} , 22, 22, 11"));
             NetBox.SetNetwork(N);
             CtlNetPanel.Width = NetBox.Width;
 
@@ -76,22 +77,93 @@ namespace NN
             CtlNetPanel.Controls.Add(Stat);
             Stat.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             Stat.BringToFront();
+
+            CreateDirectories();
+
+
+
+            LoadConfig();
+        }
+
+        private void LoadConfig()
+        {
+            CtlDefaultInputCount.Value = Config.Main.GetInt(Config.Param.InputCount, 1000);
+
+            // randomizer
+
+            CtlDefaultRandomizer.Items.Clear();
+            var randomizers = typeof(RandomizeMode).GetMethods().Where(r => r.IsStatic).ToArray();
+            foreach (var rand in randomizers)
+            {
+                CtlDefaultRandomizer.Items.Add(rand.Name);
+            }
+
+            var defaultRandomizer = Config.Main.GetString(Config.Param.Randomizer, randomizers.Any() ? randomizers[0].Name : null);
+            if (randomizers.Any())
+            {
+                if (!randomizers.Any(r => r.Name == defaultRandomizer))
+                {
+                    defaultRandomizer = randomizers[0].Name;
+                }
+            }
+            else
+            {
+                defaultRandomizer = null;
+            }
+
+            if (!String.IsNullOrEmpty(defaultRandomizer))
+            {
+                CtlDefaultRandomizer.SelectedValue = defaultRandomizer;
+            }
+
+            //
+
+            var networkName = Config.Main.GetString(Config.Param.NetworkName, null);
+            LoadNetwork(networkName);
+            CtlStart.Enabled = true;
+        }
+
+        private void LoadNetwork(string name)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                return;
+            }
+
+            if (!File.Exists(name))
+            {
+                name = "\\Networks\\" + Path.GetFileName(name); 
+            }
+
+            if (File.Exists(name))
+            { 
+                var network = new NetworkControl();
+                network.Config = new Config(name);
+                network.LoadConfig();
+                ReplaceNetworkControl(network);
+            }
+            else
+            {
+                MessageBox.Show($"Network '{name}' is not found!", "Error", MessageBoxButtons.OK);
+            }
+        }
+
+        private void SaveConfig()
+        {
+            Config.Main.Set(Config.Param.InputCount, (int)CtlDefaultInputCount.Value);
+        }
+
+        private void CreateDirectories()
+        {
+            if (!Directory.Exists("Networks"))
+            {
+                Directory.CreateDirectory("Networks");
+            }
         }
 
         private void CtlTime_SizeChanged(object sender, EventArgs e)
         {
             CtlTime.Left = CtlNetPanel.Width - CtlTime.Width;
-        }
-
-        private void Log(Dictionary<string, string> data)
-        {
-            BeginInvoke((Action)(() =>
-            {
-                foreach (var pair in data)
-                {
-                    CtlLog.Text += DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + " " + pair.Key + ": " + pair.Value + "\r\n";
-                }
-            }));
         }
 
         private void Recalc()
@@ -155,9 +227,9 @@ namespace NN
 
         private void btnRecalc_Click(object sender, EventArgs e)
         {
-            CtlLog.Clear();
+            Network.SaveConfig();
 
-            N.RandomizeWeights();
+            N.RandomizeWeights(Network.Config.GetString(Config.Param.Randomizer, CtlDefaultRandomizer.SelectedValue.ToString())); ;
             N.FeedForward(); // initialize state
 
             Round = 0;
@@ -206,7 +278,6 @@ namespace NN
             stat.Add("Rounds/sec", ((int)((double)Round / DateTime.Now.Subtract(StartTime).TotalSeconds)).ToString());
             stat.Add("Render time, msec", ((int)(renderStop.Subtract(renderStart).TotalMilliseconds)).ToString());
             Stat.DrawStat(stat);
-            Log(stat);
         }
 
         private void Work()
@@ -228,12 +299,48 @@ namespace NN
 
         private void CtlPointsCount_ValueChanged(object sender, EventArgs e)
         {
-            DataBox.Rearrange(CtlDataPanel.Width, (int)CtlPointsCount.Value);
+            DataBox.Rearrange(CtlDataPanel.Width, (int)CtlDefaultInputCount.Value);
         }
 
         private void CtlDataPanel_SizeChanged(object sender, EventArgs e)
         {
-            DataBox.Rearrange(CtlDataPanel.Width, (int)CtlPointsCount.Value);
+            DataBox.Rearrange(CtlDataPanel.Width, (int)CtlDefaultInputCount.Value);
+        }
+
+        private void CtlMenuNewNetwork_Click(object sender, EventArgs e)
+        {
+            CreateNetwork();
+        }
+
+        private void CreateNetwork()
+        {
+            var network = new NetworkControl();
+            network.Config = network.SaveConfig();
+            if (network.Config != null)
+            {
+                ReplaceNetworkControl(network);
+                Config.Main.Set(Config.Param.NetworkName, network.Config.GetString(Config.Param.NetworkName));
+            }
+        }
+
+        private void ReplaceNetworkControl(NetworkControl network)
+        {
+            CtlTabs.SelectedTab = CtlTabNetwork;
+            if (Network != null)
+            {
+                CtlTabNetwork.Controls.Remove(Network);
+            }
+            CtlTabNetwork.Controls.Add(network);
+            Text = "Neural Network | " + Path.GetFileNameWithoutExtension(Network.Config.GetString(Config.Param.NetworkName));
+            CtlStart.Enabled = true;
+        }
+
+        private NetworkControl Network
+        {
+            get
+            {
+                return CtlTabNetwork.Controls.Count > 0 ? CtlTabNetwork.Controls[0] as NetworkControl : null;
+            }
         }
     }
 }
