@@ -26,6 +26,7 @@ namespace Dots.Controls
         {
             InitializeComponent();
             BackColor = Draw.GetRandomColor(20);
+            Dock = DockStyle.Top;
 
             Id = id;
             Config = config;

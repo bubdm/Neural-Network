@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Dots.Controls
 {
-    class Plot : DrawBox
+    class PlotterPresenter : PresenterControl
     {
         List<Tuple<double, DateTime>> PercentData = new List<Tuple<double, DateTime>>();
 
         int AxisOffset;
 
-        public Plot()
+        public PlotterPresenter()
         {
             AxisOffset = Config.Main.GetInt(Config.Param.AxisOffset, 6);
         }

@@ -7,7 +7,7 @@ using Tools;
 
 namespace Dots
 {
-    public class Layer
+    public class LayerDataModel
     {
         public int Height;
         public int Width;
@@ -17,7 +17,7 @@ namespace Dots
         public double[] E; // error
         public double[,] W; // weight
 
-        public Layer(int id, int height, int width)
+        public LayerDataModel(int id, int height, int width)
         {
             Id = id;
             Height = height;

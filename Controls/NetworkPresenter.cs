@@ -10,46 +10,45 @@ using Tools;
 
 namespace Dots.Controls
 {
-    class NetBox : DrawBox
+    class NetworkPresenter : PresenterControl
     {
-        //const int WIDTH = 630;
         const int NEURON_MAX_DIST = 40;
         const int HORIZONTAL_OFFSET = 10;
         const int VERTICAL_OFFSET = 10;
         const int NEURON_SIZE = 7;
         const int NEURON_RADIUS = NEURON_SIZE / 2;
 
-        Network Network;
+        public bool IsNetworkRunning;
 
-        int LayersCount;
-        //int MaxNeuronCount;
+        NetworkDataModel NetworkModel;
 
-        public NetBox()
+        public NetworkPresenter()
         {
-            SizeChanged += NetBox_SizeChanged;
+            Dock = DockStyle.Fill;
+            SizeChanged += NetworkPresenter_SizeChanged;
         }
 
-        private void NetBox_SizeChanged(object sender, EventArgs e)
+        private void NetworkPresenter_SizeChanged(object sender, EventArgs e)
         {
-            
+            if (NetworkModel != null)
+            {
+                if (IsNetworkRunning)
+                    Draw();
+                else
+                    DrawFullState();
+            }
         }
 
         public int LayerDistance()
         {
-            return (Width - 2 * HORIZONTAL_OFFSET) / (LayersCount - 1);
+            return (Width - 2 * HORIZONTAL_OFFSET) / (NetworkModel.L.Length - 1);
         }
 
-        public void SetNetwork(Network network)
+        public void SetNetwork(NetworkDataModel network)
         {
-            Network = network;
-
-            LayersCount = Network.L.Length;
-            //MaxNeuronCount = Network.L.Max(L => L == Network.L.First() ? 0 : L.Height);
-            //LayerDistance = (WIDTH - 2 * HORIZONTAL_OFFSET) / (LayersCount - 1);
-
-            //int height = (int)(VERTICAL_OFFSET * 2 + MaxNeuronCount * VertDist(MaxNeuronCount));
-
-            //Size = new Size(WIDTH, height);
+            IsNetworkRunning = false;
+            NetworkModel = network;
+            DrawFullState();
         }
 
         private float VertDist(int count)
@@ -57,18 +56,18 @@ namespace Dots.Controls
             return Math.Min(((float)Height - 220) / count, NEURON_MAX_DIST);
         }
 
-        private int LayerX(Layer L)
+        private int LayerX(LayerDataModel L)
         {
             return HORIZONTAL_OFFSET + LayerDistance() * L.Id;
         }
 
-        private void DrawLayersLink(Layer L1 , Layer L2)
+        private void DrawLayersLink(bool fullState, LayerDataModel L1 , LayerDataModel L2)
         {
             Range.For(L1.Height, y1 =>
             {
                 Range.For(L2.Height, y2 =>
                 {
-                    if (L1.AxW(y1, y2) != 0)
+                    if (fullState || L1.AxW(y1, y2) != 0)
                     {
                         using (var pen = Tools.Draw.GetPen(L1.AxW(y1, y2)))
                         {
@@ -81,11 +80,11 @@ namespace Dots.Controls
             });
         }
 
-        private void DrawLayerNeurons(Layer L)
+        private void DrawLayerNeurons(bool fullState, LayerDataModel L)
         {
             Range.For(L.Height, y =>
             {
-                if (L.A[y] != 0)
+                if (fullState || L.A[y] != 0)
                 {
                     using (var brush = Tools.Draw.GetBrush(L.A[y]))
                     {
@@ -98,14 +97,27 @@ namespace Dots.Controls
             });
         }
 
-        public void Draw()
+        private void Draw(bool fullState)
         {
             StartRender();
             Clear();
-            Range.For(Network.L.Length - 1, n => DrawLayersLink(Network.L[n], Network.L[n + 1]));
-            Range.For(Network.L.Length, n => DrawLayerNeurons(Network.L[n]));
+            if (NetworkModel.L.Length > 0)
+            {
+                Range.For(NetworkModel.L.Length - 1, n => DrawLayersLink(fullState, NetworkModel.L[n], NetworkModel.L[n + 1]));
+            }
+            Range.For(NetworkModel.L.Length, n => DrawLayerNeurons(fullState, NetworkModel.L[n]));
 
             Invalidate();
+        }
+
+        public void DrawFullState()
+        {
+            Draw(true);
+        }
+
+        public void Draw()
+        {
+            Draw(false);
         }
     }
 }

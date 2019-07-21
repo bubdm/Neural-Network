@@ -10,14 +10,14 @@ using Tools;
 
 namespace Dots.Controls
 {
-    class DataBox : DrawBox
+    class DataControl : PresenterControl
     {
         int PointSize;
         int PointsRearrangeSnap;
         int PointsCount;
         double[] Data;
 
-        public DataBox() 
+        public DataControl() 
         {
             PointSize = Config.Main.GetInt(Config.Param.PointSize, 7);
             PointsRearrangeSnap = Config.Main.GetInt(Config.Param.PointsArrangeSnap, 10);

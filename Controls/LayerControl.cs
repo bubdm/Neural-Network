@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tools;
 
 namespace Dots.Controls
 {
@@ -14,15 +15,19 @@ namespace Dots.Controls
     {
         int Id;
         Config Config;
+        Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
         public LayerControl()
         {
             InitializeComponent();
         }
 
-        public LayerControl(int id, Config config)
+        public LayerControl(int id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
             InitializeComponent();
+            OnNetworkUIChanged = onNetworkUIChanged;
+
+            Dock = DockStyle.Fill;
             Id = id;
             Config = config;
 
@@ -36,6 +41,7 @@ namespace Dots.Controls
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
             AddNeuron();
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
 
         private void AddNeuron()
@@ -43,7 +49,6 @@ namespace Dots.Controls
             int id = Controls.Count + 1;
             var neuron = new NeuronControl(id, Config);            
             Controls.Add(neuron);
-            neuron.Dock = DockStyle.Top;
             neuron.BringToFront();
         }
 
@@ -52,8 +57,7 @@ namespace Dots.Controls
             Config.Extend(Id.ToString()).Set(Config.Param.NeuronsCount, Controls.Count);
             for (int i = 0; i < Controls.Count; ++i)
             {
-                var neuron = Controls[i] as NeuronControl;
-                if (neuron != null)
+                if (Controls[i] is NeuronControl neuron)
                 {
                     neuron.SaveConfig();
                 }

@@ -24,16 +24,16 @@ namespace Dots
             PointsCount,
             PointSize,
             PointsArrangeSnap,
-            LayersSize,
             DataPanelWidth,
             AxisOffset,
 
             NetworkName,
-            InputMinimum,
-            InputMaximum,
-            InputCount,
+            InputNeuronsMinCount,
+            InputNeuronsMaxCount,
+            InputNeuronsCount,
+            OutputNeuronsCount,
             Randomizer,
-            LayersCount,
+            HiddenLayersCount,
             NeuronsCount
         }
 
@@ -151,7 +151,7 @@ namespace Dots
                     var parts = line.Split(new[] { ':' });
                     if (parts.Count() > 1)
                     {
-                        result[parts[0]] = string.Concat(parts.Except(parts.Take(1)));
+                        result[parts[0]] = string.Join(":", parts.Except(parts.Take(1)));
                     }
                 }
             }

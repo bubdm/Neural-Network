@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Dots.Controls
 {
-    class Stat : DrawBox
+    class StatisticsPresenter : PresenterControl
     {
-        public Stat()
+        public StatisticsPresenter()
         {
             Font = new Font("Tahoma", 7, FontStyle.Bold);
         }

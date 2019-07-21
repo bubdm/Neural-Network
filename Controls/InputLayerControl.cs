@@ -12,22 +12,25 @@ namespace Dots.Controls
 {
     public partial class InputLayerControl : UserControl
     {
-        public InputLayerControl()
+        public InputLayerControl(Config config)
         {
             InitializeComponent();
-            CtlInputCount.Minimum = Config.Main.GetInt(Config.Param.InputMinimum, 1);
-            CtlInputCount.Maximum = Config.Main.GetInt(Config.Param.InputMaximum, 10000);
-            CtlInputCount.Value = Config.Main.GetInt(Config.Param.InputCount, 1000);
+            CtlInputCount.Minimum = Config.Main.GetInt(Config.Param.InputNeuronsMinCount, 1);
+            CtlInputCount.Maximum = Config.Main.GetInt(Config.Param.InputNeuronsMaxCount, 10000);
+            CtlInputCount.Value = config.GetInt(Config.Param.InputNeuronsCount, Config.Main.GetInt(Config.Param.InputNeuronsCount, 1000));
         }
 
-        public void LoadConfig(Config config)
+        public int NeuronsCount
         {
-            CtlInputCount.Value = config.GetInt(Config.Param.InputCount, Config.Main.GetInt(Config.Param.InputCount, 1000));
+            get
+            {
+                return (int)CtlInputCount.Value;
+            }
         }
 
         public void SaveConfig(Config config)
         {
-             config.Set(Config.Param.InputCount, (int)CtlInputCount.Value);
+             config.Set(Config.Param.InputNeuronsCount, (int)CtlInputCount.Value);
         }
     }
 }

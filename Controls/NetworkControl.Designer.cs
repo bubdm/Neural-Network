@@ -34,14 +34,12 @@
             this.CtlTabsLayers = new System.Windows.Forms.TabControl();
             this.CtlTabInput = new System.Windows.Forms.TabPage();
             this.CtlTabOutput = new System.Windows.Forms.TabPage();
-            this.CtlInputLayerControl = new Dots.Controls.InputLayerControl();
             this.CtlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CtlMenuAddLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlRandomizeModeLabel = new System.Windows.Forms.Label();
             this.CtlRandomizer = new System.Windows.Forms.ComboBox();
             this.CtlMainPanel.SuspendLayout();
             this.CtlTabsLayers.SuspendLayout();
-            this.CtlTabInput.SuspendLayout();
             this.CtlContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,7 +76,6 @@
             // 
             // CtlTabInput
             // 
-            this.CtlTabInput.Controls.Add(this.CtlInputLayerControl);
             this.CtlTabInput.Location = new System.Drawing.Point(4, 25);
             this.CtlTabInput.Name = "CtlTabInput";
             this.CtlTabInput.Size = new System.Drawing.Size(312, 105);
@@ -94,14 +91,6 @@
             this.CtlTabOutput.TabIndex = 1;
             this.CtlTabOutput.Text = "Output";
             this.CtlTabOutput.UseVisualStyleBackColor = true;
-            // 
-            // CtlInputLayerControl
-            // 
-            this.CtlInputLayerControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.CtlInputLayerControl.Location = new System.Drawing.Point(0, 0);
-            this.CtlInputLayerControl.Name = "CtlInputLayerControl";
-            this.CtlInputLayerControl.Size = new System.Drawing.Size(312, 70);
-            this.CtlInputLayerControl.TabIndex = 0;
             // 
             // CtlContextMenu
             // 
@@ -148,7 +137,6 @@
             this.CtlMainPanel.ResumeLayout(false);
             this.CtlMainPanel.PerformLayout();
             this.CtlTabsLayers.ResumeLayout(false);
-            this.CtlTabInput.ResumeLayout(false);
             this.CtlContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -160,7 +148,6 @@
         private System.Windows.Forms.Splitter CtlSplitter;
         private System.Windows.Forms.TabControl CtlTabsLayers;
         private System.Windows.Forms.TabPage CtlTabInput;
-        private InputLayerControl CtlInputLayerControl;
         private System.Windows.Forms.TabPage CtlTabOutput;
         private System.Windows.Forms.ContextMenuStrip CtlContextMenu;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuAddLayer;

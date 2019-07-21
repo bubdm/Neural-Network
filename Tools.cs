@@ -165,4 +165,13 @@ namespace Tools
             return result;
         }
     }
+
+    public static class Notification
+    {
+        public enum ParameterChanged
+        {
+            Randomizer,
+            Structure
+        }
+    }
 }   

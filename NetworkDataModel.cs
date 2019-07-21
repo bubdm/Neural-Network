@@ -8,14 +8,14 @@ using Tools;
 
 namespace Dots
 {
-    public class Network
+    public class NetworkDataModel
     {
-        public Layer[] L;
+        public LayerDataModel[] L;
         public double LearningRate = 0.05;
 
-        public Network(int[] layersSize)
+        public NetworkDataModel(int[] layersSize)
         {
-            var list = new List<Layer>();
+            var list = new List<LayerDataModel>();
 
             Range.For(layersSize.Length, n =>
                 CreateLayer(layersSize[n], n < layersSize.Length - 1 ? layersSize[n + 1] : 0, list));
@@ -23,10 +23,10 @@ namespace Dots
             L = list.ToArray();
         }
 
-        public void CreateLayer(int l, int nextl, List<Layer> list)
+        public void CreateLayer(int l, int nextl, List<LayerDataModel> list)
         {
             if (l > 0)
-                list.Add(new Layer(list.Count(), l, nextl));
+                list.Add(new LayerDataModel(list.Count(), l, nextl));
         }
 
         public double Cost(int x)
@@ -49,8 +49,7 @@ namespace Dots
 
         public void RandomizeWeights(string randomizer)
         {
-            MethodInfo method = typeof(RandomizeMode).GetMethod(randomizer);
-            method.Invoke(null, new object[] { this });
+            Randomize.Helper.Invoke(randomizer, this);
 
             //RandDefault();
         }

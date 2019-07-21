@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Tools;
 
 namespace Dots.Controls
 {
@@ -15,17 +16,28 @@ namespace Dots.Controls
     {
         public Config Config;
 
-        public NetworkControl()
+        Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
+
+        public NetworkControl(string name, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
             InitializeComponent();
+            OnNetworkUIChanged = onNetworkUIChanged;
             Dock = DockStyle.Fill;
+
+            Config = String.IsNullOrEmpty(name) ? SaveConfig() : new Config(name);
+            if (Config != null)
+            {
+                var inputLayer = new InputLayerControl(Config);
+                CtlTabInput.Controls.Add(inputLayer);
+                LoadConfig();
+            }
         }
 
         private void AddLayer()
         {
             int id = CtlTabsLayers.TabCount - 1;
-            var name = "L1" + id;
-            var layer = new LayerControl(id, Config) { Dock = DockStyle.Fill };
+            var name = "L" + id;
+            var layer = new LayerControl(id, Config, OnNetworkUIChanged);
             var page = new TabPage(name);
             page.Controls.Add(layer);
             CtlTabsLayers.TabPages.Insert(CtlTabsLayers.TabCount - 1, page);
@@ -41,12 +53,14 @@ namespace Dots.Controls
         {
             if (Config == null)
             {
-                var saveDialog = new SaveFileDialog();
-                saveDialog.InitialDirectory = Path.GetFullPath("Networks\\");
-                saveDialog.DefaultExt = "txt";
-                saveDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-                saveDialog.FilterIndex = 2;
-                saveDialog.RestoreDirectory = true;
+                var saveDialog = new SaveFileDialog
+                {
+                    InitialDirectory = Path.GetFullPath("Networks\\"),
+                    DefaultExt = "txt",
+                    Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
+                    FilterIndex = 2,
+                    RestoreDirectory = true
+                };
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -61,12 +75,11 @@ namespace Dots.Controls
                 }
             }
 
-            Config.Set(Config.Param.Randomizer, CtlRandomizer.SelectedValue.ToString());
-            Config.Set(Config.Param.LayersCount, CtlTabsLayers.TabCount - 2);
+            Config.Set(Config.Param.Randomizer, CtlRandomizer.SelectedItem.ToString());
+            Config.Set(Config.Param.HiddenLayersCount, CtlTabsLayers.TabCount - 2);
             for (int i = 1; i < CtlTabsLayers.TabCount - 1; ++i)
             {
-                var layer = CtlTabsLayers.TabPages[i].Controls[0] as LayerControl;
-                if (layer != null)
+                if (CtlTabsLayers.TabPages[i].Controls[0] is LayerControl layer)
                 {
                     layer.SaveConfig();
                 }
@@ -80,7 +93,7 @@ namespace Dots.Controls
             // randomizer
 
             CtlRandomizer.Items.Clear();
-            var randomizers = typeof(RandomizeMode).GetMethods().Where(r => r.IsStatic).ToArray();
+            var randomizers = Randomize.Helper.GetRandomizers();
             foreach (var rand in randomizers)
             {
                 CtlRandomizer.Items.Add(rand.Name);
@@ -100,19 +113,42 @@ namespace Dots.Controls
 
             if (!String.IsNullOrEmpty(randomizer))
             {
-                CtlRandomizer.SelectedValue = randomizer;
+                CtlRandomizer.SelectedItem = randomizer;
             }
 
             //
 
-            CtlInputLayerControl.LoadConfig(Config);
+            //CtlInputLayerControl.LoadConfig(Config);
 
             //
 
-            int layersCount = Config.GetInt(Config.Param.LayersCount, 0);
+            int layersCount = Config.GetInt(Config.Param.HiddenLayersCount, 0);
             for (int i = 0; i < layersCount; ++i)
             {
                 AddLayer();
+            }
+        }
+
+        public int[] GetLayersSize()
+        {
+            int layersCount = Config.GetInt(Config.Param.HiddenLayersCount, 0);
+            var result = new int[layersCount + 2]; // +2 = input + output
+            result[0] = (CtlTabInput.Controls[0] as InputLayerControl).NeuronsCount;
+            result[result.Length - 1] = Config.GetInt(Config.Param.OutputNeuronsCount, Config.Main.GetInt(Config.Param.OutputNeuronsCount, 10));
+
+            for (int i = 1; i < layersCount - 1; ++i)
+            {
+                result[i] = Config.Extend(i.ToString()).GetInt(Config.Param.NeuronsCount, 0);
+            }
+
+            return result;
+        }
+
+        public string Randomizer
+        {
+            get
+            {
+                return CtlRandomizer.SelectedItem.ToString();
             }
         }
     }

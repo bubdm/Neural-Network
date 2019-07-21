@@ -41,6 +41,8 @@
             this.CtlTabs = new System.Windows.Forms.TabControl();
             this.CtlNetworkContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CtlMenuNewNetwork = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMenuLoadNetwork = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMenuDeleteNetwork = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlTabSettings = new System.Windows.Forms.TabPage();
             this.CtlDefaultRandomizer = new System.Windows.Forms.ComboBox();
             this.CtlDefaultRandomizerLabel = new System.Windows.Forms.Label();
@@ -51,7 +53,8 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuStart = new System.Windows.Forms.ToolStripMenuItem();
-            this.networkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlStop = new System.Windows.Forms.Button();
+            this.CtlReset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CtlDefaultInputCount)).BeginInit();
             this.CtlBottomPanel.SuspendLayout();
             this.CtlNetPanel.SuspendLayout();
@@ -74,7 +77,7 @@
             this.CtlStart.TabIndex = 1;
             this.CtlStart.Text = "Start";
             this.CtlStart.UseVisualStyleBackColor = true;
-            this.CtlStart.Click += new System.EventHandler(this.btnRecalc_Click);
+            this.CtlStart.Click += new System.EventHandler(this.CtlStart_Click);
             // 
             // CtlDefaultInputCount
             // 
@@ -119,6 +122,8 @@
             // CtlBottomPanel
             // 
             this.CtlBottomPanel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.CtlBottomPanel.Controls.Add(this.CtlReset);
+            this.CtlBottomPanel.Controls.Add(this.CtlStop);
             this.CtlBottomPanel.Controls.Add(this.CtlStart);
             this.CtlBottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.CtlBottomPanel.Location = new System.Drawing.Point(0, 443);
@@ -196,16 +201,33 @@
             // 
             this.CtlNetworkContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.CtlNetworkContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CtlMenuNewNetwork});
+            this.CtlMenuNewNetwork,
+            this.CtlMenuLoadNetwork,
+            this.CtlMenuDeleteNetwork});
             this.CtlNetworkContextMenu.Name = "CtlNetworkContextMenu";
-            this.CtlNetworkContextMenu.Size = new System.Drawing.Size(166, 28);
+            this.CtlNetworkContextMenu.Size = new System.Drawing.Size(180, 76);
             // 
             // CtlMenuNewNetwork
             // 
             this.CtlMenuNewNetwork.Name = "CtlMenuNewNetwork";
-            this.CtlMenuNewNetwork.Size = new System.Drawing.Size(165, 24);
-            this.CtlMenuNewNetwork.Text = "New network";
+            this.CtlMenuNewNetwork.Size = new System.Drawing.Size(179, 24);
+            this.CtlMenuNewNetwork.Text = "New network...";
             this.CtlMenuNewNetwork.Click += new System.EventHandler(this.CtlMenuNewNetwork_Click);
+            // 
+            // CtlMenuLoadNetwork
+            // 
+            this.CtlMenuLoadNetwork.Name = "CtlMenuLoadNetwork";
+            this.CtlMenuLoadNetwork.Size = new System.Drawing.Size(179, 24);
+            this.CtlMenuLoadNetwork.Text = "Load network...";
+            this.CtlMenuLoadNetwork.Click += new System.EventHandler(this.CtlMenuLoadNetwork_Click);
+            // 
+            // CtlMenuDeleteNetwork
+            // 
+            this.CtlMenuDeleteNetwork.Enabled = false;
+            this.CtlMenuDeleteNetwork.Name = "CtlMenuDeleteNetwork";
+            this.CtlMenuDeleteNetwork.Size = new System.Drawing.Size(179, 24);
+            this.CtlMenuDeleteNetwork.Text = "Delete network";
+            this.CtlMenuDeleteNetwork.Click += new System.EventHandler(this.CtlMenuDeleteNetwork_Click);
             // 
             // CtlTabSettings
             // 
@@ -266,11 +288,11 @@
             // 
             // CtlMenu
             // 
+            this.CtlMenu.BackColor = System.Drawing.SystemColors.Control;
             this.CtlMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.CtlMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.runToolStripMenuItem,
-            this.networkToolStripMenuItem});
+            this.runToolStripMenuItem});
             this.CtlMenu.Location = new System.Drawing.Point(0, 0);
             this.CtlMenu.Name = "CtlMenu";
             this.CtlMenu.Size = new System.Drawing.Size(267, 28);
@@ -298,11 +320,31 @@
             this.CtlMenuStart.Size = new System.Drawing.Size(139, 26);
             this.CtlMenuStart.Text = "Start";
             // 
-            // networkToolStripMenuItem
+            // CtlStop
             // 
-            this.networkToolStripMenuItem.Name = "networkToolStripMenuItem";
-            this.networkToolStripMenuItem.Size = new System.Drawing.Size(77, 24);
-            this.networkToolStripMenuItem.Text = "&Network";
+            this.CtlStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CtlStop.Enabled = false;
+            this.CtlStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CtlStop.Location = new System.Drawing.Point(115, 13);
+            this.CtlStop.Name = "CtlStop";
+            this.CtlStop.Size = new System.Drawing.Size(97, 32);
+            this.CtlStop.TabIndex = 2;
+            this.CtlStop.Text = "Stop";
+            this.CtlStop.UseVisualStyleBackColor = true;
+            this.CtlStop.Click += new System.EventHandler(this.CtlStop_Click);
+            // 
+            // CtlReset
+            // 
+            this.CtlReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CtlReset.Enabled = false;
+            this.CtlReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CtlReset.Location = new System.Drawing.Point(218, 13);
+            this.CtlReset.Name = "CtlReset";
+            this.CtlReset.Size = new System.Drawing.Size(97, 32);
+            this.CtlReset.TabIndex = 3;
+            this.CtlReset.Text = "Reset";
+            this.CtlReset.UseVisualStyleBackColor = true;
+            this.CtlReset.Click += new System.EventHandler(this.CtlReset_Click);
             // 
             // Main
             // 
@@ -355,12 +397,15 @@
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuStart;
         private System.Windows.Forms.TabPage CtlTabNetwork;
-        private System.Windows.Forms.ToolStripMenuItem networkToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip CtlNetworkContextMenu;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuNewNetwork;
         private System.Windows.Forms.Label CtlDefaultInputCountLabel;
         private System.Windows.Forms.ComboBox CtlDefaultRandomizer;
         private System.Windows.Forms.Label CtlDefaultRandomizerLabel;
+        private System.Windows.Forms.ToolStripMenuItem CtlMenuDeleteNetwork;
+        private System.Windows.Forms.ToolStripMenuItem CtlMenuLoadNetwork;
+        private System.Windows.Forms.Button CtlStop;
+        private System.Windows.Forms.Button CtlReset;
     }
 }
 

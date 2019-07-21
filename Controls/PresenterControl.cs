@@ -8,14 +8,14 @@ using System.Windows.Forms;
 
 namespace Dots.Controls
 {
-    class DrawBox : PictureBox
+    class PresenterControl : PictureBox
     {
         public Graphics G;
 
         Bitmap DrawArea;
         bool RenderNeeded = true;
 
-        public DrawBox() 
+        public PresenterControl() 
         {
             Disposed += DrawBox_Disposed;
             SizeChanged += DrawBox_SizeChanged;
