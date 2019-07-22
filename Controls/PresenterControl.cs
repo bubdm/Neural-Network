@@ -13,7 +13,7 @@ namespace Dots.Controls
         public Graphics G;
 
         Bitmap DrawArea;
-        bool RenderNeeded = true;
+        bool IsRenderNeeded = true;
 
         public PresenterControl() 
         {
@@ -24,14 +24,14 @@ namespace Dots.Controls
 
         private void DrawBox_SizeChanged(object sender, EventArgs e)
         {
-            RenderNeeded = true;
+            IsRenderNeeded = true;
         }
 
         public void StartRender()
         {
-            if (RenderNeeded && Width > 0 && Height > 0)
+            if (IsRenderNeeded && Width > 0 && Height > 0)
             {
-                RenderNeeded = false;
+                IsRenderNeeded = false;
 
                 DrawArea = new Bitmap(Width, Height);
                 Image = DrawArea;
@@ -40,6 +40,7 @@ namespace Dots.Controls
                     G.Dispose();
                 }
                 G = Graphics.FromImage(DrawArea);
+                //G.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             }
         }
 

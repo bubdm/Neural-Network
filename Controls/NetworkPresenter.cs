@@ -33,64 +33,71 @@ namespace Dots.Controls
             if (NetworkModel != null)
             {
                 if (IsNetworkRunning)
-                    Draw();
+                    Render();
                 else
-                    DrawFullState();
+                    RenderFullState();
             }
         }
 
         public int LayerDistance()
         {
-            return (Width - 2 * HORIZONTAL_OFFSET) / (NetworkModel.L.Length - 1);
+            return (Width - 2 * HORIZONTAL_OFFSET) / (NetworkModel.Layers.Count - 1);
         }
 
         public void SetNetwork(NetworkDataModel network)
         {
             IsNetworkRunning = false;
             NetworkModel = network;
-            DrawFullState();
+            RenderFullState();
         }
 
-        private float VertDist(int count)
+        private float VerticalDistance(int count)
         {
             return Math.Min(((float)Height - 220) / count, NEURON_MAX_DIST);
         }
 
-        private int LayerX(LayerDataModel L)
+        private int LayerX(LayerDataModel layer)
         {
-            return HORIZONTAL_OFFSET + LayerDistance() * L.Id;
+            return HORIZONTAL_OFFSET + LayerDistance() * layer.Id;
         }
 
-        private void DrawLayersLink(bool fullState, LayerDataModel L1 , LayerDataModel L2)
+        private float MaxHeight()
         {
-            Range.For(L1.Height, y1 =>
+            return NetworkModel.Layers.Max(layer => layer.Height * VerticalDistance(layer.Height));
+        }
+
+        private float VerticalShift(LayerDataModel layer)
+        {
+            return (MaxHeight() - layer.Height * VerticalDistance(layer.Height)) / 2;
+        }
+
+        private void DrawLayersLink(bool fullState, LayerDataModel layer1 , LayerDataModel layer2)
+        {
+            Range.ForEach(layer1.Neurons, layer2.Neurons, (neuron1, neuron2) =>
             {
-                Range.For(L2.Height, y2 =>
+                if (fullState || neuron1.AxW(neuron2) != 0)
                 {
-                    if (fullState || L1.AxW(y1, y2) != 0)
+                    using (var pen = Tools.Draw.GetPen(neuron1.AxW(neuron2)))
                     {
-                        using (var pen = Tools.Draw.GetPen(L1.AxW(y1, y2)))
-                        {
-                            G.DrawLine(pen,
-                                       LayerX(L1), VERTICAL_OFFSET + y1 * VertDist(L1.Height),
-                                       LayerX(L2), VERTICAL_OFFSET + y2 * VertDist(L2.Height));
-                        }
+                        G.DrawLine(pen,
+                                   LayerX(layer1), VERTICAL_OFFSET + VerticalShift(layer1) + neuron1.Id * VerticalDistance(layer1.Height),
+                                   LayerX(layer2), VERTICAL_OFFSET + VerticalShift(layer2) + neuron2.Id * VerticalDistance(layer2.Height));
                     }
-                });
+                }
             });
         }
 
-        private void DrawLayerNeurons(bool fullState, LayerDataModel L)
+        private void DrawLayerNeurons(bool fullState, LayerDataModel layer)
         {
-            Range.For(L.Height, y =>
+            Range.ForEach(layer.Neurons, neuron =>
             {
-                if (fullState || L.A[y] != 0)
+                if (fullState || neuron.Activation != 0)
                 {
-                    using (var brush = Tools.Draw.GetBrush(L.A[y]))
+                    using (var brush = Tools.Draw.GetBrush(neuron.Activation))
                     {
                         G.FillEllipse(brush,
-                                      LayerX(L) - NEURON_RADIUS,
-                                      VERTICAL_OFFSET + y * VertDist(L.Height) - NEURON_RADIUS,
+                                      LayerX(layer) - NEURON_RADIUS,
+                                      VERTICAL_OFFSET + VerticalShift(layer) + neuron.Id * VerticalDistance(layer.Height) - NEURON_RADIUS,
                                       NEURON_SIZE, NEURON_SIZE);
                     }
                 }
@@ -101,21 +108,21 @@ namespace Dots.Controls
         {
             StartRender();
             Clear();
-            if (NetworkModel.L.Length > 0)
+            if (NetworkModel.Layers.Count > 0)
             {
-                Range.For(NetworkModel.L.Length - 1, n => DrawLayersLink(fullState, NetworkModel.L[n], NetworkModel.L[n + 1]));
+                Range.ForEachTrimEnd(NetworkModel.Layers, -1, layer => DrawLayersLink(fullState, layer, layer.Next));
             }
-            Range.For(NetworkModel.L.Length, n => DrawLayerNeurons(fullState, NetworkModel.L[n]));
+            Range.ForEach(NetworkModel.Layers, layer => DrawLayerNeurons(fullState, layer));
 
             Invalidate();
         }
 
-        public void DrawFullState()
+        public void RenderFullState()
         {
             Draw(true);
         }
 
-        public void Draw()
+        public void Render()
         {
             Draw(false);
         }

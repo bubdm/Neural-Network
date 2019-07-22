@@ -14,81 +14,115 @@ namespace Dots.Controls
 {
     public partial class NetworkControl : UserControl
     {
-        public Config Config;
-
+        public Config NetworkConfig;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
         public NetworkControl(string name, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;
-            Dock = DockStyle.Fill;
 
-            Config = String.IsNullOrEmpty(name) ? SaveConfig() : new Config(name);
-            if (Config != null)
+            Dock = DockStyle.Fill;
+            CtlTabsLayers.SelectedIndexChanged += CtlTabsLayers_SelectedIndexChanged;
+
+            NetworkConfig = String.IsNullOrEmpty(name) ? CreateNewNetwork() : new Config(name);
+            if (NetworkConfig != null)
             {
-                var inputLayer = new InputLayerControl(Config);
+                var inputLayer = new InputLayerControl(NetworkConfig, onNetworkUIChanged);
                 CtlTabInput.Controls.Add(inputLayer);
+
+                var outputLayer = new OutputLayerControl(NetworkConfig, onNetworkUIChanged);
+                CtlTabOutput.Controls.Add(outputLayer);
+
                 LoadConfig();
             }
         }
 
-        private void AddLayer()
+        private void CtlTabsLayers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int id = CtlTabsLayers.TabCount - 1;
-            var name = "L" + id;
-            var layer = new LayerControl(id, Config, OnNetworkUIChanged);
-            var page = new TabPage(name);
-            page.Controls.Add(layer);
-            CtlTabsLayers.TabPages.Insert(CtlTabsLayers.TabCount - 1, page);
-            CtlTabsLayers.SelectedTab = page;
+            CtlMenuDeleteLayer.Enabled = CtlTabsLayers.SelectedIndex > 0 && CtlTabsLayers.SelectedIndex < CtlTabsLayers.TabCount - 2;
+        }
+
+        private void AddLayer(long id)
+        {
+            id = id == -1 ? DateTime.Now.Ticks : id;
+            var layer = new LayerControl(id, NetworkConfig, OnNetworkUIChanged);
+            var tab = new TabPage();
+            tab.Controls.Add(layer);
+            CtlTabsLayers.TabPages.Insert(CtlTabsLayers.TabCount - 1, tab);
+            ResetLayersNames();
+            CtlTabsLayers.SelectedTab = tab;
+        }
+
+        private void ResetLayersNames()
+        {
+            for (int i = 1; i < CtlTabsLayers.TabCount - 1; ++i)
+            {
+                CtlTabsLayers.TabPages[i].Text = "L" + i;
+            }
         }
 
         private void CtlMenuAddLayer_Click(object sender, EventArgs e)
         {
-            AddLayer();
+            AddLayer(-1);
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
+
+        public Config CreateNewNetwork()
+        {
+            var saveDialog = new SaveFileDialog
+            {
+                InitialDirectory = Path.GetFullPath("Networks\\"),
+                DefaultExt = "txt",
+                Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
+                FilterIndex = 2,
+                RestoreDirectory = true
+            };
+
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(saveDialog.FileName))
+                {
+                    File.Delete(saveDialog.FileName);
+                }
+
+                var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
+                var config = new Config(saveDialog.FileName);
+                config.Set(Config.Param.NetworkName, saveDialog.FileName);
+                return config;
+            }
+ 
+            return null;
+         }
 
         public Config SaveConfig()
         {
-            if (Config == null)
-            {
-                var saveDialog = new SaveFileDialog
-                {
-                    InitialDirectory = Path.GetFullPath("Networks\\"),
-                    DefaultExt = "txt",
-                    Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
-                    FilterIndex = 2,
-                    RestoreDirectory = true
-                };
+            NetworkConfig.Set(Config.Param.Randomizer, CtlRandomizer.SelectedItem.ToString());
 
-                if (saveDialog.ShowDialog() == DialogResult.OK)
-                {
-                    var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
-                    Config = new Config(saveDialog.FileName);
-                    Config.Set(Config.Param.NetworkName, saveDialog.FileName);
-                    LoadConfig(); // initialize all values
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            (CtlTabsLayers.TabPages[0].Controls[0] as InputLayerControl).SaveConfig();
+            (CtlTabsLayers.TabPages[CtlTabsLayers.TabCount - 1].Controls[0] as OutputLayerControl).SaveConfig();
 
-            Config.Set(Config.Param.Randomizer, CtlRandomizer.SelectedItem.ToString());
-            Config.Set(Config.Param.HiddenLayersCount, CtlTabsLayers.TabCount - 2);
+            var layers = GetHiddenLayersControls();
+            Range.ForEach(layers, layer => layer.SaveConfig());
+            NetworkConfig.Set(Config.Param.HiddenLayers, String.Join(",", layers.Select(l => l.Id)));
+
+            return NetworkConfig;
+        }
+
+        private List<LayerControl> GetHiddenLayersControls()
+        {
+            var result = new List<LayerControl>();
             for (int i = 1; i < CtlTabsLayers.TabCount - 1; ++i)
             {
                 if (CtlTabsLayers.TabPages[i].Controls[0] is LayerControl layer)
                 {
-                    layer.SaveConfig();
+                    result.Add(layer);
                 }
             }
-
-            return Config;
+            return result;
         }
 
-        public void LoadConfig()
+        private void LoadConfig()
         {
             // randomizer
 
@@ -98,7 +132,7 @@ namespace Dots.Controls
             {
                 CtlRandomizer.Items.Add(rand.Name);
             }
-            var randomizer = Config.GetString(Config.Param.Randomizer, Config.Main.GetString(Config.Param.Randomizer, randomizers.Any() ? randomizers[0].Name : null));
+            var randomizer = NetworkConfig.GetString(Config.Param.Randomizer, Config.Main.GetString(Config.Param.Randomizer, randomizers.Any() ? randomizers[0].Name : null));
             if (randomizers.Any())
             {
                 if (!randomizers.Any(r => r.Name == randomizer))
@@ -116,32 +150,20 @@ namespace Dots.Controls
                 CtlRandomizer.SelectedItem = randomizer;
             }
 
-            //
-
-            //CtlInputLayerControl.LoadConfig(Config);
-
-            //
-
-            int layersCount = Config.GetInt(Config.Param.HiddenLayersCount, 0);
-            for (int i = 0; i < layersCount; ++i)
-            {
-                AddLayer();
-            }
+            var layers = NetworkConfig.GetArray(Config.Param.HiddenLayers);
+            Range.For(layers.Length, i => AddLayer(layers[i]));
         }
 
         public int[] GetLayersSize()
         {
-            int layersCount = Config.GetInt(Config.Param.HiddenLayersCount, 0);
-            var result = new int[layersCount + 2]; // +2 = input + output
-            result[0] = (CtlTabInput.Controls[0] as InputLayerControl).NeuronsCount;
-            result[result.Length - 1] = Config.GetInt(Config.Param.OutputNeuronsCount, Config.Main.GetInt(Config.Param.OutputNeuronsCount, 10));
+            var result = new List<int>();
 
-            for (int i = 1; i < layersCount - 1; ++i)
-            {
-                result[i] = Config.Extend(i.ToString()).GetInt(Config.Param.NeuronsCount, 0);
-            }
-
-            return result;
+            var layers = NetworkConfig.GetArray(Config.Param.HiddenLayers);
+            result.Add(NetworkConfig.Extend(0).GetInt(Config.Param.NeuronsCount));
+            Range.For(layers.Length, n => result.Add(NetworkConfig.Extend(layers[n]).GetInt(Config.Param.NeuronsCount)));
+            result.Add(NetworkConfig.Extend(1).GetInt(Config.Param.OutputNeuronsCount));
+            result.RemoveAll(r => r == 0);
+            return result.ToArray();
         }
 
         public string Randomizer
@@ -151,7 +173,18 @@ namespace Dots.Controls
                 return CtlRandomizer.SelectedItem.ToString();
             }
         }
+
+        private void CtlMenuDeleteLayer_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Would you really like to delete the layer?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                var layer = CtlTabsLayers.SelectedTab.Controls[0] as LayerControl;
+                layer.VanishConfig();
+
+                CtlTabsLayers.TabPages.Remove(CtlTabsLayers.SelectedTab);
+                ResetLayersNames();
+                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            }
+        }
     }
-
-
 }

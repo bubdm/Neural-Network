@@ -43,10 +43,10 @@ namespace Dots.Controls
             DrawPoint(pos.Item1, pos.Item2, isOn);
         }
 
-        public void SetInputState(double[] data)
+        public void SetInputData(LayerDataModel layer)
         {
-            Data = new double[data.Length];
-            data.CopyTo(Data, 0);
+            Data = new double[layer.Neurons.Count];
+            Range.ForEach(layer.Neurons, neuron => Data[neuron.Id] = neuron.Activation);    
             Rearrange(Width, PointsCount);
             Invalidate();
         }

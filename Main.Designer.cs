@@ -55,6 +55,7 @@
             this.CtlMenuStart = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlStop = new System.Windows.Forms.Button();
             this.CtlReset = new System.Windows.Forms.Button();
+            this.CtlApplyChanges = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CtlDefaultInputCount)).BeginInit();
             this.CtlBottomPanel.SuspendLayout();
             this.CtlNetPanel.SuspendLayout();
@@ -279,6 +280,7 @@
             // 
             // CtlManagerTools
             // 
+            this.CtlManagerTools.Controls.Add(this.CtlApplyChanges);
             this.CtlManagerTools.Controls.Add(this.CtlMenu);
             this.CtlManagerTools.Dock = System.Windows.Forms.DockStyle.Top;
             this.CtlManagerTools.Location = new System.Drawing.Point(0, 0);
@@ -346,6 +348,17 @@
             this.CtlReset.UseVisualStyleBackColor = true;
             this.CtlReset.Click += new System.EventHandler(this.CtlReset_Click);
             // 
+            // CtlApplyChanges
+            // 
+            this.CtlApplyChanges.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.CtlApplyChanges.Enabled = false;
+            this.CtlApplyChanges.Location = new System.Drawing.Point(0, 41);
+            this.CtlApplyChanges.Name = "CtlApplyChanges";
+            this.CtlApplyChanges.Size = new System.Drawing.Size(267, 31);
+            this.CtlApplyChanges.TabIndex = 1;
+            this.CtlApplyChanges.Text = "Apply network changes";
+            this.CtlApplyChanges.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -406,6 +419,7 @@
         private System.Windows.Forms.ToolStripMenuItem CtlMenuLoadNetwork;
         private System.Windows.Forms.Button CtlStop;
         private System.Windows.Forms.Button CtlReset;
+        private System.Windows.Forms.Button CtlApplyChanges;
     }
 }
 

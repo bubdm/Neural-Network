@@ -123,7 +123,7 @@ namespace NN
 
             if (!File.Exists(name))
             {
-                name = "\\Networks\\" + Path.GetFileName(name); 
+                name = "\\Networks\\" + Path.GetFileName(name);
             }
 
             if (File.Exists(name))
@@ -141,6 +141,11 @@ namespace NN
         {
             Config.Main.Set(Config.Param.InputNeuronsCount, (int)CtlDefaultInputCount.Value);
             Config.Main.Set(Config.Param.Randomizer, CtlDefaultRandomizer.SelectedItem.ToString());
+
+            if (Network != null)
+            {
+                Network.SaveConfig();
+            }
         }
 
         private void CreateDirectories()
@@ -158,12 +163,17 @@ namespace NN
 
         private void OnNetworkUIChanged(Notification.ParameterChanged param, object newValue = null) 
         {
+            SaveConfig();
+
             if (param == Notification.ParameterChanged.Structure)
             {
-                NetworkModel = Network == null ? null : new NetworkDataModel(Network.GetLayersSize());
+                NetworkModel = new NetworkDataModel(Network.GetLayersSize());
+                NetworkModel.RandomizeWeights(Network.Randomizer);
                 NetworkPresenter.SetNetwork(NetworkModel);
             }
         }
+
+        private bool IsRunning => CtlStop.Enabled;
 
         private void Recalc()
         {
@@ -177,9 +187,9 @@ namespace NN
             {
                 NetworkModel.FeedForward();
 
-                var max = NetworkModel.GetOutValue();
-                var number = NetworkModel.L.First().A.Sum();
-                if (number == max.Item1)
+                var max = NetworkModel.GetMaxActivatedNeuron();
+                var number = NetworkModel.Layers.First().Neurons.Sum(neuron => neuron.Activation);
+                if (number == max.Id)
                 {
                     ++correct;
                 }
@@ -231,6 +241,7 @@ namespace NN
             CtlStart.Enabled = false;
             CtlReset.Enabled = false;
             CtlStop.Enabled = true;
+            CtlMenuDeleteNetwork.Enabled = false;
             NetworkPresenter.IsNetworkRunning = true;
 
             NetworkModel.RandomizeWeights(Network.Randomizer);
@@ -250,13 +261,14 @@ namespace NN
 
         private void Draw(double percent)
         {
-            InputDataPresenter.SetInputState(NetworkModel.L.First().A);
+            InputDataPresenter.SetInputData(NetworkModel.Layers.First());
+
             var renderStart = DateTime.Now;
-            NetworkPresenter.Draw();
+            NetworkPresenter.Render();
             var renderStop = DateTime.Now;
             PlotPresenter.AddPoint(percent);
 
-            var number = NetworkModel.L.First().A.Sum();
+            var number = NetworkModel.Layers.First().Neurons.Sum(neuron => neuron.Activation);
 
             var stat = new Dictionary<string, string>();
             var span = DateTime.Now.Subtract(StartTime);
@@ -273,8 +285,8 @@ namespace NN
             }
 
             stat.Add("Input", number.ToString());
-            var max = NetworkModel.GetOutValue();
-            stat.Add("Output", max.Item1.ToString() + $" ({(100 * NetworkModel.L.Last().A[max.Item1]).ToString("N4")}%)");
+            var max = NetworkModel.GetMaxActivatedNeuron();
+            stat.Add("Output", max.Id.ToString() + $" ({(100 * max.Activation).ToString("N4")}%)");
             stat.Add("Cost", NetworkModel.Cost((int)number).ToString("G"));
             stat.Add("Percent", percent.ToString("G") + " %");
             stat.Add("Learning rate", NetworkModel.LearningRate.ToString("G"));
@@ -329,10 +341,10 @@ namespace NN
         private void CreateNetwork()
         {
             var network = new NetworkControl(null, OnNetworkUIChanged);
-            if (network.Config != null)
+            if (network.NetworkConfig != null)
             {
                 ReplaceNetworkControl(network);
-                Config.Main.Set(Config.Param.NetworkName, network.Config.GetString(Config.Param.NetworkName));
+                Config.Main.Set(Config.Param.NetworkName, network.NetworkConfig.GetString(Config.Param.NetworkName));
             }
         }
 
@@ -390,7 +402,7 @@ namespace NN
             {
                 CtlTabNetwork.Controls.Add(network);
                 CtlTabs.SelectedTab = CtlTabNetwork;
-                Text = "Neural Network | " + Path.GetFileNameWithoutExtension(network.Config.GetString(Config.Param.NetworkName));
+                Text = "Neural Network | " + Path.GetFileNameWithoutExtension(network.NetworkConfig.GetString(Config.Param.NetworkName));
                 CtlStart.Enabled = true;
                 CtlReset.Enabled = true;
                 CtlMenuDeleteNetwork.Enabled = true;
@@ -423,6 +435,7 @@ namespace NN
             CtlStart.Enabled = true;
             CtlStop.Enabled = false;
             CtlReset.Enabled = true;
+            CtlMenuDeleteNetwork.Enabled = true;
         }
 
         private void CtlReset_Click(object sender, EventArgs e)

@@ -7,30 +7,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tools;
 
 namespace Dots.Controls
 {
     public partial class InputLayerControl : UserControl
     {
-        public InputLayerControl(Config config)
+        int Id = 0;
+        Config LayerConfig;
+        Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
+
+        public InputLayerControl(Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
             InitializeComponent();
+            LayerConfig = config;
+            OnNetworkUIChanged = onNetworkUIChanged;
+
             CtlInputCount.Minimum = Config.Main.GetInt(Config.Param.InputNeuronsMinCount, 1);
             CtlInputCount.Maximum = Config.Main.GetInt(Config.Param.InputNeuronsMaxCount, 10000);
-            CtlInputCount.Value = config.GetInt(Config.Param.InputNeuronsCount, Config.Main.GetInt(Config.Param.InputNeuronsCount, 1000));
+            CtlInputCount.Value = LayerConfig.Extend(Id).GetInt(Config.Param.NeuronsCount, Config.Main.GetInt(Config.Param.NeuronsCount, 1000));
         }
 
-        public int NeuronsCount
+        public void SaveConfig()
         {
-            get
-            {
-                return (int)CtlInputCount.Value;
-            }
-        }
-
-        public void SaveConfig(Config config)
-        {
-             config.Set(Config.Param.InputNeuronsCount, (int)CtlInputCount.Value);
+             LayerConfig.Extend(Id).Set(Config.Param.NeuronsCount, (int)CtlInputCount.Value);
         }
     }
 }

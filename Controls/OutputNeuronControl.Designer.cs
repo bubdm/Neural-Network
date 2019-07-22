@@ -1,6 +1,6 @@
 ﻿namespace Dots.Controls
 {
-    partial class NeuronControl
+    partial class OutputNeuronControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -38,7 +38,7 @@
             this.CtlUpperBorder.Dock = System.Windows.Forms.DockStyle.Top;
             this.CtlUpperBorder.Location = new System.Drawing.Point(0, 0);
             this.CtlUpperBorder.Name = "CtlUpperBorder";
-            this.CtlUpperBorder.Size = new System.Drawing.Size(271, 1);
+            this.CtlUpperBorder.Size = new System.Drawing.Size(236, 1);
             this.CtlUpperBorder.TabIndex = 0;
             // 
             // CtlDelete
@@ -46,24 +46,23 @@
             this.CtlDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlDelete.Cursor = System.Windows.Forms.Cursors.Hand;
             this.CtlDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CtlDelete.Location = new System.Drawing.Point(248, 3);
+            this.CtlDelete.Location = new System.Drawing.Point(213, 3);
             this.CtlDelete.Name = "CtlDelete";
             this.CtlDelete.Size = new System.Drawing.Size(20, 20);
-            this.CtlDelete.TabIndex = 1;
+            this.CtlDelete.TabIndex = 2;
             this.CtlDelete.Text = "X";
             this.CtlDelete.UseVisualStyleBackColor = true;
             this.CtlDelete.Click += new System.EventHandler(this.CtlDelete_Click);
             // 
-            // NeuronControl
+            // OutputNeuronControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.CtlDelete);
             this.Controls.Add(this.CtlUpperBorder);
-            this.Margin = new System.Windows.Forms.Padding(0);
-            this.Name = "NeuronControl";
-            this.Size = new System.Drawing.Size(271, 63);
+            this.Name = "OutputNeuronControl";
+            this.Size = new System.Drawing.Size(236, 45);
             this.ResumeLayout(false);
 
         }

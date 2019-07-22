@@ -11,31 +11,38 @@ using Tools;
 
 namespace Dots.Controls
 {
-    public partial class LayerControl : UserControl
+    public partial class OutputLayerControl : UserControl
     {
-        public readonly long Id;
-
+        int Id = 1;
         Config LayerConfig;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
-        public LayerControl()
+        public OutputLayerControl()
         {
             InitializeComponent();
         }
 
-        public LayerControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+        public OutputLayerControl(Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;
 
             Dock = DockStyle.Fill;
-            Id = id;
             LayerConfig = config;
 
             var neurons = LayerConfig.Extend(Id).GetArray(Config.Param.Neurons);
             for (int i = 0; i < neurons.Length; ++i)
             {
                 AddNeuron(neurons[i]);
+            }
+
+            if (neurons.Length == 0)
+            {
+                var count = Config.Main.GetInt(Config.Param.OutputNeuronsCount, 10);
+                for (int i = 0; i < count; ++i)
+                {
+                    AddNeuron(-1);
+                }
             }
         }
 
@@ -48,40 +55,33 @@ namespace Dots.Controls
         private void AddNeuron(long id)
         {
             id = id == -1 ? DateTime.Now.Ticks : id;
-            var neuron = new NeuronControl(id, LayerConfig, OnNetworkUIChanged);            
+            var neuron = new OutputNeuronControl(id, LayerConfig, OnNetworkUIChanged);
             Controls.Add(neuron);
             neuron.BringToFront();
-        }
-
-        private List<NeuronControl> GetNeuronsControls()
-        {
-            var result = new List<NeuronControl>();
-            for (int i = 0; i < Controls.Count; ++i)
-            {
-                if (Controls[i] is NeuronControl neuron)
-                {
-                    result.Add(neuron);
-                }
-            }
-            return result;
         }
 
         public void SaveConfig()
         {
             var neurons = GetNeuronsControls();
-            LayerConfig.Extend(Id).Set(Config.Param.Neurons, String.Join(",", neurons.Select(n => n.Id)));
-            LayerConfig.Extend(Id).Set(Config.Param.NeuronsCount, neurons.Count);
-            Range.ForEach(neurons, neuron => neuron.SaveConfig());
-        }
-
-        public void VanishConfig()
-        {
-            LayerConfig.Extend(Id).Remove(Config.Param.Neurons);
-            var neurons = GetNeuronsControls();
+            LayerConfig.Extend(Id).Set(Config.Param.OutputNeuronsCount, neurons.Count);
             foreach (var neuron in neurons)
             {
-                neuron.VanishConfig();
+                neuron.SaveConfig();
             }
+            LayerConfig.Extend(Id).Set(Config.Param.Neurons, String.Join(",", neurons.Select(n => n.Id)));
+        }
+
+        private List<OutputNeuronControl> GetNeuronsControls()
+        {
+            var result = new List<OutputNeuronControl>();
+            for (int i = 0; i < Controls.Count; ++i)
+            {
+                if (Controls[i] is OutputNeuronControl neuron)
+                {
+                     result.Add(neuron);
+                }
+            }
+            return result;
         }
     }
 }

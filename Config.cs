@@ -33,8 +33,9 @@ namespace Dots
             InputNeuronsCount,
             OutputNeuronsCount,
             Randomizer,
-            HiddenLayersCount,
-            NeuronsCount
+            HiddenLayers,
+            NeuronsCount,
+            Neurons
         }
 
         public Config(string name)
@@ -47,7 +48,12 @@ namespace Dots
             Extender += name;
             return this;
         }
-
+        
+        public Config Extend(long name)
+        {
+            return Extend(name.ToString());
+        }
+        
         public string GetString(Param name, string defaultValue = null)
         {
             return GetValue(name, defaultValue);
@@ -76,10 +82,26 @@ namespace Dots
             return 1 == GetInt(name, defaultValue ? 1 : 0);
         }
 
-        public int[] GetArray(Param name, string defaultValue = null)
+        public long[] GetArray(Param name, string defaultValue = null)
         {
+            if (defaultValue == null)
+            {
+                defaultValue = "";
+            }
+
             string value = GetValue(name, defaultValue);
-            return value.Split(new[] { ',' }).Select(s => int.Parse(s.Trim())).ToArray();
+            return String.IsNullOrEmpty(value) ? new long[0] : value.Split(new[] { ',' }).Select(s => long.Parse(s.Trim())).ToArray();
+        }
+
+        public void Remove(Param name)
+        {
+            var values = GetValues();
+            if (values.TryGetValue(name.ToString("G") + Extender, out string value))
+            {
+                values.Remove(name.ToString("G") + Extender);
+                Extender = null;
+            }
+            SaveValues(values);
         }
 
         public void Set(Param name, string value)

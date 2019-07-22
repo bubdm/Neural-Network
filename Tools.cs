@@ -5,6 +5,42 @@ using System.Linq;
 
 namespace Tools
 {
+    public class ListX<T> : List<T> where T : class
+    {
+        public T RandomElement
+        {
+            get
+            {
+                return this[Rand.Flat.Next(Count)];
+            }
+        }
+
+        public new void Add(T obj)
+        {
+            if (Count == 0)
+            {
+                (this as List<T>).Add(obj);
+            }
+            else if (obj is ListNode<T>)
+            {
+                var last = this.Last() as ListNode<T>;
+                last.Next = obj;
+                (obj as ListNode<T>).Previous = this.Last();
+                (this as List<T>).Add(obj);
+            }
+            else
+            {
+                (this as List<T>).Add(obj);
+            }
+        }
+    }
+
+    public class ListNode<T>// where T : class
+    {
+        public T Next;
+        public T Previous;
+    }
+
     public static class Draw
     {
         public static Color GetColor(double v)
@@ -37,11 +73,11 @@ namespace Tools
             return new Pen(new SolidBrush(c), width);
         }
 
-        public static Color GetRandomColor(int offset)
+        public static Color GetRandomColor(int offsetFromTop)
         {
-            return Color.FromArgb(255 - offset + Rand.Flat.Next(offset),
-                                  255 - offset + Rand.Flat.Next(offset),
-                                  255 - offset + Rand.Flat.Next(offset));
+            return Color.FromArgb(255 - offsetFromTop + Rand.Flat.Next(offsetFromTop),
+                                  255 - offsetFromTop + Rand.Flat.Next(offsetFromTop),
+                                  255 - offsetFromTop + Rand.Flat.Next(offsetFromTop));
         }
     }
 
@@ -58,6 +94,51 @@ namespace Tools
                 action(y);
         }
 
+        public static void ForEach<T>(IEnumerable<T> range, Action<T> action)
+        {
+            foreach (T y in range)
+                action(y);
+        }
+
+        public static void BackEach<T>(IEnumerable<T> range, Action<T> action)
+        {
+            foreach (T y in range.Reverse())
+                action(y);
+        }
+
+        public static void BackEachTrimEnd<T>(IEnumerable<T> range, int trim, Action<T> action)
+        {
+            long n = 0;
+            range = range.Reverse();
+            long count = range.Count();
+            foreach (T y in range)
+            {
+                if (n == count - 1 + trim)
+                {
+                    break;
+                }
+
+                action(y);
+                ++n;
+            }
+        }
+
+        public static void ForEachTrimEnd<T>(IEnumerable<T> range, int trim, Action<T> action)
+        {
+            long n = 0;
+            long count = range.Count();
+            foreach (T y in range)
+            {
+                if (n == count + trim)
+                {
+                    break;
+                }
+
+                action(y);
+                ++n;
+            }
+        }
+
         public static void Back(int range, Action<int> action)
         {
             foreach (int y in Make(range).Reverse())
@@ -69,10 +150,22 @@ namespace Tools
             For(range1, y1 => For(range2, y2 => action(y1, y2)));
         }
 
+        public static void ForEach<T1, T2>(IEnumerable<T1> range1, IEnumerable<T2> range2, Action<T1, T2> action)
+        {
+            ForEach(range1, y1 => ForEach(range2, y2 => action(y1, y2)));
+        }
+
         public static double Sum(int range, Func<int, double> func)
         {
             double s = 0;
             For(range, x => s += func(x));
+            return s;
+        }
+
+        public static double SumForEach<T>(IEnumerable<T> range, Func<T, double> func)
+        {
+            double s = 0;
+            ForEach(range, x => s += func(x));
             return s;
         }
     }
@@ -81,6 +174,21 @@ namespace Tools
     {
         public static Random Flat = new Random((int)(DateTime.Now.Ticks % int.MaxValue));
         public static GaussianRandom GaussianRand = new GaussianRandom(Flat);
+
+        public static double GetFlatRandom(double upperBound = 1)
+        {
+            return upperBound * Flat.NextDouble();
+        }
+
+        public static double GetSpreadRandom(double lowerBound, double upperBound)
+        {
+            return -lowerBound + upperBound * Flat.NextDouble();
+        }
+
+        public static double GetSpreadInRange(double range)
+        {
+            return -range/2 + range * Flat.NextDouble();
+        }
     }
 
     public static class Activation

@@ -11,19 +11,19 @@ using Tools;
 
 namespace Dots.Controls
 {
-    public partial class NeuronControl : UserControl
+    public partial class OutputNeuronControl : UserControl
     {
         public readonly long Id;
-        Config NeuronConfig;
+        Config NeuronControl;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
-        public NeuronControl()
+        public OutputNeuronControl()
         {
             InitializeComponent();
             BackColor = Draw.GetRandomColor(20);
         }
 
-        public NeuronControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+        public OutputNeuronControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;
@@ -32,23 +32,29 @@ namespace Dots.Controls
             Dock = DockStyle.Top;
 
             Id = id;
-            NeuronConfig = config;
+            NeuronControl = config;
         }
 
         public void SaveConfig()
         {
-            
+
         }
 
         public void VanishConfig()
         {
-            
+
         }
 
         private void CtlDelete_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Would you really like to delete the neuron?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
+                if (Parent.Controls.OfType<OutputNeuronControl>().Count() == 1)
+                {
+                    MessageBox.Show("At least one output neuron must exist.", "Warning", MessageBoxButtons.OK);
+                    return;
+                }
+
                 Parent.Controls.Remove(this);
                 VanishConfig();
                 OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
