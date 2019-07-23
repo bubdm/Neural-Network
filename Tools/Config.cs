@@ -4,9 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tools;
 
-namespace Dots
+namespace Tools
 {
     public class Config
     {

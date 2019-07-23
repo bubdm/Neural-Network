@@ -36,6 +36,13 @@ namespace Dots.Controls
 
                 LoadConfig();
             }
+
+            CtlRandomizer.SelectedValueChanged += CtlRandomizer_SelectedValueChanged;
+        }
+
+        private void CtlRandomizer_SelectedValueChanged(object sender, EventArgs e)
+        {
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
 
         private void CtlTabsLayers_SelectedIndexChanged(object sender, EventArgs e)
@@ -158,12 +165,14 @@ namespace Dots.Controls
         {
             var result = new List<int>();
             var layers = NetworkConfig.GetArray(Const.Param.HiddenLayers);
-            result.Add(NetworkConfig.Extend(0).GetInt(Const.Param.NeuronsCount));
-            Range.For(layers.Length, n => result.Add(NetworkConfig.Extend(layers[n]).GetInt(Const.Param.NeuronsCount)));
-            result.Add(NetworkConfig.Extend(1).GetInt(Const.Param.NeuronsCount));
+            result.Add(NetworkConfig.Extend(Const.InputLayerId).GetInt(Const.Param.InputNeuronsCount));
+            Range.For(layers.Length, n => result.Add(NetworkConfig.Extend(layers[n]).GetArray(Const.Param.Neurons).Length));
+            result.Add(NetworkConfig.Extend(Const.OutputLayerId).GetArray(Const.Param.Neurons).Length);
             result.RemoveAll(r => r == 0);
             return result.ToArray();
         }
+
+        public int InputNeuronsCount => NetworkConfig.Extend(Const.InputLayerId).GetInt(Const.Param.InputNeuronsCount);
 
         public string Randomizer => CtlRandomizer.SelectedItem.ToString();
 

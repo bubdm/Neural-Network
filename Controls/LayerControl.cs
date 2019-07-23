@@ -70,7 +70,6 @@ namespace Dots.Controls
         {
             var neurons = GetNeuronsControls();
             LayerConfig.Extend(Id).Set(Const.Param.Neurons, neurons.Select(n => n.Id));
-            LayerConfig.Extend(Id).Set(Const.Param.NeuronsCount, neurons.Count);
             Range.ForEach(neurons, neuron => neuron.SaveConfig());
         }
 

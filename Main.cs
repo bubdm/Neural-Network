@@ -20,6 +20,7 @@ namespace NN
         Thread WorkThread;
         CancellationToken CancellationToken;
         CancellationTokenSource CancellationTokenSource = new CancellationTokenSource();
+        object ApplyChangesLocker = new object();
 
         NetworkDataModel NetworkModel;
         DateTime StartTime;
@@ -52,10 +53,6 @@ namespace NN
             CtlNetPanel.Controls.Add(NetworkPresenter);
             CtlTime.SizeChanged += CtlTime_SizeChanged;
 
-            CtlDefaultInputCount.ValueChanged += CtlPointsCount_ValueChanged;
-            CtlDefaultInputCount.Value = Config.Main.GetInt(Const.Param.PointsCount, 1000);
-            CtlPointsCount_ValueChanged(null, null);
-
             PlotPresenter = new PlotterPresenter();
             PlotPresenter.Height = 200;
             PlotPresenter.Width = 200;
@@ -79,8 +76,6 @@ namespace NN
 
         private void LoadConfig()
         {
-            CtlDefaultInputCount.Value = Config.Main.GetInt(Const.Param.InputNeuronsCount, 1000);
-
             // randomizer
 
             CtlDefaultRandomizer.Items.Clear();
@@ -139,12 +134,11 @@ namespace NN
 
         private void SaveConfig()
         {
-            Config.Main.Set(Const.Param.InputNeuronsCount, (int)CtlDefaultInputCount.Value);
             Config.Main.Set(Const.Param.Randomizer, CtlDefaultRandomizer.SelectedItem.ToString());
 
-            if (Network != null)
+            if (NetworkUI != null)
             {
-                Network.SaveConfig();
+                NetworkUI.SaveConfig();
             }
         }
 
@@ -161,21 +155,57 @@ namespace NN
             CtlTime.Left = CtlNetPanel.Width - CtlTime.Width;
         }
 
+        private void ToggleApplyChanges(Const.Toggle state)
+        {
+            if (state == Const.Toggle.On)
+            {
+                CtlApplyChanges.BackColor = Color.Yellow;
+                CtlApplyChanges.Enabled = true;
+            }
+            else
+            {
+                CtlApplyChanges.BackColor = Color.FromKnownColor(KnownColor.Control);
+                CtlApplyChanges.Enabled = false;
+            }
+        }
+
         private void OnNetworkUIChanged(Notification.ParameterChanged param, object newValue = null) 
         {
             SaveConfig();
 
             if (param == Notification.ParameterChanged.Structure)
             {
-                NetworkModel = new NetworkDataModel(Network.GetLayersSize());
-                NetworkModel.RandomizeWeights(Network.Randomizer);
-                NetworkPresenter.SetNetwork(NetworkModel);
+                if (IsRunning)
+                {
+                    ToggleApplyChanges(Const.Toggle.On);
+                    if (MessageBox.Show("Configuration saved. Would you like running network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        ApplyChangesToRunningNetwork();
+                    }
+                }
+                else
+                {
+                    ToggleApplyChanges(Const.Toggle.Off);
+                    InputDataPresenter.RearrangeWithNewPointsCount(NetworkUI.InputNeuronsCount);
+                    NetworkModel = new NetworkDataModel(NetworkUI.GetLayersSize());
+                    NetworkModel.RandomizeWeights(NetworkUI.Randomizer);
+                    NetworkPresenter.SetNetwork(NetworkModel);
+                }
+            }
+        }
+
+        private void ApplyChangesToRunningNetwork()
+        {
+            lock (ApplyChangesLocker)
+            {
+                var model = new NetworkDataModel(NetworkUI.GetLayersSize());
+
             }
         }
 
         private bool IsRunning => CtlStop.Enabled;
 
-        private void Recalc()
+        private void RunNetwork()
         {
             long total = 0;
             long correct = 0;
@@ -185,18 +215,21 @@ namespace NN
 
             while (!CancellationToken.IsCancellationRequested)
             {
-                NetworkModel.FeedForward();
-
-                var max = NetworkModel.GetMaxActivatedNeuron();
-                var number = NetworkModel.Layers.First().Neurons.Sum(neuron => neuron.Activation);
-                if (number == max.Id)
+                lock (ApplyChangesLocker)
                 {
-                    ++correct;
-                }
-                ++total;
-                ++Round;
+                    NetworkModel.FeedForward();
 
-                NetworkModel.BackPropagation();
+                    var max = NetworkModel.GetMaxActivatedNeuron();
+                    var number = NetworkModel.Layers.First().Neurons.Sum(neuron => neuron.Activation);
+                    if (number == max.Id)
+                    {
+                        ++correct;
+                    }
+                    ++total;
+                    ++Round;
+
+                    NetworkModel.BackPropagation();
+                }
 
                 if (DateTime.Now.Subtract(startTime).TotalSeconds >= 10)
                 {
@@ -221,7 +254,10 @@ namespace NN
             {
                 try
                 {
-                    Draw(100 * (double)correct / total);
+                    lock (ApplyChangesLocker)
+                    {
+                        Draw(100 * (double)correct / total);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -236,7 +272,7 @@ namespace NN
 
         private void CtlStart_Click(object sender, EventArgs e)
         {
-            Network.SaveConfig();
+            NetworkUI.SaveConfig();
 
             CtlStart.Enabled = false;
             CtlReset.Enabled = false;
@@ -244,7 +280,7 @@ namespace NN
             CtlMenuDeleteNetwork.Enabled = false;
             NetworkPresenter.IsNetworkRunning = true;
 
-            NetworkModel.RandomizeWeights(Network.Randomizer);
+            NetworkModel.RandomizeWeights(NetworkUI.Randomizer);
             NetworkModel.FeedForward(); // initialize state
 
             Round = 0;
@@ -300,7 +336,7 @@ namespace NN
         {
             while (!CancellationToken.IsCancellationRequested)
             {
-                Recalc();
+                RunNetwork();
             }
         }
 
@@ -310,14 +346,9 @@ namespace NN
             SaveConfig();
         }
 
-        private void CtlPointsCount_ValueChanged(object sender, EventArgs e)
-        {
-            InputDataPresenter.Rearrange(CtlDataPanel.Width, (int)CtlDefaultInputCount.Value);
-        }
-
         private void CtlDataPanel_SizeChanged(object sender, EventArgs e)
         {
-            InputDataPresenter.Rearrange(CtlDataPanel.Width, (int)CtlDefaultInputCount.Value);
+            InputDataPresenter.RearrangeWithNewWidth(CtlDataPanel.Width);
         }
 
         private void CtlMenuNewNetwork_Click(object sender, EventArgs e)
@@ -386,9 +417,9 @@ namespace NN
 
         private void ReplaceNetworkControl(NetworkControl network)
         {   
-            if (Network != null)
+            if (NetworkUI != null)
             {
-                CtlTabNetwork.Controls.Remove(Network);
+                CtlTabNetwork.Controls.Remove(NetworkUI);
             }
 
             if (network == null)
@@ -411,7 +442,7 @@ namespace NN
             OnNetworkUIChanged(Notification.ParameterChanged.Structure);
         }
 
-        private NetworkControl Network
+        private NetworkControl NetworkUI
         {
             get
             {

@@ -20,16 +20,30 @@ namespace Dots.Controls
         {
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;
+
+            Dock = DockStyle.Top;
             LayerConfig = config;
-            
-            CtlInputCount.Minimum = Config.Main.GetInt(Const.Param.InputNeuronsMinCount, 1);
+
+            LoadConfig();
+
+            CtlInputCount.ValueChanged += CtlInputCount_ValueChanged;
+        }
+
+        private void CtlInputCount_ValueChanged(object sender, EventArgs e)
+        {
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+        }
+
+        private void LoadConfig()
+        {
+            CtlInputCount.Minimum = Config.Main.GetInt(Const.Param.InputNeuronsMinCount, 10);
             CtlInputCount.Maximum = Config.Main.GetInt(Const.Param.InputNeuronsMaxCount, 10000);
-            CtlInputCount.Value = LayerConfig.Extend(Const.InputLayerId).GetInt(Const.Param.NeuronsCount, Config.Main.GetInt(Const.Param.NeuronsCount, 1000));
+            CtlInputCount.Value = LayerConfig.Extend(Const.InputLayerId).GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount);
         }
 
         public void SaveConfig()
         {
-             LayerConfig.Extend(Const.InputLayerId).Set(Const.Param.NeuronsCount, (int)CtlInputCount.Value);
+             LayerConfig.Extend(Const.InputLayerId).Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
         }
     }
 }

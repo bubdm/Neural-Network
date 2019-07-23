@@ -34,14 +34,13 @@ namespace Dots.Controls
 
             if (neurons.Length == 0)
             {
-                var count = Config.Main.GetInt(Const.Param.DefaultOutputNeuronsCount, 10);
-                Range.For(count, c => AddNeuron(-1));
+                Range.For(Const.DefaultOutputNeuronsCount, c => AddNeuron(Const.UnknownId));
             }
         }
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
-            AddNeuron(-1);
+            AddNeuron(Const.UnknownId);
             OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
 
@@ -56,7 +55,6 @@ namespace Dots.Controls
         public void SaveConfig()
         {
             var neurons = GetNeuronsControls();
-            LayerConfig.Extend(Const.OutputLayerId).Set(Const.Param.NeuronsCount, neurons.Count);
             LayerConfig.Extend(Const.OutputLayerId).Set(Const.Param.Neurons, neurons.Select(n => n.Id));
             Range.ForEach(neurons, n => n.SaveConfig());
         }

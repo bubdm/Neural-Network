@@ -30,15 +30,13 @@
         {
             this.CtlInputCountLabel = new System.Windows.Forms.Label();
             this.CtlInputCount = new System.Windows.Forms.NumericUpDown();
-            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.CtlInputCount)).BeginInit();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // CtlInputCountLabel
             // 
             this.CtlInputCountLabel.AutoSize = true;
-            this.CtlInputCountLabel.Location = new System.Drawing.Point(3, 0);
+            this.CtlInputCountLabel.Location = new System.Drawing.Point(3, 10);
             this.CtlInputCountLabel.Name = "CtlInputCountLabel";
             this.CtlInputCountLabel.Size = new System.Drawing.Size(82, 17);
             this.CtlInputCountLabel.TabIndex = 0;
@@ -46,12 +44,14 @@
             // 
             // CtlInputCount
             // 
+            this.CtlInputCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlInputCount.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.CtlInputCount.Location = new System.Drawing.Point(91, 0);
+            this.CtlInputCount.Location = new System.Drawing.Point(91, 10);
             this.CtlInputCount.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -63,7 +63,7 @@
             0,
             0});
             this.CtlInputCount.Name = "CtlInputCount";
-            this.CtlInputCount.Size = new System.Drawing.Size(105, 22);
+            this.CtlInputCount.Size = new System.Drawing.Size(259, 22);
             this.CtlInputCount.TabIndex = 1;
             this.CtlInputCount.Value = new decimal(new int[] {
             1000,
@@ -71,27 +71,17 @@
             0,
             0});
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.CtlInputCountLabel);
-            this.panel1.Controls.Add(this.CtlInputCount);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(353, 160);
-            this.panel1.TabIndex = 2;
-            // 
             // InputLayerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.CtlInputCount);
+            this.Controls.Add(this.CtlInputCountLabel);
             this.Name = "InputLayerControl";
             this.Size = new System.Drawing.Size(353, 160);
             ((System.ComponentModel.ISupportInitialize)(this.CtlInputCount)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -99,6 +89,5 @@
 
         private System.Windows.Forms.Label CtlInputCountLabel;
         private System.Windows.Forms.NumericUpDown CtlInputCount;
-        private System.Windows.Forms.Panel panel1;
     }
 }

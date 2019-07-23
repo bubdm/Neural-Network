@@ -9,8 +9,18 @@ namespace Tools
     public static class Const
     {
         public const int UnknownId = -1;
+        public const int CurrentValue = -1;
         public const int InputLayerId = 0;
         public const int OutputLayerId = 0;
+
+        public const int DefaultInputNeuronsCount = 100;
+        public const int DefaultOutputNeuronsCount = 10;
+
+        public enum Toggle
+        {
+            On,
+            Off
+        }
 
         public enum Param
         {
@@ -19,7 +29,7 @@ namespace Tools
             ScreenLeft,
             ScreenTop,
             OnTop,
-            PointsCount,
+            //PointsCount,
             PointSize,
             PointsArrangeSnap,
             DataPanelWidth,
@@ -29,10 +39,9 @@ namespace Tools
             InputNeuronsMinCount,
             InputNeuronsMaxCount,
             InputNeuronsCount,
-            DefaultOutputNeuronsCount,
             Randomizer,
             HiddenLayers,
-            NeuronsCount,
+            //NeuronsCount,
             Neurons
         }
     }

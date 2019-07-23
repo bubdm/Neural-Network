@@ -30,9 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.CtlStart = new System.Windows.Forms.Button();
-            this.CtlDefaultInputCount = new System.Windows.Forms.NumericUpDown();
             this.CtlTime = new System.Windows.Forms.Label();
             this.CtlBottomPanel = new System.Windows.Forms.Panel();
+            this.CtlReset = new System.Windows.Forms.Button();
+            this.CtlStop = new System.Windows.Forms.Button();
             this.CtlDataPanel = new System.Windows.Forms.Panel();
             this.CtlDataSplitter = new System.Windows.Forms.Splitter();
             this.CtlNetPanel = new System.Windows.Forms.Panel();
@@ -46,17 +47,13 @@
             this.CtlTabSettings = new System.Windows.Forms.TabPage();
             this.CtlDefaultRandomizer = new System.Windows.Forms.ComboBox();
             this.CtlDefaultRandomizerLabel = new System.Windows.Forms.Label();
-            this.CtlDefaultInputCountLabel = new System.Windows.Forms.Label();
             this.CtlTabNetwork = new System.Windows.Forms.TabPage();
             this.CtlManagerTools = new System.Windows.Forms.Panel();
+            this.CtlApplyChanges = new System.Windows.Forms.Button();
             this.CtlMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuStart = new System.Windows.Forms.ToolStripMenuItem();
-            this.CtlStop = new System.Windows.Forms.Button();
-            this.CtlReset = new System.Windows.Forms.Button();
-            this.CtlApplyChanges = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.CtlDefaultInputCount)).BeginInit();
             this.CtlBottomPanel.SuspendLayout();
             this.CtlNetPanel.SuspendLayout();
             this.CtlManagerPanel.SuspendLayout();
@@ -80,35 +77,6 @@
             this.CtlStart.UseVisualStyleBackColor = true;
             this.CtlStart.Click += new System.EventHandler(this.CtlStart_Click);
             // 
-            // CtlDefaultInputCount
-            // 
-            this.CtlDefaultInputCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CtlDefaultInputCount.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.CtlDefaultInputCount.Location = new System.Drawing.Point(136, 3);
-            this.CtlDefaultInputCount.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.CtlDefaultInputCount.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.CtlDefaultInputCount.Name = "CtlDefaultInputCount";
-            this.CtlDefaultInputCount.Size = new System.Drawing.Size(120, 22);
-            this.CtlDefaultInputCount.TabIndex = 8;
-            this.CtlDefaultInputCount.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            // 
             // CtlTime
             // 
             this.CtlTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -131,6 +99,32 @@
             this.CtlBottomPanel.Name = "CtlBottomPanel";
             this.CtlBottomPanel.Size = new System.Drawing.Size(1226, 57);
             this.CtlBottomPanel.TabIndex = 14;
+            // 
+            // CtlReset
+            // 
+            this.CtlReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CtlReset.Enabled = false;
+            this.CtlReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CtlReset.Location = new System.Drawing.Point(218, 13);
+            this.CtlReset.Name = "CtlReset";
+            this.CtlReset.Size = new System.Drawing.Size(97, 32);
+            this.CtlReset.TabIndex = 3;
+            this.CtlReset.Text = "Reset";
+            this.CtlReset.UseVisualStyleBackColor = true;
+            this.CtlReset.Click += new System.EventHandler(this.CtlReset_Click);
+            // 
+            // CtlStop
+            // 
+            this.CtlStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CtlStop.Enabled = false;
+            this.CtlStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CtlStop.Location = new System.Drawing.Point(115, 13);
+            this.CtlStop.Name = "CtlStop";
+            this.CtlStop.Size = new System.Drawing.Size(97, 32);
+            this.CtlStop.TabIndex = 2;
+            this.CtlStop.Text = "Stop";
+            this.CtlStop.UseVisualStyleBackColor = true;
+            this.CtlStop.Click += new System.EventHandler(this.CtlStop_Click);
             // 
             // CtlDataPanel
             // 
@@ -234,8 +228,6 @@
             // 
             this.CtlTabSettings.Controls.Add(this.CtlDefaultRandomizer);
             this.CtlTabSettings.Controls.Add(this.CtlDefaultRandomizerLabel);
-            this.CtlTabSettings.Controls.Add(this.CtlDefaultInputCountLabel);
-            this.CtlTabSettings.Controls.Add(this.CtlDefaultInputCount);
             this.CtlTabSettings.Location = new System.Drawing.Point(4, 25);
             this.CtlTabSettings.Name = "CtlTabSettings";
             this.CtlTabSettings.Size = new System.Drawing.Size(259, 340);
@@ -260,15 +252,6 @@
             this.CtlDefaultRandomizerLabel.TabIndex = 10;
             this.CtlDefaultRandomizerLabel.Text = "Default randomizer:";
             // 
-            // CtlDefaultInputCountLabel
-            // 
-            this.CtlDefaultInputCountLabel.AutoSize = true;
-            this.CtlDefaultInputCountLabel.Location = new System.Drawing.Point(3, 5);
-            this.CtlDefaultInputCountLabel.Name = "CtlDefaultInputCountLabel";
-            this.CtlDefaultInputCountLabel.Size = new System.Drawing.Size(131, 17);
-            this.CtlDefaultInputCountLabel.TabIndex = 9;
-            this.CtlDefaultInputCountLabel.Text = "Default input count:";
-            // 
             // CtlTabNetwork
             // 
             this.CtlTabNetwork.Location = new System.Drawing.Point(4, 25);
@@ -287,6 +270,17 @@
             this.CtlManagerTools.Name = "CtlManagerTools";
             this.CtlManagerTools.Size = new System.Drawing.Size(267, 72);
             this.CtlManagerTools.TabIndex = 0;
+            // 
+            // CtlApplyChanges
+            // 
+            this.CtlApplyChanges.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.CtlApplyChanges.Enabled = false;
+            this.CtlApplyChanges.Location = new System.Drawing.Point(0, 41);
+            this.CtlApplyChanges.Name = "CtlApplyChanges";
+            this.CtlApplyChanges.Size = new System.Drawing.Size(267, 31);
+            this.CtlApplyChanges.TabIndex = 1;
+            this.CtlApplyChanges.Text = "Apply network changes";
+            this.CtlApplyChanges.UseVisualStyleBackColor = true;
             // 
             // CtlMenu
             // 
@@ -322,43 +316,6 @@
             this.CtlMenuStart.Size = new System.Drawing.Size(139, 26);
             this.CtlMenuStart.Text = "Start";
             // 
-            // CtlStop
-            // 
-            this.CtlStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CtlStop.Enabled = false;
-            this.CtlStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CtlStop.Location = new System.Drawing.Point(115, 13);
-            this.CtlStop.Name = "CtlStop";
-            this.CtlStop.Size = new System.Drawing.Size(97, 32);
-            this.CtlStop.TabIndex = 2;
-            this.CtlStop.Text = "Stop";
-            this.CtlStop.UseVisualStyleBackColor = true;
-            this.CtlStop.Click += new System.EventHandler(this.CtlStop_Click);
-            // 
-            // CtlReset
-            // 
-            this.CtlReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CtlReset.Enabled = false;
-            this.CtlReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CtlReset.Location = new System.Drawing.Point(218, 13);
-            this.CtlReset.Name = "CtlReset";
-            this.CtlReset.Size = new System.Drawing.Size(97, 32);
-            this.CtlReset.TabIndex = 3;
-            this.CtlReset.Text = "Reset";
-            this.CtlReset.UseVisualStyleBackColor = true;
-            this.CtlReset.Click += new System.EventHandler(this.CtlReset_Click);
-            // 
-            // CtlApplyChanges
-            // 
-            this.CtlApplyChanges.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.CtlApplyChanges.Enabled = false;
-            this.CtlApplyChanges.Location = new System.Drawing.Point(0, 41);
-            this.CtlApplyChanges.Name = "CtlApplyChanges";
-            this.CtlApplyChanges.Size = new System.Drawing.Size(267, 31);
-            this.CtlApplyChanges.TabIndex = 1;
-            this.CtlApplyChanges.Text = "Apply network changes";
-            this.CtlApplyChanges.UseVisualStyleBackColor = true;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -375,7 +332,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Neural Network";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.CtlDefaultInputCount)).EndInit();
             this.CtlBottomPanel.ResumeLayout(false);
             this.CtlNetPanel.ResumeLayout(false);
             this.CtlNetPanel.PerformLayout();
@@ -394,7 +350,6 @@
 
         #endregion
         private System.Windows.Forms.Button CtlStart;
-        private System.Windows.Forms.NumericUpDown CtlDefaultInputCount;
         private System.Windows.Forms.Label CtlTime;
         private System.Windows.Forms.Panel CtlBottomPanel;
         private System.Windows.Forms.Panel CtlDataPanel;
@@ -412,7 +367,6 @@
         private System.Windows.Forms.TabPage CtlTabNetwork;
         private System.Windows.Forms.ContextMenuStrip CtlNetworkContextMenu;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuNewNetwork;
-        private System.Windows.Forms.Label CtlDefaultInputCountLabel;
         private System.Windows.Forms.ComboBox CtlDefaultRandomizer;
         private System.Windows.Forms.Label CtlDefaultRandomizerLabel;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuDeleteNetwork;

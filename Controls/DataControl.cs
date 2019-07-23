@@ -51,10 +51,35 @@ namespace Dots.Controls
             Invalidate();
         }
 
-        public void Rearrange(int width, int pointsCount)
+        public void RearrangeWithNewWidth(int width)
         {
-            PointsCount = pointsCount;
-            width = Math.Max(width, PointsRearrangeSnap * PointSize);
+            Rearrange(width, Const.CurrentValue);
+        }
+
+        public void RearrangeWithNewPointsCount(int pointsCount)
+        {
+            Rearrange(Const.CurrentValue, pointsCount);
+        }
+
+        private void Rearrange(int width, int pointsCount)
+        {
+            if (pointsCount == Const.CurrentValue)
+            {
+                pointsCount = PointsCount;
+            }
+            else 
+            {
+                PointsCount = pointsCount;
+            }
+
+            if (width == Const.CurrentValue)
+            {
+                width = Width;
+            }
+            else
+            {
+                width = Math.Max(width, PointsRearrangeSnap * PointSize);
+            }
 
             int snaps = width / (PointsRearrangeSnap * PointSize);
 
