@@ -22,14 +22,14 @@ namespace Dots.Controls
             OnNetworkUIChanged = onNetworkUIChanged;
             LayerConfig = config;
             
-            CtlInputCount.Minimum = Config.Main.GetInt(Config.Param.InputNeuronsMinCount, 1);
-            CtlInputCount.Maximum = Config.Main.GetInt(Config.Param.InputNeuronsMaxCount, 10000);
-            CtlInputCount.Value = LayerConfig.Extend(Const.InputLayerId).GetInt(Config.Param.NeuronsCount, Config.Main.GetInt(Config.Param.NeuronsCount, 1000));
+            CtlInputCount.Minimum = Config.Main.GetInt(Const.Param.InputNeuronsMinCount, 1);
+            CtlInputCount.Maximum = Config.Main.GetInt(Const.Param.InputNeuronsMaxCount, 10000);
+            CtlInputCount.Value = LayerConfig.Extend(Const.InputLayerId).GetInt(Const.Param.NeuronsCount, Config.Main.GetInt(Const.Param.NeuronsCount, 1000));
         }
 
         public void SaveConfig()
         {
-             LayerConfig.Extend(Const.InputLayerId).Set(Config.Param.NeuronsCount, (int)CtlInputCount.Value);
+             LayerConfig.Extend(Const.InputLayerId).Set(Const.Param.NeuronsCount, (int)CtlInputCount.Value);
         }
     }
 }

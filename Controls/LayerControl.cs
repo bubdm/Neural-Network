@@ -32,7 +32,7 @@ namespace Dots.Controls
             Id = id;
             LayerConfig = config;
 
-            var neurons = LayerConfig.Extend(Id).GetArray(Config.Param.Neurons);
+            var neurons = LayerConfig.Extend(Id).GetArray(Const.Param.Neurons);
             for (int i = 0; i < neurons.Length; ++i)
             {
                 AddNeuron(neurons[i]);
@@ -69,14 +69,14 @@ namespace Dots.Controls
         public void SaveConfig()
         {
             var neurons = GetNeuronsControls();
-            LayerConfig.Extend(Id).Set(Config.Param.Neurons, String.Join(",", neurons.Select(n => n.Id)));
-            LayerConfig.Extend(Id).Set(Config.Param.NeuronsCount, neurons.Count);
+            LayerConfig.Extend(Id).Set(Const.Param.Neurons, neurons.Select(n => n.Id));
+            LayerConfig.Extend(Id).Set(Const.Param.NeuronsCount, neurons.Count);
             Range.ForEach(neurons, neuron => neuron.SaveConfig());
         }
 
         public void VanishConfig()
         {
-            LayerConfig.Extend(Id).Remove(Config.Param.Neurons);
+            LayerConfig.Extend(Id).Remove(Const.Param.Neurons);
             var neurons = GetNeuronsControls();
             foreach (var neuron in neurons)
             {

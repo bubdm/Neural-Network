@@ -29,12 +29,12 @@ namespace Dots.Controls
             Dock = DockStyle.Fill;
             LayerConfig = config;
 
-            var neurons = LayerConfig.Extend(Const.OutputLayerId).GetArray(Config.Param.Neurons);
+            var neurons = LayerConfig.Extend(Const.OutputLayerId).GetArray(Const.Param.Neurons);
             Range.ForEach(neurons, n => AddNeuron(neurons[n]));
 
             if (neurons.Length == 0)
             {
-                var count = Config.Main.GetInt(Config.Param.DefaultOutputNeuronsCount, 10);
+                var count = Config.Main.GetInt(Const.Param.DefaultOutputNeuronsCount, 10);
                 Range.For(count, c => AddNeuron(-1));
             }
         }
@@ -56,8 +56,8 @@ namespace Dots.Controls
         public void SaveConfig()
         {
             var neurons = GetNeuronsControls();
-            LayerConfig.Extend(Const.OutputLayerId).Set(Config.Param.NeuronsCount, neurons.Count);
-            LayerConfig.Extend(Const.OutputLayerId).Set(Config.Param.Neurons, neurons.Select(n => n.Id));
+            LayerConfig.Extend(Const.OutputLayerId).Set(Const.Param.NeuronsCount, neurons.Count);
+            LayerConfig.Extend(Const.OutputLayerId).Set(Const.Param.Neurons, neurons.Select(n => n.Id));
             Range.ForEach(neurons, n => n.SaveConfig());
         }
 

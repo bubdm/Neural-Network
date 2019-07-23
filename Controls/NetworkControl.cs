@@ -88,7 +88,7 @@ namespace Dots.Controls
 
                 var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
                 var config = new Config(saveDialog.FileName);
-                config.Set(Config.Param.NetworkName, saveDialog.FileName);
+                config.Set(Const.Param.NetworkName, saveDialog.FileName);
                 return config;
             }
  
@@ -97,14 +97,14 @@ namespace Dots.Controls
 
         public Config SaveConfig()
         {
-            NetworkConfig.Set(Config.Param.Randomizer, Randomizer);
+            NetworkConfig.Set(Const.Param.Randomizer, Randomizer);
 
             (CtlTabsLayers.TabPages[0].Controls[0] as InputLayerControl).SaveConfig();
             (CtlTabsLayers.TabPages[CtlTabsLayers.TabCount - 1].Controls[0] as OutputLayerControl).SaveConfig();
 
             var layers = GetHiddenLayersControls();
             Range.ForEach(layers, layer => layer.SaveConfig());
-            NetworkConfig.Set(Config.Param.HiddenLayers, layers.Select(l => l.Id));
+            NetworkConfig.Set(Const.Param.HiddenLayers, layers.Select(l => l.Id));
 
             return NetworkConfig;
         }
@@ -132,7 +132,7 @@ namespace Dots.Controls
             {
                 CtlRandomizer.Items.Add(rand);
             }
-            var randomizer = NetworkConfig.GetString(Config.Param.Randomizer, Config.Main.GetString(Config.Param.Randomizer, randomizers.Any() ? randomizers[0] : null));
+            var randomizer = NetworkConfig.GetString(Const.Param.Randomizer, Config.Main.GetString(Const.Param.Randomizer, randomizers.Any() ? randomizers[0] : null));
             if (randomizers.Any())
             {
                 if (!randomizers.Any(r => r == randomizer))
@@ -150,17 +150,17 @@ namespace Dots.Controls
                 CtlRandomizer.SelectedItem = randomizer;
             }
 
-            var layers = NetworkConfig.GetArray(Config.Param.HiddenLayers);
+            var layers = NetworkConfig.GetArray(Const.Param.HiddenLayers);
             Range.For(layers.Length, i => AddLayer(layers[i]));
         }
 
         public int[] GetLayersSize()
         {
             var result = new List<int>();
-            var layers = NetworkConfig.GetArray(Config.Param.HiddenLayers);
-            result.Add(NetworkConfig.Extend(0).GetInt(Config.Param.NeuronsCount));
-            Range.For(layers.Length, n => result.Add(NetworkConfig.Extend(layers[n]).GetInt(Config.Param.NeuronsCount)));
-            result.Add(NetworkConfig.Extend(1).GetInt(Config.Param.NeuronsCount));
+            var layers = NetworkConfig.GetArray(Const.Param.HiddenLayers);
+            result.Add(NetworkConfig.Extend(0).GetInt(Const.Param.NeuronsCount));
+            Range.For(layers.Length, n => result.Add(NetworkConfig.Extend(layers[n]).GetInt(Const.Param.NeuronsCount)));
+            result.Add(NetworkConfig.Extend(1).GetInt(Const.Param.NeuronsCount));
             result.RemoveAll(r => r == 0);
             return result.ToArray();
         }

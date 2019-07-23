@@ -5,6 +5,7 @@ using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tools;
 
 namespace Dots.Controls
 {
@@ -16,7 +17,7 @@ namespace Dots.Controls
 
         public PlotterPresenter()
         {
-            AxisOffset = Config.Main.GetInt(Config.Param.AxisOffset, 6);
+            AxisOffset = Config.Main.GetInt(Const.Param.AxisOffset, 6);
         }
 
         public void Draw()

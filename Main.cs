@@ -53,7 +53,7 @@ namespace NN
             CtlTime.SizeChanged += CtlTime_SizeChanged;
 
             CtlDefaultInputCount.ValueChanged += CtlPointsCount_ValueChanged;
-            CtlDefaultInputCount.Value = Config.Main.GetInt(Config.Param.PointsCount, 1000);
+            CtlDefaultInputCount.Value = Config.Main.GetInt(Const.Param.PointsCount, 1000);
             CtlPointsCount_ValueChanged(null, null);
 
             PlotPresenter = new PlotterPresenter();
@@ -79,7 +79,7 @@ namespace NN
 
         private void LoadConfig()
         {
-            CtlDefaultInputCount.Value = Config.Main.GetInt(Config.Param.InputNeuronsCount, 1000);
+            CtlDefaultInputCount.Value = Config.Main.GetInt(Const.Param.InputNeuronsCount, 1000);
 
             // randomizer
 
@@ -90,7 +90,7 @@ namespace NN
                 CtlDefaultRandomizer.Items.Add(rand);
             }
 
-            var defaultRandomizer = Config.Main.GetString(Config.Param.Randomizer, randomizers.Any() ? randomizers[0] : null);
+            var defaultRandomizer = Config.Main.GetString(Const.Param.Randomizer, randomizers.Any() ? randomizers[0] : null);
             if (randomizers.Any())
             {
                 if (!randomizers.Any(r => r == defaultRandomizer))
@@ -110,7 +110,7 @@ namespace NN
 
             //
 
-            var networkName = Config.Main.GetString(Config.Param.NetworkName, null);
+            var networkName = Config.Main.GetString(Const.Param.NetworkName, null);
             LoadNetwork(networkName);
         }
 
@@ -139,8 +139,8 @@ namespace NN
 
         private void SaveConfig()
         {
-            Config.Main.Set(Config.Param.InputNeuronsCount, (int)CtlDefaultInputCount.Value);
-            Config.Main.Set(Config.Param.Randomizer, CtlDefaultRandomizer.SelectedItem.ToString());
+            Config.Main.Set(Const.Param.InputNeuronsCount, (int)CtlDefaultInputCount.Value);
+            Config.Main.Set(Const.Param.Randomizer, CtlDefaultRandomizer.SelectedItem.ToString());
 
             if (Network != null)
             {
@@ -344,7 +344,7 @@ namespace NN
             if (network.NetworkConfig != null)
             {
                 ReplaceNetworkControl(network);
-                Config.Main.Set(Config.Param.NetworkName, network.NetworkConfig.GetString(Config.Param.NetworkName));
+                Config.Main.Set(Const.Param.NetworkName, network.NetworkConfig.GetString(Const.Param.NetworkName));
             }
         }
 
@@ -367,7 +367,7 @@ namespace NN
 
         private void DeleteNetwork()
         {
-            var name = Config.Main.GetString(Config.Param.NetworkName);
+            var name = Config.Main.GetString(Const.Param.NetworkName);
             if (!String.IsNullOrEmpty(name))
             {
                 if (!File.Exists(name))
@@ -402,7 +402,7 @@ namespace NN
             {
                 CtlTabNetwork.Controls.Add(network);
                 CtlTabs.SelectedTab = CtlTabNetwork;
-                Text = "Neural Network | " + Path.GetFileNameWithoutExtension(network.NetworkConfig.GetString(Config.Param.NetworkName));
+                Text = "Neural Network | " + Path.GetFileNameWithoutExtension(network.NetworkConfig.GetString(Const.Param.NetworkName));
                 CtlStart.Enabled = true;
                 CtlReset.Enabled = true;
                 CtlMenuDeleteNetwork.Enabled = true;
