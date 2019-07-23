@@ -10,13 +10,11 @@ namespace Dots
 {
     public class NetworkDataModel
     {
-        public ListX<LayerDataModel> Layers;
+        public ListX<LayerDataModel> Layers = new ListX<LayerDataModel>();
         public double LearningRate = 0.05;
 
         public NetworkDataModel(int[] layersSize)
         {
-            Layers = new ListX<LayerDataModel>();
-
             Range.For(layersSize.Length, n =>
                 CreateLayer(layersSize[n], n < layersSize.Length - 1 ? layersSize[n + 1] : 0));
         }
@@ -32,9 +30,9 @@ namespace Dots
             return Layers.Last().Neurons.Sum(n => Math.Pow(n.Activation - (x == n.Id ? 1 : 0), 2));
         }
 
-        public void RandomizeWeights(string randomizer)
+        public void RandomizeWeights(string randomizer, double a)
         {
-            Randomize.Helper.Invoke(randomizer, this);
+            RandomizeMode.Helper.Invoke(randomizer, this, a);
         }
 
         private void RandHe()
@@ -89,21 +87,52 @@ namespace Dots
 
             ClearErrors();
             Range.ForEach(Layers.Last().Neurons, neuron =>
-            neuron.E = ((neuron.Id == number ? 1 : 0) - neuron.Activation) * Derivative.Sigmoid(neuron.Activation));
+            neuron.Error = ((neuron.Id == number ? 1 : 0) - neuron.Activation) * Derivative.Sigmoid(neuron.Activation));
 
             Range.BackEachTrimEnd(Layers, -1, layer =>
             {
                 Range.ForEach(layer.Previous.Neurons, neuronPrev =>
-                    neuronPrev.E = Range.SumForEach(layer.Neurons, neuron =>
-                        neuron.E * neuronPrev.WeightTo(neuron).Weight * Derivative.Sigmoid(neuronPrev.Activation)));
+                    neuronPrev.Error = Range.SumForEach(layer.Neurons, neuron =>
+                        neuron.Error * neuronPrev.WeightTo(neuron).Weight * Derivative.Sigmoid(neuronPrev.Activation)));
             });
 
             // update weights
 
             Range.BackEachTrimEnd(Layers, -1, layer =>
             {
-                Range.ForEach(layer.Previous.Neurons, layer.Neurons, (neuronPrev, neuron) => neuronPrev.WeightTo(neuron).Add(neuron.E * neuronPrev.Activation * LearningRate));
+                Range.ForEach(layer.Previous.Neurons, layer.Neurons, (neuronPrev, neuron) => neuronPrev.WeightTo(neuron).Add(neuron.Error * neuronPrev.Activation * LearningRate));
             });
+        }
+
+        public NetworkDataModel Merge(NetworkDataModel model)
+        {
+            foreach (var newLayer in model.Layers)
+            {
+                var layer = Layers.Find(l => l.VisualId == newLayer.VisualId);
+                if (layer != null)
+                {
+                    foreach (var newNeuron in newLayer.Neurons)
+                    {
+                        var neuron = layer.Neurons.Find(n => n.VisualId == newNeuron.VisualId);
+                        if (neuron != null)
+                        {
+                            newNeuron.Activation = neuron.Activation;
+                            newNeuron.Error = neuron.Error;
+
+                            foreach (var newWeight in newNeuron.Weights)
+                            {
+                                var weight = neuron.Weights.Find(w => w.Id == newWeight.Id);
+                                if (weight != null)
+                                {
+                                    newWeight.Weight = weight.Weight;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return model;
         }
     }
 }

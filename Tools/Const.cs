@@ -14,7 +14,7 @@ namespace Tools
         public const int OutputLayerId = 0;
 
         public const int DefaultInputNeuronsCount = 100;
-        public const int DefaultOutputNeuronsCount = 10;
+        public const int DefaultOutputNeuronsCount = 11; // 0 1 2 3 4 5 6 7 8 9 10
 
         public enum Toggle
         {
@@ -40,9 +40,10 @@ namespace Tools
             InputNeuronsMaxCount,
             InputNeuronsCount,
             Randomizer,
+            Initializer,
             HiddenLayers,
-            //NeuronsCount,
-            Neurons
+            Neurons,
+            RandomizerParamA
         }
     }
 

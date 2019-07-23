@@ -45,8 +45,6 @@
             this.CtlMenuLoadNetwork = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuDeleteNetwork = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlTabSettings = new System.Windows.Forms.TabPage();
-            this.CtlDefaultRandomizer = new System.Windows.Forms.ComboBox();
-            this.CtlDefaultRandomizerLabel = new System.Windows.Forms.Label();
             this.CtlTabNetwork = new System.Windows.Forms.TabPage();
             this.CtlManagerTools = new System.Windows.Forms.Panel();
             this.CtlApplyChanges = new System.Windows.Forms.Button();
@@ -59,7 +57,6 @@
             this.CtlManagerPanel.SuspendLayout();
             this.CtlTabs.SuspendLayout();
             this.CtlNetworkContextMenu.SuspendLayout();
-            this.CtlTabSettings.SuspendLayout();
             this.CtlManagerTools.SuspendLayout();
             this.CtlMenu.SuspendLayout();
             this.SuspendLayout();
@@ -226,31 +223,12 @@
             // 
             // CtlTabSettings
             // 
-            this.CtlTabSettings.Controls.Add(this.CtlDefaultRandomizer);
-            this.CtlTabSettings.Controls.Add(this.CtlDefaultRandomizerLabel);
             this.CtlTabSettings.Location = new System.Drawing.Point(4, 25);
             this.CtlTabSettings.Name = "CtlTabSettings";
             this.CtlTabSettings.Size = new System.Drawing.Size(259, 340);
             this.CtlTabSettings.TabIndex = 1;
             this.CtlTabSettings.Text = "Settings";
             this.CtlTabSettings.UseVisualStyleBackColor = true;
-            // 
-            // CtlDefaultRandomizer
-            // 
-            this.CtlDefaultRandomizer.FormattingEnabled = true;
-            this.CtlDefaultRandomizer.Location = new System.Drawing.Point(136, 46);
-            this.CtlDefaultRandomizer.Name = "CtlDefaultRandomizer";
-            this.CtlDefaultRandomizer.Size = new System.Drawing.Size(101, 24);
-            this.CtlDefaultRandomizer.TabIndex = 11;
-            // 
-            // CtlDefaultRandomizerLabel
-            // 
-            this.CtlDefaultRandomizerLabel.AutoSize = true;
-            this.CtlDefaultRandomizerLabel.Location = new System.Drawing.Point(3, 46);
-            this.CtlDefaultRandomizerLabel.Name = "CtlDefaultRandomizerLabel";
-            this.CtlDefaultRandomizerLabel.Size = new System.Drawing.Size(132, 17);
-            this.CtlDefaultRandomizerLabel.TabIndex = 10;
-            this.CtlDefaultRandomizerLabel.Text = "Default randomizer:";
             // 
             // CtlTabNetwork
             // 
@@ -281,6 +259,7 @@
             this.CtlApplyChanges.TabIndex = 1;
             this.CtlApplyChanges.Text = "Apply network changes";
             this.CtlApplyChanges.UseVisualStyleBackColor = true;
+            this.CtlApplyChanges.Click += new System.EventHandler(this.CtlApplyChanges_Click);
             // 
             // CtlMenu
             // 
@@ -338,8 +317,6 @@
             this.CtlManagerPanel.ResumeLayout(false);
             this.CtlTabs.ResumeLayout(false);
             this.CtlNetworkContextMenu.ResumeLayout(false);
-            this.CtlTabSettings.ResumeLayout(false);
-            this.CtlTabSettings.PerformLayout();
             this.CtlManagerTools.ResumeLayout(false);
             this.CtlManagerTools.PerformLayout();
             this.CtlMenu.ResumeLayout(false);
@@ -367,8 +344,6 @@
         private System.Windows.Forms.TabPage CtlTabNetwork;
         private System.Windows.Forms.ContextMenuStrip CtlNetworkContextMenu;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuNewNetwork;
-        private System.Windows.Forms.ComboBox CtlDefaultRandomizer;
-        private System.Windows.Forms.Label CtlDefaultRandomizerLabel;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuDeleteNetwork;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuLoadNetwork;
         private System.Windows.Forms.Button CtlStop;

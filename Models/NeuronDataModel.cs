@@ -10,8 +10,10 @@ namespace Dots
     public class NeuronDataModel : ListNode<NeuronDataModel>
     {
         public int Id;
+        public long VisualId;
+
         public double Activation; // activation
-        public double E; // error
+        public double Error; // error
         public ListX<WeightDataModel> Weights;
 
         public NeuronDataModel(int id, int weightsCount)

@@ -59,7 +59,7 @@ namespace Dots.Controls
             Range.ForEach(neurons, n => n.SaveConfig());
         }
 
-        private List<OutputNeuronControl> GetNeuronsControls()
+        public List<OutputNeuronControl> GetNeuronsControls()
         {
             return Controls.OfType<OutputNeuronControl>().ToList();
         }

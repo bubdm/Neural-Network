@@ -76,35 +76,6 @@ namespace NN
 
         private void LoadConfig()
         {
-            // randomizer
-
-            CtlDefaultRandomizer.Items.Clear();
-            var randomizers = Randomize.Helper.GetRandomizers();
-            foreach (var rand in randomizers)
-            {
-                CtlDefaultRandomizer.Items.Add(rand);
-            }
-
-            var defaultRandomizer = Config.Main.GetString(Const.Param.Randomizer, randomizers.Any() ? randomizers[0] : null);
-            if (randomizers.Any())
-            {
-                if (!randomizers.Any(r => r == defaultRandomizer))
-                {
-                    defaultRandomizer = randomizers[0];
-                }
-            }
-            else
-            {
-                defaultRandomizer = null;
-            }
-
-            if (!String.IsNullOrEmpty(defaultRandomizer))
-            {
-                CtlDefaultRandomizer.SelectedItem = defaultRandomizer;
-            }
-
-            //
-
             var networkName = Config.Main.GetString(Const.Param.NetworkName, null);
             LoadNetwork(networkName);
         }
@@ -134,8 +105,6 @@ namespace NN
 
         private void SaveConfig()
         {
-            Config.Main.Set(Const.Param.Randomizer, CtlDefaultRandomizer.SelectedItem.ToString());
-
             if (NetworkUI != null)
             {
                 NetworkUI.SaveConfig();
@@ -175,22 +144,7 @@ namespace NN
 
             if (param == Notification.ParameterChanged.Structure)
             {
-                if (IsRunning)
-                {
-                    ToggleApplyChanges(Const.Toggle.On);
-                    if (MessageBox.Show("Configuration saved. Would you like running network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        ApplyChangesToRunningNetwork();
-                    }
-                }
-                else
-                {
-                    ToggleApplyChanges(Const.Toggle.Off);
-                    InputDataPresenter.RearrangeWithNewPointsCount(NetworkUI.InputNeuronsCount);
-                    NetworkModel = new NetworkDataModel(NetworkUI.GetLayersSize());
-                    NetworkModel.RandomizeWeights(NetworkUI.Randomizer);
-                    NetworkPresenter.SetNetwork(NetworkModel);
-                }
+                ToggleApplyChanges(Const.Toggle.On);
             }
         }
 
@@ -198,8 +152,21 @@ namespace NN
         {
             lock (ApplyChangesLocker)
             {
-                var model = new NetworkDataModel(NetworkUI.GetLayersSize());
+                InputDataPresenter.RearrangeWithNewPointsCount(NetworkUI.InputNeuronsCount);
+                var model = NetworkUI.CreateNetworkDataModel();
+                NetworkModel = NetworkModel.Merge(model);
+                NetworkPresenter.UpdateNetwork(NetworkModel);
+            }
+        }
 
+        private void ApplyChangesToStandingNetwork()
+        {
+            lock (ApplyChangesLocker)
+            {
+                InputDataPresenter.RearrangeWithNewPointsCount(NetworkUI.InputNeuronsCount);
+                NetworkModel = NetworkUI.CreateNetworkDataModel();
+                NetworkModel.RandomizeWeights(NetworkUI.Randomizer, NetworkUI.RandomizerParamA);
+                NetworkPresenter.SetNetwork(NetworkModel);
             }
         }
 
@@ -280,7 +247,7 @@ namespace NN
             CtlMenuDeleteNetwork.Enabled = false;
             NetworkPresenter.IsNetworkRunning = true;
 
-            NetworkModel.RandomizeWeights(NetworkUI.Randomizer);
+            NetworkModel.RandomizeWeights(NetworkUI.Randomizer, NetworkUI.RandomizerParamA);
             NetworkModel.FeedForward(); // initialize state
 
             Round = 0;
@@ -472,6 +439,26 @@ namespace NN
         private void CtlReset_Click(object sender, EventArgs e)
         {
             NetworkPresenter.IsNetworkRunning = false;
+        }
+
+        private void CtlApplyChanges_Click(object sender, EventArgs e)
+        {
+            if (IsRunning)
+            {
+                if (MessageBox.Show("Configuration saved. Would you like running network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    ApplyChangesToRunningNetwork();
+                    ToggleApplyChanges(Const.Toggle.Off);
+                }
+            }
+            else
+            {
+                if (MessageBox.Show("Configuration saved. Would you like network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    ApplyChangesToStandingNetwork();
+                    ToggleApplyChanges(Const.Toggle.Off);
+                }
+            }
         }
     }
 }

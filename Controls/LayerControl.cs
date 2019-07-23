@@ -53,17 +53,9 @@ namespace Dots.Controls
             neuron.BringToFront();
         }
 
-        private List<NeuronControl> GetNeuronsControls()
+        public List<NeuronControl> GetNeuronsControls()
         {
-            var result = new List<NeuronControl>();
-            for (int i = 0; i < Controls.Count; ++i)
-            {
-                if (Controls[i] is NeuronControl neuron)
-                {
-                    result.Add(neuron);
-                }
-            }
-            return result;
+            return Controls.OfType<NeuronControl>().ToList();
         }
 
         public void SaveConfig()

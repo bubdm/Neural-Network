@@ -10,6 +10,7 @@ namespace Dots
     public class LayerDataModel : ListNode<LayerDataModel>
     {
         public int Id;
+        public long VisualId;
         public ListX<NeuronDataModel> Neurons;
 
         public LayerDataModel(int id, int neuronsCount, int weightsCount)
@@ -32,7 +33,7 @@ namespace Dots
         {
             foreach (var neuron in Neurons)
             {
-                neuron.E = 0;
+                neuron.Error = 0;
             }
         }
     }

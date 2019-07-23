@@ -51,6 +51,12 @@ namespace Dots.Controls
             RenderFullState();
         }
 
+        public void UpdateNetwork(NetworkDataModel network)
+        {
+            NetworkModel = network;
+            Render();
+        }
+
         private float VerticalDistance(int count)
         {
             return Math.Min(((float)Height - 220) / count, NEURON_MAX_DIST);

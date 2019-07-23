@@ -63,7 +63,7 @@
             this.Controls.Add(this.CtlUpperBorder);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "NeuronControl";
-            this.Size = new System.Drawing.Size(271, 63);
+            this.Size = new System.Drawing.Size(271, 124);
             this.ResumeLayout(false);
 
         }
