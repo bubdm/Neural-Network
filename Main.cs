@@ -87,15 +87,15 @@ namespace NN
             var randomizers = Randomize.Helper.GetRandomizers();
             foreach (var rand in randomizers)
             {
-                CtlDefaultRandomizer.Items.Add(rand.Name);
+                CtlDefaultRandomizer.Items.Add(rand);
             }
 
-            var defaultRandomizer = Config.Main.GetString(Config.Param.Randomizer, randomizers.Any() ? randomizers[0].Name : null);
+            var defaultRandomizer = Config.Main.GetString(Config.Param.Randomizer, randomizers.Any() ? randomizers[0] : null);
             if (randomizers.Any())
             {
-                if (!randomizers.Any(r => r.Name == defaultRandomizer))
+                if (!randomizers.Any(r => r == defaultRandomizer))
                 {
-                    defaultRandomizer = randomizers[0].Name;
+                    defaultRandomizer = randomizers[0];
                 }
             }
             else

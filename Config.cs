@@ -31,7 +31,7 @@ namespace Dots
             InputNeuronsMinCount,
             InputNeuronsMaxCount,
             InputNeuronsCount,
-            OutputNeuronsCount,
+            DefaultOutputNeuronsCount,
             Randomizer,
             HiddenLayers,
             NeuronsCount,
@@ -125,6 +125,11 @@ namespace Dots
         public void Set(Param name, bool value)
         {
             Set(name, value ? 1 : 0);
+        }
+
+        public void Set<T>(Param name, IEnumerable<T> list)
+        {
+            Set(name, String.Join(",", list.Select(l => l.ToString())));
         }
 
         private string GetValue(Param name, string defaultValue = null)

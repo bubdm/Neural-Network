@@ -49,9 +49,9 @@ namespace Randomize
 
     static class Helper
     {
-        public static MethodInfo[] GetRandomizers()
+        public static string[] GetRandomizers()
         {
-            return typeof(RandomizeMode).GetMethods().Where(r => r.IsStatic).ToArray();
+            return typeof(RandomizeMode).GetMethods().Where(r => r.IsStatic).Select(r => r.Name).ToArray();
         }
 
         public static void Invoke(string name, NetworkDataModel N)

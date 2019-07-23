@@ -109,8 +109,14 @@
     <Compile Include="Models\NeuronDataModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomizeMode.cs" />
-    <Compile Include="Tools.cs" />
+    <Compile Include="Tools\Activation.cs" />
+    <Compile Include="Tools\Const.cs" />
+    <Compile Include="Tools\Draw.cs" />
+    <Compile Include="Tools\List.cs" />
+    <Compile Include="Tools\Rand.cs" />
+    <Compile Include="Tools\RandomizeMode.cs" />
+    <Compile Include="Tools\Range.cs" />
+    <Compile Include="Tools\Tools.cs" />
     <EmbeddedResource Include="Controls\InputLayerControl.resx">
       <DependentUpon>InputLayerControl.cs</DependentUpon>
     </EmbeddedResource>

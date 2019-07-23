@@ -71,7 +71,7 @@ namespace Dots.Controls
             return (MaxHeight() - layer.Height * VerticalDistance(layer.Height)) / 2;
         }
 
-        private void DrawLayersLink(bool fullState, LayerDataModel layer1 , LayerDataModel layer2)
+        private void DrawLayersLinks(bool fullState, LayerDataModel layer1 , LayerDataModel layer2)
         {
             Range.ForEach(layer1.Neurons, layer2.Neurons, (neuron1, neuron2) =>
             {
@@ -110,7 +110,7 @@ namespace Dots.Controls
             Clear();
             if (NetworkModel.Layers.Count > 0)
             {
-                Range.ForEachTrimEnd(NetworkModel.Layers, -1, layer => DrawLayersLink(fullState, layer, layer.Next));
+                Range.ForEachTrimEnd(NetworkModel.Layers, -1, layer => DrawLayersLinks(fullState, layer, layer.Next));
             }
             Range.ForEach(NetworkModel.Layers, layer => DrawLayerNeurons(fullState, layer));
 

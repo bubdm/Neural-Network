@@ -89,13 +89,13 @@ namespace Dots
 
             ClearErrors();
             Range.ForEach(Layers.Last().Neurons, neuron =>
-            neuron.E = ((neuron.Id == number ? 1 : 0) - neuron.Activation) * Activation.SigmoidDerivative(neuron.Activation));
+            neuron.E = ((neuron.Id == number ? 1 : 0) - neuron.Activation) * Derivative.Sigmoid(neuron.Activation));
 
             Range.BackEachTrimEnd(Layers, -1, layer =>
             {
                 Range.ForEach(layer.Previous.Neurons, neuronPrev =>
                     neuronPrev.E = Range.SumForEach(layer.Neurons, neuron =>
-                        neuron.E * neuronPrev.WeightTo(neuron).Weight * Activation.SigmoidDerivative(neuronPrev.Activation)));
+                        neuron.E * neuronPrev.WeightTo(neuron).Weight * Derivative.Sigmoid(neuronPrev.Activation)));
             });
 
             // update weights
