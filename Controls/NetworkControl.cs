@@ -14,18 +14,16 @@ namespace Dots.Controls
 {
     public partial class NetworkControl : UserControl
     {
-        public static NetworkControl Current;
-
         public Config NetworkConfig;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
+        readonly InputLayerControl InputLayer;
+        readonly OutputLayerControl OutputLayer;
+
         public NetworkControl(string name, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
-            Current = this;
-
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;
-            Mapping.Clear();
 
             Dock = DockStyle.Fill;
             CtlTabsLayers.SelectedIndexChanged += CtlTabsLayers_SelectedIndexChanged;
@@ -34,20 +32,17 @@ namespace Dots.Controls
             NetworkConfig = String.IsNullOrEmpty(name) ? CreateNewNetwork() : new Config(name);
             if (NetworkConfig != null)
             {
-                var inputLayer = new InputLayerControl(NetworkConfig, onNetworkUIChanged);
-                CtlTabInput.Controls.Add(inputLayer);
+                InputLayer = new InputLayerControl(NetworkConfig, onNetworkUIChanged);
+                CtlTabInput.Controls.Add(InputLayer);
 
-                var outputLayer = new OutputLayerControl(NetworkConfig, onNetworkUIChanged);
-                CtlTabOutput.Controls.Add(outputLayer);
+                OutputLayer = new OutputLayerControl(NetworkConfig, onNetworkUIChanged);
+                CtlTabOutput.Controls.Add(OutputLayer);
 
                 LoadConfig();
             }
 
             CtlRandomizer.SelectedValueChanged += CtlRandomizer_SelectedValueChanged;
         }
-
-        private InputLayerControl InputLayer => CtlTabInput.Controls[0] as InputLayerControl;
-        private OutputLayerControl OutputLayer => CtlTabOutput.Controls[0] as OutputLayerControl;
 
         private void CtlRandomizer_SelectedValueChanged(object sender, EventArgs e)
         {

@@ -32,7 +32,6 @@ namespace Dots.Controls
             Dock = DockStyle.Top;
 
             Id = id;
-            Mapping.OutputNeuronsMap[Id] = this;
             NeuronControl = config;
         }
 

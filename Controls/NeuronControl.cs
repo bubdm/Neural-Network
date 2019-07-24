@@ -31,7 +31,6 @@ namespace Dots.Controls
             Dock = DockStyle.Top;
 
             Id = id;
-            Mapping.NeuronsMap[Id] = this;
             Config = config;
 
             CtlWeightsIniterParamA.TextChanged += CtlWeightsIniterParamA_TextChanged;
