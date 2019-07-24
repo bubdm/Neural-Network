@@ -41,6 +41,7 @@ namespace Tools
             InputNeuronsCount,
             Randomizer,
             Initializer,
+            InitializerParamA,
             HiddenLayers,
             Neurons,
             RandomizerParamA

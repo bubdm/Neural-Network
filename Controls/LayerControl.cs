@@ -15,7 +15,7 @@ namespace Dots.Controls
     {
         public readonly long Id;
 
-        Config LayerConfig;
+        public Config Config;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
         public LayerControl()
@@ -30,27 +30,27 @@ namespace Dots.Controls
 
             Dock = DockStyle.Fill;
             Id = id;
-            LayerConfig = config;
+            Config = config.Extend(Id);
 
-            var neurons = LayerConfig.Extend(Id).GetArray(Const.Param.Neurons);
-            for (int i = 0; i < neurons.Length; ++i)
-            {
-                AddNeuron(neurons[i]);
-            }
+            var neurons = Config.GetArray(Const.Param.Neurons);
+            Range.ForEach(neurons, n => AddNeuron(n));
         }
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
-            AddNeuron(-1);
-            OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            AddNeuron(Const.UnknownId);
         }
 
-        private void AddNeuron(long id)
+        public void AddNeuron(long id)
         {
-            id = id == -1 ? DateTime.Now.Ticks : id;
-            var neuron = new NeuronControl(id, LayerConfig, OnNetworkUIChanged);            
+            var neuron = new NeuronControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);            
             Controls.Add(neuron);
             neuron.BringToFront();
+
+            if (id == Const.UnknownId)
+            {
+                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            }
         }
 
         public List<NeuronControl> GetNeuronsControls()
@@ -58,21 +58,19 @@ namespace Dots.Controls
             return Controls.OfType<NeuronControl>().ToList();
         }
 
+        public int NeuronsCount => GetNeuronsControls().Count;
+
         public void SaveConfig()
         {
             var neurons = GetNeuronsControls();
-            LayerConfig.Extend(Id).Set(Const.Param.Neurons, neurons.Select(n => n.Id));
-            Range.ForEach(neurons, neuron => neuron.SaveConfig());
+            Config.Set(Const.Param.Neurons, neurons.Select(n => n.Id));
+            Range.ForEach(neurons, n => n.SaveConfig());
         }
 
         public void VanishConfig()
         {
-            LayerConfig.Extend(Id).Remove(Const.Param.Neurons);
-            var neurons = GetNeuronsControls();
-            foreach (var neuron in neurons)
-            {
-                neuron.VanishConfig();
-            }
+            Config.Remove(Const.Param.Neurons);
+            Range.ForEach(GetNeuronsControls(), n => n.VanishConfig());
         }
     }
 }

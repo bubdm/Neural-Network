@@ -17,16 +17,14 @@ namespace Tools
         {
             Name = name;
         }
-
-        public Config Extend(string name)
-        {
-            Extender += name;
-            return this;
-        }
         
-        public Config Extend(long name)
+        public Config Extend(long extender)
         {
-            return Extend(name.ToString());
+            var config = new Config(Name)
+            {
+                Extender = extender.ToString()
+            };
+            return config;
         }
         
         public string GetString(Const.Param name, string defaultValue = null)
@@ -74,7 +72,6 @@ namespace Tools
             if (values.TryGetValue(name.ToString("G") + Extender, out string value))
             {
                 values.Remove(name.ToString("G") + Extender);
-                Extender = null;
             }
             SaveValues(values);
         }
@@ -84,7 +81,6 @@ namespace Tools
             var values = GetValues();
             values[name.ToString("G") + Extender] = value;
             SaveValues(values);
-            Extender = null;
         }
 
         public void Set(Const.Param name, double value)
@@ -113,7 +109,6 @@ namespace Tools
 
             if (values.TryGetValue(name.ToString("G") + Extender, out string value))
             {
-                Extender = null;
                 return value;
             }
             else

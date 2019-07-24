@@ -13,7 +13,7 @@ namespace Dots.Controls
 {
     public partial class OutputLayerControl : UserControl
     {
-        Config LayerConfig;
+        public Config Config;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
         public OutputLayerControl()
@@ -27,9 +27,9 @@ namespace Dots.Controls
             OnNetworkUIChanged = onNetworkUIChanged;
 
             Dock = DockStyle.Fill;
-            LayerConfig = config;
+            Config = config.Extend(Const.OutputLayerId);
 
-            var neurons = LayerConfig.Extend(Const.OutputLayerId).GetArray(Const.Param.Neurons);
+            var neurons = Config.GetArray(Const.Param.Neurons);
             Range.ForEach(neurons, n => AddNeuron(neurons[n]));
 
             if (neurons.Length == 0)
@@ -40,22 +40,25 @@ namespace Dots.Controls
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
-            AddNeuron(Const.UnknownId);
-            OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            AddNeuron(Const.UnknownId);          
         }
 
-        private void AddNeuron(long id)
+        public void AddNeuron(long id)
         {
-            id = id == Const.UnknownId ? DateTime.Now.Ticks : id;
-            var neuron = new OutputNeuronControl(id, LayerConfig, OnNetworkUIChanged);
+            var neuron = new OutputNeuronControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);
             Controls.Add(neuron);
             neuron.BringToFront();
+
+            if (id == Const.UnknownId)
+            {
+                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            }
         }
 
         public void SaveConfig()
         {
             var neurons = GetNeuronsControls();
-            LayerConfig.Extend(Const.OutputLayerId).Set(Const.Param.Neurons, neurons.Select(n => n.Id));
+            Config.Set(Const.Param.Neurons, neurons.Select(n => n.Id));
             Range.ForEach(neurons, n => n.SaveConfig());
         }
 
@@ -63,5 +66,7 @@ namespace Dots.Controls
         {
             return Controls.OfType<OutputNeuronControl>().ToList();
         }
+
+        public int NeuronsCount => GetNeuronsControls().Count;
     }
 }

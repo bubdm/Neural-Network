@@ -14,13 +14,18 @@ namespace Dots.Controls
 {
     public partial class NetworkControl : UserControl
     {
+        public static NetworkControl Current;
+
         public Config NetworkConfig;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
         public NetworkControl(string name, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
+            Current = this;
+
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;
+            Mapping.Clear();
 
             Dock = DockStyle.Fill;
             CtlTabsLayers.SelectedIndexChanged += CtlTabsLayers_SelectedIndexChanged;
@@ -46,7 +51,6 @@ namespace Dots.Controls
 
         private void CtlRandomizer_SelectedValueChanged(object sender, EventArgs e)
         {
-            ResetLayersNames();
             OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
 
@@ -62,18 +66,18 @@ namespace Dots.Controls
             var tab = new TabPage();
             tab.Controls.Add(layer);
             CtlTabsLayers.TabPages.Insert(CtlTabsLayers.TabCount - 1, tab);
-            ResetLayersNames();
             CtlTabsLayers.SelectedTab = tab;
         }
 
-        private void ResetLayersNames()
+        private void ResetLayersTabsNames()
         {
+            CtlTabsLayers.TabPages[0].Text = $"Input ({InputLayer.NeuronsCount})";
+            CtlTabsLayers.TabPages[CtlTabsLayers.TabCount - 1].Text = $"Output ({OutputLayer.NeuronsCount})";
 
-            //CtlTabsLayers.TabPages[0].Text = $"Input ({InputLayer.input})";
-
+            var layers = GetHiddenLayersControls();
             for (int i = 1; i < CtlTabsLayers.TabCount - 1; ++i)
             {
-                CtlTabsLayers.TabPages[i].Text = "L" + i;
+                CtlTabsLayers.TabPages[i].Text = $"L{i} ({layers[i - 1].NeuronsCount})";
             }
         }
 
@@ -110,7 +114,7 @@ namespace Dots.Controls
             return null;
          }
 
-        public Config SaveConfig()
+        public void SaveConfig()
         {
             NetworkConfig.Set(Const.Param.Randomizer, Randomizer);
             NetworkConfig.Set(Const.Param.RandomizerParamA, CtlRandomizerParamA.Text);
@@ -119,10 +123,12 @@ namespace Dots.Controls
             OutputLayer.SaveConfig();
 
             var layers = GetHiddenLayersControls();
-            Range.ForEach(layers, layer => layer.SaveConfig());
+            Range.ForEach(layers, l => l.SaveConfig());
             NetworkConfig.Set(Const.Param.HiddenLayers, layers.Select(l => l.Id));
 
-            return NetworkConfig;
+            //
+
+            ResetLayersTabsNames();
         }
 
         private List<LayerControl> GetHiddenLayersControls()
@@ -151,14 +157,14 @@ namespace Dots.Controls
             Range.For(layers.Length, i => AddLayer(layers[i]));
         }
 
-        private int[] GetLayersSize(bool includeEmptyLayers)
+        private int[] GetLayersSize(bool excludeEmptyLayers)
         {
             var result = new List<int>();
-            var layers = NetworkConfig.GetArray(Const.Param.HiddenLayers);
-            result.Add(NetworkConfig.Extend(Const.InputLayerId).GetInt(Const.Param.InputNeuronsCount));
-            Range.For(layers.Length, n => result.Add(NetworkConfig.Extend(layers[n]).GetArray(Const.Param.Neurons).Length));
-            result.Add(NetworkConfig.Extend(Const.OutputLayerId).GetArray(Const.Param.Neurons).Length);
-            if (!includeEmptyLayers)
+            var layers = GetHiddenLayersControls();
+            result.Add(InputLayer.NeuronsCount);
+            Range.ForEach(layers, l => result.Add(l.NeuronsCount));
+            result.Add(OutputLayer.NeuronsCount);
+            if (excludeEmptyLayers)
             {
                 result.RemoveAll(r => r == 0);
             }
@@ -167,28 +173,29 @@ namespace Dots.Controls
 
         private int[] GetLayersSizeIncludeEmpty()
         {
-            return GetLayersSize(true);
+            return GetLayersSize(false);
         }
 
         private int[] GetLayersSizeExcludeEmpty()
         {
-            return GetLayersSize(false);
+            return GetLayersSize(true);
         }
 
-        public int InputNeuronsCount => NetworkConfig.Extend(Const.InputLayerId).GetInt(Const.Param.InputNeuronsCount);
+        public int InputNeuronsCount => InputLayer.Config.GetInt(Const.Param.InputNeuronsCount);
 
         public string Randomizer => CtlRandomizer.SelectedItem.ToString();
         public double RandomizerParamA => double.TryParse(CtlRandomizerParamA.Text, out double a) ? a : 0;
 
         private void CtlMenuDeleteLayer_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Would you really like to delete the layer?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            var layerIndex = CtlTabsLayers.TabPages.IndexOf(CtlTabsLayers.SelectedTab);
+
+            if (MessageBox.Show($"Would you really like to delete layer L{layerIndex}?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 var layer = CtlTabsLayers.SelectedTab.Controls[0] as LayerControl;
                 layer.VanishConfig();
 
                 CtlTabsLayers.TabPages.Remove(CtlTabsLayers.SelectedTab);
-                ResetLayersNames();
                 OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
             }
         }

@@ -32,6 +32,7 @@ namespace Dots.Controls
             Dock = DockStyle.Top;
 
             Id = id;
+            Mapping.OutputNeuronsMap[Id] = this;
             NeuronControl = config;
         }
 
@@ -45,8 +46,16 @@ namespace Dots.Controls
 
         }
 
-        private void CtlDelete_Click(object sender, EventArgs e)
+        private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
+            (Parent as OutputLayerControl).AddNeuron(Const.UnknownId);
+        }
+
+        private void CtlMenuDeleteNeuron_Click(object sender, EventArgs e)
+        {
+            var color = BackColor;
+            BackColor = Color.Red;
+
             if (MessageBox.Show("Would you really like to delete the neuron?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 if (Parent.Controls.OfType<OutputNeuronControl>().Count() == 1)
@@ -58,6 +67,10 @@ namespace Dots.Controls
                 Parent.Controls.Remove(this);
                 VanishConfig();
                 OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            }
+            else
+            {
+                BackColor = color;
             }
         }
     }

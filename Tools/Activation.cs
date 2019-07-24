@@ -9,7 +9,7 @@ namespace Tools
 {
     public static class Activation
     {
-        public static double Sigmoid(double x)
+        public static double LogisticSigmoid(double x)
         {
             return 1 / (1 + Math.Exp(-x));
         }
@@ -58,7 +58,7 @@ namespace Tools
 
     public static class Derivative
     {
-        public static double Sigmoid(double x)
+        public static double LogisticSigmoid(double x)
         {
             return x * (1 - x);
         }

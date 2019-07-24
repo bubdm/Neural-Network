@@ -28,8 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.CtlUpperBorder = new System.Windows.Forms.Panel();
-            this.CtlDelete = new System.Windows.Forms.Button();
+            this.CtlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CtlMenuAddNeuron = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMenuDeleteNeuron = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.CtlContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // CtlUpperBorder
@@ -41,35 +46,60 @@
             this.CtlUpperBorder.Size = new System.Drawing.Size(236, 1);
             this.CtlUpperBorder.TabIndex = 0;
             // 
-            // CtlDelete
+            // CtlContextMenu
             // 
-            this.CtlDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CtlDelete.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CtlDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CtlDelete.Location = new System.Drawing.Point(213, 3);
-            this.CtlDelete.Name = "CtlDelete";
-            this.CtlDelete.Size = new System.Drawing.Size(20, 20);
-            this.CtlDelete.TabIndex = 2;
-            this.CtlDelete.Text = "X";
-            this.CtlDelete.UseVisualStyleBackColor = true;
-            this.CtlDelete.Click += new System.EventHandler(this.CtlDelete_Click);
+            this.CtlContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.CtlContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CtlMenuAddNeuron,
+            this.CtlMenuDeleteNeuron});
+            this.CtlContextMenu.Name = "contextMenuStrip1";
+            this.CtlContextMenu.Size = new System.Drawing.Size(173, 52);
+            // 
+            // CtlMenuAddNeuron
+            // 
+            this.CtlMenuAddNeuron.Name = "CtlMenuAddNeuron";
+            this.CtlMenuAddNeuron.Size = new System.Drawing.Size(210, 24);
+            this.CtlMenuAddNeuron.Text = "Add neuron";
+            this.CtlMenuAddNeuron.Click += new System.EventHandler(this.CtlMenuAddNeuron_Click);
+            // 
+            // CtlMenuDeleteNeuron
+            // 
+            this.CtlMenuDeleteNeuron.Name = "CtlMenuDeleteNeuron";
+            this.CtlMenuDeleteNeuron.Size = new System.Drawing.Size(210, 24);
+            this.CtlMenuDeleteNeuron.Text = "Delete neuron";
+            this.CtlMenuDeleteNeuron.Click += new System.EventHandler(this.CtlMenuDeleteNeuron_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 4);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 17);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "label1";
             // 
             // OutputNeuronControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.CtlDelete);
+            this.ContextMenuStrip = this.CtlContextMenu;
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.CtlUpperBorder);
             this.Name = "OutputNeuronControl";
             this.Size = new System.Drawing.Size(236, 45);
+            this.CtlContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Panel CtlUpperBorder;
-        private System.Windows.Forms.Button CtlDelete;
+        private System.Windows.Forms.ContextMenuStrip CtlContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem CtlMenuAddNeuron;
+        private System.Windows.Forms.ToolStripMenuItem CtlMenuDeleteNeuron;
+        private System.Windows.Forms.Label label1;
     }
 }

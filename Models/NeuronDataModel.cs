@@ -12,14 +12,13 @@ namespace Dots
         public int Id;
         public long VisualId;
 
-        public double Activation; // activation
-        public double Error; // error
-        public ListX<WeightDataModel> Weights;
+        public double Activation;
+        public double Error;
+        public ListX<WeightDataModel> Weights = new ListX<WeightDataModel>();
 
         public NeuronDataModel(int id, int weightsCount)
         {
             Id = id;
-            Weights = new ListX<WeightDataModel>();
             Range.For(weightsCount, n => Weights.Add(new WeightDataModel(n)));
         }
 

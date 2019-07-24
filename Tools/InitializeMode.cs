@@ -12,6 +12,11 @@ namespace Tools
 {
     public static class InitializeMode
     {
+        public static double Network(double a)
+        {
+            return double.NaN; // do not initialize
+        }
+
         public static double Constant(double a)
         {
             return a;

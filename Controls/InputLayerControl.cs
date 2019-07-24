@@ -13,7 +13,7 @@ namespace Dots.Controls
 {
     public partial class InputLayerControl : UserControl
     {
-        Config LayerConfig;
+        public Config Config;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
         public InputLayerControl(Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
@@ -22,12 +22,14 @@ namespace Dots.Controls
             OnNetworkUIChanged = onNetworkUIChanged;
 
             Dock = DockStyle.Top;
-            LayerConfig = config;
+            Config = config.Extend(Const.InputLayerId);
 
             LoadConfig();
 
             CtlInputCount.ValueChanged += CtlInputCount_ValueChanged;
         }
+
+        public int NeuronsCount => (int)CtlInputCount.Value;
 
         private void CtlInputCount_ValueChanged(object sender, EventArgs e)
         {
@@ -38,12 +40,12 @@ namespace Dots.Controls
         {
             CtlInputCount.Minimum = Config.Main.GetInt(Const.Param.InputNeuronsMinCount, 10);
             CtlInputCount.Maximum = Config.Main.GetInt(Const.Param.InputNeuronsMaxCount, 10000);
-            CtlInputCount.Value = LayerConfig.Extend(Const.InputLayerId).GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount);
+            CtlInputCount.Value = Config.GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount);
         }
 
         public void SaveConfig()
         {
-             LayerConfig.Extend(Const.InputLayerId).Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
+             Config.Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
         }
     }
 }
