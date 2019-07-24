@@ -85,6 +85,7 @@
             // 
             this.CtlWeightsIniter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlWeightsIniter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CtlWeightsIniter.FormattingEnabled = true;
             this.CtlWeightsIniter.Location = new System.Drawing.Point(112, 6);
             this.CtlWeightsIniter.Name = "CtlWeightsIniter";

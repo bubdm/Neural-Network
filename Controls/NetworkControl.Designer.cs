@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.CtlMainPanel = new System.Windows.Forms.Panel();
             this.CtlRandomizer = new System.Windows.Forms.ComboBox();
-            this.CtlRandomizeModeLabel = new System.Windows.Forms.Label();
+            this.CtlRandomizerLabel = new System.Windows.Forms.Label();
             this.CtlTabsLayers = new System.Windows.Forms.TabControl();
             this.CtlTabInput = new System.Windows.Forms.TabPage();
             this.CtlTabOutput = new System.Windows.Forms.TabPage();
@@ -50,7 +50,7 @@
             this.CtlMainPanel.Controls.Add(this.CtlRandomizerParamA);
             this.CtlMainPanel.Controls.Add(this.CtlRandomizerParamALabel);
             this.CtlMainPanel.Controls.Add(this.CtlRandomizer);
-            this.CtlMainPanel.Controls.Add(this.CtlRandomizeModeLabel);
+            this.CtlMainPanel.Controls.Add(this.CtlRandomizerLabel);
             this.CtlMainPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.CtlMainPanel.Location = new System.Drawing.Point(0, 0);
             this.CtlMainPanel.Name = "CtlMainPanel";
@@ -61,6 +61,7 @@
             // 
             this.CtlRandomizer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlRandomizer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CtlRandomizer.FormattingEnabled = true;
             this.CtlRandomizer.Location = new System.Drawing.Point(132, 15);
             this.CtlRandomizer.Name = "CtlRandomizer";
@@ -69,12 +70,12 @@
             // 
             // CtlRandomizeModeLabel
             // 
-            this.CtlRandomizeModeLabel.AutoSize = true;
-            this.CtlRandomizeModeLabel.Location = new System.Drawing.Point(3, 15);
-            this.CtlRandomizeModeLabel.Name = "CtlRandomizeModeLabel";
-            this.CtlRandomizeModeLabel.Size = new System.Drawing.Size(122, 17);
-            this.CtlRandomizeModeLabel.TabIndex = 0;
-            this.CtlRandomizeModeLabel.Text = "Randomize mode:";
+            this.CtlRandomizerLabel.AutoSize = true;
+            this.CtlRandomizerLabel.Location = new System.Drawing.Point(3, 15);
+            this.CtlRandomizerLabel.Name = "CtlRandomizeModeLabel";
+            this.CtlRandomizerLabel.Size = new System.Drawing.Size(122, 17);
+            this.CtlRandomizerLabel.TabIndex = 0;
+            this.CtlRandomizerLabel.Text = "Randomize mode:";
             // 
             // CtlTabsLayers
             // 
@@ -174,7 +175,7 @@
         private System.Windows.Forms.ContextMenuStrip CtlContextMenu;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuAddLayer;
         private System.Windows.Forms.ComboBox CtlRandomizer;
-        private System.Windows.Forms.Label CtlRandomizeModeLabel;
+        private System.Windows.Forms.Label CtlRandomizerLabel;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuDeleteLayer;
         private System.Windows.Forms.TextBox CtlRandomizerParamA;
         private System.Windows.Forms.Label CtlRandomizerParamALabel;

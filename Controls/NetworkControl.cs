@@ -51,6 +51,7 @@ namespace Dots.Controls
 
         private void CtlRandomizer_SelectedValueChanged(object sender, EventArgs e)
         {
+            CtlRandomizerLabel.Focus();
             OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
 

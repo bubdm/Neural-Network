@@ -35,8 +35,15 @@ namespace Dots.Controls
             Config = config;
 
             CtlWeightsIniterParamA.TextChanged += CtlWeightsIniterParamA_TextChanged;
+            CtlWeightsIniter.SelectedIndexChanged += CtlWeightsIniter_SelectedIndexChanged;
 
             LoadConfig();
+        }
+
+        private void CtlWeightsIniter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CtlWeightsIniterLabel.Focus();
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, false);
         }
 
         private void CtlWeightsIniterParamA_TextChanged(object sender, EventArgs e)
