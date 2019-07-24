@@ -12,19 +12,27 @@ namespace Tools
 {
     public static class InitializeMode
     {
-        public static double Network(double a)
+        public static double DoNotApply(double? a)
         {
-            return double.NaN; // do not initialize
+            return Const.InitializerSkipValue;
         }
 
-        public static double Constant(double a)
+        public static double Constant(double? a)
         {
-            return a;
+            if (!a.HasValue)
+            {
+                a = 0;
+            }
+            return a.Value;
         }
 
-        public static double SimpleRandom(double a)
+        public static double SimpleRandom(double? a)
         {
-            return a * Rand.GetFlatRandom();
+            if (!a.HasValue)
+            {
+                a = 1;
+            }
+            return a.Value * Rand.GetFlatRandom();
         }
 
         public static class Helper
@@ -34,7 +42,7 @@ namespace Tools
                 return typeof(InitializeMode).GetMethods().Where(r => r.IsStatic).Select(r => r.Name).ToArray();
             }
 
-            public static double Invoke(string name, double a)
+            public static double Invoke(string name, double? a)
             {
                 var method = typeof(InitializeMode).GetMethod(name);
                 return (double)method.Invoke(null, new object[] { a });
@@ -48,7 +56,7 @@ namespace Tools
                 {
                     cb.Items.Add(init);
                 }
-                var initializer = config.GetString(Const.Param.Initializer, initializers.Any() ? initializers[0] : null);
+                var initializer = config.GetString(Const.Param.WeightsInitializer, initializers.Any() ? initializers[0] : null);
                 if (initializers.Any())
                 {
                     if (!initializers.Any(r => r == initializer))

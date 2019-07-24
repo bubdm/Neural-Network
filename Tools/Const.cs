@@ -12,6 +12,7 @@ namespace Tools
         public const int CurrentValue = -1;
         public const int InputLayerId = 0;
         public const int OutputLayerId = 0;
+        public const double InitializerSkipValue = double.NaN;
 
         public const int DefaultInputNeuronsCount = 100;
         public const int DefaultOutputNeuronsCount = 11; // 0 1 2 3 4 5 6 7 8 9 10
@@ -40,8 +41,8 @@ namespace Tools
             InputNeuronsMaxCount,
             InputNeuronsCount,
             Randomizer,
-            Initializer,
-            InitializerParamA,
+            WeightsInitializer,
+            WeightsInitializerParamA,
             HiddenLayers,
             Neurons,
             RandomizerParamA

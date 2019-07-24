@@ -14,6 +14,10 @@ namespace Dots
 
         public double Activation;
         public double Error;
+
+        public string WeightsInitializer;
+        public double? WeightsInitializerParamA;
+
         public ListX<WeightDataModel> Weights = new ListX<WeightDataModel>();
 
         public NeuronDataModel(int id, int weightsCount)

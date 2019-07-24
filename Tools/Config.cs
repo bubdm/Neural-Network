@@ -10,7 +10,7 @@ namespace Tools
     public class Config
     {
         public static Config Main = new Config("config.txt");
-        readonly string Name;
+        public readonly string Name;
         string Extender;
 
         public Config(string name)

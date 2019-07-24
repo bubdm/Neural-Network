@@ -33,6 +33,10 @@ namespace Dots.Controls
             Config = config.Extend(Id);
 
             var neurons = Config.GetArray(Const.Param.Neurons);
+            if (neurons.Length == 0)
+            {
+                neurons = new long[] { Const.UnknownId }; 
+            }
             Range.ForEach(neurons, n => AddNeuron(n));
         }
 

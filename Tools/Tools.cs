@@ -17,4 +17,12 @@ namespace Tools
             OutputNeuronsMap.Clear();
         }
     }
+
+    public static class Converter
+    {
+        public static double? TextToDouble(string text)
+        {
+            return String.IsNullOrEmpty(text) ? (double?)null : double.TryParse(text, out double a) ? a : (double?)null;
+        }
+}
 }   

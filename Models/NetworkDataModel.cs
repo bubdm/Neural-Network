@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dots.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -13,26 +14,24 @@ namespace Dots
         public ListX<LayerDataModel> Layers = new ListX<LayerDataModel>();
         public double LearningRate = 0.05;
 
-        public NetworkDataModel(int[] layersSize)
+        public string Randomizer;
+        public double? RandomizerParamA;
+
+        public NetworkDataModel(NetworkControl network)
         {
+            var layersSize = network.GetLayersSize();
             Range.For(layersSize.Length, n =>
                 CreateLayer(layersSize[n], n < layersSize.Length - 1 ? layersSize[n + 1] : 0));
         }
 
         public void CreateLayer(int neuronCount, int weightsCount)
         {
-            if (neuronCount > 0)
-                Layers.Add(new LayerDataModel(Layers.Count, neuronCount, weightsCount));
+            Layers.Add(new LayerDataModel(Layers.Count, neuronCount, weightsCount));
         }
 
         public double Cost(int x)
         {
             return Layers.Last().Neurons.Sum(n => Math.Pow(n.Activation - (x == n.Id ? 1 : 0), 2));
-        }
-
-        public void RandomizeWeights(string randomizer, double a)
-        {
-            RandomizeMode.Helper.Invoke(randomizer, this, a);
         }
 
         private void RandHe()
@@ -76,7 +75,7 @@ namespace Dots
             Range.For(Rand.Flat.Next(11), i => Layers.First().Neurons.RandomElement.Activation = 1);
 
             Range.ForEachTrimEnd(Layers, -1, layer =>
-            Range.ForEach(layer.Next.Neurons, nextNeuron => nextNeuron.Activation = Activation.Sigmoid(Range.SumForEach(layer.Neurons, neuron => neuron.AxW(nextNeuron)))));
+            Range.ForEach(layer.Next.Neurons, nextNeuron => nextNeuron.Activation = Activation.LogisticSigmoid(Range.SumForEach(layer.Neurons, neuron => neuron.AxW(nextNeuron)))));
         }
 
         public void BackPropagation()
@@ -87,13 +86,13 @@ namespace Dots
 
             ClearErrors();
             Range.ForEach(Layers.Last().Neurons, neuron =>
-            neuron.Error = ((neuron.Id == number ? 1 : 0) - neuron.Activation) * Derivative.Sigmoid(neuron.Activation));
+            neuron.Error = ((neuron.Id == number ? 1 : 0) - neuron.Activation) * Derivative.LogisticSigmoid(neuron.Activation));
 
             Range.BackEachTrimEnd(Layers, -1, layer =>
             {
                 Range.ForEach(layer.Previous.Neurons, neuronPrev =>
                     neuronPrev.Error = Range.SumForEach(layer.Neurons, neuron =>
-                        neuron.Error * neuronPrev.WeightTo(neuron).Weight * Derivative.Sigmoid(neuronPrev.Activation)));
+                        neuron.Error * neuronPrev.WeightTo(neuron).Weight * Derivative.LogisticSigmoid(neuronPrev.Activation)));
             });
 
             // update weights
@@ -119,12 +118,16 @@ namespace Dots
                             newNeuron.Activation = neuron.Activation;
                             newNeuron.Error = neuron.Error;
 
-                            foreach (var newWeight in newNeuron.Weights)
+                            double initValue = InitializeMode.Helper.Invoke(newNeuron.WeightsInitializer, newNeuron.WeightsInitializerParamA);
+                            if (initValue != Const.InitializerSkipValue)
                             {
-                                var weight = neuron.Weights.Find(w => w.Id == newWeight.Id);
-                                if (weight != null)
+                                foreach (var newWeight in newNeuron.Weights)
                                 {
-                                    newWeight.Weight = weight.Weight;
+                                    var weight = neuron.Weights.Find(w => w.Id == newWeight.Id);
+                                    if (weight != null)
+                                    {
+                                        newWeight.Weight = weight.Weight;
+                                    }
                                 }
                             }
                         }

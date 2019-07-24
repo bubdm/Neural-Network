@@ -29,6 +29,7 @@ namespace Dots.Controls
 
             Dock = DockStyle.Fill;
             CtlTabsLayers.SelectedIndexChanged += CtlTabsLayers_SelectedIndexChanged;
+            CtlRandomizerParamA.TextChanged += CtlRandomizerParamA_TextChanged;
 
             NetworkConfig = String.IsNullOrEmpty(name) ? CreateNewNetwork() : new Config(name);
             if (NetworkConfig != null)
@@ -48,10 +49,23 @@ namespace Dots.Controls
         private InputLayerControl InputLayer => CtlTabInput.Controls[0] as InputLayerControl;
         private OutputLayerControl OutputLayer => CtlTabOutput.Controls[0] as OutputLayerControl;
 
-
         private void CtlRandomizer_SelectedValueChanged(object sender, EventArgs e)
         {
             OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+        }
+
+        private void CtlRandomizerParamA_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ValidateRandomizeParamA();
+                CtlRandomizerParamA.BackColor = Color.White;
+            }
+            catch
+            {
+                CtlRandomizerParamA.BackColor = Color.Red;
+                return;
+            }
         }
 
         private void CtlTabsLayers_SelectedIndexChanged(object sender, EventArgs e)
@@ -107,15 +121,60 @@ namespace Dots.Controls
 
                 var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
                 var config = new Config(saveDialog.FileName);
-                config.Set(Const.Param.NetworkName, saveDialog.FileName);
+                Config.Main.Set(Const.Param.NetworkName, saveDialog.FileName);
                 return config;
             }
  
             return null;
          }
 
+        public Config SaveAs()
+        {
+            var saveDialog = new SaveFileDialog
+            {
+                InitialDirectory = Path.GetFullPath("Networks\\"),
+                DefaultExt = "txt",
+                Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
+                FilterIndex = 2,
+                RestoreDirectory = true
+            };
+
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(saveDialog.FileName))
+                {
+                    File.Delete(saveDialog.FileName);
+                }
+
+                var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
+                NetworkConfig = new Config(saveDialog.FileName);
+                Config.Main.Set(Const.Param.NetworkName, saveDialog.FileName);
+                return NetworkConfig;
+            }
+
+            return null;
+        }
+
+        private void ValidateParameters()
+        {
+            ValidateRandomizeParamA();
+        }
+
+        private void ValidateRandomizeParamA()
+        {
+            if (CtlRandomizerParamA.Text.Length != 0)
+            {
+                if (!double.TryParse(CtlRandomizerParamA.Text, out double result))
+                {
+                    throw new Exception($"Invalid network randomize parameter a value '{CtlRandomizerParamA.Text}'.");
+                }
+            }
+        }
+
         public void SaveConfig()
         {
+            ValidateParameters();
+
             NetworkConfig.Set(Const.Param.Randomizer, Randomizer);
             NetworkConfig.Set(Const.Param.RandomizerParamA, CtlRandomizerParamA.Text);
 
@@ -131,7 +190,7 @@ namespace Dots.Controls
             ResetLayersTabsNames();
         }
 
-        private List<LayerControl> GetHiddenLayersControls()
+        public List<LayerControl> GetHiddenLayersControls()
         {
             var result = new List<LayerControl>();
             for (int i = 1; i < CtlTabsLayers.TabCount - 1; ++i)
@@ -149,7 +208,7 @@ namespace Dots.Controls
             // randomizer
 
             RandomizeMode.Helper.FillComboBox(CtlRandomizer, NetworkConfig);
-            CtlRandomizerParamA.Text = NetworkConfig.GetString(Const.Param.RandomizerParamA, "1");
+            CtlRandomizerParamA.Text = NetworkConfig.GetString(Const.Param.RandomizerParamA);
 
             //
 
@@ -157,34 +216,22 @@ namespace Dots.Controls
             Range.For(layers.Length, i => AddLayer(layers[i]));
         }
 
-        private int[] GetLayersSize(bool excludeEmptyLayers)
+        public int[] GetLayersSize()
         {
             var result = new List<int>();
             var layers = GetHiddenLayersControls();
             result.Add(InputLayer.NeuronsCount);
             Range.ForEach(layers, l => result.Add(l.NeuronsCount));
             result.Add(OutputLayer.NeuronsCount);
-            if (excludeEmptyLayers)
-            {
-                result.RemoveAll(r => r == 0);
-            }
             return result.ToArray();
-        }
-
-        private int[] GetLayersSizeIncludeEmpty()
-        {
-            return GetLayersSize(false);
-        }
-
-        private int[] GetLayersSizeExcludeEmpty()
-        {
-            return GetLayersSize(true);
         }
 
         public int InputNeuronsCount => InputLayer.Config.GetInt(Const.Param.InputNeuronsCount);
 
-        public string Randomizer => CtlRandomizer.SelectedItem.ToString();
-        public double RandomizerParamA => double.TryParse(CtlRandomizerParamA.Text, out double a) ? a : 0;
+        private string Randomizer => CtlRandomizer.SelectedItem.ToString();
+        private double? RandomizerParamA => Converter.TextToDouble(CtlRandomizerParamA.Text);
+
+        public Type ActiveLayerType => CtlTabsLayers.SelectedTab.Controls[0].GetType();
 
         private void CtlMenuDeleteLayer_Click(object sender, EventArgs e)
         {
@@ -202,7 +249,13 @@ namespace Dots.Controls
 
         public NetworkDataModel CreateNetworkDataModel()
         {
-            var model = new NetworkDataModel(GetLayersSizeExcludeEmpty());
+            var model = new NetworkDataModel(this)
+            {
+                Randomizer = Randomizer,
+                RandomizerParamA = RandomizerParamA
+            };
+
+            RandomizeMode.Helper.Invoke(Randomizer, model, RandomizerParamA);
 
             model.Layers.First().VisualId = Const.InputLayerId;
 
@@ -214,7 +267,19 @@ namespace Dots.Controls
                 var neurons = layers[ln].GetNeuronsControls();
                 for (int nn = 0; nn < neurons.Count; ++nn)
                 {
-                    model.Layers[1 + ln].Neurons[nn].VisualId = neurons[nn].Id;
+                    var neuronModel = model.Layers[1 + ln].Neurons[nn];
+                    neuronModel.VisualId = neurons[nn].Id;
+                    neuronModel.WeightsInitializer = neurons[nn].WeightsInitializer;
+                    neuronModel.WeightsInitializerParamA = neurons[nn].WeightsInitializerParamA;
+
+                    double initValue = InitializeMode.Helper.Invoke(neurons[nn].WeightsInitializer, neurons[nn].WeightsInitializerParamA);
+                    if (initValue != Const.InitializerSkipValue)
+                    {
+                        foreach (var weight in neuronModel.Weights)
+                        {
+                            weight.Weight = InitializeMode.Helper.Invoke(neurons[nn].WeightsInitializer, neurons[nn].WeightsInitializerParamA);
+                        }
+                    }
                 }
             }
 

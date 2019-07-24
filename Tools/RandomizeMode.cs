@@ -12,22 +12,32 @@ namespace Tools
 {
     public static class RandomizeMode
     {
-        public static void Random(NetworkDataModel network, double a)
+        public static void Random(NetworkDataModel network, double? a)
         {
+            if (!a.HasValue)
+            {
+                a = 1;
+            }
+
             foreach (var layer in network.Layers)
             {
                 foreach (var neuron in layer.Neurons)
                 {
                     foreach (var weight in neuron.Weights)
                     {
-                        weight.Weight = Rand.GetFlatRandom();
+                        weight.Weight = a.Value * Rand.GetFlatRandom();
                     }
                 }
             }
         }
 
-        public static void FlatProgress(NetworkDataModel network, double a)
+        public static void FlatProgress(NetworkDataModel network, double? a)
         {
+            if (!a.HasValue)
+            {
+                a = 6;
+            }
+
             foreach (var layer in network.Layers)
             {
                 foreach (var neuron in layer.Neurons)
@@ -36,11 +46,11 @@ namespace Tools
                     {
                         if (layer.Id % 2 == 0)
                         {
-                            weight.Weight = Rand.GetSpreadInRange(6) * (1 / ((double)neuron.Id + (double)weight.Id + 1));
+                            weight.Weight = Rand.GetSpreadInRange(a.Value) * (1 / ((double)neuron.Id + (double)weight.Id + 1));
                         }
                         else
                         {
-                            weight.Weight = Rand.GetSpreadInRange(6) * (1 - 1 / ((double)neuron.Id + (double)weight.Id + 1));
+                            weight.Weight = Rand.GetSpreadInRange(a.Value) * (1 - 1 / ((double)neuron.Id + (double)weight.Id + 1));
                         }
                     }
                 }
@@ -54,7 +64,7 @@ namespace Tools
                 return typeof(RandomizeMode).GetMethods().Where(r => r.IsStatic).Select(r => r.Name).ToArray();
             }
 
-            public static void Invoke(string name, NetworkDataModel N, double a)
+            public static void Invoke(string name, NetworkDataModel N, double? a)
             {
                 var method = typeof(RandomizeMode).GetMethod(name);
                 method.Invoke(null, new object[] { N, a });

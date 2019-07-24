@@ -140,11 +140,16 @@ namespace NN
 
         private void OnNetworkUIChanged(Notification.ParameterChanged param, object newValue = null) 
         {
-            SaveConfig();
-
-            if (param == Notification.ParameterChanged.Structure)
+            try
             {
-                ToggleApplyChanges(Const.Toggle.On);
+                SaveConfig();
+            }
+            finally
+            {
+                if (param == Notification.ParameterChanged.Structure)
+                {
+                    ToggleApplyChanges(Const.Toggle.On);
+                }
             }
         }
 
@@ -165,7 +170,6 @@ namespace NN
             {
                 InputDataPresenter.RearrangeWithNewPointsCount(NetworkUI.InputNeuronsCount);
                 NetworkModel = NetworkUI.CreateNetworkDataModel();
-                NetworkModel.RandomizeWeights(NetworkUI.Randomizer, NetworkUI.RandomizerParamA);
                 NetworkPresenter.SetNetwork(NetworkModel);
             }
         }
@@ -247,7 +251,6 @@ namespace NN
             CtlMenuDeleteNetwork.Enabled = false;
             NetworkPresenter.IsNetworkRunning = true;
 
-            NetworkModel.RandomizeWeights(NetworkUI.Randomizer, NetworkUI.RandomizerParamA);
             NetworkModel.FeedForward(); // initialize state
 
             Round = 0;
@@ -310,7 +313,15 @@ namespace NN
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             StopRunning();
-            SaveConfig();
+            try
+            {
+                SaveConfig();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK);
+                e.Cancel = true;
+            }
         }
 
         private void CtlDataPanel_SizeChanged(object sender, EventArgs e)
@@ -326,6 +337,7 @@ namespace NN
         private void CtlMenuLoadNetwork_Click(object sender, EventArgs e)
         {
             LoadNetwork();
+            ToggleApplyChanges(Const.Toggle.Off);
         }
 
         private void CtlMenuDeleteNetwork_Click(object sender, EventArgs e)
@@ -394,6 +406,11 @@ namespace NN
                 Text = "Neural Network";
                 CtlStart.Enabled = false;
                 CtlMenuDeleteNetwork.Enabled = false;
+                CtlMainMenuDeleteNetwork.Enabled = false;
+                CtlMainMenuDeleteLayer.Enabled = false;
+                CtlMainMenuAddLayer.Enabled = false;
+                CtlMainMenuNewNeuron.Enabled = false;
+                CtlMainMenuSaveAs.Enabled = false;
                 CtlReset.Enabled = false;
             }
             else
@@ -404,18 +421,17 @@ namespace NN
                 CtlStart.Enabled = true;
                 CtlReset.Enabled = true;
                 CtlMenuDeleteNetwork.Enabled = true;
+                CtlMainMenuDeleteNetwork.Enabled = true;
+                CtlMainMenuDeleteLayer.Enabled = network.ActiveLayerType == typeof(LayerControl);
+                CtlMainMenuAddLayer.Enabled = true;
+                CtlMainMenuNewNeuron.Enabled = network.ActiveLayerType != typeof(InputLayerControl);
+                CtlMainMenuSaveAs.Enabled = true;
             }
 
             OnNetworkUIChanged(Notification.ParameterChanged.Structure);
         }
 
-        private NetworkControl NetworkUI
-        {
-            get
-            {
-                return CtlTabNetwork.Controls.Count > 0 ? CtlTabNetwork.Controls[0] as NetworkControl : null;
-            }
-        }
+        private NetworkControl NetworkUI => CtlTabNetwork.Controls.Count > 0 ? CtlTabNetwork.Controls[0] as NetworkControl : null;
 
         private void CtlStop_Click(object sender, EventArgs e)
         {
@@ -438,11 +454,21 @@ namespace NN
 
         private void CtlReset_Click(object sender, EventArgs e)
         {
-            NetworkPresenter.IsNetworkRunning = false;
+            ApplyChangesToStandingNetwork();
         }
 
         private void CtlApplyChanges_Click(object sender, EventArgs e)
         {
+            try
+            {
+                SaveConfig();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK);
+                return;
+            }
+
             if (IsRunning)
             {
                 if (MessageBox.Show("Configuration saved. Would you like running network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -459,6 +485,36 @@ namespace NN
                     ToggleApplyChanges(Const.Toggle.Off);
                 }
             }
+        }
+
+        private void CtlMainMenuSaveAs_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveConfig();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK);
+                return;
+            }
+
+            var config = NetworkUI.SaveAs();
+            if (config != null)
+            {
+                SaveConfig();
+                LoadConfig();
+            }
+        }
+
+        private void CtlMainMenuAddLayer_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CtlMainMenuDeleteLayer_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

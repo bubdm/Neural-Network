@@ -53,17 +53,17 @@ namespace Dots.Controls
 
         private void CtlMenuDeleteNeuron_Click(object sender, EventArgs e)
         {
+            if (Parent.Controls.OfType<OutputNeuronControl>().Count() == 1)
+            {
+                MessageBox.Show("At least one neuron must exist.", "Warning", MessageBoxButtons.OK);
+                return;
+            }
+
             var color = BackColor;
             BackColor = Color.Red;
 
             if (MessageBox.Show("Would you really like to delete the neuron?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                if (Parent.Controls.OfType<OutputNeuronControl>().Count() == 1)
-                {
-                    MessageBox.Show("At least one output neuron must exist.", "Warning", MessageBoxButtons.OK);
-                    return;
-                }
-
                 Parent.Controls.Remove(this);
                 VanishConfig();
                 OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);

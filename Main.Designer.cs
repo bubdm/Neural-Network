@@ -52,6 +52,15 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuStart = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMainMenuNewNetwork = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMainMenuLoadNetwork = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMainMenuDeleteNetwork = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMainMenuSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.CtlMainMenuAddLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMainMenuDeleteLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMainMenuSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.CtlMainMenuNewNeuron = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMainMenuSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlBottomPanel.SuspendLayout();
             this.CtlNetPanel.SuspendLayout();
             this.CtlManagerPanel.SuspendLayout();
@@ -276,6 +285,16 @@
             // 
             // fileToolStripMenuItem
             // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CtlMainMenuNewNetwork,
+            this.CtlMainMenuLoadNetwork,
+            this.CtlMainMenuSaveAs,
+            this.CtlMainMenuDeleteNetwork,
+            this.CtlMainMenuSeparator1,
+            this.CtlMainMenuAddLayer,
+            this.CtlMainMenuDeleteLayer,
+            this.CtlMainMenuSeparator2,
+            this.CtlMainMenuNewNeuron});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "&File";
@@ -294,6 +313,70 @@
             this.CtlMenuStart.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.CtlMenuStart.Size = new System.Drawing.Size(139, 26);
             this.CtlMenuStart.Text = "Start";
+            // 
+            // CtlMainMenuNewNetwork
+            // 
+            this.CtlMainMenuNewNetwork.Name = "CtlMainMenuNewNetwork";
+            this.CtlMainMenuNewNetwork.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.CtlMainMenuNewNetwork.Size = new System.Drawing.Size(236, 26);
+            this.CtlMainMenuNewNetwork.Text = "New Network...";
+            this.CtlMainMenuNewNetwork.Click += new System.EventHandler(this.CtlMenuNewNetwork_Click);
+            // 
+            // CtlMainMenuLoadNetwork
+            // 
+            this.CtlMainMenuLoadNetwork.Name = "CtlMainMenuLoadNetwork";
+            this.CtlMainMenuLoadNetwork.Size = new System.Drawing.Size(236, 26);
+            this.CtlMainMenuLoadNetwork.Text = "Load Network...";
+            this.CtlMainMenuLoadNetwork.Click += new System.EventHandler(this.CtlMenuLoadNetwork_Click);
+            // 
+            // CtlMainMenuDeleteNetwork
+            // 
+            this.CtlMainMenuDeleteNetwork.Enabled = false;
+            this.CtlMainMenuDeleteNetwork.Name = "CtlMainMenuDeleteNetwork";
+            this.CtlMainMenuDeleteNetwork.Size = new System.Drawing.Size(236, 26);
+            this.CtlMainMenuDeleteNetwork.Text = "Delete Network...";
+            this.CtlMainMenuDeleteNetwork.Click += new System.EventHandler(this.CtlMenuDeleteNetwork_Click);
+            // 
+            // CtlMainMenuSeparator1
+            // 
+            this.CtlMainMenuSeparator1.Name = "CtlMainMenuSeparator1";
+            this.CtlMainMenuSeparator1.Size = new System.Drawing.Size(233, 6);
+            // 
+            // CtlMainMenuAddLayer
+            // 
+            this.CtlMainMenuAddLayer.Enabled = false;
+            this.CtlMainMenuAddLayer.Name = "CtlMainMenuAddLayer";
+            this.CtlMainMenuAddLayer.Size = new System.Drawing.Size(236, 26);
+            this.CtlMainMenuAddLayer.Text = "Add Layer";
+            this.CtlMainMenuAddLayer.Click += new System.EventHandler(this.CtlMainMenuAddLayer_Click);
+            // 
+            // CtlMainMenuDeleteLayer
+            // 
+            this.CtlMainMenuDeleteLayer.Enabled = false;
+            this.CtlMainMenuDeleteLayer.Name = "CtlMainMenuDeleteLayer";
+            this.CtlMainMenuDeleteLayer.Size = new System.Drawing.Size(236, 26);
+            this.CtlMainMenuDeleteLayer.Text = "Delete Layer";
+            this.CtlMainMenuDeleteLayer.Click += new System.EventHandler(this.CtlMainMenuDeleteLayer_Click);
+            // 
+            // CtlMainMenuSeparator2
+            // 
+            this.CtlMainMenuSeparator2.Name = "CtlMainMenuSeparator2";
+            this.CtlMainMenuSeparator2.Size = new System.Drawing.Size(233, 6);
+            // 
+            // CtlMainMenuNewNeuron
+            // 
+            this.CtlMainMenuNewNeuron.Enabled = false;
+            this.CtlMainMenuNewNeuron.Name = "CtlMainMenuNewNeuron";
+            this.CtlMainMenuNewNeuron.Size = new System.Drawing.Size(236, 26);
+            this.CtlMainMenuNewNeuron.Text = "New Neuron";
+            // 
+            // CtlMainMenuSaveAs
+            // 
+            this.CtlMainMenuSaveAs.Enabled = false;
+            this.CtlMainMenuSaveAs.Name = "CtlMainMenuSaveAs";
+            this.CtlMainMenuSaveAs.Size = new System.Drawing.Size(236, 26);
+            this.CtlMainMenuSaveAs.Text = "Save As...";
+            this.CtlMainMenuSaveAs.Click += new System.EventHandler(this.CtlMainMenuSaveAs_Click);
             // 
             // Main
             // 
@@ -349,6 +432,15 @@
         private System.Windows.Forms.Button CtlStop;
         private System.Windows.Forms.Button CtlReset;
         private System.Windows.Forms.Button CtlApplyChanges;
+        private System.Windows.Forms.ToolStripMenuItem CtlMainMenuNewNetwork;
+        private System.Windows.Forms.ToolStripMenuItem CtlMainMenuLoadNetwork;
+        private System.Windows.Forms.ToolStripMenuItem CtlMainMenuDeleteNetwork;
+        private System.Windows.Forms.ToolStripSeparator CtlMainMenuSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem CtlMainMenuAddLayer;
+        private System.Windows.Forms.ToolStripMenuItem CtlMainMenuDeleteLayer;
+        private System.Windows.Forms.ToolStripSeparator CtlMainMenuSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem CtlMainMenuNewNeuron;
+        private System.Windows.Forms.ToolStripMenuItem CtlMainMenuSaveAs;
     }
 }
 

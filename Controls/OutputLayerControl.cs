@@ -30,7 +30,7 @@ namespace Dots.Controls
             Config = config.Extend(Const.OutputLayerId);
 
             var neurons = Config.GetArray(Const.Param.Neurons);
-            Range.ForEach(neurons, n => AddNeuron(neurons[n]));
+            Range.ForEach(neurons, n => AddNeuron(n));
 
             if (neurons.Length == 0)
             {
