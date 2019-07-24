@@ -31,7 +31,7 @@ namespace Dots.Controls
             Dock = DockStyle.Top;
 
             Id = id;
-            Config = config;
+            Config = config.Extend(Id);
 
             CtlWeightsIniterParamA.TextChanged += CtlWeightsIniterParamA_TextChanged;
             CtlWeightsIniter.SelectedIndexChanged += CtlWeightsIniter_SelectedIndexChanged;

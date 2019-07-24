@@ -14,7 +14,7 @@ namespace Dots.Controls
 {
     public partial class NetworkControl : UserControl
     {
-        public Config NetworkConfig;
+        public Config Config;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
         readonly InputLayerControl InputLayer;
@@ -29,13 +29,13 @@ namespace Dots.Controls
             CtlTabsLayers.SelectedIndexChanged += CtlTabsLayers_SelectedIndexChanged;
             CtlRandomizerParamA.TextChanged += CtlRandomizerParamA_TextChanged;
 
-            NetworkConfig = String.IsNullOrEmpty(name) ? CreateNewNetwork() : new Config(name);
-            if (NetworkConfig != null)
+            Config = String.IsNullOrEmpty(name) ? CreateNewNetwork() : new Config(name);
+            if (Config != null)
             {
-                InputLayer = new InputLayerControl(NetworkConfig, onNetworkUIChanged);
+                InputLayer = new InputLayerControl(Config, onNetworkUIChanged);
                 CtlTabInput.Controls.Add(InputLayer);
 
-                OutputLayer = new OutputLayerControl(NetworkConfig, onNetworkUIChanged);
+                OutputLayer = new OutputLayerControl(Config, onNetworkUIChanged);
                 CtlTabOutput.Controls.Add(OutputLayer);
 
                 LoadConfig();
@@ -72,7 +72,7 @@ namespace Dots.Controls
         private void AddLayer(long id)
         {
             id = id == Const.UnknownId ? DateTime.Now.Ticks : id;
-            var layer = new LayerControl(id, NetworkConfig, OnNetworkUIChanged);
+            var layer = new LayerControl(id, Config, OnNetworkUIChanged);
             var tab = new TabPage();
             tab.Controls.Add(layer);
             CtlTabsLayers.TabPages.Insert(CtlTabsLayers.TabCount - 1, tab);
@@ -143,9 +143,9 @@ namespace Dots.Controls
                 }
 
                 var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
-                NetworkConfig = new Config(saveDialog.FileName);
+                Config = new Config(saveDialog.FileName);
                 Config.Main.Set(Const.Param.NetworkName, saveDialog.FileName);
-                return NetworkConfig;
+                return Config;
             }
 
             return null;
@@ -171,15 +171,15 @@ namespace Dots.Controls
         {
             ValidateParameters();
 
-            NetworkConfig.Set(Const.Param.Randomizer, Randomizer);
-            NetworkConfig.Set(Const.Param.RandomizerParamA, CtlRandomizerParamA.Text);
+            Config.Set(Const.Param.Randomizer, Randomizer);
+            Config.Set(Const.Param.RandomizerParamA, CtlRandomizerParamA.Text);
 
             InputLayer.SaveConfig();
             OutputLayer.SaveConfig();
 
             var layers = GetHiddenLayersControls();
             Range.ForEach(layers, l => l.SaveConfig());
-            NetworkConfig.Set(Const.Param.HiddenLayers, layers.Select(l => l.Id));
+            Config.Set(Const.Param.HiddenLayers, layers.Select(l => l.Id));
 
             //
 
@@ -203,12 +203,12 @@ namespace Dots.Controls
         {
             // randomizer
 
-            RandomizeMode.Helper.FillComboBox(CtlRandomizer, NetworkConfig);
-            CtlRandomizerParamA.Text = NetworkConfig.GetString(Const.Param.RandomizerParamA);
+            RandomizeMode.Helper.FillComboBox(CtlRandomizer, Config);
+            CtlRandomizerParamA.Text = Config.GetString(Const.Param.RandomizerParamA);
 
             //
 
-            var layers = NetworkConfig.GetArray(Const.Param.HiddenLayers);
+            var layers = Config.GetArray(Const.Param.HiddenLayers);
             Range.For(layers.Length, i => AddLayer(layers[i]));
         }
 

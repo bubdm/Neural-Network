@@ -351,10 +351,10 @@ namespace NN
         private void CreateNetwork()
         {
             var network = new NetworkControl(null, OnNetworkUIChanged);
-            if (network.NetworkConfig != null)
+            if (network.Config != null)
             {
                 ReplaceNetworkControl(network);
-                Config.Main.Set(Const.Param.NetworkName, network.NetworkConfig.GetString(Const.Param.NetworkName));
+                Config.Main.Set(Const.Param.NetworkName, network.Config.GetString(Const.Param.NetworkName));
             }
         }
 
@@ -417,7 +417,7 @@ namespace NN
             {
                 CtlTabNetwork.Controls.Add(network);
                 CtlTabs.SelectedTab = CtlTabNetwork;
-                Text = "Neural Network | " + Path.GetFileNameWithoutExtension(network.NetworkConfig.GetString(Const.Param.NetworkName));
+                Text = "Neural Network | " + Path.GetFileNameWithoutExtension(network.Config.GetString(Const.Param.NetworkName));
                 CtlStart.Enabled = true;
                 CtlReset.Enabled = true;
                 CtlMenuDeleteNetwork.Enabled = true;

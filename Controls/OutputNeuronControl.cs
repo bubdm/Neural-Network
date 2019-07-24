@@ -14,7 +14,7 @@ namespace Dots.Controls
     public partial class OutputNeuronControl : UserControl
     {
         public readonly long Id;
-        Config NeuronControl;
+        Config Config;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
         public OutputNeuronControl()
@@ -32,7 +32,7 @@ namespace Dots.Controls
             Dock = DockStyle.Top;
 
             Id = id;
-            NeuronControl = config;
+            Config = config.Extend(Id);
         }
 
         public void SaveConfig()
