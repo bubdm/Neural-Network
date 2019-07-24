@@ -32,9 +32,9 @@ namespace Tools
             return GetValue(name, defaultValue);
         }
 
-        public double GetDouble(Const.Param name, double defaultValue = 0)
+        public double? GetDouble(Const.Param name, double? defaultValue = null)
         {
-            if (double.TryParse(GetValue(name, defaultValue.ToString("G")), out double value))
+            if (Converter.TryTextToDouble(GetValue(name, Converter.DoubleToText(defaultValue)), out double? value))
             {
                 return value;
             }
@@ -83,9 +83,9 @@ namespace Tools
             SaveValues(values);
         }
 
-        public void Set(Const.Param name, double value)
+        public void Set(Const.Param name, double? value)
         {
-            Set(name, value.ToString("G"));
+            Set(name, Converter.DoubleToText(value));
         }
 
         public void Set(Const.Param name, int value)

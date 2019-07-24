@@ -158,12 +158,9 @@ namespace Dots.Controls
 
         private void ValidateRandomizeParamA()
         {
-            if (CtlRandomizerParamA.Text.Length != 0)
+            if (!Converter.TryTextToDouble(CtlRandomizerParamA.Text, out double? result))
             {
-                if (!double.TryParse(CtlRandomizerParamA.Text, out double result))
-                {
-                    throw new Exception($"Invalid network randomize parameter a value '{CtlRandomizerParamA.Text}'.");
-                }
+                throw new Exception($"Invalid network randomize parameter a value '{CtlRandomizerParamA.Text}'.");
             }
         }
 

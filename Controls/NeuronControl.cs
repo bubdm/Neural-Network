@@ -75,12 +75,9 @@ namespace Dots.Controls
 
         private void ValidateWeightsIniterParamA()
         {
-            if (CtlWeightsIniterParamA.Text.Length != 0)
+            if (!Converter.TryTextToDouble(CtlWeightsIniterParamA.Text, out double? result))
             {
-                if (!double.TryParse(CtlWeightsIniterParamA.Text, out double result))
-                {
-                    throw new Exception($"Invalid weight initializer parameter a value '{CtlWeightsIniterParamA.Text}'.");
-                }
+                throw new Exception($"Invalid weight initializer parameter a value '{CtlWeightsIniterParamA.Text}'.");
             }
         }
 
