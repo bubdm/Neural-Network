@@ -32,5 +32,24 @@ namespace NN.Controls
             Id = id;
             Config = config.Extend(Id);
         }
+
+        public virtual bool IsInput => false;
+        public virtual bool IsHidden => false;
+        public virtual bool IsOutput => false;
+
+        public virtual void ValidateConfig()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void SaveConfig()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void VanishConfig()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

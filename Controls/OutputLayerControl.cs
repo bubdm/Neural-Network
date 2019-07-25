@@ -32,6 +32,8 @@ namespace NN.Controls
             }
         }
 
+        public override bool IsOutput => true;
+
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
             AddNeuron(Const.UnknownId);          

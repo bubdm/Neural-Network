@@ -31,6 +31,8 @@ namespace NN.Controls
             Range.ForEach(neurons, n => AddNeuron(n));
         }
 
+        public override bool IsHidden => true;
+
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
             AddNeuron(Const.UnknownId);
@@ -55,20 +57,20 @@ namespace NN.Controls
 
         public int NeuronsCount => GetNeuronsControls().Count;
 
-        public void ValidateConfig()
+        public override void ValidateConfig()
         {
             var neurons = GetNeuronsControls();
             Range.ForEach(neurons, n => n.ValidateConfig());
         }
 
-        public void SaveConfig()
+        public override void SaveConfig()
         {
             var neurons = GetNeuronsControls();
             Config.Set(Const.Param.Neurons, neurons.Select(n => n.Id));
             Range.ForEach(neurons, n => n.SaveConfig());
         }
 
-        public void VanishConfig()
+        public override void VanishConfig()
         {
             Config.Remove(Const.Param.Neurons);
             Range.ForEach(GetNeuronsControls(), n => n.VanishConfig());

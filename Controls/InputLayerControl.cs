@@ -23,6 +23,8 @@ namespace NN.Controls
             CtlInputCount.ValueChanged += CtlInputCount_ValueChanged;
         }
 
+        public override bool IsInput => true;
+
         public int NeuronsCount => (int)CtlInputCount.Value;
 
         private void CtlInputCount_ValueChanged(object sender, EventArgs e)
