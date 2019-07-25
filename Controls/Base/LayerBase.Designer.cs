@@ -41,6 +41,7 @@
             this.CtlFlow.Size = new System.Drawing.Size(172, 137);
             this.CtlFlow.TabIndex = 0;
             this.CtlFlow.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.CtlFlow_ControlAdded);
+            this.CtlFlow.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.CtlFlow_ControlRemoved);
             this.CtlFlow.Layout += new System.Windows.Forms.LayoutEventHandler(this.CtlFlow_Layout);
             // 
             // LayerBase

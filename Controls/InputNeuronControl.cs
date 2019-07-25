@@ -24,6 +24,11 @@ namespace NN.Controls
         public override bool IsBias => false;
         public override bool IsBiasConnected => false;
 
+        public override void OrdinalNumberChanged(int number)
+        {
+
+        }
+
         public override void ValidateConfig()
         {
 

@@ -27,9 +27,7 @@ namespace NN.Controls
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;
 
-            BackColor = Draw.GetRandomColor(20, Color.FromArgb(240, 240, 250));
-            //Dock = DockStyle.Top;
-            //Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            BackColor = Draw.GetRandomColor(20, Color.Lavender);
 
             Id = id;
             Config = config.Extend(Id);
@@ -37,7 +35,7 @@ namespace NN.Controls
 
         public void StateChanged()
         {
-            BackColor = IsBias ? Draw.GetRandomColor(20, Color.FromArgb(240, 250, 240)) : Draw.GetRandomColor(20, Color.FromArgb(240, 240, 250));
+            BackColor = IsBias ? Draw.GetRandomColor(20, Color.FromArgb(240, 250, 240)) : Draw.GetRandomColor(20, Color.Lavender);
         }
 
         public virtual string WeightsInitializer
@@ -73,6 +71,39 @@ namespace NN.Controls
         public virtual void VanishConfig()
         {
             throw new NotImplementedException();
+        }
+
+        public virtual void OrdinalNumberChanged(int number)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CtlMenuDeleteNeuron_Click(object sender, EventArgs e)
+        {
+            if (Parent.Controls.OfType<NeuronBase>().Count() == 1)
+            {
+                MessageBox.Show("At least one neuron must exist.", "Warning", MessageBoxButtons.OK);
+                return;
+            }
+
+            var color = BackColor;
+            BackColor = Color.Tomato;
+
+            if (MessageBox.Show("Would you really like to delete the neuron?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                Parent.Controls.Remove(this);
+                VanishConfig();
+                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            }
+            else
+            {
+                BackColor = color;
+            }
+        }
+
+        private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
+        {
+            (Parent.Parent as HiddenLayerControl).AddNeuron(Const.UnknownId);
         }
     }
 }

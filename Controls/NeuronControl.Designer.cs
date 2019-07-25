@@ -28,11 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.CtlUpperBorder = new System.Windows.Forms.Panel();
-            this.CtlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.CtlMenuAddNeuron = new System.Windows.Forms.ToolStripMenuItem();
-            this.CtlMenuDeleteNeuron = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlWeightsIniterLabel = new System.Windows.Forms.Label();
             this.CtlWeightsIniter = new System.Windows.Forms.ComboBox();
             this.CtlWeightsIniterParamALabel = new System.Windows.Forms.Label();
@@ -41,7 +37,7 @@
             this.CtlIsBiasConnected = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.CtlContextMenu.SuspendLayout();
+            this.CtlNumber = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CtlUpperBorder
@@ -52,29 +48,6 @@
             this.CtlUpperBorder.Name = "CtlUpperBorder";
             this.CtlUpperBorder.Size = new System.Drawing.Size(320, 1);
             this.CtlUpperBorder.TabIndex = 0;
-            // 
-            // CtlContextMenu
-            // 
-            this.CtlContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.CtlContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CtlMenuAddNeuron,
-            this.CtlMenuDeleteNeuron});
-            this.CtlContextMenu.Name = "CtlContextMenu";
-            this.CtlContextMenu.Size = new System.Drawing.Size(173, 52);
-            // 
-            // CtlMenuAddNeuron
-            // 
-            this.CtlMenuAddNeuron.Name = "CtlMenuAddNeuron";
-            this.CtlMenuAddNeuron.Size = new System.Drawing.Size(172, 24);
-            this.CtlMenuAddNeuron.Text = "Add neuron";
-            this.CtlMenuAddNeuron.Click += new System.EventHandler(this.CtlMenuAddNeuron_Click);
-            // 
-            // CtlMenuDeleteNeuron
-            // 
-            this.CtlMenuDeleteNeuron.Name = "CtlMenuDeleteNeuron";
-            this.CtlMenuDeleteNeuron.Size = new System.Drawing.Size(172, 24);
-            this.CtlMenuDeleteNeuron.Text = "Delete neuron";
-            this.CtlMenuDeleteNeuron.Click += new System.EventHandler(this.CtlMenuDeleteNeuron_Click);
             // 
             // CtlWeightsIniterLabel
             // 
@@ -91,8 +64,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlWeightsIniter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CtlWeightsIniter.FormattingEnabled = true;
-            this.CtlWeightsIniter.Location = new System.Drawing.Point(110, 34);
-            this.CtlWeightsIniter.MinimumSize = new System.Drawing.Size(110, 0);
+            this.CtlWeightsIniter.Location = new System.Drawing.Point(105, 34);
             this.CtlWeightsIniter.Name = "CtlWeightsIniter";
             this.CtlWeightsIniter.Size = new System.Drawing.Size(110, 24);
             this.CtlWeightsIniter.TabIndex = 2;
@@ -111,11 +83,12 @@
             // CtlWeightsIniterParamA
             // 
             this.CtlWeightsIniterParamA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CtlWeightsIniterParamA.Location = new System.Drawing.Point(247, 34);
-            this.CtlWeightsIniterParamA.MinimumSize = new System.Drawing.Size(50, 4);
+            this.CtlWeightsIniterParamA.Location = new System.Drawing.Point(240, 34);
+            this.CtlWeightsIniterParamA.MinimumSize = new System.Drawing.Size(0, 4);
             this.CtlWeightsIniterParamA.Name = "CtlWeightsIniterParamA";
-            this.CtlWeightsIniterParamA.Size = new System.Drawing.Size(70, 22);
+            this.CtlWeightsIniterParamA.Size = new System.Drawing.Size(75, 22);
             this.CtlWeightsIniterParamA.TabIndex = 4;
+            this.CtlWeightsIniterParamA.TabStop = false;
             this.CtlWeightsIniterParamA.Text = "1";
             // 
             // CtlIsBias
@@ -125,6 +98,7 @@
             this.CtlIsBias.Name = "CtlIsBias";
             this.CtlIsBias.Size = new System.Drawing.Size(70, 21);
             this.CtlIsBias.TabIndex = 5;
+            this.CtlIsBias.TabStop = false;
             this.CtlIsBias.Text = "Is bias";
             this.CtlIsBias.UseVisualStyleBackColor = true;
             // 
@@ -135,6 +109,7 @@
             this.CtlIsBiasConnected.Name = "CtlIsBiasConnected";
             this.CtlIsBiasConnected.Size = new System.Drawing.Size(140, 21);
             this.CtlIsBiasConnected.TabIndex = 6;
+            this.CtlIsBiasConnected.TabStop = false;
             this.CtlIsBiasConnected.Text = "Is bias connected";
             this.CtlIsBiasConnected.UseVisualStyleBackColor = true;
             // 
@@ -158,12 +133,25 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "a:";
             // 
+            // CtlNumber
+            // 
+            this.CtlNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CtlNumber.Location = new System.Drawing.Point(247, 2);
+            this.CtlNumber.Margin = new System.Windows.Forms.Padding(0);
+            this.CtlNumber.Name = "CtlNumber";
+            this.CtlNumber.Size = new System.Drawing.Size(68, 19);
+            this.CtlNumber.TabIndex = 7;
+            this.CtlNumber.Text = "1";
+            this.CtlNumber.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.CtlNumber.UseCompatibleTextRendering = true;
+            // 
             // NeuronControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ContextMenuStrip = this.CtlContextMenu;
+            this.Controls.Add(this.CtlNumber);
             this.Controls.Add(this.CtlIsBiasConnected);
             this.Controls.Add(this.CtlIsBias);
             this.Controls.Add(this.CtlWeightsIniterParamA);
@@ -177,7 +165,6 @@
             this.MinimumSize = new System.Drawing.Size(320, 0);
             this.Name = "NeuronControl";
             this.Size = new System.Drawing.Size(320, 90);
-            this.CtlContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -186,9 +173,6 @@
         #endregion
 
         private System.Windows.Forms.Panel CtlUpperBorder;
-        private System.Windows.Forms.ContextMenuStrip CtlContextMenu;
-        private System.Windows.Forms.ToolStripMenuItem CtlMenuAddNeuron;
-        private System.Windows.Forms.ToolStripMenuItem CtlMenuDeleteNeuron;
         private System.Windows.Forms.Label CtlWeightsIniterLabel;
         private System.Windows.Forms.ComboBox CtlWeightsIniter;
         private System.Windows.Forms.Label CtlWeightsIniterParamALabel;
@@ -197,5 +181,6 @@
         private System.Windows.Forms.CheckBox CtlIsBiasConnected;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label CtlNumber;
     }
 }

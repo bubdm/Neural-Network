@@ -67,8 +67,10 @@ namespace NN.Controls
             if (CtlFlow.Controls.Count > 0)
             {
                 CtlFlow.SuspendLayout();
-                foreach (Control control in CtlFlow.Controls)
+                int ordinalNumber = 0;
+                foreach (NeuronBase control in CtlFlow.Controls)
                 {
+                    control.OrdinalNumberChanged(++ordinalNumber);
                     control.Width = CtlFlow.Width - (CtlFlow.VerticalScroll.Visible ? System.Windows.Forms.SystemInformation.VerticalScrollBarWidth : 0);
                 }
                 CtlFlow.ResumeLayout();
@@ -91,6 +93,15 @@ namespace NN.Controls
             timer.Elapsed += (s, e) => { BeginInvoke(action); };
             timer.AutoReset = false;
             timer.Start();
+        }
+
+        private void CtlFlow_ControlRemoved(object sender, ControlEventArgs e)
+        {
+            Dispatch(() =>
+            {
+                CtlFlow.HorizontalScroll.Value = 0;
+                PerformLayout();
+            });
         }
     }
 }

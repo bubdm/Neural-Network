@@ -31,6 +31,11 @@ namespace NN.Controls
             CtlIsBiasConnected.CheckedChanged += CtlIsBiasConnected_CheckedChanged;
         }
 
+        public override void OrdinalNumberChanged(int number)
+        {
+            CtlNumber.Text = number.ToString();
+        }
+
         private void CtlIsBiasConnected_CheckedChanged(object sender, EventArgs e)
         {
             OnNetworkUIChanged(Notification.ParameterChanged.Structure, false);
@@ -111,34 +116,6 @@ namespace NN.Controls
             Config.Remove(Const.Param.WeightsInitializerParamA);
             Config.Remove(Const.Param.IsBias);
             Config.Remove(Const.Param.IsBiasConnected);
-        }
-
-        private void CtlMenuDeleteNeuron_Click(object sender, EventArgs e)
-        {
-            if (Parent.Controls.OfType<NeuronBase>().Count() == 1)
-            {
-                MessageBox.Show("At least one neuron must exist.", "Warning", MessageBoxButtons.OK);
-                return;
-            }
-
-            var color = BackColor;
-            BackColor = Color.Red;
-
-            if (MessageBox.Show("Would you really like to delete the neuron?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                Parent.Controls.Remove(this);
-                VanishConfig();
-                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
-            }
-            else
-            {
-                BackColor = color;
-            }
-        }
-
-        private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
-        {
-            (Parent.Parent as HiddenLayerControl).AddNeuron(Const.UnknownId);
         }
     }
 }

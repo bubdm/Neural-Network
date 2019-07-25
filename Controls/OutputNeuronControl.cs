@@ -29,6 +29,11 @@ namespace NN.Controls
         public override bool IsBias => false;
         public override bool IsBiasConnected => false;
 
+        public override void OrdinalNumberChanged(int number)
+        {
+
+        }
+
         public override void ValidateConfig()
         {
 
@@ -42,34 +47,6 @@ namespace NN.Controls
         public override void VanishConfig()
         {
 
-        }
-
-        private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
-        {
-            (Parent.Parent as OutputLayerControl).AddNeuron(Const.UnknownId);
-        }
-
-        private void CtlMenuDeleteNeuron_Click(object sender, EventArgs e)
-        {
-            if (Parent.Parent.Controls.OfType<OutputNeuronControl>().Count() == 1)
-            {
-                MessageBox.Show("At least one neuron must exist.", "Warning", MessageBoxButtons.OK);
-                return;
-            }
-
-            var color = BackColor;
-            BackColor = Color.Red;
-
-            if (MessageBox.Show("Would you really like to delete the neuron?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                Parent.Parent.Controls.Remove(this);
-                VanishConfig();
-                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
-            }
-            else
-            {
-                BackColor = color;
-            }
         }
     }
 }
