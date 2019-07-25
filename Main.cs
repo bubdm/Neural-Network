@@ -1,5 +1,5 @@
-﻿using Dots;
-using Dots.Controls;
+﻿using NN;
+using NN.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

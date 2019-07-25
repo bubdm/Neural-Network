@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tools;
 
-namespace Dots.Controls
+namespace NN.Controls
 {
     public partial class NeuronControl : UserControl
     {

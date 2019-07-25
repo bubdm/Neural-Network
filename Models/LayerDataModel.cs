@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tools;
 
-namespace Dots
+namespace NN
 {
     public class LayerDataModel : ListNode<LayerDataModel>
     {

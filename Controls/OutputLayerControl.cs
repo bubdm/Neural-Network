@@ -9,25 +9,19 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tools;
 
-namespace Dots.Controls
+namespace NN.Controls
 {
-    public partial class OutputLayerControl : UserControl
+    public partial class OutputLayerControl : LayerControl
     {
-        public Config Config;
-        Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
-
         public OutputLayerControl()
         {
             InitializeComponent();
         }
 
         public OutputLayerControl(Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+            : base(Const.OutputLayerId, config, onNetworkUIChanged)
         {
             InitializeComponent();
-            OnNetworkUIChanged = onNetworkUIChanged;
-
-            Dock = DockStyle.Fill;
-            Config = config.Extend(Const.OutputLayerId);
 
             var neurons = Config.GetArray(Const.Param.Neurons);
             Range.ForEach(neurons, n => AddNeuron(n));

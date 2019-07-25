@@ -1,4 +1,4 @@
-﻿namespace Dots.Controls
+﻿namespace NN.Controls
 {
     partial class NetworkControl
     {

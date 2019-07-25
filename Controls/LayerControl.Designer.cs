@@ -1,6 +1,6 @@
 ﻿namespace NN.Controls
 {
-    partial class OutputLayerControl
+    partial class LayerControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,12 +30,12 @@
         {
             this.SuspendLayout();
             // 
-            // OutputLayerControl
+            // LayerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
-            this.Name = "OutputLayerControl";
+            this.Name = "LayerControl";
+            this.Size = new System.Drawing.Size(167, 137);
             this.ResumeLayout(false);
 
         }

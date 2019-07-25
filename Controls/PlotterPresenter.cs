@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tools;
 
-namespace Dots.Controls
+namespace NN.Controls
 {
     class PlotterPresenter : PresenterControl
     {

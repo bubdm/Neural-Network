@@ -9,20 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tools;
 
-namespace Dots.Controls
+namespace NN.Controls
 {
-    public partial class InputLayerControl : UserControl
+    public partial class InputLayerControl : LayerControl
     {
-        public Config Config;
-        Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
-
         public InputLayerControl(Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+            : base(Const.InputLayerId, config, onNetworkUIChanged)
         {
             InitializeComponent();
-            OnNetworkUIChanged = onNetworkUIChanged;
-
-            Dock = DockStyle.Top;
-            Config = config.Extend(Const.InputLayerId);
 
             LoadConfig();
 

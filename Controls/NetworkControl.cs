@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using Tools;
 
-namespace Dots.Controls
+namespace NN.Controls
 {
     public partial class NetworkControl : UserControl
     {

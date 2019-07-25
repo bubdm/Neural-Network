@@ -9,28 +9,19 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tools;
 
-namespace Dots.Controls
+namespace NN.Controls
 {
-    public partial class HiddenLayerControl : UserControl
+    public partial class HiddenLayerControl : LayerControl
     {
-        public readonly long Id;
-
-        public Config Config;
-        Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
-
         public HiddenLayerControl()
         {
             InitializeComponent();
         }
 
         public HiddenLayerControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+            : base(id, config, onNetworkUIChanged)
         {
             InitializeComponent();
-            OnNetworkUIChanged = onNetworkUIChanged;
-
-            Dock = DockStyle.Fill;
-            Id = id;
-            Config = config.Extend(Id);
 
             var neurons = Config.GetArray(Const.Param.Neurons);
             if (neurons.Length == 0)

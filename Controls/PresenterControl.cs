@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Dots.Controls
+namespace NN.Controls
 {
     class PresenterControl : PictureBox
     {
