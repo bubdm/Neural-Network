@@ -54,23 +54,23 @@
             this.CtlMainPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.CtlMainPanel.Location = new System.Drawing.Point(0, 0);
             this.CtlMainPanel.Name = "CtlMainPanel";
-            this.CtlMainPanel.Size = new System.Drawing.Size(320, 84);
+            this.CtlMainPanel.Size = new System.Drawing.Size(410, 103);
             this.CtlMainPanel.TabIndex = 0;
             // 
             // CtlRandomizerParamA
             // 
-            this.CtlRandomizerParamA.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CtlRandomizerParamA.Location = new System.Drawing.Point(132, 46);
+            this.CtlRandomizerParamA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlRandomizerParamA.Location = new System.Drawing.Point(324, 15);
             this.CtlRandomizerParamA.Name = "CtlRandomizerParamA";
-            this.CtlRandomizerParamA.Size = new System.Drawing.Size(177, 22);
+            this.CtlRandomizerParamA.Size = new System.Drawing.Size(82, 22);
             this.CtlRandomizerParamA.TabIndex = 0;
             this.CtlRandomizerParamA.Text = "1";
             // 
             // CtlRandomizerParamALabel
             // 
+            this.CtlRandomizerParamALabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlRandomizerParamALabel.AutoSize = true;
-            this.CtlRandomizerParamALabel.Location = new System.Drawing.Point(105, 49);
+            this.CtlRandomizerParamALabel.Location = new System.Drawing.Point(298, 15);
             this.CtlRandomizerParamALabel.Name = "CtlRandomizerParamALabel";
             this.CtlRandomizerParamALabel.Size = new System.Drawing.Size(20, 17);
             this.CtlRandomizerParamALabel.TabIndex = 2;
@@ -84,7 +84,7 @@
             this.CtlRandomizer.FormattingEnabled = true;
             this.CtlRandomizer.Location = new System.Drawing.Point(132, 15);
             this.CtlRandomizer.Name = "CtlRandomizer";
-            this.CtlRandomizer.Size = new System.Drawing.Size(177, 24);
+            this.CtlRandomizer.Size = new System.Drawing.Size(160, 24);
             this.CtlRandomizer.TabIndex = 1;
             // 
             // CtlRandomizerLabel
@@ -101,10 +101,10 @@
             this.CtlTabsLayers.Controls.Add(this.CtlTabInput);
             this.CtlTabsLayers.Controls.Add(this.CtlTabOutput);
             this.CtlTabsLayers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CtlTabsLayers.Location = new System.Drawing.Point(0, 84);
+            this.CtlTabsLayers.Location = new System.Drawing.Point(0, 103);
             this.CtlTabsLayers.Name = "CtlTabsLayers";
             this.CtlTabsLayers.SelectedIndex = 0;
-            this.CtlTabsLayers.Size = new System.Drawing.Size(320, 151);
+            this.CtlTabsLayers.Size = new System.Drawing.Size(410, 132);
             this.CtlTabsLayers.TabIndex = 2;
             // 
             // CtlTabInput
@@ -112,7 +112,7 @@
             this.CtlTabInput.AutoScroll = true;
             this.CtlTabInput.Location = new System.Drawing.Point(4, 25);
             this.CtlTabInput.Name = "CtlTabInput";
-            this.CtlTabInput.Size = new System.Drawing.Size(312, 122);
+            this.CtlTabInput.Size = new System.Drawing.Size(402, 103);
             this.CtlTabInput.TabIndex = 0;
             this.CtlTabInput.Text = "Input";
             this.CtlTabInput.UseVisualStyleBackColor = true;
@@ -158,8 +158,9 @@
             this.ContextMenuStrip = this.CtlContextMenu;
             this.Controls.Add(this.CtlTabsLayers);
             this.Controls.Add(this.CtlMainPanel);
+            this.MinimumSize = new System.Drawing.Size(410, 0);
             this.Name = "NetworkControl";
-            this.Size = new System.Drawing.Size(320, 235);
+            this.Size = new System.Drawing.Size(410, 235);
             this.CtlMainPanel.ResumeLayout(false);
             this.CtlMainPanel.PerformLayout();
             this.CtlTabsLayers.ResumeLayout(false);
