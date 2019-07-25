@@ -115,7 +115,7 @@ namespace NN.Controls
 
         private void CtlMenuDeleteNeuron_Click(object sender, EventArgs e)
         {
-            if (Parent.Controls.OfType<NeuronControl>().Count() == 1)
+            if (Parent.Controls.OfType<NeuronBase>().Count() == 1)
             {
                 MessageBox.Show("At least one neuron must exist.", "Warning", MessageBoxButtons.OK);
                 return;
@@ -138,7 +138,7 @@ namespace NN.Controls
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
-            (Parent as HiddenLayerControl).AddNeuron(Const.UnknownId);
+            (Parent.Parent as HiddenLayerControl).AddNeuron(Const.UnknownId);
         }
     }
 }

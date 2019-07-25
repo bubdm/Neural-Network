@@ -76,6 +76,7 @@ namespace NN.Controls
             id = id == Const.UnknownId ? DateTime.Now.Ticks : id;
             var layer = new HiddenLayerControl(id, Config, OnNetworkUIChanged);
             var tab = new TabPage();
+            //tab.AutoScroll = true;
             tab.Controls.Add(layer);
             CtlTabsLayers.TabPages.Insert(CtlTabsLayers.TabCount - 1, tab);
             CtlTabsLayers.SelectedTab = tab;

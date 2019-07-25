@@ -28,7 +28,8 @@ namespace NN.Controls
             OnNetworkUIChanged = onNetworkUIChanged;
 
             BackColor = Draw.GetRandomColor(20, Color.FromArgb(240, 240, 250));
-            Dock = DockStyle.Top;
+            //Dock = DockStyle.Top;
+            //Anchor = AnchorStyles.Left | AnchorStyles.Right;
 
             Id = id;
             Config = config.Extend(Id);

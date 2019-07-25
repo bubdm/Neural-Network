@@ -45,18 +45,18 @@
             // CtlMenuAddNeuron
             // 
             this.CtlMenuAddNeuron.Name = "CtlMenuAddNeuron";
-            this.CtlMenuAddNeuron.Size = new System.Drawing.Size(210, 24);
+            this.CtlMenuAddNeuron.Size = new System.Drawing.Size(156, 24);
             this.CtlMenuAddNeuron.Text = "Add neuron";
             this.CtlMenuAddNeuron.Click += new System.EventHandler(this.CtlMenuAddNeuron_Click);
             // 
-            // LayerControl
+            // HiddenLayerControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
+            this.AutoSize = false;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BackColor = System.Drawing.Color.White;
             this.ContextMenuStrip = this.CtlContextMenu;
-            this.Name = "LayerControl";
-            this.Size = new System.Drawing.Size(263, 177);
+            this.Name = "HiddenLayerControl";
+            this.Size = new System.Drawing.Size(224, 117);
             this.CtlContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 

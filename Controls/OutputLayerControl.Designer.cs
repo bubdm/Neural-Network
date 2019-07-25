@@ -32,8 +32,8 @@
             // 
             // OutputLayerControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = false;
+            this.BackColor = System.Drawing.Color.White;
             this.Name = "OutputLayerControl";
             this.ResumeLayout(false);
 

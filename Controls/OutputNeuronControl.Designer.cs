@@ -86,6 +86,7 @@
             this.ContextMenuStrip = this.CtlContextMenu;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CtlUpperBorder);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.MinimumSize = new System.Drawing.Size(200, 0);
             this.Name = "OutputNeuronControl";
             this.Size = new System.Drawing.Size(236, 45);

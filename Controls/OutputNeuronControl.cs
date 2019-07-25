@@ -46,12 +46,12 @@ namespace NN.Controls
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
-            (Parent as OutputLayerControl).AddNeuron(Const.UnknownId);
+            (Parent.Parent as OutputLayerControl).AddNeuron(Const.UnknownId);
         }
 
         private void CtlMenuDeleteNeuron_Click(object sender, EventArgs e)
         {
-            if (Parent.Controls.OfType<OutputNeuronControl>().Count() == 1)
+            if (Parent.Parent.Controls.OfType<OutputNeuronControl>().Count() == 1)
             {
                 MessageBox.Show("At least one neuron must exist.", "Warning", MessageBoxButtons.OK);
                 return;
@@ -62,7 +62,7 @@ namespace NN.Controls
 
             if (MessageBox.Show("Would you really like to delete the neuron?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                Parent.Controls.Remove(this);
+                Parent.Parent.Controls.Remove(this);
                 VanishConfig();
                 OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
             }

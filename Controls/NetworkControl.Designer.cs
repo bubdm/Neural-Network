@@ -109,6 +109,7 @@
             // 
             // CtlTabInput
             // 
+            this.CtlTabInput.AutoScroll = true;
             this.CtlTabInput.Location = new System.Drawing.Point(4, 25);
             this.CtlTabInput.Name = "CtlTabInput";
             this.CtlTabInput.Size = new System.Drawing.Size(312, 122);

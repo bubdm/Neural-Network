@@ -61,5 +61,36 @@ namespace NN.Controls
         {
             throw new NotImplementedException();
         }
+
+        private void CtlFlow_Layout(object sender, LayoutEventArgs e)
+        {
+            if (CtlFlow.Controls.Count > 0)
+            {
+                CtlFlow.SuspendLayout();
+                foreach (Control control in CtlFlow.Controls)
+                {
+                    control.Width = CtlFlow.Width - (CtlFlow.VerticalScroll.Visible ? System.Windows.Forms.SystemInformation.VerticalScrollBarWidth : 0);
+                }
+                CtlFlow.ResumeLayout();
+            }
+        }
+
+        private void CtlFlow_ControlAdded(object sender, ControlEventArgs e)
+        {      
+            Dispatch(() =>
+            {
+                CtlFlow.ScrollControlIntoView(e.Control);
+                CtlFlow.HorizontalScroll.Value = 0;
+                PerformLayout();
+            });
+        }
+
+        private void Dispatch(Action action)
+        {
+            var timer = new System.Timers.Timer(20);
+            timer.Elapsed += (s, e) => { BeginInvoke(action); };
+            timer.AutoReset = false;
+            timer.Start();
+        }
     }
 }

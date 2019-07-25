@@ -96,6 +96,7 @@
             this.CtlWeightsIniter.Name = "CtlWeightsIniter";
             this.CtlWeightsIniter.Size = new System.Drawing.Size(110, 24);
             this.CtlWeightsIniter.TabIndex = 2;
+            this.CtlWeightsIniter.TabStop = false;
             // 
             // CtlWeightsIniterParamALabel
             // 
@@ -175,7 +176,7 @@
             this.Margin = new System.Windows.Forms.Padding(0);
             this.MinimumSize = new System.Drawing.Size(320, 0);
             this.Name = "NeuronControl";
-            this.Size = new System.Drawing.Size(320, 124);
+            this.Size = new System.Drawing.Size(320, 90);
             this.CtlContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

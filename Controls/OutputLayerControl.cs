@@ -37,7 +37,7 @@ namespace NN.Controls
 
         public override List<NeuronBase> GetNeuronsControls()
         {
-            return Controls.OfType<NeuronBase>().ToList();
+            return CtlFlow.Controls.OfType<NeuronBase>().ToList();
         }
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
@@ -48,8 +48,8 @@ namespace NN.Controls
         public void AddNeuron(long id)
         {
             var neuron = new OutputNeuronControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);
-            Controls.Add(neuron);
-            neuron.BringToFront();
+            CtlFlow.Controls.Add(neuron);
+            //neuron.BringToFront();
 
             if (id == Const.UnknownId)
             {
