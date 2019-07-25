@@ -55,6 +55,12 @@ namespace Dots.Controls
             }
         }
 
+        public void ValidateConfig()
+        {
+            var neurons = GetNeuronsControls();
+            Range.ForEach(neurons, n => n.ValidateConfig());
+        }
+
         public void SaveConfig()
         {
             var neurons = GetNeuronsControls();

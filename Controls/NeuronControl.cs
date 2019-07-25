@@ -81,10 +81,13 @@ namespace Dots.Controls
             }
         }
 
-        public void SaveConfig()
+        public void ValidateConfig()
         {
             ValidateParameters();
+        }
 
+        public void SaveConfig()
+        {
             Config.Set(Const.Param.WeightsInitializer, CtlWeightsIniter.SelectedItem.ToString());
             Config.Set(Const.Param.WeightsInitializerParamA, CtlWeightsIniterParamA.Text);
         }

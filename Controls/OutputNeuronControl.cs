@@ -35,6 +35,11 @@ namespace Dots.Controls
             Config = config.Extend(Id);
         }
 
+        public void ValidateConfig()
+        {
+
+        }
+
         public void SaveConfig()
         {
 

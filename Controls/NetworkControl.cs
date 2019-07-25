@@ -164,10 +164,19 @@ namespace Dots.Controls
             }
         }
 
-        public void SaveConfig()
+        public void ValidateConfig()
         {
             ValidateParameters();
 
+            InputLayer.ValidateConfig();
+            OutputLayer.ValidateConfig();
+
+            var layers = GetHiddenLayersControls();
+            Range.ForEach(layers, l => l.ValidateConfig());
+        }
+
+        public void SaveConfig()
+        {
             Config.Set(Const.Param.Randomizer, Randomizer);
             Config.Set(Const.Param.RandomizerParamA, CtlRandomizerParamA.Text);
 

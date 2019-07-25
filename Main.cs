@@ -108,6 +108,7 @@ namespace NN
         {
             if (NetworkUI != null)
             {
+                NetworkUI.ValidateConfig();
                 NetworkUI.SaveConfig();
             }
         }

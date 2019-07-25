@@ -43,6 +43,11 @@ namespace Dots.Controls
             CtlInputCount.Value = Config.GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount);
         }
 
+        public void ValidateConfig()
+        {
+
+        }
+
         public void SaveConfig()
         {
              Config.Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
