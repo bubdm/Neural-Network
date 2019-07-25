@@ -37,6 +37,11 @@ namespace Tools
 
         public static class Helper
         {
+            public static bool IsSkipValue(double d)
+            {
+                return double.IsNaN(d);
+            }
+
             public static string[] GetInitializers()
             {
                 return typeof(InitializeMode).GetMethods().Where(r => r.IsStatic).Select(r => r.Name).ToArray();

@@ -81,13 +81,21 @@ namespace NN.Controls
 
         private void ResetLayersTabsNames()
         {
-            CtlTabsLayers.TabPages[0].Text = $"Input ({InputLayer.NeuronsCount})";
-            CtlTabsLayers.TabPages[CtlTabsLayers.TabCount - 1].Text = $"Output ({OutputLayer.NeuronsCount})";
-
-            var layers = GetHiddenLayersControls();
-            for (int i = 1; i < CtlTabsLayers.TabCount - 1; ++i)
+            var layers = GetLayersControls();
+            for (int i = 0; i < layers.Count; ++i)
             {
-                CtlTabsLayers.TabPages[i].Text = $"L{i} ({layers[i - 1].NeuronsCount})";
+                if (layers[i].IsInput)
+                {
+                    CtlTabsLayers.TabPages[i].Text = $"Input ({layers[i].NeuronsCount})";
+                }
+                else if (layers[i].IsOutput)
+                {
+                    CtlTabsLayers.TabPages[i].Text = $"Output ({layers[i].NeuronsCount})";
+                }
+                else
+                {
+                    CtlTabsLayers.TabPages[i].Text = $"L{i} ({layers[i].NeuronsCount})";
+                }
             }
         }
 
@@ -168,10 +176,7 @@ namespace NN.Controls
         {
             ValidateParameters();
 
-            InputLayer.ValidateConfig();
-            OutputLayer.ValidateConfig();
-
-            var layers = GetHiddenLayersControls();
+            var layers = GetLayersControls();
             Range.ForEach(layers, l => l.ValidateConfig());
         }
 
@@ -180,24 +185,21 @@ namespace NN.Controls
             Config.Set(Const.Param.Randomizer, Randomizer);
             Config.Set(Const.Param.RandomizerParamA, CtlRandomizerParamA.Text);
 
-            InputLayer.SaveConfig();
-            OutputLayer.SaveConfig();
-
-            var layers = GetHiddenLayersControls();
+            var layers = GetLayersControls();
             Range.ForEach(layers, l => l.SaveConfig());
-            Config.Set(Const.Param.HiddenLayers, layers.Select(l => l.Id));
+            Config.Set(Const.Param.HiddenLayers, layers.Where(l => l.IsHidden).Select(l => l.Id));
 
             //
 
             ResetLayersTabsNames();
         }
 
-        public List<HiddenLayerControl> GetHiddenLayersControls()
+        public List<LayerBase> GetLayersControls()
         {
-            var result = new List<HiddenLayerControl>();
-            for (int i = 1; i < CtlTabsLayers.TabCount - 1; ++i)
+            var result = new List<LayerBase>();
+            for (int i = 0; i < CtlTabsLayers.TabCount; ++i)
             {
-                if (CtlTabsLayers.TabPages[i].Controls[0] is HiddenLayerControl layer)
+                if (CtlTabsLayers.TabPages[i].Controls[0] is LayerBase layer)
                 {
                     result.Add(layer);
                 }
@@ -221,10 +223,7 @@ namespace NN.Controls
         public int[] GetLayersSize()
         {
             var result = new List<int>();
-            var layers = GetHiddenLayersControls();
-            result.Add(InputLayer.NeuronsCount);
-            Range.ForEach(layers, l => result.Add(l.NeuronsCount));
-            result.Add(OutputLayer.NeuronsCount);
+            Range.ForEach(GetLayersControls(), l => result.Add(l.NeuronsCount));
             return result.ToArray();
         }
 
@@ -259,23 +258,21 @@ namespace NN.Controls
 
             RandomizeMode.Helper.Invoke(Randomizer, model, RandomizerParamA);
 
-            model.Layers.First().VisualId = Const.InputLayerId;
-
-            var layers = GetHiddenLayersControls();
+            var layers = GetLayersControls();
             for (int ln = 0; ln < layers.Count; ++ln)
             {
-                model.Layers[1 + ln].VisualId = layers[ln].Id;
+                model.Layers[ln].VisualId = layers[ln].Id;
 
                 var neurons = layers[ln].GetNeuronsControls();
                 for (int nn = 0; nn < neurons.Count; ++nn)
                 {
-                    var neuronModel = model.Layers[1 + ln].Neurons[nn];
+                    var neuronModel = model.Layers[ln].Neurons[nn];
                     neuronModel.VisualId = neurons[nn].Id;
                     neuronModel.WeightsInitializer = neurons[nn].WeightsInitializer;
                     neuronModel.WeightsInitializerParamA = neurons[nn].WeightsInitializerParamA;
 
                     double initValue = InitializeMode.Helper.Invoke(neurons[nn].WeightsInitializer, neurons[nn].WeightsInitializerParamA);
-                    if (initValue != Const.InitializerSkipValue)
+                    if (!InitializeMode.Helper.IsSkipValue(initValue))
                     {
                         foreach (var weight in neuronModel.Weights)
                         {

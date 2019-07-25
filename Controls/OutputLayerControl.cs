@@ -11,7 +11,7 @@ using Tools;
 
 namespace NN.Controls
 {
-    public partial class OutputLayerControl : LayerControl
+    public partial class OutputLayerControl : LayerBase
     {
         public OutputLayerControl()
         {
@@ -33,6 +33,12 @@ namespace NN.Controls
         }
 
         public override bool IsOutput => true;
+        public override int NeuronsCount => GetNeuronsControls().Count;
+
+        public override List<NeuronBase> GetNeuronsControls()
+        {
+            return Controls.OfType<NeuronBase>().ToList();
+        }
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
@@ -51,24 +57,23 @@ namespace NN.Controls
             }
         }
 
-        public void ValidateConfig()
+        public override void ValidateConfig()
         {
             var neurons = GetNeuronsControls();
             Range.ForEach(neurons, n => n.ValidateConfig());
         }
 
-        public void SaveConfig()
+        public override void SaveConfig()
         {
             var neurons = GetNeuronsControls();
             Config.Set(Const.Param.Neurons, neurons.Select(n => n.Id));
             Range.ForEach(neurons, n => n.SaveConfig());
         }
 
-        public List<OutputNeuronControl> GetNeuronsControls()
+        public override void VanishConfig()
         {
-            return Controls.OfType<OutputNeuronControl>().ToList();
+            Config.Remove(Const.Param.Neurons);
+            Range.ForEach(GetNeuronsControls(), n => n.VanishConfig());
         }
-
-        public int NeuronsCount => GetNeuronsControls().Count;
     }
 }

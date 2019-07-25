@@ -119,7 +119,7 @@ namespace NN
                             newNeuron.Error = neuron.Error;
 
                             double initValue = InitializeMode.Helper.Invoke(newNeuron.WeightsInitializer, newNeuron.WeightsInitializerParamA);
-                            if (initValue != Const.InitializerSkipValue)
+                            if (!InitializeMode.Helper.IsSkipValue(initValue))
                             {
                                 foreach (var newWeight in newNeuron.Weights)
                                 {

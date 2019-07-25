@@ -11,31 +11,44 @@ using Tools;
 
 namespace NN.Controls
 {
-    public partial class LayerControl : UserControl
+    public partial class NeuronBase : UserControl
     {
         public readonly long Id;
-        public readonly Config Config;
+        public Config Config;
         public readonly Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
-        public LayerControl()
+        public enum NeuronType
+        {
+            Neuron,
+            Bias
+        }
+
+        public NeuronBase()
         {
             InitializeComponent();
         }
 
-        public LayerControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+        public NeuronBase(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
             InitializeComponent();
-
             OnNetworkUIChanged = onNetworkUIChanged;
 
-            Dock = DockStyle.Fill;
+            BackColor = Draw.GetRandomColor(20);
+            Dock = DockStyle.Top;
+
             Id = id;
             Config = config.Extend(Id);
         }
 
-        public virtual bool IsInput => false;
-        public virtual bool IsHidden => false;
-        public virtual bool IsOutput => false;
+        public virtual string WeightsInitializer
+        {
+            get;
+        }
+
+        public virtual double? WeightsInitializerParamA
+        {
+            get;
+        }
 
         public virtual void ValidateConfig()
         {

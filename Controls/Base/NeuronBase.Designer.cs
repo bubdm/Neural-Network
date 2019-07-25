@@ -1,6 +1,6 @@
 ﻿namespace NN.Controls
 {
-    partial class LayerControl
+    partial class NeuronBase
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,12 +30,12 @@
         {
             this.SuspendLayout();
             // 
-            // LayerControl
+            // NeuronBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "LayerControl";
-            this.Size = new System.Drawing.Size(167, 137);
+            this.Name = "NeuronBase";
+            this.Size = new System.Drawing.Size(181, 117);
             this.ResumeLayout(false);
 
         }

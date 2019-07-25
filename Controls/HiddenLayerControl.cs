@@ -11,7 +11,7 @@ using Tools;
 
 namespace NN.Controls
 {
-    public partial class HiddenLayerControl : LayerControl
+    public partial class HiddenLayerControl : LayerBase
     {
         public HiddenLayerControl()
         {
@@ -32,6 +32,12 @@ namespace NN.Controls
         }
 
         public override bool IsHidden => true;
+        public override int NeuronsCount => GetNeuronsControls().Count;
+
+        public override List<NeuronBase> GetNeuronsControls()
+        {
+            return Controls.OfType<NeuronBase>().ToList();
+        }
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
@@ -49,13 +55,6 @@ namespace NN.Controls
                 OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
             }
         }
-
-        public List<NeuronControl> GetNeuronsControls()
-        {
-            return Controls.OfType<NeuronControl>().ToList();
-        }
-
-        public int NeuronsCount => GetNeuronsControls().Count;
 
         public override void ValidateConfig()
         {

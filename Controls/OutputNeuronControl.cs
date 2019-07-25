@@ -11,41 +11,33 @@ using Tools;
 
 namespace NN.Controls
 {
-    public partial class OutputNeuronControl : UserControl
+    public partial class OutputNeuronControl : NeuronBase
     {
-        public readonly long Id;
-        Config Config;
-        Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
-
         public OutputNeuronControl()
         {
             InitializeComponent();
-            BackColor = Draw.GetRandomColor(20);
         }
 
         public OutputNeuronControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+            : base(id, config, onNetworkUIChanged)
         {
             InitializeComponent();
-            OnNetworkUIChanged = onNetworkUIChanged;
-
-            BackColor = Draw.GetRandomColor(20);
-            Dock = DockStyle.Top;
-
-            Id = id;
-            Config = config.Extend(Id);
         }
 
-        public void ValidateConfig()
+        public override string WeightsInitializer => nameof(InitializeMode.DoNotApply);
+        public override double? WeightsInitializerParamA => 0;
+
+        public override void ValidateConfig()
         {
 
         }
 
-        public void SaveConfig()
+        public override void SaveConfig()
         {
 
         }
 
-        public void VanishConfig()
+        public override void VanishConfig()
         {
 
         }

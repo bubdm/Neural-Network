@@ -21,7 +21,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,11 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\LayerControl.cs">
+    <Compile Include="Controls\Base\LayerBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\LayerControl.Designer.cs">
-      <DependentUpon>LayerControl.cs</DependentUpon>
+    <Compile Include="Controls\Base\LayerBase.Designer.cs">
+      <DependentUpon>LayerBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Base\NeuronBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Base\NeuronBase.Designer.cs">
+      <DependentUpon>NeuronBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InputNeuronControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\InputNeuronControl.Designer.cs">
+      <DependentUpon>InputNeuronControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Config.cs" />
     <Compile Include="Controls\DataControl.cs">
@@ -124,14 +136,21 @@
     <Compile Include="Tools\RandomizeMode.cs" />
     <Compile Include="Tools\Range.cs" />
     <Compile Include="Tools\Tools.cs" />
+    <EmbeddedResource Include="Controls\Base\NeuronBase.resx">
+      <DependentUpon>NeuronBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\InputLayerControl.resx">
       <DependentUpon>InputLayerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\HiddenLayerControl.resx">
       <DependentUpon>HiddenLayerControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\LayerControl.resx">
-      <DependentUpon>LayerControl.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\Base\LayerBase.resx">
+      <DependentUpon>LayerBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\InputNeuronControl.resx">
+      <DependentUpon>InputNeuronControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\NetworkControl.resx">
       <DependentUpon>NetworkControl.cs</DependentUpon>

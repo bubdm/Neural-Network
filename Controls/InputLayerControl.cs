@@ -11,7 +11,7 @@ using Tools;
 
 namespace NN.Controls
 {
-    public partial class InputLayerControl : LayerControl
+    public partial class InputLayerControl : LayerBase
     {
         public InputLayerControl(Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
             : base(Const.InputLayerId, config, onNetworkUIChanged)
@@ -24,8 +24,7 @@ namespace NN.Controls
         }
 
         public override bool IsInput => true;
-
-        public int NeuronsCount => (int)CtlInputCount.Value;
+        public override int NeuronsCount => GetNeuronsControls().Count;
 
         private void CtlInputCount_ValueChanged(object sender, EventArgs e)
         {
@@ -37,16 +36,39 @@ namespace NN.Controls
             CtlInputCount.Minimum = Config.Main.GetInt(Const.Param.InputNeuronsMinCount, 10);
             CtlInputCount.Maximum = Config.Main.GetInt(Const.Param.InputNeuronsMaxCount, 10000);
             CtlInputCount.Value = Config.GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount);
+
+            var neurons = Config.GetArray(Const.Param.Neurons);
+            if (neurons.Length == 0)
+            {
+                neurons = new long[] { Const.UnknownId };
+            }
+            Range.For((int)CtlInputCount.Value, n => AddNeuron());
         }
 
-        public void ValidateConfig()
+        public void AddNeuron()
+        {
+            var neuron = new InputNeuronControl();
+            Controls.Add(neuron);
+        }
+
+        public override void ValidateConfig()
         {
 
         }
 
-        public void SaveConfig()
+        public override void SaveConfig()
         {
              Config.Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
+        }
+
+        public override List<NeuronBase> GetNeuronsControls()
+        {
+            return Controls.OfType<NeuronBase>().ToList();
+        }
+
+        public override void VanishConfig()
+        {
+            
         }
     }
 }

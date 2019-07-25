@@ -11,27 +11,17 @@ using Tools;
 
 namespace NN.Controls
 {
-    public partial class NeuronControl : UserControl
+    public partial class NeuronControl : NeuronBase
     {
-        public readonly long Id;
-        public Config Config;
-        Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
-
         public NeuronControl()
         {
             InitializeComponent();
         }
 
         public NeuronControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+            : base(id, config, onNetworkUIChanged)
         {
             InitializeComponent();
-            OnNetworkUIChanged = onNetworkUIChanged;
-
-            BackColor = Draw.GetRandomColor(20);
-            Dock = DockStyle.Top;
-
-            Id = id;
-            Config = config.Extend(Id);
 
             CtlWeightsIniterParamA.TextChanged += CtlWeightsIniterParamA_TextChanged;
             CtlWeightsIniter.SelectedIndexChanged += CtlWeightsIniter_SelectedIndexChanged;
@@ -59,8 +49,8 @@ namespace NN.Controls
             }
         }
 
-        public string WeightsInitializer => CtlWeightsIniter.Text;
-        public double? WeightsInitializerParamA => Converter.TextToDouble(CtlWeightsIniterParamA.Text);
+        public override string WeightsInitializer => CtlWeightsIniter.Text;
+        public override double? WeightsInitializerParamA => Converter.TextToDouble(CtlWeightsIniterParamA.Text);
 
         public void LoadConfig()
         {
@@ -81,18 +71,18 @@ namespace NN.Controls
             }
         }
 
-        public void ValidateConfig()
+        public override void ValidateConfig()
         {
             ValidateParameters();
         }
 
-        public void SaveConfig()
+        public override void SaveConfig()
         {
             Config.Set(Const.Param.WeightsInitializer, CtlWeightsIniter.SelectedItem.ToString());
             Config.Set(Const.Param.WeightsInitializerParamA, CtlWeightsIniterParamA.Text);
         }
 
-        public void VanishConfig()
+        public override void VanishConfig()
         {
             Config.Remove(Const.Param.WeightsInitializer);
             Config.Remove(Const.Param.WeightsInitializerParamA);
