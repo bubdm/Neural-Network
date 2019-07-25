@@ -17,12 +17,6 @@ namespace NN.Controls
         public Config Config;
         public readonly Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
-        public enum NeuronType
-        {
-            Neuron,
-            Bias
-        }
-
         public NeuronBase()
         {
             InitializeComponent();
@@ -33,21 +27,36 @@ namespace NN.Controls
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;
 
-            BackColor = Draw.GetRandomColor(20);
+            BackColor = Draw.GetRandomColor(20, Color.FromArgb(240, 240, 250));
             Dock = DockStyle.Top;
 
             Id = id;
             Config = config.Extend(Id);
         }
 
+        public void StateChanged()
+        {
+            BackColor = IsBias ? Draw.GetRandomColor(20, Color.FromArgb(240, 250, 240)) : Draw.GetRandomColor(20, Color.FromArgb(240, 240, 250));
+        }
+
         public virtual string WeightsInitializer
         {
-            get;
+            get { throw new NotImplementedException(); }
         }
 
         public virtual double? WeightsInitializerParamA
         {
-            get;
+            get { throw new NotImplementedException(); }
+        }
+
+        public virtual bool IsBias
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public virtual bool IsBiasConnected
+        {
+            get { throw new NotImplementedException(); }
         }
 
         public virtual void ValidateConfig()

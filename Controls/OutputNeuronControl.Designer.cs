@@ -58,14 +58,14 @@
             // CtlMenuAddNeuron
             // 
             this.CtlMenuAddNeuron.Name = "CtlMenuAddNeuron";
-            this.CtlMenuAddNeuron.Size = new System.Drawing.Size(210, 24);
+            this.CtlMenuAddNeuron.Size = new System.Drawing.Size(172, 24);
             this.CtlMenuAddNeuron.Text = "Add neuron";
             this.CtlMenuAddNeuron.Click += new System.EventHandler(this.CtlMenuAddNeuron_Click);
             // 
             // CtlMenuDeleteNeuron
             // 
             this.CtlMenuDeleteNeuron.Name = "CtlMenuDeleteNeuron";
-            this.CtlMenuDeleteNeuron.Size = new System.Drawing.Size(210, 24);
+            this.CtlMenuDeleteNeuron.Size = new System.Drawing.Size(172, 24);
             this.CtlMenuDeleteNeuron.Text = "Delete neuron";
             this.CtlMenuDeleteNeuron.Click += new System.EventHandler(this.CtlMenuDeleteNeuron_Click);
             // 
@@ -86,6 +86,7 @@
             this.ContextMenuStrip = this.CtlContextMenu;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CtlUpperBorder);
+            this.MinimumSize = new System.Drawing.Size(200, 0);
             this.Name = "OutputNeuronControl";
             this.Size = new System.Drawing.Size(236, 45);
             this.CtlContextMenu.ResumeLayout(false);

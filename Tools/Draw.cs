@@ -39,11 +39,17 @@ namespace Tools
             return new Pen(new SolidBrush(c), width);
         }
 
-        public static Color GetRandomColor(int offsetFromTop)
+        public static Color GetRandomColor(int offsetFromTop, Color? baseColor = null)
         {
-            return Color.FromArgb(255 - offsetFromTop + Rand.Flat.Next(offsetFromTop),
-                                  255 - offsetFromTop + Rand.Flat.Next(offsetFromTop),
-                                  255 - offsetFromTop + Rand.Flat.Next(offsetFromTop));
+            if (baseColor == null)
+            {
+                baseColor = Color.White;
+            }
+
+            var rand = Rand.Flat.Next(offsetFromTop);
+            return Color.FromArgb(Math.Max(baseColor.Value.R - offsetFromTop, 0) + rand,
+                                  Math.Max(baseColor.Value.G - offsetFromTop, 0) + rand,
+                                  Math.Max(baseColor.Value.B - offsetFromTop, 0) + rand);
         }
     }
 }

@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.CtlMainPanel = new System.Windows.Forms.Panel();
+            this.CtlRandomizerParamA = new System.Windows.Forms.TextBox();
+            this.CtlRandomizerParamALabel = new System.Windows.Forms.Label();
             this.CtlRandomizer = new System.Windows.Forms.ComboBox();
             this.CtlRandomizerLabel = new System.Windows.Forms.Label();
             this.CtlTabsLayers = new System.Windows.Forms.TabControl();
@@ -38,8 +40,6 @@
             this.CtlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CtlMenuAddLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuDeleteLayer = new System.Windows.Forms.ToolStripMenuItem();
-            this.CtlRandomizerParamALabel = new System.Windows.Forms.Label();
-            this.CtlRandomizerParamA = new System.Windows.Forms.TextBox();
             this.CtlMainPanel.SuspendLayout();
             this.CtlTabsLayers.SuspendLayout();
             this.CtlContextMenu.SuspendLayout();
@@ -57,6 +57,25 @@
             this.CtlMainPanel.Size = new System.Drawing.Size(320, 84);
             this.CtlMainPanel.TabIndex = 0;
             // 
+            // CtlRandomizerParamA
+            // 
+            this.CtlRandomizerParamA.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlRandomizerParamA.Location = new System.Drawing.Point(132, 46);
+            this.CtlRandomizerParamA.Name = "CtlRandomizerParamA";
+            this.CtlRandomizerParamA.Size = new System.Drawing.Size(177, 22);
+            this.CtlRandomizerParamA.TabIndex = 0;
+            this.CtlRandomizerParamA.Text = "1";
+            // 
+            // CtlRandomizerParamALabel
+            // 
+            this.CtlRandomizerParamALabel.AutoSize = true;
+            this.CtlRandomizerParamALabel.Location = new System.Drawing.Point(105, 49);
+            this.CtlRandomizerParamALabel.Name = "CtlRandomizerParamALabel";
+            this.CtlRandomizerParamALabel.Size = new System.Drawing.Size(20, 17);
+            this.CtlRandomizerParamALabel.TabIndex = 2;
+            this.CtlRandomizerParamALabel.Text = "a:";
+            // 
             // CtlRandomizer
             // 
             this.CtlRandomizer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -68,11 +87,11 @@
             this.CtlRandomizer.Size = new System.Drawing.Size(177, 24);
             this.CtlRandomizer.TabIndex = 1;
             // 
-            // CtlRandomizeModeLabel
+            // CtlRandomizerLabel
             // 
             this.CtlRandomizerLabel.AutoSize = true;
             this.CtlRandomizerLabel.Location = new System.Drawing.Point(3, 15);
-            this.CtlRandomizerLabel.Name = "CtlRandomizeModeLabel";
+            this.CtlRandomizerLabel.Name = "CtlRandomizerLabel";
             this.CtlRandomizerLabel.Size = new System.Drawing.Size(122, 17);
             this.CtlRandomizerLabel.TabIndex = 0;
             this.CtlRandomizerLabel.Text = "Randomize mode:";
@@ -99,9 +118,10 @@
             // 
             // CtlTabOutput
             // 
+            this.CtlTabOutput.AutoScroll = true;
             this.CtlTabOutput.Location = new System.Drawing.Point(4, 25);
             this.CtlTabOutput.Name = "CtlTabOutput";
-            this.CtlTabOutput.Size = new System.Drawing.Size(312, 136);
+            this.CtlTabOutput.Size = new System.Drawing.Size(312, 122);
             this.CtlTabOutput.TabIndex = 1;
             this.CtlTabOutput.Text = "Output";
             this.CtlTabOutput.UseVisualStyleBackColor = true;
@@ -129,25 +149,6 @@
             this.CtlMenuDeleteLayer.Size = new System.Drawing.Size(158, 24);
             this.CtlMenuDeleteLayer.Text = "Delete layer";
             this.CtlMenuDeleteLayer.Click += new System.EventHandler(this.CtlMenuDeleteLayer_Click);
-            // 
-            // CtlRandomizerParamALabel
-            // 
-            this.CtlRandomizerParamALabel.AutoSize = true;
-            this.CtlRandomizerParamALabel.Location = new System.Drawing.Point(105, 49);
-            this.CtlRandomizerParamALabel.Name = "CtlRandomizerParamALabel";
-            this.CtlRandomizerParamALabel.Size = new System.Drawing.Size(20, 17);
-            this.CtlRandomizerParamALabel.TabIndex = 2;
-            this.CtlRandomizerParamALabel.Text = "a:";
-            // 
-            // CtlRandomizerParamA
-            // 
-            this.CtlRandomizerParamA.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CtlRandomizerParamA.Location = new System.Drawing.Point(132, 46);
-            this.CtlRandomizerParamA.Name = "CtlRandomizerParamA";
-            this.CtlRandomizerParamA.Size = new System.Drawing.Size(177, 22);
-            this.CtlRandomizerParamA.TabIndex = 0;
-            this.CtlRandomizerParamA.Text = "1";
             // 
             // NetworkControl
             // 

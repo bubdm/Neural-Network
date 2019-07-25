@@ -419,7 +419,7 @@ namespace NN
             {
                 CtlTabNetwork.Controls.Add(network);
                 CtlTabs.SelectedTab = CtlTabNetwork;
-                Text = "Neural Network | " + Path.GetFileNameWithoutExtension(network.Config.GetString(Const.Param.NetworkName));
+                Text = "Neural Network | " + Path.GetFileNameWithoutExtension(Config.Main.GetString(Const.Param.NetworkName));
                 CtlStart.Enabled = true;
                 CtlReset.Enabled = true;
                 CtlMenuDeleteNetwork.Enabled = true;

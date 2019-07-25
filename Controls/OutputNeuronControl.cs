@@ -26,6 +26,8 @@ namespace NN.Controls
 
         public override string WeightsInitializer => nameof(InitializeMode.DoNotApply);
         public override double? WeightsInitializerParamA => 0;
+        public override bool IsBias => false;
+        public override bool IsBiasConnected => false;
 
         public override void ValidateConfig()
         {

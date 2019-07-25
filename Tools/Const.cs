@@ -45,7 +45,9 @@ namespace Tools
             WeightsInitializerParamA,
             HiddenLayers,
             Neurons,
-            RandomizerParamA
+            RandomizerParamA,
+            IsBias,
+            IsBiasConnected
         }
     }
 

@@ -26,8 +26,6 @@ namespace NN.Controls
             OnNetworkUIChanged = onNetworkUIChanged;
 
             Dock = DockStyle.Fill;
-            CtlTabsLayers.SelectedIndexChanged += CtlTabsLayers_SelectedIndexChanged;
-            CtlRandomizerParamA.TextChanged += CtlRandomizerParamA_TextChanged;
 
             Config = String.IsNullOrEmpty(name) ? CreateNewNetwork() : new Config(name);
             if (Config != null)
@@ -41,6 +39,10 @@ namespace NN.Controls
                 LoadConfig();
             }
 
+            CtlTabsLayers.SelectedIndex = 0;
+
+            CtlTabsLayers.SelectedIndexChanged += CtlTabsLayers_SelectedIndexChanged;
+            CtlRandomizerParamA.TextChanged += CtlRandomizerParamA_TextChanged;
             CtlRandomizer.SelectedValueChanged += CtlRandomizer_SelectedValueChanged;
         }
 
