@@ -71,11 +71,11 @@
     <Compile Include="Controls\InputLayerControl.Designer.cs">
       <DependentUpon>InputLayerControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LayerControl.cs">
+    <Compile Include="Controls\HiddenLayerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\LayerControl.Designer.cs">
-      <DependentUpon>LayerControl.cs</DependentUpon>
+    <Compile Include="Controls\HiddenLayerControl.Designer.cs">
+      <DependentUpon>HiddenLayerControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\NetworkPresenter.cs">
       <SubType>Component</SubType>
@@ -121,8 +121,8 @@
     <EmbeddedResource Include="Controls\InputLayerControl.resx">
       <DependentUpon>InputLayerControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\LayerControl.resx">
-      <DependentUpon>LayerControl.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\HiddenLayerControl.resx">
+      <DependentUpon>HiddenLayerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\NetworkControl.resx">
       <DependentUpon>NetworkControl.cs</DependentUpon>

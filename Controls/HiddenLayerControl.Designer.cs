@@ -1,6 +1,6 @@
 ﻿namespace Dots.Controls
 {
-    partial class LayerControl
+    partial class HiddenLayerControl
     {
         /// <summary> 
         /// Required designer variable.

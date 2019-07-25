@@ -123,7 +123,7 @@ namespace Dots.Controls
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
-            (Parent as LayerControl).AddNeuron(Const.UnknownId);
+            (Parent as HiddenLayerControl).AddNeuron(Const.UnknownId);
         }
     }
 }

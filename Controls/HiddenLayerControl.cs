@@ -11,19 +11,19 @@ using Tools;
 
 namespace Dots.Controls
 {
-    public partial class LayerControl : UserControl
+    public partial class HiddenLayerControl : UserControl
     {
         public readonly long Id;
 
         public Config Config;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
-        public LayerControl()
+        public HiddenLayerControl()
         {
             InitializeComponent();
         }
 
-        public LayerControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+        public HiddenLayerControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;

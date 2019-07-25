@@ -72,7 +72,7 @@ namespace Dots.Controls
         private void AddLayer(long id)
         {
             id = id == Const.UnknownId ? DateTime.Now.Ticks : id;
-            var layer = new LayerControl(id, Config, OnNetworkUIChanged);
+            var layer = new HiddenLayerControl(id, Config, OnNetworkUIChanged);
             var tab = new TabPage();
             tab.Controls.Add(layer);
             CtlTabsLayers.TabPages.Insert(CtlTabsLayers.TabCount - 1, tab);
@@ -192,12 +192,12 @@ namespace Dots.Controls
             ResetLayersTabsNames();
         }
 
-        public List<LayerControl> GetHiddenLayersControls()
+        public List<HiddenLayerControl> GetHiddenLayersControls()
         {
-            var result = new List<LayerControl>();
+            var result = new List<HiddenLayerControl>();
             for (int i = 1; i < CtlTabsLayers.TabCount - 1; ++i)
             {
-                if (CtlTabsLayers.TabPages[i].Controls[0] is LayerControl layer)
+                if (CtlTabsLayers.TabPages[i].Controls[0] is HiddenLayerControl layer)
                 {
                     result.Add(layer);
                 }
@@ -241,7 +241,7 @@ namespace Dots.Controls
 
             if (MessageBox.Show($"Would you really like to delete layer L{layerIndex}?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                var layer = CtlTabsLayers.SelectedTab.Controls[0] as LayerControl;
+                var layer = CtlTabsLayers.SelectedTab.Controls[0] as HiddenLayerControl;
                 layer.VanishConfig();
 
                 CtlTabsLayers.TabPages.Remove(CtlTabsLayers.SelectedTab);

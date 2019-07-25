@@ -424,7 +424,7 @@ namespace NN
                 CtlReset.Enabled = true;
                 CtlMenuDeleteNetwork.Enabled = true;
                 CtlMainMenuDeleteNetwork.Enabled = true;
-                CtlMainMenuDeleteLayer.Enabled = network.ActiveLayerType == typeof(LayerControl);
+                CtlMainMenuDeleteLayer.Enabled = network.ActiveLayerType == typeof(HiddenLayerControl);
                 CtlMainMenuAddLayer.Enabled = true;
                 CtlMainMenuNewNeuron.Enabled = network.ActiveLayerType != typeof(InputLayerControl);
                 CtlMainMenuSaveAs.Enabled = true;
