@@ -64,17 +64,20 @@ namespace NN.Controls
 
         private void CtlFlow_Layout(object sender, LayoutEventArgs e)
         {
-            if (CtlFlow.Controls.Count > 0)
+            Dispatch(() =>
             {
-                CtlFlow.SuspendLayout();
-                int ordinalNumber = 0;
-                foreach (NeuronBase control in CtlFlow.Controls)
+                if (CtlFlow.Controls.Count > 0)
                 {
-                    control.OrdinalNumberChanged(++ordinalNumber);
-                    control.Width = CtlFlow.Width - (CtlFlow.VerticalScroll.Visible ? System.Windows.Forms.SystemInformation.VerticalScrollBarWidth : 0);
+                    CtlFlow.SuspendLayout();
+                    int ordinalNumber = 0;
+                    foreach (NeuronBase control in CtlFlow.Controls)
+                    {
+                        control.OrdinalNumberChanged(++ordinalNumber);
+                        control.Width = CtlFlow.Width - (CtlFlow.VerticalScroll.Visible ? System.Windows.Forms.SystemInformation.VerticalScrollBarWidth : 0);
+                    }
+                    CtlFlow.ResumeLayout();
                 }
-                CtlFlow.ResumeLayout();
-            }
+            });
         }
 
         private void CtlFlow_ControlAdded(object sender, ControlEventArgs e)
