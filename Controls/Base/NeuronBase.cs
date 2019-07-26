@@ -36,6 +36,16 @@ namespace NN.Controls
             BackColor = IsBias ? Draw.GetRandomColor(20, Color.FromArgb(240, 250, 240)) : Draw.GetRandomColor(20, Color.Lavender);
         }
 
+        public virtual string ActivationInitializer
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public virtual double? ActivationInitializerParamA
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public virtual string WeightsInitializer
         {
             get { throw new NotImplementedException(); }

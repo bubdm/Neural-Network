@@ -18,6 +18,9 @@ namespace NN
         public bool IsBias;
         public bool IsBiasConnected;
 
+        public string ActivationInitializer;
+        public double? ActivationInitializerParamA;
+
         public string WeightsInitializer;
         public double? WeightsInitializerParamA;
 

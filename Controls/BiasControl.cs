@@ -26,7 +26,7 @@ namespace NN.Controls
             CtlIsBias.Checked = true;
             CtlIsBiasConnected.Checked = false;
             CtlIsBias.Enabled = false;
-            CtlIsBiasConnected.Enabled = false;
+            CtlIsBiasConnected.Visible = CtlIsBias.Checked;
         }
     }
 }

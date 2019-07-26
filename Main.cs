@@ -543,7 +543,6 @@ namespace NN
             try
             {
                 SaveConfig();
-                LoadConfig(); // to apply input count changes
             }
             catch (Exception ex)
             {
@@ -562,7 +561,7 @@ namespace NN
             {
                 if (MessageBox.Show("Would you like network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    ApplyChangesToStandingNetwork();
+                    LoadConfig(); 
                 }
             }
         }

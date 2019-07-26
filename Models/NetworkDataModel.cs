@@ -135,6 +135,9 @@ namespace NN
                             newNeuron.IsBias = neuron.IsBias;
                             newNeuron.IsBiasConnected = neuron.IsBiasConnected;
 
+                            newNeuron.WeightsInitializer = neuron.WeightsInitializer;
+                            newNeuron.WeightsInitializerParamA = neuron.WeightsInitializerParamA;
+
                             double initValue = InitializeMode.Helper.Invoke(newNeuron.WeightsInitializer, newNeuron.WeightsInitializerParamA);
                             if (!InitializeMode.Helper.IsSkipValue(initValue))
                             {
@@ -145,6 +148,18 @@ namespace NN
                                     {
                                         newWeight.Weight = weight.Weight;
                                     }
+                                }
+                            }
+
+                            if (newNeuron.IsBias)
+                            {
+                                newNeuron.ActivationInitializer = neuron.ActivationInitializer;
+                                newNeuron.ActivationInitializerParamA = neuron.ActivationInitializerParamA;
+
+                                initValue = InitializeMode.Helper.Invoke(newNeuron.ActivationInitializer, newNeuron.ActivationInitializerParamA);
+                                if (!InitializeMode.Helper.IsSkipValue(initValue))
+                                {
+                                    newNeuron.Activation = initValue;
                                 }
                             }
                         }

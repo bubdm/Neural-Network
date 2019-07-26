@@ -17,7 +17,7 @@ namespace NN.Controls
         const int VERTICAL_OFFSET = 10;
         const int NEURON_SIZE = 7;
         const int NEURON_RADIUS = NEURON_SIZE / 2;
-        const int BIAS_SIZE = 10;
+        const int BIAS_SIZE = 14;
         const int BIAS_RADIUS = BIAS_SIZE / 2;
 
         public bool IsNetworkRunning;
@@ -108,7 +108,7 @@ namespace NN.Controls
                     {
                         if (neuron.IsBias)
                         {
-                            G.FillEllipse(Brushes.LightGreen,
+                            G.FillEllipse(Brushes.Green,
                                           LayerX(layer) - BIAS_RADIUS,
                                           VERTICAL_OFFSET + VerticalShift(layer) + neuron.Id * VerticalDistance(layer.Height) - BIAS_RADIUS,
                                           BIAS_SIZE, BIAS_SIZE);

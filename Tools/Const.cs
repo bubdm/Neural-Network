@@ -41,6 +41,8 @@ namespace Tools
             InputNeuronsMaxCount,
             InputNeuronsCount,
             Randomizer,
+            ActivationInitializer,
+            ActivationInitializerParamA,
             WeightsInitializer,
             WeightsInitializerParamA,
             HiddenLayers,

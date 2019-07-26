@@ -88,7 +88,7 @@
             this.CtlTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlTime.AutoSize = true;
             this.CtlTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CtlTime.Location = new System.Drawing.Point(954, 420);
+            this.CtlTime.Location = new System.Drawing.Point(539, 420);
             this.CtlTime.Name = "CtlTime";
             this.CtlTime.Size = new System.Drawing.Size(50, 15);
             this.CtlTime.TabIndex = 11;
@@ -162,7 +162,7 @@
             this.CtlNetPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CtlNetPanel.Location = new System.Drawing.Point(205, 0);
             this.CtlNetPanel.Name = "CtlNetPanel";
-            this.CtlNetPanel.Size = new System.Drawing.Size(1021, 443);
+            this.CtlNetPanel.Size = new System.Drawing.Size(606, 443);
             this.CtlNetPanel.TabIndex = 17;
             // 
             // CtlPlotSplitter
@@ -183,7 +183,7 @@
             this.CtlManagerPanel.Controls.Add(this.CtlManagerTools);
             this.CtlManagerPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.CtlManagerPanel.Location = new System.Drawing.Point(816, 0);
-            this.CtlManagerPanel.MinimumSize = new System.Drawing.Size(410, 2);
+            this.CtlManagerPanel.MinimumSize = new System.Drawing.Size(410, 0);
             this.CtlManagerPanel.Name = "CtlManagerPanel";
             this.CtlManagerPanel.Size = new System.Drawing.Size(410, 443);
             this.CtlManagerPanel.TabIndex = 19;
@@ -387,9 +387,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1226, 500);
+            this.Controls.Add(this.CtlNetPanel);
             this.Controls.Add(this.CtlPlotSplitter);
             this.Controls.Add(this.CtlManagerPanel);
-            this.Controls.Add(this.CtlNetPanel);
             this.Controls.Add(this.CtlDataSplitter);
             this.Controls.Add(this.CtlDataPanel);
             this.Controls.Add(this.CtlBottomPanel);

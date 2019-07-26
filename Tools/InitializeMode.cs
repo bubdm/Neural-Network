@@ -53,7 +53,7 @@ namespace Tools
                 return (double)method.Invoke(null, new object[] { a });
             }
 
-            public static void FillComboBox(ComboBox cb, Config config)
+            public static void FillComboBox(ComboBox cb, Config config, Const.Param param, string defaultValue)
             {
                 cb.Items.Clear();
                 var initializers = InitializeMode.Helper.GetInitializers();
@@ -61,7 +61,7 @@ namespace Tools
                 {
                     cb.Items.Add(init);
                 }
-                var initializer = config.GetString(Const.Param.WeightsInitializer, initializers.Any() ? initializers[0] : null);
+                var initializer = config.GetString(param, !String.IsNullOrEmpty(defaultValue) ? defaultValue : initializers.Any() ? initializers[0] : null);
                 if (initializers.Any())
                 {
                     if (!initializers.Any(r => r == initializer))

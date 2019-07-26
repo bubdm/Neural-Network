@@ -75,6 +75,7 @@ namespace NN.Controls
             tab.Controls.Add(layer);
             CtlTabsLayers.TabPages.Insert(CtlTabsLayers.TabCount - 1, tab);
             CtlTabsLayers.SelectedTab = tab;
+            ResetLayersTabsNames();
             if (id == Const.UnknownId)
             {
                 OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
@@ -251,6 +252,7 @@ namespace NN.Controls
                 layer.VanishConfig();
 
                 CtlTabsLayers.TabPages.Remove(CtlTabsLayers.SelectedTab);
+                ResetLayersTabsNames();
                 OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
             }
         }
@@ -278,15 +280,26 @@ namespace NN.Controls
                     neuronModel.VisualId = neurons[nn].Id;
                     neuronModel.IsBias = neurons[nn].IsBias;
                     neuronModel.IsBiasConnected = neurons[nn].IsBiasConnected;
+
                     neuronModel.WeightsInitializer = neurons[nn].WeightsInitializer;
                     neuronModel.WeightsInitializerParamA = neurons[nn].WeightsInitializerParamA;
-
                     double initValue = InitializeMode.Helper.Invoke(neurons[nn].WeightsInitializer, neurons[nn].WeightsInitializerParamA);
                     if (!InitializeMode.Helper.IsSkipValue(initValue))
                     {
                         foreach (var weight in neuronModel.Weights)
                         {
                             weight.Weight = InitializeMode.Helper.Invoke(neurons[nn].WeightsInitializer, neurons[nn].WeightsInitializerParamA);
+                        }
+                    }
+
+                    if (neuronModel.IsBias)
+                    {
+                        neuronModel.ActivationInitializer = neurons[nn].ActivationInitializer;
+                        neuronModel.ActivationInitializerParamA = neurons[nn].ActivationInitializerParamA;
+                        initValue = InitializeMode.Helper.Invoke(neurons[nn].ActivationInitializer, neurons[nn].ActivationInitializerParamA);
+                        if (!InitializeMode.Helper.IsSkipValue(initValue))
+                        {
+                            neuronModel.Activation = initValue;
                         }
                     }
                 }

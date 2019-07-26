@@ -25,6 +25,8 @@ namespace NN.Controls
 
             LoadConfig();
 
+            CtlActivationIniterParamA.TextChanged += CtlActivationIniterParamA_TextChanged;
+            CtlActivationIniter.SelectedIndexChanged += CtlActivationIniter_SelectedIndexChanged;
             CtlWeightsIniterParamA.TextChanged += CtlWeightsIniterParamA_TextChanged;
             CtlWeightsIniter.SelectedIndexChanged += CtlWeightsIniter_SelectedIndexChanged;
             CtlIsBias.CheckedChanged += CtlIsBias_CheckedChanged;
@@ -43,9 +45,21 @@ namespace NN.Controls
 
         private void CtlIsBias_CheckedChanged(object sender, EventArgs e)
         {
-            CtlIsBiasConnected.Enabled = CtlIsBias.Checked;
+            CtlIsBiasConnected.Visible = CtlIsBias.Checked;
+            CtlActivationPanel.Visible = CtlIsBias.Checked;
             StateChanged();
             OnNetworkUIChanged(Notification.ParameterChanged.Structure, false);
+        }
+
+        private void CtlActivationIniter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CtlActivationIniterLabel.Focus();
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, false);
+        }
+
+        private void CtlActivationIniterParamA_TextChanged(object sender, EventArgs e)
+        {
+            CtlActivationIniterParamA.BackColor = IsValidActivationIniterParamA() ? Color.White : Color.Tomato;
         }
 
         private void CtlWeightsIniter_SelectedIndexChanged(object sender, EventArgs e)
@@ -59,19 +73,26 @@ namespace NN.Controls
             CtlWeightsIniterParamA.BackColor = IsValidWeightsIniterParamA() ? Color.White : Color.Tomato;
         }
 
+        public override string ActivationInitializer => CtlActivationPanel.Visible ? CtlActivationIniter.Text : null;
+        public override double? ActivationInitializerParamA => CtlActivationPanel.Visible ? Converter.TextToDouble(CtlActivationIniterParamA.Text) : null;
         public override string WeightsInitializer => CtlWeightsIniter.Text;
         public override double? WeightsInitializerParamA => Converter.TextToDouble(CtlWeightsIniterParamA.Text);
         public override bool IsBias => CtlIsBias.Checked;
-        public override bool IsBiasConnected => CtlIsBiasConnected.Checked;
+        public override bool IsBiasConnected => CtlIsBiasConnected.Checked && CtlIsBiasConnected.Visible;
 
         public void LoadConfig()
         {
-            InitializeMode.Helper.FillComboBox(CtlWeightsIniter, Config);
+            InitializeMode.Helper.FillComboBox(CtlWeightsIniter, Config, Const.Param.WeightsInitializer, nameof(InitializeMode.DoNotApply));
             CtlWeightsIniterParamA.Text = Config.GetString(Const.Param.WeightsInitializerParamA);
 
             CtlIsBias.Checked = Config.GetBool(Const.Param.IsBias, false);
-            CtlIsBiasConnected.Checked = Config.GetBool(Const.Param.IsBiasConnected, false);
-            CtlIsBiasConnected.Enabled = CtlIsBias.Checked && CtlIsBias.Enabled;
+            CtlIsBiasConnected.Visible = CtlIsBias.Checked;
+            CtlIsBiasConnected.Checked = CtlIsBiasConnected.Visible && Config.GetBool(Const.Param.IsBiasConnected, false);
+            CtlActivationPanel.Visible = CtlIsBias.Checked;
+
+            InitializeMode.Helper.FillComboBox(CtlActivationIniter, Config, Const.Param.ActivationInitializer, nameof(InitializeMode.Constant));
+            CtlActivationIniterParamA.Text = Config.GetString(Const.Param.ActivationInitializerParamA, "1");
+            
             StateChanged();
         }
 
@@ -80,21 +101,39 @@ namespace NN.Controls
             return Converter.TryTextToDouble(CtlWeightsIniterParamA.Text, out double? result);
         }
 
+        public bool IsValidActivationIniterParamA()
+        {
+            return !CtlActivationPanel.Visible || Converter.TryTextToDouble(CtlActivationIniterParamA.Text, out double? result);
+        }
+
         public override bool IsValid()
         {
-            return IsValidWeightsIniterParamA();
+            return IsValidWeightsIniterParamA() && IsValidActivationIniterParamA();
         }
 
         public override void SaveConfig()
         {
+            if (CtlIsBias.Checked)
+            {
+                Config.Set(Const.Param.ActivationInitializer, CtlActivationIniter.SelectedItem.ToString());
+                Config.Set(Const.Param.ActivationInitializerParamA, CtlActivationIniterParamA.Text);
+            }
+            else
+            {
+                Config.Remove(Const.Param.ActivationInitializer);
+                Config.Remove(Const.Param.ActivationInitializerParamA);
+            }
+
             Config.Set(Const.Param.WeightsInitializer, CtlWeightsIniter.SelectedItem.ToString());
             Config.Set(Const.Param.WeightsInitializerParamA, CtlWeightsIniterParamA.Text);
             Config.Set(Const.Param.IsBias, CtlIsBias.Checked);
-            Config.Set(Const.Param.IsBiasConnected, CtlIsBiasConnected.Checked);
+            Config.Set(Const.Param.IsBiasConnected, CtlIsBiasConnected.Visible && CtlIsBiasConnected.Checked);
         }
 
         public override void VanishConfig()
         {
+            Config.Remove(Const.Param.ActivationInitializer);
+            Config.Remove(Const.Param.ActivationInitializerParamA);
             Config.Remove(Const.Param.WeightsInitializer);
             Config.Remove(Const.Param.WeightsInitializerParamA);
             Config.Remove(Const.Param.IsBias);
