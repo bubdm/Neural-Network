@@ -45,6 +45,7 @@
             this.CtlFlow.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.CtlFlow_ControlAdded);
             this.CtlFlow.ControlRemoved += new System.Windows.Forms.ControlEventHandler(this.CtlFlow_ControlRemoved);
             this.CtlFlow.Layout += new System.Windows.Forms.LayoutEventHandler(this.CtlFlow_Layout);
+            this.CtlFlow.Resize += new System.EventHandler(this.CtlFlow_Resize);
             // 
             // LayerBase
             // 

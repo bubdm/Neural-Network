@@ -38,7 +38,35 @@ namespace NN.Controls
 
             Id = id;
             Config = config.Extend(Id);
+            /*
+            this.Resize += new EventHandler(CustomPanel_Resize);
+            this.SetStyle(ControlStyles.UserPaint |
+                          ControlStyles.AllPaintingInWmPaint |
+                          ControlStyles.OptimizedDoubleBuffer,
+                          true);
+                          */
         }
+        /*
+        private void CustomPanel_Resize(object sender, EventArgs e)
+        {
+            if (this.Visible) this.Refresh();
+
+        }
+        */
+
+
+
+        /*
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle = cp.ExStyle | 0x2000000;
+                return cp;
+            }
+        }
+        */
 
         public virtual bool IsInput => false;
         public virtual bool IsHidden => false;
@@ -72,6 +100,7 @@ namespace NN.Controls
 
             //Dispatch(() =>
             //{
+
                 if (CtlFlow.Controls.Count > 0)
                 {
                     CtlFlow.SuspendLayout();
@@ -115,6 +144,25 @@ namespace NN.Controls
                 //CtlFlow.HorizontalScroll.Value = 0;
                 //PerformLayout();
             });
+        }
+
+        private void CtlFlow_Resize(object sender, EventArgs e)
+        {
+            /*
+            if (CtlFlow.Controls.Count > 0)
+            {
+                CtlFlow.SuspendLayout();
+                int ordinalNumber = 0;
+                foreach (NeuronBase control in CtlFlow.Controls)
+                {
+                    control.OrdinalNumberChanged(++ordinalNumber);
+                    control.Width = CtlFlow.Width - (CtlFlow.VerticalScroll.Visible ? System.Windows.Forms.SystemInformation.VerticalScrollBarWidth : 0);
+                }
+                CtlFlow.ResumeLayout();
+
+
+            }
+            */
         }
     }
 }

@@ -40,6 +40,27 @@ namespace NN
             Load += Main_Load;
         }
 
+        protected override void OnResizeBegin(EventArgs e)
+        {
+            //CtlTabs.SuspendLayout();
+            base.OnResizeBegin(e);
+        }
+        protected override void OnResizeEnd(EventArgs e)
+        {
+            //CtlTabs.ResumeLayout();
+            base.OnResizeEnd(e);
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle = cp.ExStyle | 0x2000000;
+                return cp;
+            }
+        }
+
         private void Main_Load(object sender, EventArgs e)
         {
             Config.Main.Clear();
