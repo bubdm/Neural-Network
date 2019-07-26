@@ -17,6 +17,8 @@ namespace NN.Controls
         const int VERTICAL_OFFSET = 10;
         const int NEURON_SIZE = 7;
         const int NEURON_RADIUS = NEURON_SIZE / 2;
+        const int BIAS_SIZE = 10;
+        const int BIAS_RADIUS = BIAS_SIZE / 2;
 
         public bool IsNetworkRunning;
 
@@ -81,13 +83,16 @@ namespace NN.Controls
         {
             Range.ForEach(layer1.Neurons, layer2.Neurons, (neuron1, neuron2) =>
             {
-                if (fullState || neuron1.AxW(neuron2) != 0)
+                if (!neuron2.IsBias || (neuron1.IsBias && neuron2.IsBiasConnected))
                 {
-                    using (var pen = Tools.Draw.GetPen(neuron1.AxW(neuron2)))
+                    if (fullState || neuron1.AxW(neuron2) != 0)
                     {
-                        G.DrawLine(pen,
-                                   LayerX(layer1), VERTICAL_OFFSET + VerticalShift(layer1) + neuron1.Id * VerticalDistance(layer1.Height),
-                                   LayerX(layer2), VERTICAL_OFFSET + VerticalShift(layer2) + neuron2.Id * VerticalDistance(layer2.Height));
+                        using (var pen = Tools.Draw.GetPen(neuron1.AxW(neuron2)))
+                        {
+                            G.DrawLine(pen,
+                                       LayerX(layer1), VERTICAL_OFFSET + VerticalShift(layer1) + neuron1.Id * VerticalDistance(layer1.Height),
+                                       LayerX(layer2), VERTICAL_OFFSET + VerticalShift(layer2) + neuron2.Id * VerticalDistance(layer2.Height));
+                        }
                     }
                 }
             });
@@ -101,6 +106,14 @@ namespace NN.Controls
                 {
                     using (var brush = Tools.Draw.GetBrush(neuron.Activation))
                     {
+                        if (neuron.IsBias)
+                        {
+                            G.FillEllipse(Brushes.LightGreen,
+                                          LayerX(layer) - BIAS_RADIUS,
+                                          VERTICAL_OFFSET + VerticalShift(layer) + neuron.Id * VerticalDistance(layer.Height) - BIAS_RADIUS,
+                                          BIAS_SIZE, BIAS_SIZE);
+                        }
+
                         G.FillEllipse(brush,
                                       LayerX(layer) - NEURON_RADIUS,
                                       VERTICAL_OFFSET + VerticalShift(layer) + neuron.Id * VerticalDistance(layer.Height) - NEURON_RADIUS,

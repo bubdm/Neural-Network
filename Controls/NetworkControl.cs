@@ -258,6 +258,8 @@ namespace NN.Controls
                 {
                     var neuronModel = model.Layers[ln].Neurons[nn];
                     neuronModel.VisualId = neurons[nn].Id;
+                    neuronModel.IsBias = neurons[nn].IsBias;
+                    neuronModel.IsBiasConnected = neurons[nn].IsBiasConnected;
                     neuronModel.WeightsInitializer = neurons[nn].WeightsInitializer;
                     neuronModel.WeightsInitializerParamA = neurons[nn].WeightsInitializerParamA;
 

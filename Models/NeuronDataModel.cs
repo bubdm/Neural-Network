@@ -15,6 +15,9 @@ namespace NN
         public double Activation;
         public double Error;
 
+        public bool IsBias;
+        public bool IsBiasConnected;
+
         public string WeightsInitializer;
         public double? WeightsInitializerParamA;
 

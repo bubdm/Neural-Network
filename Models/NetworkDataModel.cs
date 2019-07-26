@@ -75,7 +75,18 @@ namespace NN
             Range.For(Rand.Flat.Next(11), i => Layers.First().Neurons.RandomElement.Activation = 1);
 
             Range.ForEachTrimEnd(Layers, -1, layer =>
-            Range.ForEach(layer.Next.Neurons, nextNeuron => nextNeuron.Activation = Activation.LogisticSigmoid(Range.SumForEach(layer.Neurons, neuron => neuron.AxW(nextNeuron)))));
+            Range.ForEach(layer.Next.Neurons, nextNeuron =>
+            {
+                if (nextNeuron.IsBias && nextNeuron.IsBiasConnected)
+                {
+                    nextNeuron.Activation = Activation.LogisticSigmoid(Range.SumForEach(layer.Neurons.Where(n => n.IsBias), neuron => neuron.AxW(nextNeuron)));
+                }
+
+                if (!nextNeuron.IsBias)
+                {
+                    nextNeuron.Activation = Activation.LogisticSigmoid(Range.SumForEach(layer.Neurons, neuron => neuron.AxW(nextNeuron)));
+                }
+            }));
         }
 
         public void BackPropagation()
@@ -92,7 +103,11 @@ namespace NN
             {
                 Range.ForEach(layer.Previous.Neurons, neuronPrev =>
                     neuronPrev.Error = Range.SumForEach(layer.Neurons, neuron =>
-                        neuron.Error * neuronPrev.WeightTo(neuron).Weight * Derivative.LogisticSigmoid(neuronPrev.Activation)));
+                    {
+                        return neuron.IsBias && !neuron.IsBiasConnected
+                                ? 0
+                                : neuron.Error * neuronPrev.WeightTo(neuron).Weight * Derivative.LogisticSigmoid(neuronPrev.Activation);
+                    }));
             });
 
             // update weights
@@ -117,6 +132,9 @@ namespace NN
                         {
                             newNeuron.Activation = neuron.Activation;
                             newNeuron.Error = neuron.Error;
+
+                            newNeuron.IsBias = neuron.IsBias;
+                            newNeuron.IsBiasConnected = neuron.IsBiasConnected;
 
                             double initValue = InitializeMode.Helper.Invoke(newNeuron.WeightsInitializer, newNeuron.WeightsInitializerParamA);
                             if (!InitializeMode.Helper.IsSkipValue(initValue))
