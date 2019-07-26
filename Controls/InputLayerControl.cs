@@ -51,6 +51,17 @@ namespace NN.Controls
             Controls.Add(neuron);
         }
 
+        public void AddBias(long id)
+        {
+            var neuron = new BiasControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);
+            CtlFlow.Controls.Add(neuron);
+
+            if (id == Const.UnknownId)
+            {
+                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            }
+        }
+
         public override void ValidateConfig()
         {
 
@@ -69,6 +80,11 @@ namespace NN.Controls
         public override void VanishConfig()
         {
             
+        }
+
+        private void CtlMenuAddBias_Click(object sender, EventArgs e)
+        {
+            AddBias(Const.UnknownId);
         }
     }
 }

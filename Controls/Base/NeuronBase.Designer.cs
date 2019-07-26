@@ -42,20 +42,20 @@
             this.CtlMenuAddNeuron,
             this.CtlMenuDeleteNeuron});
             this.CtlContextMenu.Name = "CtlContextMenu";
-            this.CtlContextMenu.Size = new System.Drawing.Size(173, 52);
+            this.CtlContextMenu.Size = new System.Drawing.Size(211, 80);
             // 
             // CtlMenuAddNeuron
             // 
             this.CtlMenuAddNeuron.Name = "CtlMenuAddNeuron";
             this.CtlMenuAddNeuron.Size = new System.Drawing.Size(210, 24);
-            this.CtlMenuAddNeuron.Text = "Add neuron";
+            this.CtlMenuAddNeuron.Text = "Add";
             this.CtlMenuAddNeuron.Click += new System.EventHandler(this.CtlMenuAddNeuron_Click);
             // 
             // CtlMenuDeleteNeuron
             // 
             this.CtlMenuDeleteNeuron.Name = "CtlMenuDeleteNeuron";
             this.CtlMenuDeleteNeuron.Size = new System.Drawing.Size(210, 24);
-            this.CtlMenuDeleteNeuron.Text = "Delete neuron";
+            this.CtlMenuDeleteNeuron.Text = "Delete";
             this.CtlMenuDeleteNeuron.Click += new System.EventHandler(this.CtlMenuDeleteNeuron_Click);
             // 
             // NeuronBase

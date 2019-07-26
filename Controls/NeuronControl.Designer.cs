@@ -177,10 +177,10 @@
         private System.Windows.Forms.ComboBox CtlWeightsIniter;
         private System.Windows.Forms.Label CtlWeightsIniterParamALabel;
         private System.Windows.Forms.TextBox CtlWeightsIniterParamA;
-        private System.Windows.Forms.CheckBox CtlIsBias;
-        private System.Windows.Forms.CheckBox CtlIsBiasConnected;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label CtlNumber;
+        protected System.Windows.Forms.CheckBox CtlIsBias;
+        protected System.Windows.Forms.CheckBox CtlIsBiasConnected;
     }
 }

@@ -51,7 +51,6 @@
             // 
             // HiddenLayerControl
             // 
-            this.AutoSize = false;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ContextMenuStrip = this.CtlContextMenu;

@@ -80,7 +80,7 @@ namespace NN.Controls
 
             CtlIsBias.Checked = Config.GetBool(Const.Param.IsBias, false);
             CtlIsBiasConnected.Checked = Config.GetBool(Const.Param.IsBiasConnected, false);
-            CtlIsBiasConnected.Enabled = CtlIsBias.Checked;
+            CtlIsBiasConnected.Enabled = CtlIsBias.Checked && CtlIsBias.Enabled;
             StateChanged();
         }
 

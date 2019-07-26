@@ -27,8 +27,6 @@ namespace NN.Controls
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;
 
-            BackColor = Draw.GetRandomColor(20, Color.Lavender);
-
             Id = id;
             Config = config.Extend(Id);
         }

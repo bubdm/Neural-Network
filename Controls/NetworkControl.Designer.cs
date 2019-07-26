@@ -109,7 +109,6 @@
             // 
             // CtlTabInput
             // 
-            this.CtlTabInput.AutoScroll = true;
             this.CtlTabInput.Location = new System.Drawing.Point(4, 25);
             this.CtlTabInput.Name = "CtlTabInput";
             this.CtlTabInput.Size = new System.Drawing.Size(402, 103);
@@ -119,10 +118,9 @@
             // 
             // CtlTabOutput
             // 
-            this.CtlTabOutput.AutoScroll = true;
             this.CtlTabOutput.Location = new System.Drawing.Point(4, 25);
             this.CtlTabOutput.Name = "CtlTabOutput";
-            this.CtlTabOutput.Size = new System.Drawing.Size(312, 122);
+            this.CtlTabOutput.Size = new System.Drawing.Size(402, 103);
             this.CtlTabOutput.TabIndex = 1;
             this.CtlTabOutput.Text = "Output";
             this.CtlTabOutput.UseVisualStyleBackColor = true;
@@ -158,7 +156,6 @@
             this.ContextMenuStrip = this.CtlContextMenu;
             this.Controls.Add(this.CtlTabsLayers);
             this.Controls.Add(this.CtlMainPanel);
-            this.MinimumSize = new System.Drawing.Size(410, 0);
             this.Name = "NetworkControl";
             this.Size = new System.Drawing.Size(410, 235);
             this.CtlMainPanel.ResumeLayout(false);

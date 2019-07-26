@@ -28,9 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.CtlInputCountLabel = new System.Windows.Forms.Label();
             this.CtlInputCount = new System.Windows.Forms.NumericUpDown();
+            this.CtlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CtlMenuAddBias = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.CtlInputCount)).BeginInit();
+            this.CtlContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // CtlInputCountLabel
@@ -71,13 +75,32 @@
             0,
             0});
             // 
+            // CtlContextMenu
+            // 
+            this.CtlContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.CtlContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CtlMenuAddBias});
+            this.CtlContextMenu.Name = "CtlContextMenu";
+            this.CtlContextMenu.Size = new System.Drawing.Size(138, 28);
+            // 
+            // CtlMenuAddBias
+            // 
+            this.CtlMenuAddBias.Name = "CtlMenuAddBias";
+            this.CtlMenuAddBias.Size = new System.Drawing.Size(137, 24);
+            this.CtlMenuAddBias.Text = "Add Bias";
+            this.CtlMenuAddBias.Click += new System.EventHandler(this.CtlMenuAddBias_Click);
+            // 
             // InputLayerControl
             // 
+            this.ContextMenuStrip = this.CtlContextMenu;
             this.Controls.Add(this.CtlInputCount);
             this.Controls.Add(this.CtlInputCountLabel);
             this.Name = "InputLayerControl";
             this.Size = new System.Drawing.Size(353, 160);
+            this.Controls.SetChildIndex(this.CtlInputCountLabel, 0);
+            this.Controls.SetChildIndex(this.CtlInputCount, 0);
             ((System.ComponentModel.ISupportInitialize)(this.CtlInputCount)).EndInit();
+            this.CtlContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -87,5 +110,7 @@
 
         private System.Windows.Forms.Label CtlInputCountLabel;
         private System.Windows.Forms.NumericUpDown CtlInputCount;
+        private System.Windows.Forms.ContextMenuStrip CtlContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem CtlMenuAddBias;
     }
 }
