@@ -79,7 +79,7 @@ namespace NN.Controls
             return CtlFlow.Controls.OfType<NeuronBase>().ToList();
         }
 
-        public virtual void ValidateConfig()
+        public virtual bool IsValid()
         {
             throw new NotImplementedException();
         }

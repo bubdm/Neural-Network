@@ -106,6 +106,11 @@ namespace NN
 
         private void LoadNetwork(string name)
         {
+            if (!StopRequest())
+            {
+                return;
+            }
+
             if (String.IsNullOrEmpty(name))
             {
                 return;
@@ -120,6 +125,14 @@ namespace NN
             { 
                 var network = new NetworkControl(name, OnNetworkUIChanged);
                 ReplaceNetworkControl(network);
+                if (network.IsValid())
+                {
+                    ApplyChangesToStandingNetwork();
+                }
+                else
+                {
+                    MessageBox.Show("Network parameter is not valid.", "Error");
+                }
             }
             else
             {
@@ -127,13 +140,27 @@ namespace NN
             }
         }
 
-        private void SaveConfig()
+        private bool IsValid()
+        {
+            return NetworkUI == null ? true : NetworkUI.IsValid();
+        }
+
+        private bool SaveConfig()
         {
             if (NetworkUI != null)
             {
-                NetworkUI.ValidateConfig();
-                NetworkUI.SaveConfig();
+                if (NetworkUI.IsValid())
+                {
+                    NetworkUI.SaveConfig();
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show("Network parameter is invalid", "Error");
+                }
             }
+
+            return false;
         }
 
         private void CreateDirectories()
@@ -165,17 +192,7 @@ namespace NN
 
         private void OnNetworkUIChanged(Notification.ParameterChanged param, object newValue = null) 
         {
-            try
-            {
-                SaveConfig();
-            }
-            finally
-            {
-                if (param == Notification.ParameterChanged.Structure)
-                {
-                    ToggleApplyChanges(Const.Toggle.On);
-                }
-            }
+            ToggleApplyChanges(Const.Toggle.On);
         }
 
         private void ApplyChangesToRunningNetwork()
@@ -186,6 +203,7 @@ namespace NN
                 var model = NetworkUI.CreateNetworkDataModel();
                 NetworkModel = NetworkModel.Merge(model);
                 NetworkPresenter.UpdateNetwork(NetworkModel);
+                ToggleApplyChanges(Const.Toggle.Off);
             }
         }
 
@@ -196,6 +214,7 @@ namespace NN
                 InputDataPresenter.RearrangeWithNewPointsCount(NetworkUI.InputNeuronsCount);
                 NetworkModel = NetworkUI.CreateNetworkDataModel();
                 NetworkPresenter.SetNetwork(NetworkModel);
+                ToggleApplyChanges(Const.Toggle.Off);
             }
         }
 
@@ -362,7 +381,7 @@ namespace NN
         private void CtlMenuLoadNetwork_Click(object sender, EventArgs e)
         {
             LoadNetwork();
-            ToggleApplyChanges(Const.Toggle.Off);
+            //ToggleApplyChanges(Const.Toggle.Off);
         }
 
         private void CtlMenuDeleteNetwork_Click(object sender, EventArgs e)
@@ -373,18 +392,53 @@ namespace NN
             }
         }
 
+        private bool StopRequest()
+        {
+            if (!IsRunning)
+            {
+                return true;
+            }
+            
+            if (MessageBox.Show("Would you like to stop the network?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                StopRunning();
+                return true;
+            }
+
+            return false;
+        }
+
         private void CreateNetwork()
         {
+            if (!StopRequest())
+            {
+                return;
+            }
+
             var network = new NetworkControl(null, OnNetworkUIChanged);
             if (network.Config != null)
             {
                 ReplaceNetworkControl(network);
                 Config.Main.Set(Const.Param.NetworkName, network.Config.GetString(Const.Param.NetworkName));
+
+                if (network.IsValid())
+                {
+                    ApplyChangesToStandingNetwork();
+                }
+                else
+                {
+                    MessageBox.Show("Network parameter is not valid.", "Error");
+                }
             }
         }
 
         private void LoadNetwork()
         {
+            if (!StopRequest())
+            {
+                return;
+            }
+
             var loadDialog = new OpenFileDialog
             {
                 InitialDirectory = Path.GetFullPath("Networks\\"),
@@ -469,6 +523,7 @@ namespace NN
             if (WorkThread != null)
             {
                 WorkThread.Join();
+                WorkThread = null;
             }
 
             CtlStart.Enabled = true;
@@ -496,39 +551,30 @@ namespace NN
 
             if (IsRunning)
             {
-                if (MessageBox.Show("Configuration saved. Would you like running network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Would you like running network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     ApplyChangesToRunningNetwork();
-                    ToggleApplyChanges(Const.Toggle.Off);
                 }
             }
             else
             {
-                if (MessageBox.Show("Configuration saved. Would you like network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Would you like network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     ApplyChangesToStandingNetwork();
-                    ToggleApplyChanges(Const.Toggle.Off);
                 }
             }
         }
 
         private void CtlMainMenuSaveAs_Click(object sender, EventArgs e)
         {
-            try
+            if (SaveConfig())
             {
-                SaveConfig();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK);
-                return;
-            }
-
-            var config = NetworkUI.SaveAs();
-            if (config != null)
-            {
-                SaveConfig();
-                LoadConfig();
+                var config = NetworkUI.SaveAs();
+                if (config != null)
+                {
+                    SaveConfig();
+                    // ??? LoadConfig();
+                }
             }
         }
 

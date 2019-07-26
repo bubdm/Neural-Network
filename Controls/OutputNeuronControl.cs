@@ -34,9 +34,9 @@ namespace NN.Controls
 
         }
 
-        public override void ValidateConfig()
+        public override bool IsValid()
         {
-
+            return true;
         }
 
         public override void SaveConfig()

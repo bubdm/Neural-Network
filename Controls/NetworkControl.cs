@@ -54,16 +54,8 @@ namespace NN.Controls
 
         private void CtlRandomizerParamA_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                ValidateRandomizeParamA();
-                CtlRandomizerParamA.BackColor = Color.White;
-            }
-            catch
-            {
-                CtlRandomizerParamA.BackColor = Color.Red;
-                return;
-            }
+            IsValidRandomizeParamA();
+            CtlRandomizerParamA.BackColor = IsValidRandomizeParamA() ? Color.White : Color.Tomato;
         }
 
         private void CtlTabsLayers_SelectedIndexChanged(object sender, EventArgs e)
@@ -73,12 +65,15 @@ namespace NN.Controls
 
         private void AddLayer(long id)
         {
-            id = id == Const.UnknownId ? DateTime.Now.Ticks : id;
-            var layer = new HiddenLayerControl(id, Config, OnNetworkUIChanged);
+            var layer = new HiddenLayerControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);
             var tab = new TabPageEx();
             tab.Controls.Add(layer);
             CtlTabsLayers.TabPages.Insert(CtlTabsLayers.TabCount - 1, tab);
             CtlTabsLayers.SelectedTab = tab;
+            if (id == Const.UnknownId)
+            {
+                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            }
         }
 
         private void ResetLayersTabsNames()
@@ -104,7 +99,6 @@ namespace NN.Controls
         private void CtlMenuAddLayer_Click(object sender, EventArgs e)
         {
             AddLayer(Const.UnknownId);
-            OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
 
         public Config CreateNewNetwork()
@@ -161,25 +155,19 @@ namespace NN.Controls
             return null;
         }
 
-        private void ValidateParameters()
+        private bool IsValidRandomizeParamA()
         {
-            ValidateRandomizeParamA();
+            return Converter.TryTextToDouble(CtlRandomizerParamA.Text, out double? d);
         }
 
-        private void ValidateRandomizeParamA()
+        public bool IsValid()
         {
-            if (!Converter.TryTextToDouble(CtlRandomizerParamA.Text, out double? result))
-            {
-                throw new Exception($"Invalid network randomize parameter a value '{CtlRandomizerParamA.Text}'.");
-            }
-        }
-
-        public void ValidateConfig()
-        {
-            ValidateParameters();
+            bool result = true;
+            result &= IsValidRandomizeParamA();
 
             var layers = GetLayersControls();
-            Range.ForEach(layers, l => l.ValidateConfig());
+            Range.ForEach(layers, l => result &= l.IsValid());
+            return result;
         }
 
         public void SaveConfig()

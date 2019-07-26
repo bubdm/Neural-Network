@@ -39,7 +39,7 @@
             this.CtlNetPanel = new System.Windows.Forms.Panel();
             this.CtlPlotSplitter = new System.Windows.Forms.Splitter();
             this.CtlManagerPanel = new System.Windows.Forms.Panel();
-            this.CtlTabs = new Controls.TabControlEx();
+            this.CtlTabs = new NN.Controls.TabControlEx();
             this.CtlNetworkContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CtlMenuNewNetwork = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuLoadNetwork = new System.Windows.Forms.ToolStripMenuItem();
@@ -183,7 +183,7 @@
             this.CtlManagerPanel.Controls.Add(this.CtlManagerTools);
             this.CtlManagerPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.CtlManagerPanel.Location = new System.Drawing.Point(816, 0);
-            this.CtlManagerPanel.MinimumSize = new System.Drawing.Size(410, 0);
+            this.CtlManagerPanel.MinimumSize = new System.Drawing.Size(410, 2);
             this.CtlManagerPanel.Name = "CtlManagerPanel";
             this.CtlManagerPanel.Size = new System.Drawing.Size(410, 443);
             this.CtlManagerPanel.TabIndex = 19;
@@ -245,7 +245,7 @@
             // 
             this.CtlTabNetwork.Location = new System.Drawing.Point(4, 25);
             this.CtlTabNetwork.Name = "CtlTabNetwork";
-            this.CtlTabNetwork.Size = new System.Drawing.Size(259, 340);
+            this.CtlTabNetwork.Size = new System.Drawing.Size(400, 340);
             this.CtlTabNetwork.TabIndex = 2;
             this.CtlTabNetwork.Text = "Network";
             this.CtlTabNetwork.UseVisualStyleBackColor = true;
@@ -268,7 +268,7 @@
             this.CtlApplyChanges.Name = "CtlApplyChanges";
             this.CtlApplyChanges.Size = new System.Drawing.Size(408, 31);
             this.CtlApplyChanges.TabIndex = 1;
-            this.CtlApplyChanges.Text = "Apply network changes";
+            this.CtlApplyChanges.Text = "Save and apply network changes";
             this.CtlApplyChanges.UseVisualStyleBackColor = true;
             this.CtlApplyChanges.Click += new System.EventHandler(this.CtlApplyChanges_Click);
             // 

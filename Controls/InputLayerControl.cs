@@ -36,12 +36,10 @@ namespace NN.Controls
             CtlInputCount.Maximum = Config.Main.GetInt(Const.Param.InputNeuronsMaxCount, 10000);
             CtlInputCount.Value = Config.GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount);
 
-            var neurons = Config.GetArray(Const.Param.Neurons);
-            if (neurons.Length == 0)
-            {
-                neurons = new long[] { Const.UnknownId };
-            }
             Range.For((int)CtlInputCount.Value, n => AddNeuron());
+
+            var neurons = Config.GetArray(Const.Param.Neurons);
+            Range.For(neurons.Length, n => AddBias(n));
         }
 
         public void AddNeuron()
@@ -61,19 +59,28 @@ namespace NN.Controls
             }
         }
 
-        public override void ValidateConfig()
+        public override bool IsValid()
         {
-
+            bool result = true;
+            var neurons = GetNeuronsControls();
+            Range.ForEach(neurons, n => result &= n.IsValid());
+            return result;
         }
 
         public override void SaveConfig()
         {
-             Config.Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
+            Config.Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
+
+            var neurons = GetNeuronsControls();
+            Config.Set(Const.Param.Neurons, neurons.Select(n => n.Id));
+            Range.ForEach(neurons, n => n.SaveConfig());
         }
 
         public override void VanishConfig()
         {
-            
+            Config.Remove(Const.Param.InputNeuronsCount);
+            Config.Remove(Const.Param.Neurons);
+            Range.ForEach(GetNeuronsControls(), n => n.VanishConfig());
         }
 
         private void CtlMenuAddBias_Click(object sender, EventArgs e)

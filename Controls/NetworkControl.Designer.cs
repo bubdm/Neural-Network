@@ -34,9 +34,9 @@
             this.CtlRandomizerParamALabel = new System.Windows.Forms.Label();
             this.CtlRandomizer = new System.Windows.Forms.ComboBox();
             this.CtlRandomizerLabel = new System.Windows.Forms.Label();
-            this.CtlTabsLayers = new TabControlEx();
-            this.CtlTabInput = new TabPageEx();
-            this.CtlTabOutput = new TabPageEx();
+            this.CtlTabsLayers = new NN.Controls.TabControlEx();
+            this.CtlTabInput = new NN.Controls.TabPageEx();
+            this.CtlTabOutput = new NN.Controls.TabPageEx();
             this.CtlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CtlMenuAddLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuDeleteLayer = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,6 +64,7 @@
             this.CtlRandomizerParamA.Name = "CtlRandomizerParamA";
             this.CtlRandomizerParamA.Size = new System.Drawing.Size(82, 22);
             this.CtlRandomizerParamA.TabIndex = 0;
+            this.CtlRandomizerParamA.TabStop = false;
             this.CtlRandomizerParamA.Text = "1";
             // 
             // CtlRandomizerParamALabel
@@ -86,6 +87,7 @@
             this.CtlRandomizer.Name = "CtlRandomizer";
             this.CtlRandomizer.Size = new System.Drawing.Size(160, 24);
             this.CtlRandomizer.TabIndex = 1;
+            this.CtlRandomizer.TabStop = false;
             // 
             // CtlRandomizerLabel
             // 
@@ -106,6 +108,7 @@
             this.CtlTabsLayers.SelectedIndex = 0;
             this.CtlTabsLayers.Size = new System.Drawing.Size(410, 132);
             this.CtlTabsLayers.TabIndex = 2;
+            this.CtlTabsLayers.TabStop = false;
             // 
             // CtlTabInput
             // 

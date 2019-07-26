@@ -55,17 +55,8 @@ namespace NN.Controls
         }
 
         private void CtlWeightsIniterParamA_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                ValidateWeightsIniterParamA();
-                CtlWeightsIniterParamA.BackColor = Color.White;
-            }
-            catch
-            {
-                CtlWeightsIniterParamA.BackColor = Color.Red;
-                return;
-            }
+        { 
+            CtlWeightsIniterParamA.BackColor = IsValidWeightsIniterParamA() ? Color.White : Color.Tomato;
         }
 
         public override string WeightsInitializer => CtlWeightsIniter.Text;
@@ -84,22 +75,14 @@ namespace NN.Controls
             StateChanged();
         }
 
-        private void ValidateParameters()
+        public bool IsValidWeightsIniterParamA()
         {
-            ValidateWeightsIniterParamA();
+            return Converter.TryTextToDouble(CtlWeightsIniterParamA.Text, out double? result);
         }
 
-        private void ValidateWeightsIniterParamA()
+        public override bool IsValid()
         {
-            if (!Converter.TryTextToDouble(CtlWeightsIniterParamA.Text, out double? result))
-            {
-                throw new Exception($"Invalid weight initializer parameter a value '{CtlWeightsIniterParamA.Text}'.");
-            }
-        }
-
-        public override void ValidateConfig()
-        {
-            ValidateParameters();
+            return IsValidWeightsIniterParamA();
         }
 
         public override void SaveConfig()

@@ -50,10 +50,12 @@ namespace NN.Controls
             }
         }
 
-        public override void ValidateConfig()
+        public override bool IsValid()
         {
+            bool result = true;
             var neurons = GetNeuronsControls();
-            Range.ForEach(neurons, n => n.ValidateConfig());
+            Range.ForEach(neurons, n => result &= n.IsValid());
+            return result;
         }
 
         public override void SaveConfig()

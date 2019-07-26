@@ -56,7 +56,7 @@ namespace NN.Controls
             get { throw new NotImplementedException(); }
         }
 
-        public virtual void ValidateConfig()
+        public virtual bool IsValid()
         {
             throw new NotImplementedException();
         }
