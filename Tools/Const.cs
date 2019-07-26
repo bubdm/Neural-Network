@@ -11,7 +11,7 @@ namespace Tools
         public const int UnknownId = -1;
         public const int CurrentValue = -1;
         public const int InputLayerId = 0;
-        public const int OutputLayerId = 0;
+        public const int OutputLayerId = 1;
         public const double InitializerSkipValue = double.NaN;
 
         public const int DefaultInputNeuronsCount = 100;

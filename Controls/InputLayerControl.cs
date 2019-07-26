@@ -17,6 +17,7 @@ namespace NN.Controls
             : base(Const.InputLayerId, config, onNetworkUIChanged)
         {
             InitializeComponent();
+            CtlHeadPanel.Visible = true;
 
             LoadConfig();
 
@@ -71,7 +72,7 @@ namespace NN.Controls
         {
             Config.Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
 
-            var neurons = GetNeuronsControls();
+            var neurons = GetNeuronsControls().Where(n => n.IsBias);
             Config.Set(Const.Param.Neurons, neurons.Select(n => n.Id));
             Range.ForEach(neurons, n => n.SaveConfig());
         }

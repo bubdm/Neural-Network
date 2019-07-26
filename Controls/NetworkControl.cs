@@ -121,6 +121,7 @@ namespace NN.Controls
 
                 var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
                 var config = new Config(saveDialog.FileName);
+                //config.Set(Const.Param.NetworkName, saveDialog.FileName);
                 Config.Main.Set(Const.Param.NetworkName, saveDialog.FileName);
                 return config;
             }

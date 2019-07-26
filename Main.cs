@@ -419,7 +419,7 @@ namespace NN
             if (network.Config != null)
             {
                 ReplaceNetworkControl(network);
-                Config.Main.Set(Const.Param.NetworkName, network.Config.GetString(Const.Param.NetworkName));
+                //Config.Main.Set(Const.Param.NetworkName, network.Config.GetString(Const.Param.NetworkName));
 
                 if (network.IsValid())
                 {
@@ -542,6 +542,7 @@ namespace NN
             try
             {
                 SaveConfig();
+                LoadConfig(); // to apply input count changes
             }
             catch (Exception ex)
             {
