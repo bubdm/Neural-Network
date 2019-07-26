@@ -29,6 +29,13 @@ namespace NN.Controls
             OnNetworkUIChanged = onNetworkUIChanged;
 
             Dock = DockStyle.Fill;
+
+            CtlFlow.AutoScroll = false;
+            CtlFlow.HorizontalScroll.Maximum = 0;
+            CtlFlow.HorizontalScroll.Enabled = false;
+            CtlFlow.HorizontalScroll.Visible = false;
+            CtlFlow.AutoScroll = true;
+
             Id = id;
             Config = config.Extend(Id);
         }
@@ -37,14 +44,11 @@ namespace NN.Controls
         public virtual bool IsHidden => false;
         public virtual bool IsOutput => false;
 
-        public virtual int NeuronsCount
-        {
-            get;
-        }
+        public int NeuronsCount => GetNeuronsControls().Count;
 
-        public virtual List<NeuronBase> GetNeuronsControls()
+        public List<NeuronBase> GetNeuronsControls()
         {
-            throw new NotImplementedException();
+            return CtlFlow.Controls.OfType<NeuronBase>().ToList();
         }
 
         public virtual void ValidateConfig()
@@ -64,8 +68,10 @@ namespace NN.Controls
 
         private void CtlFlow_Layout(object sender, LayoutEventArgs e)
         {
-            Dispatch(() =>
-            {
+           //HorizontalScroll.Visible = false;
+
+            //Dispatch(() =>
+            //{
                 if (CtlFlow.Controls.Count > 0)
                 {
                     CtlFlow.SuspendLayout();
@@ -76,18 +82,22 @@ namespace NN.Controls
                         control.Width = CtlFlow.Width - (CtlFlow.VerticalScroll.Visible ? System.Windows.Forms.SystemInformation.VerticalScrollBarWidth : 0);
                     }
                     CtlFlow.ResumeLayout();
+
+
                 }
-            });
+            //});
         }
 
         private void CtlFlow_ControlAdded(object sender, ControlEventArgs e)
         {      
             Dispatch(() =>
             {
-                CtlFlow.ScrollControlIntoView(e.Control);
-                CtlFlow.HorizontalScroll.Value = 0;
-                PerformLayout();
+                //CtlFlow.ScrollControlIntoView(e.Control);
+                //CtlFlow.HorizontalScroll.Value = 0;
+                //PerformLayout();
             });
+
+            CtlFlow.ScrollControlIntoView(e.Control);
         }
 
         private void Dispatch(Action action)
@@ -102,8 +112,8 @@ namespace NN.Controls
         {
             Dispatch(() =>
             {
-                CtlFlow.HorizontalScroll.Value = 0;
-                PerformLayout();
+                //CtlFlow.HorizontalScroll.Value = 0;
+                //PerformLayout();
             });
         }
     }

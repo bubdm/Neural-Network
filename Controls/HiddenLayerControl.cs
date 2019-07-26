@@ -32,12 +32,6 @@ namespace NN.Controls
         }
 
         public override bool IsHidden => true;
-        public override int NeuronsCount => GetNeuronsControls().Count;
-
-        public override List<NeuronBase> GetNeuronsControls()
-        {
-            return CtlFlow.Controls.OfType<NeuronBase>().ToList();
-        }
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {

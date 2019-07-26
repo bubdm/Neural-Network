@@ -24,7 +24,6 @@ namespace NN.Controls
         }
 
         public override bool IsInput => true;
-        public override int NeuronsCount => GetNeuronsControls().Count;
 
         private void CtlInputCount_ValueChanged(object sender, EventArgs e)
         {
@@ -48,7 +47,7 @@ namespace NN.Controls
         public void AddNeuron()
         {
             var neuron = new InputNeuronControl();
-            Controls.Add(neuron);
+            CtlFlow.Controls.Add(neuron);
         }
 
         public void AddBias(long id)
@@ -70,11 +69,6 @@ namespace NN.Controls
         public override void SaveConfig()
         {
              Config.Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
-        }
-
-        public override List<NeuronBase> GetNeuronsControls()
-        {
-            return Controls.OfType<NeuronBase>().ToList();
         }
 
         public override void VanishConfig()
