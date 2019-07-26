@@ -12,8 +12,7 @@ namespace NN
     public class NetworkDataModel
     {
         public ListX<LayerDataModel> Layers = new ListX<LayerDataModel>();
-        public double LearningRate = 0.05;
-
+        public double? LearningRate;
         public string Randomizer;
         public double? RandomizerParamA;
 

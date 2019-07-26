@@ -34,19 +34,23 @@
             this.CtlRandomizerParamALabel = new System.Windows.Forms.Label();
             this.CtlRandomizer = new System.Windows.Forms.ComboBox();
             this.CtlRandomizerLabel = new System.Windows.Forms.Label();
-            this.CtlTabsLayers = new NN.Controls.TabControlEx();
-            this.CtlTabInput = new NN.Controls.TabPageEx();
-            this.CtlTabOutput = new NN.Controls.TabPageEx();
             this.CtlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CtlMenuAddLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuDeleteLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlTabsLayers = new NN.Controls.TabControlEx();
+            this.CtlTabInput = new NN.Controls.TabPageEx();
+            this.CtlTabOutput = new NN.Controls.TabPageEx();
+            this.CtlLearningRateLabel = new System.Windows.Forms.Label();
+            this.CtlLearningRate = new System.Windows.Forms.TextBox();
             this.CtlMainPanel.SuspendLayout();
-            this.CtlTabsLayers.SuspendLayout();
             this.CtlContextMenu.SuspendLayout();
+            this.CtlTabsLayers.SuspendLayout();
             this.SuspendLayout();
             // 
             // CtlMainPanel
             // 
+            this.CtlMainPanel.Controls.Add(this.CtlLearningRate);
+            this.CtlMainPanel.Controls.Add(this.CtlLearningRateLabel);
             this.CtlMainPanel.Controls.Add(this.CtlRandomizerParamA);
             this.CtlMainPanel.Controls.Add(this.CtlRandomizerParamALabel);
             this.CtlMainPanel.Controls.Add(this.CtlRandomizer);
@@ -98,6 +102,30 @@
             this.CtlRandomizerLabel.TabIndex = 0;
             this.CtlRandomizerLabel.Text = "Randomize mode:";
             // 
+            // CtlContextMenu
+            // 
+            this.CtlContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.CtlContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CtlMenuAddLayer,
+            this.CtlMenuDeleteLayer});
+            this.CtlContextMenu.Name = "CtlContextMenu";
+            this.CtlContextMenu.Size = new System.Drawing.Size(159, 52);
+            // 
+            // CtlMenuAddLayer
+            // 
+            this.CtlMenuAddLayer.Name = "CtlMenuAddLayer";
+            this.CtlMenuAddLayer.Size = new System.Drawing.Size(158, 24);
+            this.CtlMenuAddLayer.Text = "Add layer";
+            this.CtlMenuAddLayer.Click += new System.EventHandler(this.CtlMenuAddLayer_Click);
+            // 
+            // CtlMenuDeleteLayer
+            // 
+            this.CtlMenuDeleteLayer.Enabled = false;
+            this.CtlMenuDeleteLayer.Name = "CtlMenuDeleteLayer";
+            this.CtlMenuDeleteLayer.Size = new System.Drawing.Size(158, 24);
+            this.CtlMenuDeleteLayer.Text = "Delete layer";
+            this.CtlMenuDeleteLayer.Click += new System.EventHandler(this.CtlMenuDeleteLayer_Click);
+            // 
             // CtlTabsLayers
             // 
             this.CtlTabsLayers.Controls.Add(this.CtlTabInput);
@@ -128,29 +156,25 @@
             this.CtlTabOutput.Text = "Output";
             this.CtlTabOutput.UseVisualStyleBackColor = true;
             // 
-            // CtlContextMenu
+            // CtlLearningRateLabel
             // 
-            this.CtlContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.CtlContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CtlMenuAddLayer,
-            this.CtlMenuDeleteLayer});
-            this.CtlContextMenu.Name = "CtlContextMenu";
-            this.CtlContextMenu.Size = new System.Drawing.Size(159, 52);
+            this.CtlLearningRateLabel.AutoSize = true;
+            this.CtlLearningRateLabel.Location = new System.Drawing.Point(28, 51);
+            this.CtlLearningRateLabel.Name = "CtlLearningRateLabel";
+            this.CtlLearningRateLabel.Size = new System.Drawing.Size(97, 17);
+            this.CtlLearningRateLabel.TabIndex = 3;
+            this.CtlLearningRateLabel.Text = "Learning rate:";
+            this.CtlLearningRateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // CtlMenuAddLayer
+            // CtlLearningRate
             // 
-            this.CtlMenuAddLayer.Name = "CtlMenuAddLayer";
-            this.CtlMenuAddLayer.Size = new System.Drawing.Size(158, 24);
-            this.CtlMenuAddLayer.Text = "Add layer";
-            this.CtlMenuAddLayer.Click += new System.EventHandler(this.CtlMenuAddLayer_Click);
-            // 
-            // CtlMenuDeleteLayer
-            // 
-            this.CtlMenuDeleteLayer.Enabled = false;
-            this.CtlMenuDeleteLayer.Name = "CtlMenuDeleteLayer";
-            this.CtlMenuDeleteLayer.Size = new System.Drawing.Size(158, 24);
-            this.CtlMenuDeleteLayer.Text = "Delete layer";
-            this.CtlMenuDeleteLayer.Click += new System.EventHandler(this.CtlMenuDeleteLayer_Click);
+            this.CtlLearningRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlLearningRate.Location = new System.Drawing.Point(132, 48);
+            this.CtlLearningRate.Name = "CtlLearningRate";
+            this.CtlLearningRate.Size = new System.Drawing.Size(82, 22);
+            this.CtlLearningRate.TabIndex = 4;
+            this.CtlLearningRate.TabStop = false;
+            this.CtlLearningRate.Text = "1";
             // 
             // NetworkControl
             // 
@@ -163,8 +187,8 @@
             this.Size = new System.Drawing.Size(410, 235);
             this.CtlMainPanel.ResumeLayout(false);
             this.CtlMainPanel.PerformLayout();
-            this.CtlTabsLayers.ResumeLayout(false);
             this.CtlContextMenu.ResumeLayout(false);
+            this.CtlTabsLayers.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -182,5 +206,7 @@
         private System.Windows.Forms.ToolStripMenuItem CtlMenuDeleteLayer;
         private System.Windows.Forms.TextBox CtlRandomizerParamA;
         private System.Windows.Forms.Label CtlRandomizerParamALabel;
+        private System.Windows.Forms.TextBox CtlLearningRate;
+        private System.Windows.Forms.Label CtlLearningRateLabel;
     }
 }

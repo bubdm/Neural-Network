@@ -44,6 +44,12 @@ namespace NN.Controls
             CtlTabsLayers.SelectedIndexChanged += CtlTabsLayers_SelectedIndexChanged;
             CtlRandomizerParamA.TextChanged += CtlRandomizerParamA_TextChanged;
             CtlRandomizer.SelectedValueChanged += CtlRandomizer_SelectedValueChanged;
+            CtlLearningRate.TextChanged += CtlLearningRate_TextChanged;
+        }
+
+        private void CtlLearningRate_TextChanged(object sender, EventArgs e)
+        {
+            CtlLearningRate.BackColor = IsValidLearningRate() ? Color.White : Color.Tomato;
         }
 
         private void CtlRandomizer_SelectedValueChanged(object sender, EventArgs e)
@@ -54,7 +60,6 @@ namespace NN.Controls
 
         private void CtlRandomizerParamA_TextChanged(object sender, EventArgs e)
         {
-            IsValidRandomizeParamA();
             CtlRandomizerParamA.BackColor = IsValidRandomizeParamA() ? Color.White : Color.Tomato;
         }
 
@@ -121,7 +126,6 @@ namespace NN.Controls
 
                 var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
                 var config = new Config(saveDialog.FileName);
-                //config.Set(Const.Param.NetworkName, saveDialog.FileName);
                 Config.Main.Set(Const.Param.NetworkName, saveDialog.FileName);
                 return config;
             }
@@ -161,10 +165,21 @@ namespace NN.Controls
             return Converter.TryTextToDouble(CtlRandomizerParamA.Text, out double? d);
         }
 
+        private bool IsValidLearningRate()
+        {
+            if (Converter.TryTextToDouble(CtlLearningRate.Text, out double? d))
+            {
+                return d.HasValue && 0 < d && d <= 1;
+            }
+
+            return false;
+        }
+
         public bool IsValid()
         {
             bool result = true;
             result &= IsValidRandomizeParamA();
+            result &= IsValidLearningRate();
 
             var layers = GetLayersControls();
             Range.ForEach(layers, l => result &= l.IsValid());
@@ -175,6 +190,7 @@ namespace NN.Controls
         {
             Config.Set(Const.Param.Randomizer, Randomizer);
             Config.Set(Const.Param.RandomizerParamA, CtlRandomizerParamA.Text);
+            Config.Set(Const.Param.LearningRate, CtlLearningRate.Text);
 
             var layers = GetLayersControls();
             Range.ForEach(layers, l => l.SaveConfig());
@@ -200,10 +216,9 @@ namespace NN.Controls
 
         private void LoadConfig()
         {
-            // randomizer
-
             RandomizeMode.Helper.FillComboBox(CtlRandomizer, Config);
             CtlRandomizerParamA.Text = Config.GetString(Const.Param.RandomizerParamA);
+            CtlLearningRate.Text = Config.GetString(Const.Param.LearningRate, "0.05");
 
             //
 
@@ -222,6 +237,7 @@ namespace NN.Controls
 
         private string Randomizer => CtlRandomizer.SelectedItem.ToString();
         private double? RandomizerParamA => Converter.TextToDouble(CtlRandomizerParamA.Text);
+        private double? LearningRate => Converter.TextToDouble(CtlLearningRate.Text);
 
         public Type ActiveLayerType => CtlTabsLayers.SelectedTab.Controls[0].GetType();
 
@@ -244,7 +260,8 @@ namespace NN.Controls
             var model = new NetworkDataModel(this)
             {
                 Randomizer = Randomizer,
-                RandomizerParamA = RandomizerParamA
+                RandomizerParamA = RandomizerParamA,
+                LearningRate = LearningRate
             };
 
             RandomizeMode.Helper.Invoke(Randomizer, model, RandomizerParamA);

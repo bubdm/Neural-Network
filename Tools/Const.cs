@@ -47,7 +47,8 @@ namespace Tools
             Neurons,
             RandomizerParamA,
             IsBias,
-            IsBiasConnected
+            IsBiasConnected,
+            LearningRate
         }
     }
 
