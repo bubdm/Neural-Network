@@ -30,3 +30,23 @@ namespace NN.Controls
         }
     }
 }
+
+/*
+     public class CustomTabControl : TabControl
+    {
+
+        private void CustomTabControl_Resize(object sender, EventArgs e)
+        {
+           if (this.Visible) this.Refresh();
+        }
+
+        public CustomTabControl()
+        {
+            this.Resize +=new EventHandler(CustomTabControl_Resize);
+            this.SetStyle(ControlStyles.UserPaint |
+                                    ControlStyles.AllPaintingInWmPaint |
+                                    ControlStyles.OptimizedDoubleBuffer,
+                                    true);
+        }
+    }
+    */

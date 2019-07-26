@@ -261,7 +261,7 @@ namespace NN.Controls
             {
                 Randomizer = Randomizer,
                 RandomizerParamA = RandomizerParamA,
-                LearningRate = LearningRate
+                LearningRate = LearningRate.Value
             };
 
             RandomizeMode.Helper.Invoke(Randomizer, model, RandomizerParamA);

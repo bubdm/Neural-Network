@@ -287,26 +287,27 @@ namespace NN
 
         private void CtlStart_Click(object sender, EventArgs e)
         {
-            NetworkUI.SaveConfig();
+            if (SaveConfig())
+            {
+                CtlStart.Enabled = false;
+                CtlReset.Enabled = false;
+                CtlStop.Enabled = true;
+                CtlMenuDeleteNetwork.Enabled = false;
+                NetworkPresenter.IsNetworkRunning = true;
 
-            CtlStart.Enabled = false;
-            CtlReset.Enabled = false;
-            CtlStop.Enabled = true;
-            CtlMenuDeleteNetwork.Enabled = false;
-            NetworkPresenter.IsNetworkRunning = true;
+                NetworkModel.FeedForward(); // initialize state
 
-            NetworkModel.FeedForward(); // initialize state
+                Round = 0;
+                StartTime = DateTime.Now;
 
-            Round = 0;
-            StartTime = DateTime.Now;
+                Draw(0);
 
-            Draw(0);
+                CancellationToken = CancellationTokenSource.Token;
 
-            CancellationToken = CancellationTokenSource.Token;
-
-            var ts = new ThreadStart(Work);
-            WorkThread = new Thread(ts);
-            WorkThread.Start();
+                var ts = new ThreadStart(Work);
+                WorkThread = new Thread(ts);
+                WorkThread.Start();
+            }
         }
 
         private void Draw(double percent)

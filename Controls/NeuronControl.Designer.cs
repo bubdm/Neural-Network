@@ -46,7 +46,7 @@
             this.CtlUpperBorder.Dock = System.Windows.Forms.DockStyle.Top;
             this.CtlUpperBorder.Location = new System.Drawing.Point(0, 0);
             this.CtlUpperBorder.Name = "CtlUpperBorder";
-            this.CtlUpperBorder.Size = new System.Drawing.Size(320, 1);
+            this.CtlUpperBorder.Size = new System.Drawing.Size(366, 1);
             this.CtlUpperBorder.TabIndex = 0;
             // 
             // CtlWeightsIniterLabel
@@ -66,7 +66,7 @@
             this.CtlWeightsIniter.FormattingEnabled = true;
             this.CtlWeightsIniter.Location = new System.Drawing.Point(105, 34);
             this.CtlWeightsIniter.Name = "CtlWeightsIniter";
-            this.CtlWeightsIniter.Size = new System.Drawing.Size(110, 24);
+            this.CtlWeightsIniter.Size = new System.Drawing.Size(156, 24);
             this.CtlWeightsIniter.TabIndex = 2;
             this.CtlWeightsIniter.TabStop = false;
             // 
@@ -74,7 +74,7 @@
             // 
             this.CtlWeightsIniterParamALabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlWeightsIniterParamALabel.AutoSize = true;
-            this.CtlWeightsIniterParamALabel.Location = new System.Drawing.Point(227, 37);
+            this.CtlWeightsIniterParamALabel.Location = new System.Drawing.Point(273, 37);
             this.CtlWeightsIniterParamALabel.Name = "CtlWeightsIniterParamALabel";
             this.CtlWeightsIniterParamALabel.Size = new System.Drawing.Size(20, 17);
             this.CtlWeightsIniterParamALabel.TabIndex = 3;
@@ -83,8 +83,8 @@
             // CtlWeightsIniterParamA
             // 
             this.CtlWeightsIniterParamA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CtlWeightsIniterParamA.Location = new System.Drawing.Point(240, 34);
-            this.CtlWeightsIniterParamA.MinimumSize = new System.Drawing.Size(0, 4);
+            this.CtlWeightsIniterParamA.Location = new System.Drawing.Point(286, 34);
+            this.CtlWeightsIniterParamA.MinimumSize = new System.Drawing.Size(4, 4);
             this.CtlWeightsIniterParamA.Name = "CtlWeightsIniterParamA";
             this.CtlWeightsIniterParamA.Size = new System.Drawing.Size(75, 22);
             this.CtlWeightsIniterParamA.TabIndex = 4;
@@ -117,7 +117,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(221, 37);
+            this.label1.Location = new System.Drawing.Point(267, 37);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(20, 17);
             this.label1.TabIndex = 3;
@@ -127,7 +127,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(221, 37);
+            this.label2.Location = new System.Drawing.Point(267, 37);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(20, 17);
             this.label2.TabIndex = 3;
@@ -137,7 +137,7 @@
             // 
             this.CtlNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CtlNumber.Location = new System.Drawing.Point(247, 2);
+            this.CtlNumber.Location = new System.Drawing.Point(293, 2);
             this.CtlNumber.Margin = new System.Windows.Forms.Padding(0);
             this.CtlNumber.Name = "CtlNumber";
             this.CtlNumber.Size = new System.Drawing.Size(68, 19);
@@ -164,7 +164,7 @@
             this.Margin = new System.Windows.Forms.Padding(0);
             this.MinimumSize = new System.Drawing.Size(320, 0);
             this.Name = "NeuronControl";
-            this.Size = new System.Drawing.Size(320, 90);
+            this.Size = new System.Drawing.Size(366, 127);
             this.ResumeLayout(false);
             this.PerformLayout();
 
