@@ -34,9 +34,9 @@
             this.CtlRandomizerParamALabel = new System.Windows.Forms.Label();
             this.CtlRandomizer = new System.Windows.Forms.ComboBox();
             this.CtlRandomizerLabel = new System.Windows.Forms.Label();
-            this.CtlTabsLayers = new System.Windows.Forms.TabControl();
-            this.CtlTabInput = new System.Windows.Forms.TabPage();
-            this.CtlTabOutput = new System.Windows.Forms.TabPage();
+            this.CtlTabsLayers = new TabControlEx();
+            this.CtlTabInput = new TabPageEx();
+            this.CtlTabOutput = new TabPageEx();
             this.CtlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CtlMenuAddLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuDeleteLayer = new System.Windows.Forms.ToolStripMenuItem();
@@ -169,9 +169,9 @@
         #endregion
 
         private System.Windows.Forms.Panel CtlMainPanel;
-        private System.Windows.Forms.TabControl CtlTabsLayers;
-        private System.Windows.Forms.TabPage CtlTabInput;
-        private System.Windows.Forms.TabPage CtlTabOutput;
+        private TabControlEx CtlTabsLayers;
+        private TabPageEx CtlTabInput;
+        private TabPageEx CtlTabOutput;
         private System.Windows.Forms.ContextMenuStrip CtlContextMenu;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuAddLayer;
         private System.Windows.Forms.ComboBox CtlRandomizer;

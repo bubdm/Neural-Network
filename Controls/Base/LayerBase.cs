@@ -103,14 +103,14 @@ namespace NN.Controls
 
                 if (CtlFlow.Controls.Count > 0)
                 {
-                    CtlFlow.SuspendLayout();
+                    //CtlFlow.SuspendLayout();
                     int ordinalNumber = 0;
                     foreach (NeuronBase control in CtlFlow.Controls)
                     {
                         control.OrdinalNumberChanged(++ordinalNumber);
                         control.Width = CtlFlow.Width - (CtlFlow.VerticalScroll.Visible ? System.Windows.Forms.SystemInformation.VerticalScrollBarWidth : 0);
                     }
-                    CtlFlow.ResumeLayout();
+                    //CtlFlow.ResumeLayout();
 
 
                 }

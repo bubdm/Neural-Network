@@ -38,6 +38,8 @@ namespace NN
         {
             InitializeComponent();
             Load += Main_Load;
+
+          
         }
 
         protected override void OnResizeBegin(EventArgs e)

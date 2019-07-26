@@ -70,6 +70,18 @@
     <Compile Include="Controls\InputNeuronControl.Designer.cs">
       <DependentUpon>InputNeuronControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Optimized\TabControlEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Optimized\TabControlEx.Designer.cs">
+      <DependentUpon>TabControlEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Optimized\TabPageEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Optimized\TabPageEx.Designer.cs">
+      <DependentUpon>TabPageEx.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Config.cs" />
     <Compile Include="Controls\DataControl.cs">
       <SubType>Component</SubType>
