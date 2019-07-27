@@ -31,6 +31,25 @@ namespace Tools
             }
         }
 
+        public static void Centered(NetworkDataModel network, double? a)
+        {
+            if (!a.HasValue)
+            {
+                a = 1;
+            }
+
+            foreach (var layer in network.Layers)
+            {
+                foreach (var neuron in layer.Neurons)
+                {
+                    foreach (var weight in neuron.Weights)
+                    {
+                        weight.Weight = -a.Value / 2 + a.Value * Rand.GetFlatRandom();
+                    }
+                }
+            }
+        }
+
         public static void FlatProgress(NetworkDataModel network, double? a)
         {
             if (!a.HasValue)

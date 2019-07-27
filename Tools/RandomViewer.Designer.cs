@@ -54,7 +54,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Randomizer Viewer";
             this.Shown += new System.EventHandler(this.RandomViewer_Shown);
-            this.ResizeEnd += new System.EventHandler(this.RandomViewer_ResizeEnd);
             ((System.ComponentModel.ISupportInitialize)(this.CtlPresenter)).EndInit();
             this.ResumeLayout(false);
 

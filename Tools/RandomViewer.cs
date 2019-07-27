@@ -32,6 +32,8 @@ namespace Tools
             Randomizer = randomizer;
             A = a;
 
+            RandomizeMode.Helper.Invoke(Randomizer, Model, A);
+
             CtlPresenter.Width = Screen.PrimaryScreen.Bounds.Width;
             CtlPresenter.Height = Screen.PrimaryScreen.Bounds.Height;
             CtlPresenter.Left = Width / 2 - CtlPresenter.Width / 2;
@@ -41,9 +43,7 @@ namespace Tools
         }
 
         private void Render()
-        {
-            CtlPresenter.Clear();
-
+        { 
             int left = 3 + (CtlPresenter.Width / 2) - ((Model.Layers.Count - 1) * 125) / 2;
             int top = (CtlPresenter.Height / 2) - Model.Layers[0].Height / 2  - 30;
             int distance = 50;
@@ -99,33 +99,7 @@ namespace Tools
 
         private void RandomViewer_Shown(object sender, EventArgs e)
         {
-            DrawRandomizer();
-            Dispatch(() => DrawRandomizer());
-        }
-
-        private void RandomViewer_ResizeEnd(object sender, EventArgs e)
-        {
-
-        }
-
-        private void DrawRandomizer()
-        {
-            RandomizeMode.Helper.Invoke(Randomizer, Model, A);
-
-            //var ts = new ThreadStart(Render);
-            //var thread = new Thread(ts);
-            //thread.Start();
             Render();
-
-            Dispatch(() => DrawRandomizer());
-        }
-
-        private void Dispatch(Action action)
-        {
-            var timer = new System.Timers.Timer(5000);
-            timer.Elapsed += (s, e) => { if (!IsDisposed) BeginInvoke(action); };
-            timer.AutoReset = false;
-            timer.Start();
         }
     }
 }
