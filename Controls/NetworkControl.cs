@@ -44,8 +44,6 @@ namespace NN.Controls
                 LoadConfig();
             }
 
-            CtlTabsLayers.SelectedIndex = 0;
-
             CtlTabsLayers.SelectedIndexChanged += CtlTabsLayers_SelectedIndexChanged;
             CtlRandomizerParamA.TextChanged += CtlRandomizerParamA_TextChanged;
             CtlRandomizer.SelectedValueChanged += CtlRandomizer_SelectedValueChanged;
@@ -194,6 +192,7 @@ namespace NN.Controls
 
         public void SaveConfig()
         {
+            Config.Set(Const.Param.CurrentLayerIndex, CtlTabsLayers.SelectedIndex);
             Config.Set(Const.Param.Randomizer, Randomizer);
             Config.Set(Const.Param.RandomizerParamA, CtlRandomizerParamA.Text);
             Config.Set(Const.Param.LearningRate, CtlLearningRate.Text);
@@ -230,6 +229,8 @@ namespace NN.Controls
 
             var layers = Config.GetArray(Const.Param.HiddenLayers);
             Range.For(layers.Length, i => AddLayer(layers[i]));
+
+            CtlTabsLayers.SelectedIndex = Config.GetInt(Const.Param.CurrentLayerIndex, 0);
         }
 
         public int[] GetLayersSize()

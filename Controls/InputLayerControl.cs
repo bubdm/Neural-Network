@@ -40,7 +40,7 @@ namespace NN.Controls
             Range.For((int)CtlInputCount.Value, n => AddNeuron());
 
             var neurons = Config.GetArray(Const.Param.Neurons);
-            Range.For(neurons.Length, n => AddBias(n));
+            Range.ForEach(neurons, n => AddBias(n));
         }
 
         public void AddNeuron()

@@ -37,6 +37,7 @@ namespace Tools
             AxisOffset,
 
             NetworkName,
+            CurrentLayerIndex,
             InputNeuronsMinCount,
             InputNeuronsMaxCount,
             InputNeuronsCount,

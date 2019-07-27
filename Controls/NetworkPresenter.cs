@@ -15,7 +15,7 @@ namespace NN.Controls
         const int NEURON_MAX_DIST = 40;
         const int HORIZONTAL_OFFSET = 10;
         const int VERTICAL_OFFSET = 10;
-        const int NEURON_SIZE = 7;
+        const int NEURON_SIZE = 8;
         const int NEURON_RADIUS = NEURON_SIZE / 2;
         const int BIAS_SIZE = 14;
         const int BIAS_RADIUS = BIAS_SIZE / 2;
