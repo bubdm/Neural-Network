@@ -37,9 +37,7 @@ namespace NN
         public Main()
         {
             InitializeComponent();
-            Load += Main_Load;
-
-          
+            Load += Main_Load; 
         }
 
         protected override void OnResizeBegin(EventArgs e)
@@ -52,7 +50,7 @@ namespace NN
             //CtlTabs.ResumeLayout();
             base.OnResizeEnd(e);
         }
-
+        /*
         protected override CreateParams CreateParams
         {
             get
@@ -62,7 +60,7 @@ namespace NN
                 return cp;
             }
         }
-
+        */
         private void Main_Load(object sender, EventArgs e)
         {
             Config.Main.Clear();

@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.CtlMainPanel = new System.Windows.Forms.Panel();
+            this.CtlLearningRate = new System.Windows.Forms.TextBox();
+            this.CtlLearningRateLabel = new System.Windows.Forms.Label();
             this.CtlRandomizerParamA = new System.Windows.Forms.TextBox();
             this.CtlRandomizerParamALabel = new System.Windows.Forms.Label();
             this.CtlRandomizer = new System.Windows.Forms.ComboBox();
@@ -37,11 +39,9 @@
             this.CtlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CtlMenuAddLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuDeleteLayer = new System.Windows.Forms.ToolStripMenuItem();
-            this.CtlTabsLayers = new NN.Controls.TabControlEx();
-            this.CtlTabInput = new NN.Controls.TabPageEx();
-            this.CtlTabOutput = new NN.Controls.TabPageEx();
-            this.CtlLearningRateLabel = new System.Windows.Forms.Label();
-            this.CtlLearningRate = new System.Windows.Forms.TextBox();
+            this.CtlTabsLayers = new System.Windows.Forms.TabControl();
+            this.CtlTabInput = new System.Windows.Forms.TabPage();
+            this.CtlTabOutput = new System.Windows.Forms.TabPage();
             this.CtlMainPanel.SuspendLayout();
             this.CtlContextMenu.SuspendLayout();
             this.CtlTabsLayers.SuspendLayout();
@@ -60,6 +60,27 @@
             this.CtlMainPanel.Name = "CtlMainPanel";
             this.CtlMainPanel.Size = new System.Drawing.Size(410, 103);
             this.CtlMainPanel.TabIndex = 0;
+            // 
+            // CtlLearningRate
+            // 
+            this.CtlLearningRate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlLearningRate.Location = new System.Drawing.Point(132, 48);
+            this.CtlLearningRate.Name = "CtlLearningRate";
+            this.CtlLearningRate.Size = new System.Drawing.Size(82, 22);
+            this.CtlLearningRate.TabIndex = 4;
+            this.CtlLearningRate.TabStop = false;
+            this.CtlLearningRate.Text = "1";
+            // 
+            // CtlLearningRateLabel
+            // 
+            this.CtlLearningRateLabel.AutoSize = true;
+            this.CtlLearningRateLabel.Location = new System.Drawing.Point(28, 51);
+            this.CtlLearningRateLabel.Name = "CtlLearningRateLabel";
+            this.CtlLearningRateLabel.Size = new System.Drawing.Size(97, 17);
+            this.CtlLearningRateLabel.TabIndex = 3;
+            this.CtlLearningRateLabel.Text = "Learning rate:";
+            this.CtlLearningRateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CtlRandomizerParamA
             // 
@@ -156,26 +177,6 @@
             this.CtlTabOutput.Text = "Output";
             this.CtlTabOutput.UseVisualStyleBackColor = true;
             // 
-            // CtlLearningRateLabel
-            // 
-            this.CtlLearningRateLabel.AutoSize = true;
-            this.CtlLearningRateLabel.Location = new System.Drawing.Point(28, 51);
-            this.CtlLearningRateLabel.Name = "CtlLearningRateLabel";
-            this.CtlLearningRateLabel.Size = new System.Drawing.Size(97, 17);
-            this.CtlLearningRateLabel.TabIndex = 3;
-            this.CtlLearningRateLabel.Text = "Learning rate:";
-            this.CtlLearningRateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // CtlLearningRate
-            // 
-            this.CtlLearningRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CtlLearningRate.Location = new System.Drawing.Point(132, 48);
-            this.CtlLearningRate.Name = "CtlLearningRate";
-            this.CtlLearningRate.Size = new System.Drawing.Size(82, 22);
-            this.CtlLearningRate.TabIndex = 4;
-            this.CtlLearningRate.TabStop = false;
-            this.CtlLearningRate.Text = "1";
-            // 
             // NetworkControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -196,9 +197,9 @@
         #endregion
 
         private System.Windows.Forms.Panel CtlMainPanel;
-        private TabControlEx CtlTabsLayers;
-        private TabPageEx CtlTabInput;
-        private TabPageEx CtlTabOutput;
+        private System.Windows.Forms.TabControl CtlTabsLayers;
+        private System.Windows.Forms.TabPage CtlTabInput;
+        private System.Windows.Forms.TabPage CtlTabOutput;
         private System.Windows.Forms.ContextMenuStrip CtlContextMenu;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuAddLayer;
         private System.Windows.Forms.ComboBox CtlRandomizer;

@@ -20,12 +20,17 @@ namespace NN.Controls
         readonly InputLayerControl InputLayer;
         readonly OutputLayerControl OutputLayer;
 
+        readonly IntPtr __h;
+
         public NetworkControl(string name, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;
 
             Dock = DockStyle.Fill;
+
+            //https://stackoverflow.com/questions/1532301/visual-studio-tabcontrol-tabpages-insert-not-working
+            __h = CtlTabsLayers.Handle;
 
             Config = String.IsNullOrEmpty(name) ? CreateNewNetwork() : new Config(name);
             if (Config != null)
@@ -71,7 +76,7 @@ namespace NN.Controls
         private void AddLayer(long id)
         {
             var layer = new HiddenLayerControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);
-            var tab = new TabPageEx();
+            var tab = new TabPage();
             tab.Controls.Add(layer);
             CtlTabsLayers.TabPages.Insert(CtlTabsLayers.TabCount - 1, tab);
             CtlTabsLayers.SelectedTab = tab;
