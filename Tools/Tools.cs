@@ -50,7 +50,10 @@ namespace Tools
             return false;
         }
 
-        public static string DoubleToText(double? d)
+        static char[] _0 = new[] { '0' };
+        static char[] _S = new[] { Culture.Current.NumberFormat.NumberDecimalSeparator[0] };
+
+        public static string DoubleToText(double? d, string format = "G")
         {
             if (!d.HasValue)
             {
@@ -58,7 +61,12 @@ namespace Tools
             }
             else
             {
-                return d.Value.ToString("G", Culture.Current);
+                var result = d.Value.ToString(format, Culture.Current);
+                if (result.Contains(Culture.Current.NumberFormat.NumberDecimalSeparator))
+                {
+                    result = result.TrimEnd(_0).TrimEnd(_S);
+                }
+                return result;
             }
         }
     }

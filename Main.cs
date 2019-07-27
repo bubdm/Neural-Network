@@ -21,7 +21,7 @@ namespace NN
         Thread WorkThread;
         CancellationToken CancellationToken;
         CancellationTokenSource CancellationTokenSource = new CancellationTokenSource();
-        object ApplyChangesLocker = new object();
+        public static object ApplyChangesLocker = new object();
 
         NetworkDataModel NetworkModel;
         DateTime StartTime;
@@ -37,33 +37,19 @@ namespace NN
         public Main()
         {
             InitializeComponent();
+
+            CtlDataPanel.AutoScroll = false;
+            CtlDataPanel.HorizontalScroll.Maximum = 0;
+            CtlDataPanel.HorizontalScroll.Enabled = false;
+            CtlDataPanel.HorizontalScroll.Visible = false;
+            CtlDataPanel.AutoScroll = true;
+
             Load += Main_Load; 
         }
 
-        protected override void OnResizeBegin(EventArgs e)
-        {
-            //CtlTabs.SuspendLayout();
-            base.OnResizeBegin(e);
-        }
-        protected override void OnResizeEnd(EventArgs e)
-        {
-            //CtlTabs.ResumeLayout();
-            base.OnResizeEnd(e);
-        }
-        /*
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle = cp.ExStyle | 0x2000000;
-                return cp;
-            }
-        }
-        */
         private void Main_Load(object sender, EventArgs e)
         {
-            Config.Main.Clear();
+            //Config.Main.Clear();
             CreateDirectories();
 
             InputDataPresenter = new DataControl();
@@ -73,7 +59,7 @@ namespace NN
             NetworkPresenter = new NetworkPresenter();
             NetworkPresenter.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             CtlNetPanel.Controls.Add(NetworkPresenter);
-            CtlTime.SizeChanged += CtlTime_SizeChanged;
+            //CtlTime.SizeChanged += CtlTime_SizeChanged;
 
             PlotPresenter = new PlotterPresenter();
             PlotPresenter.Height = 200;
@@ -171,7 +157,7 @@ namespace NN
 
         private void CtlTime_SizeChanged(object sender, EventArgs e)
         {
-            CtlTime.Left = CtlNetPanel.Width - CtlTime.Width;
+            //CtlTime.Left = CtlNetPanel.Width - CtlTime.Width;
         }
 
         private void ToggleApplyChanges(Const.Toggle state)
@@ -191,6 +177,14 @@ namespace NN
         private void OnNetworkUIChanged(Notification.ParameterChanged param, object newValue = null) 
         {
             ToggleApplyChanges(Const.Toggle.On);
+
+            if (param == Notification.ParameterChanged.NeuronsCount)
+            {
+                if (NetworkUI != null)
+                {
+                    NetworkUI.ResetLayersTabsNames();
+                }
+            }
         }
 
         private void ApplyChangesToRunningNetwork()
@@ -244,7 +238,7 @@ namespace NN
                     NetworkModel.BackPropagation();
                 }
 
-                if (DateTime.Now.Subtract(startTime).TotalSeconds >= 10)
+                if (total == 10000 || DateTime.Now.Subtract(startTime).TotalSeconds >= 10)
                 {
                     break;
                 }
@@ -269,7 +263,7 @@ namespace NN
                 {
                     lock (ApplyChangesLocker)
                     {
-                        Draw(100 * (double)correct / total);
+                        Draw(100 * (double)correct / (double)total);
                     }
                 }
                 catch (Exception ex)
@@ -293,6 +287,9 @@ namespace NN
                 CtlMenuDeleteNetwork.Enabled = false;
                 NetworkPresenter.IsNetworkRunning = true;
 
+                NetworkModel.PrepareForStart();
+                PlotPresenter.ClearData();
+
                 NetworkModel.FeedForward(); // initialize state
 
                 Round = 0;
@@ -310,11 +307,10 @@ namespace NN
 
         private void Draw(double percent)
         {
-            InputDataPresenter.SetInputData(NetworkModel.Layers.First());
-
             var renderStart = DateTime.Now;
-            NetworkPresenter.Render();
-            var renderStop = DateTime.Now;
+
+            InputDataPresenter.SetInputData(NetworkModel.Layers.First());
+            NetworkPresenter.Render();          
             PlotPresenter.AddPoint(percent);
 
             var number = NetworkModel.Layers.First().Neurons.Sum(neuron => neuron.Activation);
@@ -335,12 +331,15 @@ namespace NN
 
             stat.Add("Input", number.ToString());
             var max = NetworkModel.GetMaxActivatedNeuron();
-            stat.Add("Output", max.Id.ToString() + $" ({(100 * max.Activation).ToString("N4")}%)");
-            stat.Add("Cost", NetworkModel.Cost((int)number).ToString());
+            stat.Add("Output", max.Id.ToString() + $" ({Converter.DoubleToText(100 * max.Activation)}%)");
+            stat.Add("Cost", Converter.DoubleToText(NetworkModel.Cost((int)number)));
             stat.Add("Percent", Converter.DoubleToText(percent) + " %");
             stat.Add("Learning rate", Converter.DoubleToText(NetworkModel.LearningRate));
             stat.Add("Rounds", Round.ToString());
             stat.Add("Rounds/sec", ((int)((double)Round / DateTime.Now.Subtract(StartTime).TotalSeconds)).ToString());
+
+            var renderStop = DateTime.Now;
+
             stat.Add("Render time, msec", ((int)(renderStop.Subtract(renderStart).TotalMilliseconds)).ToString());
             StatisticsPresenter.DrawStat(stat);
         }
@@ -355,14 +354,20 @@ namespace NN
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            StopRunning();
-            try
+            if (StopRequest())
             {
-                SaveConfig();
+                try
+                {
+                    SaveConfig();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK);
+                    e.Cancel = true;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK);
                 e.Cancel = true;
             }
         }

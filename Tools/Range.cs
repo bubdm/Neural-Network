@@ -15,7 +15,7 @@ namespace Tools
 
         public static void For(int range, Action<int> action)
         {
-            foreach (int y in Make(range))
+            for (int y = 0; y < range; ++y)
                 action(y);
         }
 
@@ -27,7 +27,8 @@ namespace Tools
 
         public static void BackEach<T>(IEnumerable<T> range, Action<T> action)
         {
-            foreach (T y in range.Reverse())
+            range = range.Reverse();
+            foreach (T y in range)
                 action(y);
         }
 
@@ -38,7 +39,7 @@ namespace Tools
             long count = range.Count();
             foreach (T y in range)
             {
-                if (n == count - 1 + trim)
+                if (n == count + trim)
                 {
                     break;
                 }
@@ -66,7 +67,7 @@ namespace Tools
 
         public static void Back(int range, Action<int> action)
         {
-            foreach (int y in Make(range).Reverse())
+            for (int y = range - 1; y >= 0; --y)
                 action(y);
         }
 

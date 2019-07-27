@@ -127,11 +127,15 @@ namespace NN.Controls
         {
             StartRender();
             Clear();
-            if (NetworkModel.Layers.Count > 0)
+            lock (Main.ApplyChangesLocker)
             {
-                Range.ForEachTrimEnd(NetworkModel.Layers, -1, layer => DrawLayersLinks(fullState, layer, layer.Next));
+                if (NetworkModel.Layers.Count > 0)
+                {
+                    Range.ForEachTrimEnd(NetworkModel.Layers, -1, layer => DrawLayersLinks(fullState, layer, layer.Next));
+                }
+
+                Range.ForEach(NetworkModel.Layers, layer => DrawLayerNeurons(fullState, layer));
             }
-            Range.ForEach(NetworkModel.Layers, layer => DrawLayerNeurons(fullState, layer));
 
             Invalidate();
         }

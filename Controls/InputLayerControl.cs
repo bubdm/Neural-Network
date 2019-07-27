@@ -25,10 +25,11 @@ namespace NN.Controls
         }
 
         public override bool IsInput => true;
+        public override int NeuronsCount => (int)(CtlInputCount.Value + GetNeuronsControls().Count(n => n.IsBias));
 
         private void CtlInputCount_ValueChanged(object sender, EventArgs e)
         {
-            OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            OnNetworkUIChanged(Notification.ParameterChanged.NeuronsCount, null);
         }
 
         private void LoadConfig()
@@ -56,7 +57,7 @@ namespace NN.Controls
 
             if (id == Const.UnknownId)
             {
-                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+                OnNetworkUIChanged(Notification.ParameterChanged.NeuronsCount, null);
             }
         }
 

@@ -44,7 +44,7 @@ namespace NN.Controls
         public virtual bool IsHidden => false;
         public virtual bool IsOutput => false;
 
-        public int NeuronsCount => GetNeuronsControls().Count;
+        public virtual int NeuronsCount => GetNeuronsControls().Count;
 
         public List<NeuronBase> GetNeuronsControls()
         {

@@ -101,7 +101,7 @@ namespace NN.Controls
             {
                 Parent.Controls.Remove(this);
                 VanishConfig();
-                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+                OnNetworkUIChanged(Notification.ParameterChanged.NeuronsCount, null);
             }
             else
             {

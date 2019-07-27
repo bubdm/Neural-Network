@@ -68,6 +68,11 @@ namespace NN
             return max;
         }
 
+        public void PrepareForStart()
+        {
+            RandomizeMode.Helper.Invoke(Randomizer, this, RandomizerParamA);
+        }
+
         public void FeedForward()
         {
             Range.ForEach(Layers.First().Neurons, n => n.Activation = 0);
@@ -98,15 +103,20 @@ namespace NN
             Range.ForEach(Layers.Last().Neurons, neuron =>
             neuron.Error = ((neuron.Id == number ? 1 : 0) - neuron.Activation) * Derivative.LogisticSigmoid(neuron.Activation));
 
-            Range.BackEachTrimEnd(Layers, -1, layer =>
+            Range.BackEachTrimEnd(Layers, -2, layer =>
             {
                 Range.ForEach(layer.Previous.Neurons, neuronPrev =>
+                {
                     neuronPrev.Error = Range.SumForEach(layer.Neurons, neuron =>
-                    {
+                    {/*
                         return neuron.IsBias && !neuron.IsBiasConnected
                                 ? 0
-                                : neuron.Error * neuronPrev.WeightTo(neuron).Weight * Derivative.LogisticSigmoid(neuronPrev.Activation);
-                    }));
+                                : 
+                                */
+                               return neuron.Error * neuronPrev.WeightTo(neuron).Weight * Derivative.LogisticSigmoid(neuronPrev.Activation);
+                    });
+                    int f = 1;
+                });
             });
 
             // update weights

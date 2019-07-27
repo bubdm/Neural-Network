@@ -79,7 +79,7 @@ namespace NN.Controls
             
             var font = new Font("Tahoma", 7, FontStyle.Bold);
             G.TextRenderingHint = TextRenderingHint.AntiAlias;
-            G.DrawString(new DateTime(PercentData.Last().Item2.Subtract(PercentData.First().Item2).Ticks).ToString("HH:mm:ss") + " / " + PercentData.Last().Item1.ToString("N4") + " %", font, Brushes.Black, AxisOffset * 3, Height - AxisOffset - 20);
+            G.DrawString(new DateTime(PercentData.Last().Item2.Subtract(PercentData.First().Item2).Ticks).ToString("HH:mm:ss") + " / " + Converter.DoubleToText(PercentData.Last().Item1, "N4") + " %", font, Brushes.Black, AxisOffset * 3, Height - AxisOffset - 20);
             
             Invalidate();
         }
@@ -100,6 +100,32 @@ namespace NN.Controls
 
         public void AddPoint(double percent)
         {
+            if (PercentData.Count > 2)
+            {
+                var time = PercentData.Last().Item2.Subtract(PercentData.First().Item2);
+
+                for (int i = 1; i < PercentData.Count; ++i)
+                {
+                    if ((double)PercentData[i].Item2.Subtract(PercentData[i - 1].Item2).Ticks / (double)time.Ticks < 0.01)
+                    {
+                        PercentData.RemoveAt(i);
+                        ++i;
+                    }
+                }
+                /*
+                var last = PercentData.Last();
+
+                if (Math.Abs(last.Item1 - percent) < 0.5)
+                {
+                    PercentData.Remove(last);
+                    if (Math.Abs(PercentData.Last().Item1 - percent) >= 0.5)
+                    {
+                        PercentData.Add(last);
+                    }
+                } 
+                */
+            }
+
             PercentData.Add(new Tuple<double, DateTime>(percent, DateTime.Now));
             Draw();
         }

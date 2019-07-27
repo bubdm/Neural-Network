@@ -40,7 +40,7 @@ namespace NN.Controls
                     G.Dispose();
                 }
                 G = Graphics.FromImage(DrawArea);
-                G.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                //G.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             }
         }
 

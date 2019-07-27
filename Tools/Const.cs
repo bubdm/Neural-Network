@@ -60,7 +60,8 @@ namespace Tools
         public enum ParameterChanged
         {
             Randomizer,
-            Structure
+            Structure,
+            NeuronsCount
         }
     }
 }

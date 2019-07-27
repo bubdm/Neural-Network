@@ -85,7 +85,7 @@ namespace NN.Controls
             }
         }
 
-        private void ResetLayersTabsNames()
+        public void ResetLayersTabsNames()
         {
             var layers = GetLayersControls();
             for (int i = 0; i < layers.Count; ++i)
@@ -227,10 +227,12 @@ namespace NN.Controls
 
             //
 
+            CtlTabsLayers.SuspendLayout();
             var layers = Config.GetArray(Const.Param.HiddenLayers);
             Range.For(layers.Length, i => AddLayer(layers[i]));
 
             CtlTabsLayers.SelectedIndex = Config.GetInt(Const.Param.CurrentLayerIndex, 0);
+            CtlTabsLayers.ResumeLayout();
         }
 
         public int[] GetLayersSize()
@@ -272,7 +274,7 @@ namespace NN.Controls
                 LearningRate = LearningRate.Value
             };
 
-            RandomizeMode.Helper.Invoke(Randomizer, model, RandomizerParamA);
+            model.PrepareForStart();
 
             var layers = GetLayersControls();
             for (int ln = 0; ln < layers.Count; ++ln)

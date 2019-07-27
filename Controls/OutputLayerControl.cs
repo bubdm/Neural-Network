@@ -46,7 +46,7 @@ namespace NN.Controls
 
             if (id == Const.UnknownId)
             {
-                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+                OnNetworkUIChanged(Notification.ParameterChanged.NeuronsCount, null);
             }
         }
 

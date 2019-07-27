@@ -39,10 +39,13 @@
             this.CtlNetPanel = new System.Windows.Forms.Panel();
             this.CtlPlotSplitter = new System.Windows.Forms.Splitter();
             this.CtlManagerPanel = new System.Windows.Forms.Panel();
+            this.CtlTabs = new System.Windows.Forms.TabControl();
             this.CtlNetworkContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CtlMenuNewNetwork = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuLoadNetwork = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuDeleteNetwork = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlTabSettings = new System.Windows.Forms.TabPage();
+            this.CtlTabNetwork = new System.Windows.Forms.TabPage();
             this.CtlManagerTools = new System.Windows.Forms.Panel();
             this.CtlApplyChanges = new System.Windows.Forms.Button();
             this.CtlMenu = new System.Windows.Forms.MenuStrip();
@@ -58,16 +61,13 @@
             this.CtlMainMenuNewNeuron = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuStart = new System.Windows.Forms.ToolStripMenuItem();
-            this.CtlTabs = new System.Windows.Forms.TabControl();
-            this.CtlTabSettings = new System.Windows.Forms.TabPage();
-            this.CtlTabNetwork = new System.Windows.Forms.TabPage();
             this.CtlBottomPanel.SuspendLayout();
             this.CtlNetPanel.SuspendLayout();
             this.CtlManagerPanel.SuspendLayout();
+            this.CtlTabs.SuspendLayout();
             this.CtlNetworkContextMenu.SuspendLayout();
             this.CtlManagerTools.SuspendLayout();
             this.CtlMenu.SuspendLayout();
-            this.CtlTabs.SuspendLayout();
             this.SuspendLayout();
             // 
             // CtlStart
@@ -86,13 +86,13 @@
             // CtlTime
             // 
             this.CtlTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CtlTime.AutoSize = true;
             this.CtlTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CtlTime.Location = new System.Drawing.Point(539, 420);
+            this.CtlTime.Location = new System.Drawing.Point(501, 422);
             this.CtlTime.Name = "CtlTime";
-            this.CtlTime.Size = new System.Drawing.Size(50, 15);
+            this.CtlTime.Size = new System.Drawing.Size(100, 15);
             this.CtlTime.TabIndex = 11;
             this.CtlTime.Text = "Time: ...";
+            this.CtlTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CtlBottomPanel
             // 
@@ -183,10 +183,23 @@
             this.CtlManagerPanel.Controls.Add(this.CtlManagerTools);
             this.CtlManagerPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.CtlManagerPanel.Location = new System.Drawing.Point(816, 0);
-            this.CtlManagerPanel.MinimumSize = new System.Drawing.Size(410, 0);
+            this.CtlManagerPanel.MinimumSize = new System.Drawing.Size(410, 2);
             this.CtlManagerPanel.Name = "CtlManagerPanel";
             this.CtlManagerPanel.Size = new System.Drawing.Size(410, 443);
             this.CtlManagerPanel.TabIndex = 19;
+            // 
+            // CtlTabs
+            // 
+            this.CtlTabs.ContextMenuStrip = this.CtlNetworkContextMenu;
+            this.CtlTabs.Controls.Add(this.CtlTabSettings);
+            this.CtlTabs.Controls.Add(this.CtlTabNetwork);
+            this.CtlTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CtlTabs.Location = new System.Drawing.Point(0, 72);
+            this.CtlTabs.Name = "CtlTabs";
+            this.CtlTabs.SelectedIndex = 0;
+            this.CtlTabs.Size = new System.Drawing.Size(408, 369);
+            this.CtlTabs.TabIndex = 1;
+            this.CtlTabs.TabStop = false;
             // 
             // CtlNetworkContextMenu
             // 
@@ -219,6 +232,24 @@
             this.CtlMenuDeleteNetwork.Size = new System.Drawing.Size(179, 24);
             this.CtlMenuDeleteNetwork.Text = "Delete network";
             this.CtlMenuDeleteNetwork.Click += new System.EventHandler(this.CtlMenuDeleteNetwork_Click);
+            // 
+            // CtlTabSettings
+            // 
+            this.CtlTabSettings.Location = new System.Drawing.Point(4, 25);
+            this.CtlTabSettings.Name = "CtlTabSettings";
+            this.CtlTabSettings.Size = new System.Drawing.Size(400, 340);
+            this.CtlTabSettings.TabIndex = 1;
+            this.CtlTabSettings.Text = "Settings";
+            this.CtlTabSettings.UseVisualStyleBackColor = true;
+            // 
+            // CtlTabNetwork
+            // 
+            this.CtlTabNetwork.Location = new System.Drawing.Point(4, 25);
+            this.CtlTabNetwork.Name = "CtlTabNetwork";
+            this.CtlTabNetwork.Size = new System.Drawing.Size(400, 340);
+            this.CtlTabNetwork.TabIndex = 2;
+            this.CtlTabNetwork.Text = "Network";
+            this.CtlTabNetwork.UseVisualStyleBackColor = true;
             // 
             // CtlManagerTools
             // 
@@ -351,37 +382,6 @@
             this.CtlMenuStart.Size = new System.Drawing.Size(139, 26);
             this.CtlMenuStart.Text = "Start";
             // 
-            // CtlTabs
-            // 
-            this.CtlTabs.ContextMenuStrip = this.CtlNetworkContextMenu;
-            this.CtlTabs.Controls.Add(this.CtlTabSettings);
-            this.CtlTabs.Controls.Add(this.CtlTabNetwork);
-            this.CtlTabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CtlTabs.Location = new System.Drawing.Point(0, 72);
-            this.CtlTabs.Name = "CtlTabs";
-            this.CtlTabs.SelectedIndex = 0;
-            this.CtlTabs.Size = new System.Drawing.Size(408, 369);
-            this.CtlTabs.TabIndex = 1;
-            this.CtlTabs.TabStop = false;
-            // 
-            // CtlTabSettings
-            // 
-            this.CtlTabSettings.Location = new System.Drawing.Point(4, 25);
-            this.CtlTabSettings.Name = "CtlTabSettings";
-            this.CtlTabSettings.Size = new System.Drawing.Size(400, 340);
-            this.CtlTabSettings.TabIndex = 1;
-            this.CtlTabSettings.Text = "Settings";
-            this.CtlTabSettings.UseVisualStyleBackColor = true;
-            // 
-            // CtlTabNetwork
-            // 
-            this.CtlTabNetwork.Location = new System.Drawing.Point(4, 25);
-            this.CtlTabNetwork.Name = "CtlTabNetwork";
-            this.CtlTabNetwork.Size = new System.Drawing.Size(400, 340);
-            this.CtlTabNetwork.TabIndex = 2;
-            this.CtlTabNetwork.Text = "Network";
-            this.CtlTabNetwork.UseVisualStyleBackColor = true;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -400,14 +400,13 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.CtlBottomPanel.ResumeLayout(false);
             this.CtlNetPanel.ResumeLayout(false);
-            this.CtlNetPanel.PerformLayout();
             this.CtlManagerPanel.ResumeLayout(false);
+            this.CtlTabs.ResumeLayout(false);
             this.CtlNetworkContextMenu.ResumeLayout(false);
             this.CtlManagerTools.ResumeLayout(false);
             this.CtlManagerTools.PerformLayout();
             this.CtlMenu.ResumeLayout(false);
             this.CtlMenu.PerformLayout();
-            this.CtlTabs.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
