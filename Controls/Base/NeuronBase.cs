@@ -113,5 +113,20 @@ namespace NN.Controls
         {
             (Parent.Parent as HiddenLayerControl).AddNeuron(Const.UnknownId);
         }
+
+        private void NeuronBase_Layout(object sender, LayoutEventArgs e)
+        {
+            int height = 0;
+            SuspendLayout();
+            foreach (Control c in Controls)
+            {
+                if (c.Visible)
+                {
+                    height += c.Height;
+                }
+            }
+            Height = height;
+            ResumeLayout();
+        }
     }
 }

@@ -42,19 +42,19 @@
             this.CtlMenuAddNeuron,
             this.CtlMenuDeleteNeuron});
             this.CtlContextMenu.Name = "CtlContextMenu";
-            this.CtlContextMenu.Size = new System.Drawing.Size(211, 80);
+            this.CtlContextMenu.Size = new System.Drawing.Size(123, 52);
             // 
             // CtlMenuAddNeuron
             // 
             this.CtlMenuAddNeuron.Name = "CtlMenuAddNeuron";
-            this.CtlMenuAddNeuron.Size = new System.Drawing.Size(210, 24);
+            this.CtlMenuAddNeuron.Size = new System.Drawing.Size(122, 24);
             this.CtlMenuAddNeuron.Text = "Add";
             this.CtlMenuAddNeuron.Click += new System.EventHandler(this.CtlMenuAddNeuron_Click);
             // 
             // CtlMenuDeleteNeuron
             // 
             this.CtlMenuDeleteNeuron.Name = "CtlMenuDeleteNeuron";
-            this.CtlMenuDeleteNeuron.Size = new System.Drawing.Size(210, 24);
+            this.CtlMenuDeleteNeuron.Size = new System.Drawing.Size(122, 24);
             this.CtlMenuDeleteNeuron.Text = "Delete";
             this.CtlMenuDeleteNeuron.Click += new System.EventHandler(this.CtlMenuDeleteNeuron_Click);
             // 
@@ -66,6 +66,7 @@
             this.ContextMenuStrip = this.CtlContextMenu;
             this.Name = "NeuronBase";
             this.Size = new System.Drawing.Size(181, 117);
+            this.Layout += new System.Windows.Forms.LayoutEventHandler(this.NeuronBase_Layout);
             this.CtlContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 

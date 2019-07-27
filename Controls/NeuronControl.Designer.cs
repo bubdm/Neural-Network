@@ -222,7 +222,6 @@
             this.Controls.Add(this.CtlHeadPanel);
             this.Controls.Add(this.CtlUpperBorder);
             this.Margin = new System.Windows.Forms.Padding(0);
-            this.MinimumSize = new System.Drawing.Size(320, 0);
             this.Name = "NeuronControl";
             this.Size = new System.Drawing.Size(366, 127);
             this.CtlHeadPanel.ResumeLayout(false);
