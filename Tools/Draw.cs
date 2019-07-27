@@ -9,7 +9,7 @@ namespace Tools
 {
     public static class Draw
     {
-        public static Color GetColor(double v)
+        public static Color GetColor(double v, int alpha = 255)
         {
             int s = Math.Sign(v);
 
@@ -19,9 +19,9 @@ namespace Tools
                 v = 1;
 
             if (s >= 0)
-                return Color.FromArgb((int)(255 * v), (int)(50 * v), (int)(50 * v));
+                return Color.FromArgb(alpha, (int)(255 * v), (int)(50 * v), (int)(50 * v));
             else
-                return Color.FromArgb((int)(50 * v), (int)(50 * v), (int)(255 * v));
+                return Color.FromArgb(alpha, (int)(50 * v), (int)(50 * v), (int)(255 * v));
         }
 
         public static Brush GetBrush(double v)
@@ -29,9 +29,9 @@ namespace Tools
             return new SolidBrush(GetColor(v));
         }
 
-        public static Pen GetPen(double v, float width = 1)
+        public static Pen GetPen(double v, float width = 1, int alpha = 255)
         {
-            return new Pen(new SolidBrush(GetColor(v)), width);
+            return new Pen(new SolidBrush(GetColor(v, alpha)), width);
         }
 
         public static Pen GetPen(Color c, float width = 1)

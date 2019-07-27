@@ -59,7 +59,16 @@ namespace Tools
     public static class Derivative
     {
         public static double LogisticSigmoid(double x)
-        {
+        {/*
+            if (x == 0)
+            {
+                x += 0.0001;
+            }
+            if (x == 1)
+            {
+                x -= 0.0001;
+            }
+            */
             return x * (1 - x);
         }
 

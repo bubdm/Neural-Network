@@ -140,6 +140,12 @@
     <Compile Include="Tools\List.cs" />
     <Compile Include="Tools\Rand.cs" />
     <Compile Include="Tools\RandomizeMode.cs" />
+    <Compile Include="Tools\RandomViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tools\RandomViewer.Designer.cs">
+      <DependentUpon>RandomViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools\Range.cs" />
     <Compile Include="Tools\Tools.cs" />
     <EmbeddedResource Include="Controls\Base\NeuronBase.resx">
@@ -183,6 +189,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Tools\RandomViewer.resx">
+      <DependentUpon>RandomViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

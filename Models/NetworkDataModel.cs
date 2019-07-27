@@ -16,9 +16,8 @@ namespace NN
         public string Randomizer;
         public double? RandomizerParamA;
 
-        public NetworkDataModel(NetworkControl network)
+        public NetworkDataModel(int[] layersSize)
         {
-            var layersSize = network.GetLayersSize();
             Range.For(layersSize.Length, n =>
                 CreateLayer(layersSize[n], n < layersSize.Length - 1 ? layersSize[n + 1] : 0));
         }
@@ -70,13 +69,20 @@ namespace NN
 
         public void PrepareForStart()
         {
+            Range.ForEach(Layers.First().Neurons, n => n.Activation = 1);
             RandomizeMode.Helper.Invoke(Randomizer, this, RandomizerParamA);
+            FeedForward();
+        }
+
+        private void SetInputData()
+        {
+            Range.ForEach(Layers.First().Neurons, n => n.Activation = 0);
+            Range.For(Rand.Flat.Next(11), i => Layers.First().Neurons.RandomElement.Activation = 1);
         }
 
         public void FeedForward()
         {
-            Range.ForEach(Layers.First().Neurons, n => n.Activation = 0);
-            Range.For(Rand.Flat.Next(11), i => Layers.First().Neurons.RandomElement.Activation = 1);
+            SetInputData();
 
             Range.ForEachTrimEnd(Layers, -1, layer =>
             Range.ForEach(layer.Next.Neurons, nextNeuron =>
@@ -103,7 +109,7 @@ namespace NN
             Range.ForEach(Layers.Last().Neurons, neuron =>
             neuron.Error = ((neuron.Id == number ? 1 : 0) - neuron.Activation) * Derivative.LogisticSigmoid(neuron.Activation));
 
-            Range.BackEachTrimEnd(Layers, -2, layer =>
+            Range.BackEachTrimEnd(Layers, -1, layer =>
             {
                 Range.ForEach(layer.Previous.Neurons, neuronPrev =>
                 {

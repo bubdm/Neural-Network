@@ -31,17 +31,17 @@
             this.components = new System.ComponentModel.Container();
             this.CtlMainPanel = new System.Windows.Forms.Panel();
             this.CtlLearningRate = new System.Windows.Forms.TextBox();
-            this.CtlLearningRateLabel = new System.Windows.Forms.Label();
             this.CtlRandomizerParamA = new System.Windows.Forms.TextBox();
             this.CtlRandomizerParamALabel = new System.Windows.Forms.Label();
             this.CtlRandomizer = new System.Windows.Forms.ComboBox();
-            this.CtlRandomizerLabel = new System.Windows.Forms.Label();
             this.CtlContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CtlMenuAddLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuDeleteLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlTabsLayers = new System.Windows.Forms.TabControl();
             this.CtlTabInput = new System.Windows.Forms.TabPage();
             this.CtlTabOutput = new System.Windows.Forms.TabPage();
+            this.CtlRandomViewerButton = new System.Windows.Forms.Button();
+            this.CtlLearningRateLabel = new System.Windows.Forms.Label();
             this.CtlMainPanel.SuspendLayout();
             this.CtlContextMenu.SuspendLayout();
             this.CtlTabsLayers.SuspendLayout();
@@ -49,12 +49,12 @@
             // 
             // CtlMainPanel
             // 
+            this.CtlMainPanel.Controls.Add(this.CtlRandomViewerButton);
             this.CtlMainPanel.Controls.Add(this.CtlLearningRate);
             this.CtlMainPanel.Controls.Add(this.CtlLearningRateLabel);
             this.CtlMainPanel.Controls.Add(this.CtlRandomizerParamA);
             this.CtlMainPanel.Controls.Add(this.CtlRandomizerParamALabel);
             this.CtlMainPanel.Controls.Add(this.CtlRandomizer);
-            this.CtlMainPanel.Controls.Add(this.CtlRandomizerLabel);
             this.CtlMainPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.CtlMainPanel.Location = new System.Drawing.Point(0, 0);
             this.CtlMainPanel.Name = "CtlMainPanel";
@@ -65,22 +65,12 @@
             // 
             this.CtlLearningRate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CtlLearningRate.Location = new System.Drawing.Point(132, 48);
+            this.CtlLearningRate.Location = new System.Drawing.Point(142, 48);
             this.CtlLearningRate.Name = "CtlLearningRate";
             this.CtlLearningRate.Size = new System.Drawing.Size(82, 22);
             this.CtlLearningRate.TabIndex = 4;
             this.CtlLearningRate.TabStop = false;
             this.CtlLearningRate.Text = "1";
-            // 
-            // CtlLearningRateLabel
-            // 
-            this.CtlLearningRateLabel.AutoSize = true;
-            this.CtlLearningRateLabel.Location = new System.Drawing.Point(28, 51);
-            this.CtlLearningRateLabel.Name = "CtlLearningRateLabel";
-            this.CtlLearningRateLabel.Size = new System.Drawing.Size(97, 17);
-            this.CtlLearningRateLabel.TabIndex = 3;
-            this.CtlLearningRateLabel.Text = "Learning rate:";
-            this.CtlLearningRateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CtlRandomizerParamA
             // 
@@ -108,20 +98,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlRandomizer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CtlRandomizer.FormattingEnabled = true;
-            this.CtlRandomizer.Location = new System.Drawing.Point(132, 15);
+            this.CtlRandomizer.Location = new System.Drawing.Point(142, 15);
             this.CtlRandomizer.Name = "CtlRandomizer";
-            this.CtlRandomizer.Size = new System.Drawing.Size(160, 24);
+            this.CtlRandomizer.Size = new System.Drawing.Size(150, 24);
             this.CtlRandomizer.TabIndex = 1;
             this.CtlRandomizer.TabStop = false;
-            // 
-            // CtlRandomizerLabel
-            // 
-            this.CtlRandomizerLabel.AutoSize = true;
-            this.CtlRandomizerLabel.Location = new System.Drawing.Point(3, 15);
-            this.CtlRandomizerLabel.Name = "CtlRandomizerLabel";
-            this.CtlRandomizerLabel.Size = new System.Drawing.Size(122, 17);
-            this.CtlRandomizerLabel.TabIndex = 0;
-            this.CtlRandomizerLabel.Text = "Randomize mode:";
             // 
             // CtlContextMenu
             // 
@@ -177,6 +158,26 @@
             this.CtlTabOutput.Text = "Output";
             this.CtlTabOutput.UseVisualStyleBackColor = true;
             // 
+            // CtlRandomViewerButton
+            // 
+            this.CtlRandomViewerButton.Location = new System.Drawing.Point(4, 15);
+            this.CtlRandomViewerButton.Name = "CtlRandomViewerButton";
+            this.CtlRandomViewerButton.Size = new System.Drawing.Size(132, 24);
+            this.CtlRandomViewerButton.TabIndex = 5;
+            this.CtlRandomViewerButton.Text = "Randomize mode:";
+            this.CtlRandomViewerButton.UseVisualStyleBackColor = true;
+            this.CtlRandomViewerButton.Click += new System.EventHandler(this.CtlRandomViewerButton_Click);
+            // 
+            // CtlLearningRateLabel
+            // 
+            this.CtlLearningRateLabel.AutoSize = true;
+            this.CtlLearningRateLabel.Location = new System.Drawing.Point(39, 51);
+            this.CtlLearningRateLabel.Name = "CtlLearningRateLabel";
+            this.CtlLearningRateLabel.Size = new System.Drawing.Size(97, 17);
+            this.CtlLearningRateLabel.TabIndex = 3;
+            this.CtlLearningRateLabel.Text = "Learning rate:";
+            this.CtlLearningRateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // NetworkControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -203,11 +204,11 @@
         private System.Windows.Forms.ContextMenuStrip CtlContextMenu;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuAddLayer;
         private System.Windows.Forms.ComboBox CtlRandomizer;
-        private System.Windows.Forms.Label CtlRandomizerLabel;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuDeleteLayer;
         private System.Windows.Forms.TextBox CtlRandomizerParamA;
         private System.Windows.Forms.Label CtlRandomizerParamALabel;
         private System.Windows.Forms.TextBox CtlLearningRate;
+        private System.Windows.Forms.Button CtlRandomViewerButton;
         private System.Windows.Forms.Label CtlLearningRateLabel;
     }
 }

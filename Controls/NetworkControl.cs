@@ -53,11 +53,12 @@ namespace NN.Controls
         private void CtlLearningRate_TextChanged(object sender, EventArgs e)
         {
             CtlLearningRate.BackColor = IsValidLearningRate() ? Color.White : Color.Tomato;
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
 
         private void CtlRandomizer_SelectedValueChanged(object sender, EventArgs e)
         {
-            CtlRandomizerLabel.Focus();
+            CtlLearningRateLabel.Focus();
             OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
 
@@ -267,7 +268,7 @@ namespace NN.Controls
 
         public NetworkDataModel CreateNetworkDataModel()
         {
-            var model = new NetworkDataModel(this)
+            var model = new NetworkDataModel(GetLayersSize())
             {
                 Randomizer = Randomizer,
                 RandomizerParamA = RandomizerParamA,
@@ -323,6 +324,12 @@ namespace NN.Controls
             }
 
             return model;
+        }
+
+        private void CtlRandomViewerButton_Click(object sender, EventArgs e)
+        {
+            var viewer = new RandomViewer(Randomizer, RandomizerParamA);
+            viewer.Show();
         }
     }
 }
