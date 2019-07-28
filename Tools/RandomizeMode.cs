@@ -50,7 +50,7 @@ namespace Tools
             }
         }
 
-        public static void FlatProgress(NetworkDataModel network, double? a)
+        public static void WaveProgress(NetworkDataModel network, double? a)
         {
             if (!a.HasValue)
             {
@@ -63,14 +63,9 @@ namespace Tools
                 {
                     foreach (var weight in neuron.Weights)
                     {
-                        if (layer.Id % 2 == 0)
-                        {
-                            weight.Weight = Rand.GetSpreadInRange(a.Value) * (1 / ((double)neuron.Id + (double)weight.Id + 1));
-                        }
-                        else
-                        {
-                            weight.Weight = Rand.GetSpreadInRange(a.Value) * (1 - 1 / ((double)neuron.Id + (double)weight.Id + 1));
-                        }
+
+                        weight.Weight = InitializeMode.Centered(layer.Id + 1) * Math.Cos(weight.Id / Math.PI) * Math.Cos(neuron.Id / Math.PI);
+
                     }
                 }
             }

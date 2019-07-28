@@ -35,6 +35,15 @@ namespace Tools
             return a.Value * Rand.GetFlatRandom();
         }
 
+        public static double Centered(double? a)
+        {
+            if (!a.HasValue)
+            {
+                a = 1;
+            }
+            return -a.Value/2 + a.Value * Rand.GetFlatRandom();
+        }
+
         public static class Helper
         {
             public static bool IsSkipValue(double d)

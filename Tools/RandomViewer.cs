@@ -28,6 +28,7 @@ namespace Tools
         public RandomViewer(string randomizer, double? a)
         {
             InitializeComponent();
+            Text = "Randomizer Viewer | " + randomizer;
 
             Randomizer = randomizer;
             A = a;

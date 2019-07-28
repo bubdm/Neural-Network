@@ -13,7 +13,7 @@ namespace Tools
         {
             int s = Math.Sign(v);
 
-            v = Math.Abs(v);
+            v = Math.Abs(2 / (1 + Math.Exp(-v*4)) - 1);
 
             if (v > 1)
                 v = 1;
