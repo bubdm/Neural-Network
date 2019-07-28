@@ -229,7 +229,7 @@ namespace NN
                     NetworkModel.FeedForward();
 
                     var max = NetworkModel.GetMaxActivatedOutputNeuron();
-                    var number = InputDataPresenter.GetActivePointsCount();
+                    var number = NetworkModel.GetNumberOfFirstLayerActiveNeurons();
                     if (number == max.Id)
                     {
                         ++correct;
@@ -296,6 +296,7 @@ namespace NN
                 PlotPresenter.ClearData();
 
                 NetworkModel.SetInputData();
+                InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First());
                 NetworkModel.FeedForward(); // initialize state
 
                 Round = 0;
@@ -315,11 +316,11 @@ namespace NN
         {
             var renderStart = DateTime.Now;
 
-            InputDataPresenter.SetInputData(NetworkModel.Layers.First());
             NetworkPresenter.Render();          
             PlotPresenter.AddPoint(percent);
 
-            var number = InputDataPresenter.GetActivePointsCount();
+            InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First());
+            var number = NetworkModel.GetNumberOfFirstLayerActiveNeurons();
 
             var stat = new Dictionary<string, string>();
             var span = DateTime.Now.Subtract(StartTime);

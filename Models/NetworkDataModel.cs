@@ -79,6 +79,11 @@ namespace NN
             Range.For(Rand.Flat.Next(11), i => Layers.First().Neurons.RandomElement(Layers.First().BiasCount).Activation = 1);
         }
 
+        public int GetNumberOfFirstLayerActiveNeurons(double threshold = 0)
+        {
+            return Layers.First().Neurons.Where(n => !n.IsBias).Count(n => n.Activation > threshold);
+        }
+
         public void FeedForward()
         {
             Range.ForEachTrimEnd(Layers, -1, layer =>

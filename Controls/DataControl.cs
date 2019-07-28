@@ -48,17 +48,12 @@ namespace NN.Controls
             DrawPoint(pos.Item1, pos.Item2, value);
         }
 
-        public void SetInputData(LayerDataModel layer)
+        public void SetInputDataAndDraw(LayerDataModel layer)
         {
             Data = new double[layer.Neurons.Where(n => !n.IsBias).Count()];
             Range.ForEach(layer.Neurons.Where(n => !n.IsBias), neuron => Data[neuron.Id] = neuron.Activation);    
             Rearrange(Width, PointsCount);
             Invalidate();
-        }
-
-        public int GetActivePointsCount(double threshold = 0)
-        {
-            return Data.Count(d => d > threshold);
         }
 
         public void RearrangeWithNewWidth(int width)
