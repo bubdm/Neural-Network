@@ -205,6 +205,7 @@ namespace NN
             {
                 InputDataPresenter.RearrangeWithNewPointsCount(NetworkUI.InputNeuronsCount);
                 NetworkModel = NetworkUI.CreateNetworkDataModel();
+                //NetworkModel.FeedForward();
                 NetworkPresenter.SetNetwork(NetworkModel);
                 ToggleApplyChanges(Const.Toggle.Off);
             }
@@ -228,7 +229,7 @@ namespace NN
                     NetworkModel.FeedForward();
 
                     var max = NetworkModel.GetMaxActivatedOutputNeuron();
-                    var number = NetworkModel.Layers.First().Neurons.Where(n => !n.IsBias).Sum(neuron => neuron.Activation);
+                    var number = InputDataPresenter.GetActivePointsCount();
                     if (number == max.Id)
                     {
                         ++correct;
@@ -236,7 +237,7 @@ namespace NN
                     ++total;
                     ++Round;
 
-                    NetworkModel.BackPropagation();
+                    NetworkModel.BackPropagation(number);
                 }
 
                 if (total == 10000 || DateTime.Now.Subtract(startTime).TotalSeconds >= 10)
@@ -291,7 +292,7 @@ namespace NN
                 CtlMenuDeleteNetwork.Enabled = false;
                 NetworkPresenter.IsNetworkRunning = true;
 
-                NetworkModel.PrepareForStart();
+                NetworkModel.InitState();
                 PlotPresenter.ClearData();
 
                 NetworkModel.SetInputData();
@@ -318,7 +319,7 @@ namespace NN
             NetworkPresenter.Render();          
             PlotPresenter.AddPoint(percent);
 
-            var number = NetworkModel.Layers.First().Neurons.Where(n => !n.IsBias).Sum(neuron => neuron.Activation);
+            var number = InputDataPresenter.GetActivePointsCount();
 
             var stat = new Dictionary<string, string>();
             var span = DateTime.Now.Subtract(StartTime);
@@ -578,12 +579,7 @@ namespace NN
         {
             if (SaveConfig())
             {
-                var config = NetworkUI.SaveAs();
-                if (config != null)
-                {
-                    SaveConfig();
-                    // ??? LoadConfig();
-                }
+                NetworkUI.SaveAs();
             }
         }
 

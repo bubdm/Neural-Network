@@ -30,17 +30,22 @@ namespace NN.Controls
                 Rearrange(Width, PointsCount);
             }
         }
-   
-        private void DrawPoint(int x, int y, bool isOn)
+
+        private void DrawPoint(int x, int y, double value)
         {
-            G.FillRectangle(isOn ? Brushes.Black : Brushes.White, x * PointSize, y * PointSize, PointSize, PointSize);
+            var brush = value == 0 ? Brushes.White : Draw.GetBrush(value);
+            G.FillRectangle(brush, x * PointSize, y * PointSize, PointSize, PointSize);
             G.DrawRectangle(Pens.Black, x * PointSize, y * PointSize, PointSize, PointSize);
+            if (brush != Brushes.White)
+            {
+                brush.Dispose();
+            }
         }
 
-        private void TogglePoint(int c, bool isOn)
+        private void TogglePoint(int c, double value)
         {
             var pos = GetPointPosition(c);
-            DrawPoint(pos.Item1, pos.Item2, isOn);
+            DrawPoint(pos.Item1, pos.Item2, value);
         }
 
         public void SetInputData(LayerDataModel layer)
@@ -49,6 +54,11 @@ namespace NN.Controls
             Range.ForEach(layer.Neurons.Where(n => !n.IsBias), neuron => Data[neuron.Id] = neuron.Activation);    
             Rearrange(Width, PointsCount);
             Invalidate();
+        }
+
+        public int GetActivePointsCount(double threshold = 0)
+        {
+            return Data.Count(d => d > threshold);
         }
 
         public void RearrangeWithNewWidth(int width)
@@ -91,12 +101,12 @@ namespace NN.Controls
             Range.For(PointsCount, p =>
             {
                 var pos = GetPointPosition(p);
-                DrawPoint(pos.Item1, pos.Item2, false);
+                DrawPoint(pos.Item1, pos.Item2, 0);
             });
 
             if (Data != null)
             {
-                Range.For(Data.Length, y => TogglePoint(y, Data[y] == 1));
+                Range.For(Data.Length, y => TogglePoint(y, Data[y]));
             }
         }
 

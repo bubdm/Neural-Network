@@ -67,7 +67,7 @@ namespace NN
             return max;
         }
 
-        public void PrepareForStart()
+        public void InitState()
         {
             Range.ForEach(Layers.First().Neurons, n => n.Activation = 1);
             RandomizeMode.Helper.Invoke(Randomizer, this, RandomizerParamA);
@@ -86,7 +86,7 @@ namespace NN
             {
                 if (nextNeuron.IsBias && nextNeuron.IsBiasConnected)
                 {
-                    nextNeuron.Activation = Activation.LogisticSigmoid(Range.SumForEach(layer.Neurons.Where(n => n.IsBias), neuron => neuron.AxW(nextNeuron)));
+                    nextNeuron.Activation = Activation.LogisticSigmoid(Range.SumForEach(layer.Neurons.Where(n => n.IsBias), bias => bias.AxW(nextNeuron)));
                 }
 
                 if (!nextNeuron.IsBias)
@@ -96,27 +96,23 @@ namespace NN
             }));
         }
 
-        public void BackPropagation()
+        public void BackPropagation(int targetValue)
         {
-            var number = Layers.First().Neurons.Sum(n => n.Activation);
-
             // backpropogation
 
             ClearErrors();
             Range.ForEach(Layers.Last().Neurons, neuron =>
-            neuron.Error = ((neuron.Id == number ? 1 : 0) - neuron.Activation) * Derivative.LogisticSigmoid(neuron.Activation));
+            neuron.Error = ((neuron.Id == targetValue ? 1 : 0) - neuron.Activation) * Derivative.LogisticSigmoid(neuron.Activation));
 
             Range.BackEachTrimEnd(Layers, -1, layer =>
             {
                 Range.ForEach(layer.Previous.Neurons, neuronPrev =>
                 {
                     neuronPrev.Error = Range.SumForEach(layer.Neurons, neuron =>
-                    {/*
-                        return neuron.IsBias && !neuron.IsBiasConnected
-                                ? 0
-                                : 
-                                */
-                               return neuron.Error * neuronPrev.WeightTo(neuron).Weight * Derivative.LogisticSigmoid(neuronPrev.Activation);
+                    {
+                        return neuronPrev.IsBias && !neuron.IsBiasConnected
+                               ? 0
+                               : neuron.Error * neuronPrev.WeightTo(neuron).Weight * Derivative.LogisticSigmoid(neuronPrev.Activation);
                     });
                     int f = 1;
                 });
@@ -142,15 +138,6 @@ namespace NN
                         var neuron = layer.Neurons.Find(n => n.VisualId == newNeuron.VisualId);
                         if (neuron != null)
                         {
-                            //newNeuron.Activation = neuron.Activation;
-                            //newNeuron.Error = neuron.Error;
-
-                            //newNeuron.IsBias = neuron.IsBias;
-                            //newNeuron.IsBiasConnected = neuron.IsBiasConnected;
-
-                            //newNeuron.WeightsInitializer = neuron.WeightsInitializer;
-                            //newNeuron.WeightsInitializerParamA = neuron.WeightsInitializerParamA;
-
                             double initValue = InitializeMode.Helper.Invoke(newNeuron.WeightsInitializer, newNeuron.WeightsInitializerParamA);
                             if (InitializeMode.Helper.IsSkipValue(initValue))
                             {
@@ -166,9 +153,6 @@ namespace NN
 
                             if (newNeuron.IsBias)
                             {
-                                //newNeuron.ActivationInitializer = neuron.ActivationInitializer;
-                                //newNeuron.ActivationInitializerParamA = neuron.ActivationInitializerParamA;
-
                                 initValue = InitializeMode.Helper.Invoke(newNeuron.ActivationInitializer, newNeuron.ActivationInitializerParamA);
                                 if (InitializeMode.Helper.IsSkipValue(initValue))
                                 {

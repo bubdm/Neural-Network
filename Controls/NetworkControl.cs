@@ -138,7 +138,7 @@ namespace NN.Controls
             return null;
          }
 
-        public Config SaveAs()
+        public void SaveAs()
         {
             var saveDialog = new SaveFileDialog
             {
@@ -156,13 +156,11 @@ namespace NN.Controls
                     File.Delete(saveDialog.FileName);
                 }
 
-                var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
-                Config = new Config(saveDialog.FileName);
-                Config.Main.Set(Const.Param.NetworkName, saveDialog.FileName);
-                return Config;
+                var currentName = Config.Main.GetString(Const.Param.NetworkName);
+                var networkControl = new NetworkControl(currentName, null);
+                networkControl.Config = new Config(saveDialog.FileName);
+                networkControl.SaveConfig();
             }
-
-            return null;
         }
 
         private bool IsValidRandomizeParamA()
@@ -275,7 +273,7 @@ namespace NN.Controls
                 LearningRate = LearningRate.Value
             };
 
-            RandomizeMode.Helper.Invoke(Randomizer, model, RandomizerParamA);
+            model.InitState();
 
             var layers = GetLayersControls();
             for (int ln = 0; ln < layers.Count; ++ln)

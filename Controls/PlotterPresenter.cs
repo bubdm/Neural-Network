@@ -54,7 +54,7 @@ namespace NN.Controls
 
                 var d = l.Item2.Subtract(f.Item2).Ticks;
 
-                using (pen = Tools.Draw.GetPen(Color.FromArgb(10, Color.Orange), 2))
+                using (pen = Tools.Draw.GetPen(Color.FromArgb(30, Color.Orange), 2))
                 {
                     if (n == PercentData.Count)
                     {
