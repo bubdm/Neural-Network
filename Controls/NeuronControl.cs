@@ -60,6 +60,7 @@ namespace NN.Controls
         private void CtlActivationIniterParamA_TextChanged(object sender, EventArgs e)
         {
             CtlActivationIniterParamA.BackColor = IsValidActivationIniterParamA() ? Color.White : Color.Tomato;
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, false);
         }
 
         private void CtlWeightsIniter_SelectedIndexChanged(object sender, EventArgs e)
@@ -71,6 +72,7 @@ namespace NN.Controls
         private void CtlWeightsIniterParamA_TextChanged(object sender, EventArgs e)
         { 
             CtlWeightsIniterParamA.BackColor = IsValidWeightsIniterParamA() ? Color.White : Color.Tomato;
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, false);
         }
 
         public override string ActivationInitializer => (CtlIsBias.Checked ? CtlActivationIniter.SelectedItem.ToString() : null);

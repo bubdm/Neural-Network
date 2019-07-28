@@ -17,7 +17,7 @@ namespace NN.Controls
         public Config Config;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
-        readonly InputLayerControl InputLayer;
+        public readonly InputLayerControl InputLayer;
         readonly OutputLayerControl OutputLayer;
 
         readonly IntPtr __h;
@@ -192,8 +192,8 @@ namespace NN.Controls
         public void SaveConfig()
         {
             Config.Set(Const.Param.CurrentLayerIndex, CtlTabsLayers.SelectedIndex);
-            Config.Set(Const.Param.Randomizer, Randomizer);
-            Config.Set(Const.Param.RandomizerParamA, CtlRandomizerParamA.Text);
+            Config.Set(Const.Param.RandomizeMode, Randomizer);
+            Config.Set(Const.Param.RandomizeModeParamA, CtlRandomizerParamA.Text);
             Config.Set(Const.Param.LearningRate, CtlLearningRate.Text);
 
             var layers = GetLayersControls();
@@ -220,8 +220,8 @@ namespace NN.Controls
 
         private void LoadConfig()
         {
-            RandomizeMode.Helper.FillComboBox(CtlRandomizer, Config);
-            CtlRandomizerParamA.Text = Config.GetString(Const.Param.RandomizerParamA);
+            RandomizeMode.Helper.FillComboBox(CtlRandomizer, Config, Const.Param.RandomizeMode, nameof(RandomizeMode.Random));
+            CtlRandomizerParamA.Text = Config.GetString(Const.Param.RandomizeModeParamA);
             CtlLearningRate.Text = Config.GetString(Const.Param.LearningRate, "0.05");
 
             //
@@ -268,9 +268,11 @@ namespace NN.Controls
         {
             var model = new NetworkDataModel(GetLayersSize())
             {
-                Randomizer = Randomizer,
+                RandomizeMode = Randomizer,
                 RandomizerParamA = RandomizerParamA,
-                LearningRate = LearningRate.Value
+                LearningRate = LearningRate.Value,
+                InputInitial0 = ActivationFunction.Helper.Invoke(InputLayer.ActivationFunc, InputLayer.Initial0),
+                InputInitial1 = ActivationFunction.Helper.Invoke(InputLayer.ActivationFunc, InputLayer.Initial1)
             };
 
             model.InitState();

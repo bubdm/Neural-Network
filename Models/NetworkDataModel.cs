@@ -13,8 +13,10 @@ namespace NN
     {
         public ListX<LayerDataModel> Layers = new ListX<LayerDataModel>();
         public double LearningRate;
-        public string Randomizer;
+        public string RandomizeMode;
         public double? RandomizerParamA;
+        public double InputInitial0;
+        public double InputInitial1;
 
         public NetworkDataModel(int[] layersSize)
         {
@@ -31,6 +33,8 @@ namespace NN
         {
             return Layers.Last().Neurons.Sum(n => Math.Pow(n.Activation - (x == n.Id ? 1 : 0), 2));
         }
+
+        public double InputThreshold => (InputInitial0 + InputInitial1) / 2;
 
         private void RandHe()
         {
@@ -69,19 +73,19 @@ namespace NN
 
         public void InitState()
         {
-            Range.ForEach(Layers.First().Neurons, n => n.Activation = 1);
-            RandomizeMode.Helper.Invoke(Randomizer, this, RandomizerParamA);
+            Range.ForEach(Layers.First().Neurons, n => n.Activation = InputInitial1);
+            Tools.RandomizeMode.Helper.Invoke(RandomizeMode, this, RandomizerParamA);
         }
 
         public void SetInputData()
         {
-            Range.ForEach(Layers.First().Neurons.Where(n => !n.IsBias), n => n.Activation = 0);
-            Range.For(Rand.Flat.Next(11), i => Layers.First().Neurons.RandomElement(Layers.First().BiasCount).Activation = 1);
+            Range.ForEach(Layers.First().Neurons.Where(n => !n.IsBias), n => n.Activation = InputInitial0);
+            Range.For(Rand.Flat.Next(11), i => Layers.First().Neurons.RandomElementTrimEnd(Layers.First().BiasCount).Activation = InputInitial1);
         }
 
-        public int GetNumberOfFirstLayerActiveNeurons(double threshold = 0)
+        public int GetNumberOfFirstLayerActiveNeurons()
         {
-            return Layers.First().Neurons.Where(n => !n.IsBias).Count(n => n.Activation > threshold);
+            return Layers.First().Neurons.Where(n => !n.IsBias).Count(n => n.Activation > InputThreshold);
         }
 
         public void FeedForward()
@@ -91,12 +95,12 @@ namespace NN
             {
                 if (nextNeuron.IsBias && nextNeuron.IsBiasConnected)
                 {
-                    nextNeuron.Activation = Activation.LogisticSigmoid(Range.SumForEach(layer.Neurons.Where(n => n.IsBias), bias => bias.AxW(nextNeuron)));
+                    nextNeuron.Activation = ActivationFunction.LogisticSigmoid(Range.SumForEach(layer.Neurons.Where(n => n.IsBias), bias => bias.AxW(nextNeuron)));
                 }
 
                 if (!nextNeuron.IsBias)
                 {
-                    nextNeuron.Activation = Activation.LogisticSigmoid(Range.SumForEach(layer.Neurons, neuron => neuron.AxW(nextNeuron)));
+                    nextNeuron.Activation = ActivationFunction.LogisticSigmoid(Range.SumForEach(layer.Neurons, neuron => neuron.AxW(nextNeuron)));
                 }
             }));
         }

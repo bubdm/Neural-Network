@@ -51,7 +51,7 @@ namespace Tools
                 return double.IsNaN(d);
             }
 
-            public static string[] GetInitializers()
+            public static string[] GetItems()
             {
                 return typeof(InitializeMode).GetMethods().Where(r => r.IsStatic).Select(r => r.Name).ToArray();
             }
@@ -64,29 +64,7 @@ namespace Tools
 
             public static void FillComboBox(ComboBox cb, Config config, Const.Param param, string defaultValue)
             {
-                cb.Items.Clear();
-                var initializers = InitializeMode.Helper.GetInitializers();
-                foreach (var init in initializers)
-                {
-                    cb.Items.Add(init);
-                }
-                var initializer = config.GetString(param, !String.IsNullOrEmpty(defaultValue) ? defaultValue : initializers.Any() ? initializers[0] : null);
-                if (initializers.Any())
-                {
-                    if (!initializers.Any(r => r == initializer))
-                    {
-                        initializer = initializers[0];
-                    }
-                }
-                else
-                {
-                    initializer = null;
-                }
-
-                if (!String.IsNullOrEmpty(initializer))
-                {
-                    cb.SelectedItem = initializer;
-                }
+                Initializer.FillComboBox(typeof(InitializeMode.Helper), cb, config, param, defaultValue);
             }
         }
     }

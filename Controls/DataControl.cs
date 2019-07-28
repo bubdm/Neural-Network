@@ -15,6 +15,7 @@ namespace NN.Controls
         int PointSize;
         int PointsRearrangeSnap;
         int PointsCount;
+        double Threshold;
         double[] Data;
 
         public DataControl() 
@@ -48,8 +49,9 @@ namespace NN.Controls
             DrawPoint(pos.Item1, pos.Item2, value);
         }
 
-        public void SetInputDataAndDraw(LayerDataModel layer)
+        public void SetInputDataAndDraw(LayerDataModel layer, double threshold)
         {
+            Threshold = threshold;
             Data = new double[layer.Neurons.Where(n => !n.IsBias).Count()];
             Range.ForEach(layer.Neurons.Where(n => !n.IsBias), neuron => Data[neuron.Id] = neuron.Activation);    
             Rearrange(Width, PointsCount);
@@ -101,7 +103,7 @@ namespace NN.Controls
 
             if (Data != null)
             {
-                Range.For(Data.Length, y => TogglePoint(y, Data[y]));
+                Range.For(Data.Length, y => TogglePoint(y, Data[y] > Threshold ? Data[y] : 0));
             }
         }
 

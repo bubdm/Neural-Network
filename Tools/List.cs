@@ -8,7 +8,7 @@ namespace Tools
 {
     public class ListX<T> : List<T> where T : class
     {
-        public T RandomElement(int count = 0)
+        public T RandomElementTrimEnd(int count = 0)
         {
             return this[Rand.Flat.Next(Count - count)];
         }

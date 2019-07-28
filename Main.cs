@@ -213,6 +213,41 @@ namespace NN
 
         private bool IsRunning => CtlStop.Enabled;
 
+        private void CtlStart_Click(object sender, EventArgs e)
+        {
+            if (SaveConfig())
+            {
+                ApplyChangesToStandingNetwork();
+
+                CancellationTokenSource = new CancellationTokenSource();
+                CancellationToken = CancellationTokenSource.Token;
+
+                CtlStart.Enabled = false;
+                CtlReset.Enabled = false;
+                CtlStop.Enabled = true;
+                CtlMenuDeleteNetwork.Enabled = false;
+                NetworkPresenter.IsNetworkRunning = true;
+
+                NetworkModel.InitState();
+                PlotPresenter.ClearData();
+
+                NetworkModel.SetInputData();
+                InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First(), NetworkModel.InputThreshold);
+                NetworkModel.FeedForward(); // initialize state
+
+                Round = 0;
+                StartTime = DateTime.Now;
+
+                Draw(0);
+
+                CancellationToken = CancellationTokenSource.Token;
+
+                var ts = new ThreadStart(Work);
+                WorkThread = new Thread(ts);
+                WorkThread.Start();
+            }
+        }
+
         private void RunNetwork()
         {
             long total = 0;
@@ -279,39 +314,6 @@ namespace NN
             ev.WaitOne();
         }
 
-        private void CtlStart_Click(object sender, EventArgs e)
-        {
-            if (SaveConfig())
-            {
-                CancellationTokenSource = new CancellationTokenSource();
-                CancellationToken = CancellationTokenSource.Token;
-
-                CtlStart.Enabled = false;
-                CtlReset.Enabled = false;
-                CtlStop.Enabled = true;
-                CtlMenuDeleteNetwork.Enabled = false;
-                NetworkPresenter.IsNetworkRunning = true;
-
-                NetworkModel.InitState();
-                PlotPresenter.ClearData();
-
-                NetworkModel.SetInputData();
-                InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First());
-                NetworkModel.FeedForward(); // initialize state
-
-                Round = 0;
-                StartTime = DateTime.Now;
-
-                Draw(0);
-
-                CancellationToken = CancellationTokenSource.Token;
-
-                var ts = new ThreadStart(Work);
-                WorkThread = new Thread(ts);
-                WorkThread.Start();
-            }
-        }
-
         private void Draw(double percent)
         {
             var renderStart = DateTime.Now;
@@ -319,7 +321,7 @@ namespace NN
             NetworkPresenter.Render();          
             PlotPresenter.AddPoint(percent);
 
-            InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First());
+            InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First(), NetworkModel.InputThreshold);
             var number = NetworkModel.GetNumberOfFirstLayerActiveNeurons();
 
             var stat = new Dictionary<string, string>();

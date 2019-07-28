@@ -81,11 +81,13 @@ namespace NN.Controls
 
         private void DrawLayersLinks(bool fullState, LayerDataModel layer1 , LayerDataModel layer2)
         {
+            double threshold = NetworkModel.Layers.First() == layer1 ? NetworkModel.InputThreshold : 0;
+
             Range.ForEach(layer1.Neurons, layer2.Neurons, (neuron1, neuron2) =>
             {
                 if (!neuron2.IsBias || (neuron1.IsBias && neuron2.IsBiasConnected))
                 {
-                    if (fullState || neuron1.AxW(neuron2) != 0)
+                    if (fullState || ((neuron1.IsBias || neuron1.Activation > threshold) && neuron1.AxW(neuron2) != 0))
                     {
                         using (var pen = Tools.Draw.GetPen(neuron1.AxW(neuron2)))
                         {
@@ -100,15 +102,17 @@ namespace NN.Controls
 
         private void DrawLayerNeurons(bool fullState, LayerDataModel layer)
         {
+            double threshold = NetworkModel.Layers.First() == layer ? NetworkModel.InputThreshold : 0;
+
             Range.ForEach(layer.Neurons, neuron =>
             {
-                if (fullState || neuron.Activation != 0)
+                if (fullState || (neuron.IsBias || neuron.Activation > threshold))
                 {
                     using (var brush = Tools.Draw.GetBrush(neuron.Activation))
                     {
                         if (neuron.IsBias)
                         {
-                            G.FillEllipse(Brushes.Green,
+                            G.FillEllipse(Brushes.Orange,
                                           LayerX(layer) - BIAS_RADIUS,
                                           VERTICAL_OFFSET + VerticalShift(layer) + neuron.Id * VerticalDistance(layer.Height) - BIAS_RADIUS,
                                           BIAS_SIZE, BIAS_SIZE);

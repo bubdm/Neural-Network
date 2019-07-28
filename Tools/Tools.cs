@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace Tools
 {
@@ -25,18 +26,53 @@ namespace Tools
         }
     }
 
+    public static class Initializer
+    {
+        public static void FillComboBox(Type helper, ComboBox cb, Config config, Const.Param param, string defaultValue)
+        {
+            cb.Items.Clear();
+            var items = (string[])helper.GetMethod("GetItems").Invoke(null, null);
+            foreach (var i in items)
+            {
+                cb.Items.Add(i);
+            }
+            var item = config.GetString(param, !String.IsNullOrEmpty(defaultValue) ? defaultValue : items.Any() ? items[0] : null);
+            if (items.Any())
+            {
+                if (!items.Any(r => r == item))
+                {
+                    item = items[0];
+                }
+            }
+            else
+            {
+                item = null;
+            }
+
+            if (!String.IsNullOrEmpty(item))
+            {
+                cb.SelectedItem = item;
+            }
+        }
+    }
+
     public static class Converter
     {
-        public static double? TextToDouble(string text)
+        public static double? TextToDouble(string text, double? defaultValue = null)
         {
-            return String.IsNullOrEmpty(text) ? (double?)null : double.TryParse(text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, Culture.Current, out double a) ? a : (double?)null;
+            return String.IsNullOrEmpty(text) ? defaultValue : double.TryParse(text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, Culture.Current, out double a) ? a : defaultValue;
         }
 
-        public static bool TryTextToDouble(string text, out double? result)
+        public static double TextToDouble(string text, double defaultValue)
+        {
+            return String.IsNullOrEmpty(text) ? defaultValue : double.TryParse(text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, Culture.Current, out double a) ? a : defaultValue;
+        }
+
+        public static bool TryTextToDouble(string text, out double? result, double? defaultValue = null)
         {
             if (String.IsNullOrEmpty(text))
             {
-                result = null;
+                result = defaultValue;
                 return true;
             }
 
@@ -53,7 +89,7 @@ namespace Tools
         static char[] _0 = new[] { '0' };
         static char[] _S = new[] { Culture.Current.NumberFormat.NumberDecimalSeparator[0] };
 
-        public static string DoubleToText(double? d, string format = "G")
+        public static string DoubleToText(double? d, string format = "F99")
         {
             if (!d.HasValue)
             {

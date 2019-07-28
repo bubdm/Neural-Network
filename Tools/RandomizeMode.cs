@@ -73,7 +73,7 @@ namespace Tools
 
         public static class Helper
         {
-            public static string[] GetRandomizers()
+            public static string[] GetItems()
             {
                 return typeof(RandomizeMode).GetMethods().Where(r => r.IsStatic).Select(r => r.Name).ToArray();
             }
@@ -84,31 +84,9 @@ namespace Tools
                 method.Invoke(null, new object[] { N, a });
             }
 
-            public static void FillComboBox(ComboBox cb, Config config)
+            public static void FillComboBox(ComboBox cb, Config config, Const.Param param, string defaultValue)
             {
-                cb.Items.Clear();
-                var randomizers = RandomizeMode.Helper.GetRandomizers();
-                foreach (var rand in randomizers)
-                {
-                    cb.Items.Add(rand);
-                }
-                var randomizer = config.GetString(Const.Param.Randomizer, Config.Main.GetString(Const.Param.Randomizer, randomizers.Any() ? randomizers[0] : null));
-                if (randomizers.Any())
-                {
-                    if (!randomizers.Any(r => r == randomizer))
-                    {
-                        randomizer = randomizers[0];
-                    }
-                }
-                else
-                {
-                    randomizer = null;
-                }
-
-                if (!String.IsNullOrEmpty(randomizer))
-                {
-                    cb.SelectedItem = randomizer;
-                }
+                Initializer.FillComboBox(typeof(RandomizeMode.Helper), cb, config, param, defaultValue);
             }
         }
     }

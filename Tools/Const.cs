@@ -30,7 +30,6 @@ namespace Tools
             ScreenLeft,
             ScreenTop,
             OnTop,
-            //PointsCount,
             PointSize,
             PointsArrangeSnap,
             DataPanelWidth,
@@ -41,17 +40,20 @@ namespace Tools
             InputNeuronsMinCount,
             InputNeuronsMaxCount,
             InputNeuronsCount,
-            Randomizer,
+            RandomizeMode,
             ActivationInitializer,
             ActivationInitializerParamA,
             WeightsInitializer,
             WeightsInitializerParamA,
             HiddenLayers,
             Neurons,
-            RandomizerParamA,
+            RandomizeModeParamA,
             IsBias,
             IsBiasConnected,
-            LearningRate
+            LearningRate,
+            InputActivationFunc,
+            InputInitial0,
+            InputInitial1
         }
     }
 

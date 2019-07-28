@@ -7,8 +7,13 @@ using System.Windows.Forms;
 
 namespace Tools
 {
-    public static class Activation
+    public static class ActivationFunction
     {
+        public static double None(double x)
+        {
+            return x;
+        }
+
         public static double LogisticSigmoid(double x)
         {
             return 1 / (1 + Math.Exp(-x));
@@ -16,48 +21,31 @@ namespace Tools
 
         public static class Helper
         {
-            public static string[] GetActivations()
+            public static string[] GetItems()
             {
-                return typeof(Activation).GetMethods().Where(r => r.IsStatic).Select(r => r.Name).ToArray();
+                return typeof(ActivationFunction).GetMethods().Where(r => r.IsStatic).Select(r => r.Name).ToArray();
             }
 
-            public static void Invoke(string name, double a)
+            public static double Invoke(string name, double a)
             {
-                var method = typeof(Activation).GetMethod(name);
-                method.Invoke(null, new object[] { a });
+                var method = typeof(ActivationFunction).GetMethod(name);
+                return (double)method.Invoke(null, new object[] { a });
             }
 
-            public static void FillComboBox(ComboBox cb, Config config)
+            public static void FillComboBox(ComboBox cb, Config config, Const.Param param, string defaultValue)
             {
-                cb.Items.Clear();
-                var activations = Activation.Helper.GetActivations();
-                foreach (var act in activations)
-                {
-                    cb.Items.Add(act);
-                }
-                var activation = config.GetString(Const.Param.Randomizer, Config.Main.GetString(Const.Param.Randomizer, activations.Any() ? activations[0] : null));
-                if (activations.Any())
-                {
-                    if (!activations.Any(r => r == activation))
-                    {
-                        activation = activations[0];
-                    }
-                }
-                else
-                {
-                    activation = null;
-                }
-
-                if (!String.IsNullOrEmpty(activation))
-                {
-                    cb.SelectedItem = activation;
-                }
+                Initializer.FillComboBox(typeof(ActivationFunction.Helper), cb, config, param, defaultValue);
             }
         }
     }
 
     public static class Derivative
     {
+        public static double None(double x)
+        {
+            return x;
+        }
+
         public static double LogisticSigmoid(double x)
         {/*
             if (x == 0)
