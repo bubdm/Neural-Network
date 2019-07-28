@@ -20,7 +20,7 @@ namespace NN
     {
         Thread WorkThread;
         CancellationToken CancellationToken;
-        CancellationTokenSource CancellationTokenSource = new CancellationTokenSource();
+        CancellationTokenSource CancellationTokenSource;
         public static object ApplyChangesLocker = new object();
 
         NetworkDataModel NetworkModel;
@@ -224,10 +224,11 @@ namespace NN
             {
                 lock (ApplyChangesLocker)
                 {
+                    NetworkModel.SetInputData();
                     NetworkModel.FeedForward();
 
-                    var max = NetworkModel.GetMaxActivatedNeuron();
-                    var number = NetworkModel.Layers.First().Neurons.Sum(neuron => neuron.Activation);
+                    var max = NetworkModel.GetMaxActivatedOutputNeuron();
+                    var number = NetworkModel.Layers.First().Neurons.Where(n => !n.IsBias).Sum(neuron => neuron.Activation);
                     if (number == max.Id)
                     {
                         ++correct;
@@ -281,6 +282,9 @@ namespace NN
         {
             if (SaveConfig())
             {
+                CancellationTokenSource = new CancellationTokenSource();
+                CancellationToken = CancellationTokenSource.Token;
+
                 CtlStart.Enabled = false;
                 CtlReset.Enabled = false;
                 CtlStop.Enabled = true;
@@ -290,6 +294,7 @@ namespace NN
                 NetworkModel.PrepareForStart();
                 PlotPresenter.ClearData();
 
+                NetworkModel.SetInputData();
                 NetworkModel.FeedForward(); // initialize state
 
                 Round = 0;
@@ -313,7 +318,7 @@ namespace NN
             NetworkPresenter.Render();          
             PlotPresenter.AddPoint(percent);
 
-            var number = NetworkModel.Layers.First().Neurons.Sum(neuron => neuron.Activation);
+            var number = NetworkModel.Layers.First().Neurons.Where(n => !n.IsBias).Sum(neuron => neuron.Activation);
 
             var stat = new Dictionary<string, string>();
             var span = DateTime.Now.Subtract(StartTime);
@@ -330,7 +335,7 @@ namespace NN
             }
 
             stat.Add("Input", number.ToString());
-            var max = NetworkModel.GetMaxActivatedNeuron();
+            var max = NetworkModel.GetMaxActivatedOutputNeuron();
             stat.Add("Output", max.Id.ToString() + $" ({Converter.DoubleToText(100 * max.Activation)}%)");
             stat.Add("Cost", Converter.DoubleToText(NetworkModel.Cost((int)number)));
             stat.Add("Percent", Converter.DoubleToText(percent) + " %");

@@ -50,9 +50,14 @@ namespace NN.Controls
             CtlFlow.Controls.Add(neuron);
         }
 
+        public override void AddNeuron(long id)
+        {
+            AddBias(id);
+        }
+
         public void AddBias(long id)
         {
-            var neuron = new BiasControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);
+            var neuron = new InputBiasControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);
             CtlFlow.Controls.Add(neuron);
 
             if (id == Const.UnknownId)

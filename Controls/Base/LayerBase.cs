@@ -51,6 +51,11 @@ namespace NN.Controls
             return CtlFlow.Controls.OfType<NeuronBase>().ToList();
         }
 
+        public virtual void AddNeuron(long id)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual bool IsValid()
         {
             throw new NotImplementedException();

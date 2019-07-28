@@ -111,7 +111,7 @@ namespace NN.Controls
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
-            (Parent.Parent as HiddenLayerControl).AddNeuron(Const.UnknownId);
+            (Parent.Parent as LayerBase).AddNeuron(Const.UnknownId);
         }
 
         private void NeuronBase_Layout(object sender, LayoutEventArgs e)

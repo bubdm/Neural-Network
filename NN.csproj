@@ -58,11 +58,11 @@
     <Compile Include="Controls\Base\NeuronBase.Designer.cs">
       <DependentUpon>NeuronBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BiasControl.cs">
+    <Compile Include="Controls\InputBiasControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\BiasControl.Designer.cs">
-      <DependentUpon>BiasControl.cs</DependentUpon>
+    <Compile Include="Controls\InputBiasControl.Designer.cs">
+      <DependentUpon>InputBiasControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\InputNeuronControl.cs">
       <SubType>UserControl</SubType>

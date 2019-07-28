@@ -53,7 +53,7 @@ namespace NN
             Range.ForEach(Layers, l => l.ClearErrors());
         }
 
-        public NeuronDataModel GetMaxActivatedNeuron()
+        public NeuronDataModel GetMaxActivatedOutputNeuron()
         {
             var max = Layers.Last().Neurons.First();
             Range.ForEach(Layers.Last().Neurons, neuron =>
@@ -71,19 +71,16 @@ namespace NN
         {
             Range.ForEach(Layers.First().Neurons, n => n.Activation = 1);
             RandomizeMode.Helper.Invoke(Randomizer, this, RandomizerParamA);
-            FeedForward();
         }
 
-        private void SetInputData()
+        public void SetInputData()
         {
-            Range.ForEach(Layers.First().Neurons, n => n.Activation = 0);
-            Range.For(Rand.Flat.Next(11), i => Layers.First().Neurons.RandomElement.Activation = 1);
+            Range.ForEach(Layers.First().Neurons.Where(n => !n.IsBias), n => n.Activation = 0);
+            Range.For(Rand.Flat.Next(11), i => Layers.First().Neurons.RandomElement(Layers.First().BiasCount).Activation = 1);
         }
 
         public void FeedForward()
         {
-            SetInputData();
-
             Range.ForEachTrimEnd(Layers, -1, layer =>
             Range.ForEach(layer.Next.Neurons, nextNeuron =>
             {
@@ -145,17 +142,17 @@ namespace NN
                         var neuron = layer.Neurons.Find(n => n.VisualId == newNeuron.VisualId);
                         if (neuron != null)
                         {
-                            newNeuron.Activation = neuron.Activation;
-                            newNeuron.Error = neuron.Error;
+                            //newNeuron.Activation = neuron.Activation;
+                            //newNeuron.Error = neuron.Error;
 
-                            newNeuron.IsBias = neuron.IsBias;
-                            newNeuron.IsBiasConnected = neuron.IsBiasConnected;
+                            //newNeuron.IsBias = neuron.IsBias;
+                            //newNeuron.IsBiasConnected = neuron.IsBiasConnected;
 
-                            newNeuron.WeightsInitializer = neuron.WeightsInitializer;
-                            newNeuron.WeightsInitializerParamA = neuron.WeightsInitializerParamA;
+                            //newNeuron.WeightsInitializer = neuron.WeightsInitializer;
+                            //newNeuron.WeightsInitializerParamA = neuron.WeightsInitializerParamA;
 
                             double initValue = InitializeMode.Helper.Invoke(newNeuron.WeightsInitializer, newNeuron.WeightsInitializerParamA);
-                            if (!InitializeMode.Helper.IsSkipValue(initValue))
+                            if (InitializeMode.Helper.IsSkipValue(initValue))
                             {
                                 foreach (var newWeight in newNeuron.Weights)
                                 {
@@ -169,13 +166,13 @@ namespace NN
 
                             if (newNeuron.IsBias)
                             {
-                                newNeuron.ActivationInitializer = neuron.ActivationInitializer;
-                                newNeuron.ActivationInitializerParamA = neuron.ActivationInitializerParamA;
+                                //newNeuron.ActivationInitializer = neuron.ActivationInitializer;
+                                //newNeuron.ActivationInitializerParamA = neuron.ActivationInitializerParamA;
 
                                 initValue = InitializeMode.Helper.Invoke(newNeuron.ActivationInitializer, newNeuron.ActivationInitializerParamA);
-                                if (!InitializeMode.Helper.IsSkipValue(initValue))
+                                if (InitializeMode.Helper.IsSkipValue(initValue))
                                 {
-                                    newNeuron.Activation = initValue;
+                                    newNeuron.Activation = neuron.Activation;
                                 }
                             }
                         }

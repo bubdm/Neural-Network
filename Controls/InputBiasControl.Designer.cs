@@ -1,6 +1,6 @@
 ﻿namespace NN.Controls
 {
-    partial class BiasControl
+    partial class InputBiasControl
     {
         /// <summary> 
         /// Required designer variable.

@@ -39,7 +39,7 @@ namespace NN.Controls
             AddNeuron(Const.UnknownId);          
         }
 
-        public void AddNeuron(long id)
+        public override void AddNeuron(long id)
         {
             var neuron = new OutputNeuronControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);
             CtlFlow.Controls.Add(neuron);

@@ -21,6 +21,8 @@ namespace NN
 
         public int Height => Neurons.Count;
         public int Width => Neurons.First().Weights.Count;
+
+        public int BiasCount => Neurons.Count(n => n.IsBias);
  
         public void ClearErrors()
         {

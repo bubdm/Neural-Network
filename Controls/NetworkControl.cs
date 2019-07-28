@@ -275,7 +275,7 @@ namespace NN.Controls
                 LearningRate = LearningRate.Value
             };
 
-            model.PrepareForStart();
+            RandomizeMode.Helper.Invoke(Randomizer, model, RandomizerParamA);
 
             var layers = GetLayersControls();
             for (int ln = 0; ln < layers.Count; ++ln)

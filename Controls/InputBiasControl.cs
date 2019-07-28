@@ -11,14 +11,14 @@ using Tools;
 
 namespace NN.Controls
 {
-    public partial class BiasControl : NeuronControl
+    public partial class InputBiasControl : NeuronControl
     {
-        public BiasControl()
+        public InputBiasControl()
         {
             InitializeComponent();
         }
 
-        public BiasControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+        public InputBiasControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
             : base(id, config, onNetworkUIChanged)
         {
             InitializeComponent();
@@ -27,6 +27,7 @@ namespace NN.Controls
             CtlIsBiasConnected.Checked = false;
             CtlIsBias.Enabled = false;
             CtlIsBiasConnected.Visible = CtlIsBias.Checked;
+            CtlIsBiasConnected.Enabled = false;
         }
     }
 }

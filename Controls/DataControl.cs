@@ -45,8 +45,8 @@ namespace NN.Controls
 
         public void SetInputData(LayerDataModel layer)
         {
-            Data = new double[layer.Neurons.Count];
-            Range.ForEach(layer.Neurons, neuron => Data[neuron.Id] = neuron.Activation);    
+            Data = new double[layer.Neurons.Where(n => !n.IsBias).Count()];
+            Range.ForEach(layer.Neurons.Where(n => !n.IsBias), neuron => Data[neuron.Id] = neuron.Activation);    
             Rearrange(Width, PointsCount);
             Invalidate();
         }
