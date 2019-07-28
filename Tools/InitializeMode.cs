@@ -12,7 +12,7 @@ namespace Tools
 {
     public static class InitializeMode
     {
-        public static double DoNotApply(double? a)
+        public static double None(double? a)
         {
             return Const.InitializerSkipValue;
         }

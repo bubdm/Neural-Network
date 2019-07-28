@@ -72,7 +72,7 @@ namespace NN
 
             StatisticsPresenter = new StatisticsPresenter();
             StatisticsPresenter.Height = 200;
-            StatisticsPresenter.Width = 250;
+            StatisticsPresenter.Width = 300;
             StatisticsPresenter.Left = PlotPresenter.Left + PlotPresenter.Width;
             StatisticsPresenter.Top = NetworkPresenter.Height - StatisticsPresenter.Top;
             CtlNetPanel.Controls.Add(StatisticsPresenter);
@@ -126,7 +126,7 @@ namespace NN
 
         private bool IsValid()
         {
-            return NetworkUI == null ? true : NetworkUI.IsValid();
+            return NetworkUI == null ? false : NetworkUI.IsValid();
         }
 
         private bool SaveConfig()
@@ -153,11 +153,6 @@ namespace NN
             {
                 Directory.CreateDirectory("Networks");
             }
-        }
-
-        private void CtlTime_SizeChanged(object sender, EventArgs e)
-        {
-            //CtlTime.Left = CtlNetPanel.Width - CtlTime.Width;
         }
 
         private void ToggleApplyChanges(Const.Toggle state)
@@ -238,7 +233,7 @@ namespace NN
                 Round = 0;
                 StartTime = DateTime.Now;
 
-                Draw(0);
+                Draw(0, 0, -1, 0, 0);
 
                 CancellationToken = CancellationTokenSource.Token;
 
@@ -252,6 +247,11 @@ namespace NN
         {
             long total = 0;
             long correct = 0;
+            double averageCost = 0;
+            int lastErrorOutput = -1;
+            double lastErrorOutputActivation = 0;
+            int lastErrorInput = 0;
+
 
             DateTime startTime = DateTime.Now;
             DateTime prevTime = DateTime.Now;
@@ -269,17 +269,34 @@ namespace NN
                     {
                         ++correct;
                     }
+                    else
+                    {
+                        lastErrorInput = number;
+                        lastErrorOutput = max.Id;
+                        lastErrorOutputActivation = max.Activation;
+                    }
+
                     ++total;
                     ++Round;
 
                     NetworkModel.BackPropagation(number);
-                }
 
+                    var cost = NetworkModel.Cost(number);
+                    if (total == 1)
+                    {
+                        averageCost = cost;
+                    }
+                    else
+                    {
+                        averageCost = (averageCost * (total - 1) + cost) / total;
+                    }
+                }
+                
                 if (total == 10000 || DateTime.Now.Subtract(startTime).TotalSeconds >= 10)
                 {
                     break;
                 }
-
+                
                 if ((long)DateTime.Now.Subtract(prevTime).TotalSeconds >= 1)
                 {
                     prevTime = DateTime.Now;
@@ -300,12 +317,13 @@ namespace NN
                 {
                     lock (ApplyChangesLocker)
                     {
-                        Draw(100 * (double)correct / (double)total);
+                        var percent = 100 * (double)correct / (double)total;
+                        Draw(percent, averageCost, lastErrorOutput, lastErrorOutputActivation, lastErrorInput);
                     }
                 }
                 catch (Exception ex)
                 {
-                    int a =1;
+                    int hha =1;
                 }
 
                 ev.Set();
@@ -314,7 +332,7 @@ namespace NN
             ev.WaitOne();
         }
 
-        private void Draw(double percent)
+        private void Draw(double percent, double averageCost, int lastErrorOutput, double lastErrorOutputActivation, int lastErrorInput)
         {
             var renderStart = DateTime.Now;
 
@@ -341,7 +359,12 @@ namespace NN
             stat.Add("Input", number.ToString());
             var max = NetworkModel.GetMaxActivatedOutputNeuron();
             stat.Add("Output", max.Id.ToString() + $" ({Converter.DoubleToText(100 * max.Activation)}%)");
+            if (lastErrorOutput > -1 && lastErrorOutput != max.Id && lastErrorOutputActivation != max.Activation)
+            {
+                stat.Add("Last error output", $"{lastErrorInput}->{lastErrorOutput} ({Converter.DoubleToText(100 * lastErrorOutputActivation)}%)");
+            }
             stat.Add("Cost", Converter.DoubleToText(NetworkModel.Cost((int)number)));
+            stat.Add("Average cost", Converter.DoubleToText(averageCost));
             stat.Add("Percent", Converter.DoubleToText(percent) + " %");
             stat.Add("Learning rate", Converter.DoubleToText(NetworkModel.LearningRate));
             stat.Add("Rounds", Round.ToString());

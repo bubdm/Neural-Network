@@ -84,7 +84,7 @@ namespace NN.Controls
 
         public void LoadConfig()
         {
-            InitializeMode.Helper.FillComboBox(CtlWeightsIniter, Config, Const.Param.WeightsInitializer, nameof(InitializeMode.DoNotApply));
+            InitializeMode.Helper.FillComboBox(CtlWeightsIniter, Config, Const.Param.WeightsInitializer, nameof(InitializeMode.None));
             CtlWeightsIniterParamA.Text = Config.GetString(Const.Param.WeightsInitializerParamA);
 
             CtlIsBias.Checked = Config.GetBool(Const.Param.IsBias, false);

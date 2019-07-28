@@ -19,7 +19,7 @@ namespace NN.Controls
             Visible = false; // do not show it
         }
 
-        public override string WeightsInitializer => nameof(InitializeMode.DoNotApply);
+        public override string WeightsInitializer => nameof(InitializeMode.None);
         public override double? WeightsInitializerParamA => 0;
         public override bool IsBias => false;
         public override bool IsBiasConnected => false;

@@ -156,10 +156,7 @@ namespace NN.Controls
                     File.Delete(saveDialog.FileName);
                 }
 
-                var currentName = Config.Main.GetString(Const.Param.NetworkName);
-                var networkControl = new NetworkControl(currentName, null);
-                networkControl.Config = new Config(saveDialog.FileName);
-                networkControl.SaveConfig();
+                File.Copy(Config.Main.GetString(Const.Param.NetworkName), saveDialog.FileName);
             }
         }
 
