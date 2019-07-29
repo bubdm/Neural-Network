@@ -26,6 +26,38 @@ namespace Tools
         }
     }
 
+    public class DrawData
+    {
+        public double Percent;
+        public double AverageCost;
+
+        public int LastBadOutput;
+        public double LastBadOutputActivation;
+        public int LastBadInput;
+        public double LastBadCost;
+
+        public int LastGoodOutput;
+        public double LastGoodOutputActivation;
+        public int LastGoodInput;
+        public double LastGoodCost;
+
+        public DrawData(bool init)
+        {
+            Percent = 0;
+            AverageCost = 0;
+
+            LastBadOutput = -1;
+            LastBadOutputActivation = 0;
+            LastBadInput = 0;
+            LastBadCost = 0;
+
+            LastGoodOutput = -1;
+            LastGoodOutputActivation = 0;
+            LastGoodInput = 0;
+            LastGoodCost = 0;
+        }
+    }
+
     public static class Initializer
     {
         public static void FillComboBox(Type helper, ComboBox cb, Config config, Const.Param param, string defaultValue)

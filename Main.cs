@@ -245,7 +245,7 @@ namespace NN
                 Round = 0;
                 StartTime = DateTime.Now;
 
-                Draw(0, 1, -1, 0, 0);
+                Draw(new DrawData(true));
 
                 CancellationToken = CancellationTokenSource.Token;
 
@@ -260,15 +260,12 @@ namespace NN
         {
             long total = 0;
             long correct = 0;
-            double averageCost = 0;
-            int lastErrorOutput = -1;
-            double lastErrorOutputActivation = 0;
-            int lastErrorInput = 0;
 
             DateTime startTime = DateTime.Now;
             DateTime prevTime = DateTime.Now;
 
             MatrixPresenter.ClearData();
+            var data = new DrawData(true);
 
             while (!CancellationToken.IsCancellationRequested)
             {
@@ -279,15 +276,22 @@ namespace NN
 
                     var output = NetworkModel.GetMaxActivatedOutputNeuron();
                     var input = NetworkModel.GetNumberOfFirstLayerActiveNeurons();
+                    var cost = NetworkModel.Cost(input);
                     if (input == output.Id)
                     {
                         ++correct;
+
+                        data.LastGoodInput = input;
+                        data.LastGoodOutput = output.Id;
+                        data.LastGoodOutputActivation = output.Activation;
+                        data.LastGoodCost = cost;
                     }
                     else
                     {
-                        lastErrorInput = input;
-                        lastErrorOutput = output.Id;
-                        lastErrorOutputActivation = output.Activation;
+                        data.LastBadInput = input;
+                        data.LastBadOutput = output.Id;
+                        data.LastBadOutputActivation = output.Activation;
+                        data.LastBadCost = cost;
                     }
 
                     MatrixPresenter.AddData(input, output.Id);
@@ -297,14 +301,14 @@ namespace NN
 
                     NetworkModel.BackPropagation(input);
 
-                    var cost = NetworkModel.Cost(input);
+                    
                     if (total == 1)
                     {
-                        averageCost = cost;
+                        data.AverageCost = cost;
                     }
                     else
                     {
-                        averageCost = (averageCost * (total - 1) + cost) / total;
+                        data.AverageCost = (data.AverageCost * (total - 1) + cost) / total;
                     }
                 }
                 
@@ -325,6 +329,8 @@ namespace NN
                 return;
             }
 
+            data.Percent = 100 * (double)correct / (double)total;
+
             var ev = new AutoResetEvent(false);
 
             BeginInvoke((Action)(() =>
@@ -333,8 +339,7 @@ namespace NN
                 {
                     lock (ApplyChangesLocker)
                     {
-                        var percent = 100 * (double)correct / (double)total;
-                        Draw(percent, averageCost, lastErrorOutput, lastErrorOutputActivation, lastErrorInput);
+                        Draw(data);
                     }
                 }
                 catch (Exception ex)
@@ -348,26 +353,25 @@ namespace NN
             ev.WaitOne();
         }
 
-        private void Draw(double percent, double averageCost, int lastErrorOutput, double lastErrorOutputActivation, int lastErrorInput)
+        private void Draw(DrawData data)
         {
             var renderStart = DateTime.Now;
 
             NetworkPresenter.Render();          
-            PlotPresenter.AddPointPercentData(percent);
-            PlotPresenter.AddPointCostData(averageCost);
+            PlotPresenter.AddPointPercentData(data.Percent);
+            PlotPresenter.AddPointCostData(data.AverageCost);
             PlotPresenter.Draw();
             MatrixPresenter.Draw();
 
             InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First(), NetworkModel.InputThreshold);
-            var input = NetworkModel.GetNumberOfFirstLayerActiveNeurons();
 
             var stat = new Dictionary<string, string>();
             var span = DateTime.Now.Subtract(StartTime);
             stat.Add("Time", new DateTime(span.Ticks).ToString(@"HH\:mm\:ss"));
 
-            if (percent > 0)
+            if (data.Percent > 0)
             {
-                var remains = new DateTime((long)(span.Ticks * 100 / percent) - span.Ticks);
+                var remains = new DateTime((long)(span.Ticks * 100 / data.Percent) - span.Ticks);
                 stat.Add("Time remaining", new DateTime(remains.Ticks).ToString(@"HH\:mm\:ss"));
             }
             else
@@ -375,20 +379,31 @@ namespace NN
                 stat.Add("Time remaining", "N/A");
             }
 
-            stat.Add("Input", input.ToString());
-            var output = NetworkModel.GetMaxActivatedOutputNeuron();
-            stat.Add("Output", output.Id.ToString() + $" ({Converter.DoubleToText(100 * output.Activation)}%)");
-            if (lastErrorOutput > -1 && lastErrorOutput != output.Id && lastErrorOutputActivation != output.Activation)
+            if (data.LastGoodOutput > -1)
             {
-                stat.Add("Last bad output", $"{lastErrorInput}={lastErrorOutput} ({Converter.DoubleToText(100 * lastErrorOutputActivation)}%)");
+                stat.Add("Last good output", $"{data.LastGoodInput}={data.LastGoodOutput} ({Converter.DoubleToText(100 * data.LastGoodOutputActivation, "N6")}%)");
+                stat.Add("Last good cost", Converter.DoubleToText(data.LastGoodCost, "N6"));
+
+            }
+            else
+            {
+                stat.Add("Last good output", "none");
+                stat.Add("Last good cost", "none");
+            }
+
+            if (data.LastBadOutput > -1)
+            {
+                stat.Add("Last bad output", $"{data.LastBadInput}={data.LastBadOutput} ({Converter.DoubleToText(100 * data.LastBadOutputActivation, "N6")}%)");
+                stat.Add("Last bad cost", Converter.DoubleToText(data.LastBadCost, "N6"));
             }
             else
             {
                 stat.Add("Last bad output", "none");
+                stat.Add("Last bad cost", "none");
             }
-            stat.Add("Cost", Converter.DoubleToText(NetworkModel.Cost((int)input)));
-            stat.Add("Average cost", Converter.DoubleToText(averageCost));
-            stat.Add("Percent", Converter.DoubleToText(percent) + " %");
+
+            stat.Add("Average cost", Converter.DoubleToText(data.AverageCost, "N6"));
+            stat.Add("Percent", Converter.DoubleToText(data.Percent, "N6") + " %");
             stat.Add("Learning rate", Converter.DoubleToText(NetworkModel.LearningRate));
             stat.Add("Rounds", Round.ToString());
             stat.Add("Rounds/sec", ((int)((double)Round / DateTime.Now.Subtract(StartTime).TotalSeconds)).ToString());
