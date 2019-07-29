@@ -44,7 +44,7 @@ namespace Tools
         public DrawData(bool init)
         {
             Percent = 0;
-            AverageCost = 0;
+            AverageCost = 1;
 
             LastBadOutput = -1;
             LastBadOutputActivation = 0;

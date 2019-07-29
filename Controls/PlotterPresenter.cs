@@ -174,6 +174,18 @@ namespace NN.Controls
                         pointsToRemove.Add(data[i + 1]);
                         ++i;
                     }
+                    else
+                    {
+                        var p1 = data == PercentData
+                                         ? GetPointPercentData(data[i + 2], d)
+                                         : GetPointCostData(data[i + 2], d);
+
+                        if ((p0.X == p1.X && p1.X == p2.X) || (p0.Y == p1.Y && p1.Y == p2.Y))
+                        {
+                            pointsToRemove.Add(data[i + 1]);
+                            ++i;
+                        }
+                    }
                 }
 
                 foreach (var p in pointsToRemove)
