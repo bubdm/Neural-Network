@@ -33,6 +33,7 @@ namespace NN
         NetworkPresenter NetworkPresenter;
         PlotterPresenter PlotPresenter;
         StatisticsPresenter StatisticsPresenter;
+        MatrixPresenter MatrixPresenter;
 
         public Main()
         {
@@ -66,17 +67,28 @@ namespace NN
             PlotPresenter.Left = 0;
             PlotPresenter.Top = NetworkPresenter.Height - PlotPresenter.Height;
             CtlNetPanel.Controls.Add(PlotPresenter);
-            PlotPresenter.Anchor = AnchorStyles.Left | AnchorStyles.Bottom;
+            PlotPresenter.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             PlotPresenter.BringToFront();
 
             StatisticsPresenter = new StatisticsPresenter();
             StatisticsPresenter.Height = 200;
             StatisticsPresenter.Width = 300;
             StatisticsPresenter.Left = PlotPresenter.Left + PlotPresenter.Width;
-            StatisticsPresenter.Top = NetworkPresenter.Height - StatisticsPresenter.Top;
+            StatisticsPresenter.Top = NetworkPresenter.Height - StatisticsPresenter.Height;
             CtlNetPanel.Controls.Add(StatisticsPresenter);
             StatisticsPresenter.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             StatisticsPresenter.BringToFront();
+
+            MatrixPresenter = new MatrixPresenter();
+            MatrixPresenter.Height = 200;
+            MatrixPresenter.Width = 200;
+            MatrixPresenter.Left = StatisticsPresenter.Left + StatisticsPresenter.Width;
+            MatrixPresenter.Top = NetworkPresenter.Height - MatrixPresenter.Height;
+            CtlNetPanel.Controls.Add(MatrixPresenter);
+            MatrixPresenter.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            MatrixPresenter.BringToFront();
+
+            CtlTime.BringToFront();
 
             LoadConfig();
         }
@@ -224,6 +236,7 @@ namespace NN
 
                 NetworkModel.InitState();
                 PlotPresenter.ClearData();
+                MatrixPresenter.ClearData();
 
                 NetworkModel.SetInputData();
                 InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First(), NetworkModel.InputThreshold);
@@ -255,6 +268,8 @@ namespace NN
             DateTime startTime = DateTime.Now;
             DateTime prevTime = DateTime.Now;
 
+            MatrixPresenter.ClearData();
+
             while (!CancellationToken.IsCancellationRequested)
             {
                 lock (ApplyChangesLocker)
@@ -262,25 +277,27 @@ namespace NN
                     NetworkModel.SetInputData();
                     NetworkModel.FeedForward();
 
-                    var max = NetworkModel.GetMaxActivatedOutputNeuron();
-                    var number = NetworkModel.GetNumberOfFirstLayerActiveNeurons();
-                    if (number == max.Id)
+                    var output = NetworkModel.GetMaxActivatedOutputNeuron();
+                    var input = NetworkModel.GetNumberOfFirstLayerActiveNeurons();
+                    if (input == output.Id)
                     {
                         ++correct;
                     }
                     else
                     {
-                        lastErrorInput = number;
-                        lastErrorOutput = max.Id;
-                        lastErrorOutputActivation = max.Activation;
+                        lastErrorInput = input;
+                        lastErrorOutput = output.Id;
+                        lastErrorOutputActivation = output.Activation;
                     }
+
+                    MatrixPresenter.AddData(input, output.Id);
 
                     ++total;
                     ++Round;
 
-                    NetworkModel.BackPropagation(number);
+                    NetworkModel.BackPropagation(input);
 
-                    var cost = NetworkModel.Cost(number);
+                    var cost = NetworkModel.Cost(input);
                     if (total == 1)
                     {
                         averageCost = cost;
@@ -339,9 +356,10 @@ namespace NN
             PlotPresenter.AddPointPercentData(percent);
             PlotPresenter.AddPointCostData(averageCost);
             PlotPresenter.Draw();
+            MatrixPresenter.Draw();
 
             InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First(), NetworkModel.InputThreshold);
-            var number = NetworkModel.GetNumberOfFirstLayerActiveNeurons();
+            var input = NetworkModel.GetNumberOfFirstLayerActiveNeurons();
 
             var stat = new Dictionary<string, string>();
             var span = DateTime.Now.Subtract(StartTime);
@@ -357,14 +375,18 @@ namespace NN
                 stat.Add("Time remaining", "N/A");
             }
 
-            stat.Add("Input", number.ToString());
-            var max = NetworkModel.GetMaxActivatedOutputNeuron();
-            stat.Add("Output", max.Id.ToString() + $" ({Converter.DoubleToText(100 * max.Activation)}%)");
-            if (lastErrorOutput > -1 && lastErrorOutput != max.Id && lastErrorOutputActivation != max.Activation)
+            stat.Add("Input", input.ToString());
+            var output = NetworkModel.GetMaxActivatedOutputNeuron();
+            stat.Add("Output", output.Id.ToString() + $" ({Converter.DoubleToText(100 * output.Activation)}%)");
+            if (lastErrorOutput > -1 && lastErrorOutput != output.Id && lastErrorOutputActivation != output.Activation)
             {
                 stat.Add("Last bad output", $"{lastErrorInput}={lastErrorOutput} ({Converter.DoubleToText(100 * lastErrorOutputActivation)}%)");
             }
-            stat.Add("Cost", Converter.DoubleToText(NetworkModel.Cost((int)number)));
+            else
+            {
+                stat.Add("Last bad output", "none");
+            }
+            stat.Add("Cost", Converter.DoubleToText(NetworkModel.Cost((int)input)));
             stat.Add("Average cost", Converter.DoubleToText(averageCost));
             stat.Add("Percent", Converter.DoubleToText(percent) + " %");
             stat.Add("Learning rate", Converter.DoubleToText(NetworkModel.LearningRate));

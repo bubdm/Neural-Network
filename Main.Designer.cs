@@ -87,7 +87,7 @@
             // 
             this.CtlTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.CtlTime.Location = new System.Drawing.Point(501, 422);
+            this.CtlTime.Location = new System.Drawing.Point(614, 422);
             this.CtlTime.Name = "CtlTime";
             this.CtlTime.Size = new System.Drawing.Size(100, 15);
             this.CtlTime.TabIndex = 11;
@@ -103,7 +103,7 @@
             this.CtlBottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.CtlBottomPanel.Location = new System.Drawing.Point(0, 443);
             this.CtlBottomPanel.Name = "CtlBottomPanel";
-            this.CtlBottomPanel.Size = new System.Drawing.Size(1226, 57);
+            this.CtlBottomPanel.Size = new System.Drawing.Size(1339, 57);
             this.CtlBottomPanel.TabIndex = 14;
             // 
             // CtlReset
@@ -162,14 +162,14 @@
             this.CtlNetPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CtlNetPanel.Location = new System.Drawing.Point(205, 0);
             this.CtlNetPanel.Name = "CtlNetPanel";
-            this.CtlNetPanel.Size = new System.Drawing.Size(606, 443);
+            this.CtlNetPanel.Size = new System.Drawing.Size(719, 443);
             this.CtlNetPanel.TabIndex = 17;
             // 
             // CtlPlotSplitter
             // 
             this.CtlPlotSplitter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.CtlPlotSplitter.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CtlPlotSplitter.Location = new System.Drawing.Point(811, 0);
+            this.CtlPlotSplitter.Location = new System.Drawing.Point(924, 0);
             this.CtlPlotSplitter.Name = "CtlPlotSplitter";
             this.CtlPlotSplitter.Size = new System.Drawing.Size(5, 443);
             this.CtlPlotSplitter.TabIndex = 18;
@@ -182,7 +182,7 @@
             this.CtlManagerPanel.Controls.Add(this.CtlTabs);
             this.CtlManagerPanel.Controls.Add(this.CtlManagerTools);
             this.CtlManagerPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CtlManagerPanel.Location = new System.Drawing.Point(816, 0);
+            this.CtlManagerPanel.Location = new System.Drawing.Point(929, 0);
             this.CtlManagerPanel.MinimumSize = new System.Drawing.Size(410, 2);
             this.CtlManagerPanel.Name = "CtlManagerPanel";
             this.CtlManagerPanel.Size = new System.Drawing.Size(410, 443);
@@ -386,7 +386,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1226, 500);
+            this.ClientSize = new System.Drawing.Size(1339, 500);
             this.Controls.Add(this.CtlNetPanel);
             this.Controls.Add(this.CtlPlotSplitter);
             this.Controls.Add(this.CtlManagerPanel);

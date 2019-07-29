@@ -62,37 +62,21 @@ namespace NN.Controls
 
         public void DrawPercentData()
         {
-            Pen pen = null;
-
-            for (int n = 1; n <= PercentData.Count; ++n)
+            for (int n = 0; n < PercentData.Count; ++n)
             {
-                var data = PercentData.Take(n);
-
-                var f = data.First();
-                var l = data.Last();
+                var f = PercentData.First();
+                var l = PercentData.Last();
 
                 var d = l.Item2.Subtract(f.Item2).Ticks;
 
-                using (pen = Tools.Draw.GetPen(Color.FromArgb(30, Color.Orange), 2))
+                var prev = f;
+                foreach (var p in PercentData)
                 {
-                    if (n == PercentData.Count)
-                    {
-                        pen.Width = 1;
-                        pen.Color = Color.Orange;
-                    }
+                    var pp = GetPointPercentData(p, d);
+                    G.DrawLine(Pens.Orange, GetPointPercentData(prev, d), pp);
+                    G.FillEllipse(Brushes.Orange, pp.X - 7 / 2, pp.Y - 7 / 2, 7, 7);
 
-                    var prev = f;
-                    foreach (var p in data)
-                    {
-                        var pp = GetPointPercentData(p, d);
-                        G.DrawLine(pen, GetPointPercentData(prev, d), pp);
-
-                        if (n == PercentData.Count)
-                        {
-                            G.FillEllipse(Brushes.Orange, pp.X - 7 / 2, pp.Y - 7 / 2, 7, 7);
-                        }
-                        prev = p;
-                    }
+                    prev = p;
                 }
             }
         }
@@ -116,7 +100,7 @@ namespace NN.Controls
                 var prev = f;
                 foreach (var p in CostData)
                 {
-                    using (var pen = Tools.Draw.GetPen(Tools.Draw.GetColorDradient(Color.Green, Color.Yellow, Color.Red, 10, p.Item1), 1))
+                    using (var pen = Tools.Draw.GetPen(Tools.Draw.GetColorDradient(Color.Green, Color.Yellow, Color.Red, 255, p.Item1), 1))
                     { 
                         var pp = GetPointCostData(p, d);
                         G.DrawLine(pen, GetPointCostData(prev, d), pp);
@@ -126,7 +110,6 @@ namespace NN.Controls
                             G.FillEllipse(brush, pp.X - 7 / 2, pp.Y - 7 / 2, 7, 7);
                         }
                         
-
                         prev = p;
                     }
                 }
@@ -165,30 +148,30 @@ namespace NN.Controls
 
         private void Vanish(PlotPoints data)
         {
+            int vanishArea = 16;
+
             if (data.Count > 2)
             {
                 var pointsToRemove = new List<PlotPoint>();
                 var time = data.Last().Item2.Subtract(data.First().Item2);
 
-                //data = data.Take(10).ToList();
-                for (int i = 1; i < data.Count - 1; ++i)
+                for (int i = 0; i < data.Count - 2; i += 2)
                 {
                     var d = data == PercentData
                                     ? PercentData.Last().Item2.Subtract(PercentData.First().Item2).Ticks
                                     : CostData.Last().Item2.Subtract(CostData.First().Item2).Ticks;
 
                     var p0 = data == PercentData
-                                     ? GetPointPercentData(data[i - 1], d)
-                                     : GetPointCostData(data[i - 1], d);
-
-                    var p1 = data == PercentData
                                      ? GetPointPercentData(data[i], d)
                                      : GetPointCostData(data[i], d);
 
-                    if ((p0.X == p1.X && Math.Abs(p0.Y - p1.Y) < 2)
-                     || (p0.Y == p1.Y && Math.Abs(p0.X - p1.X) < 2))
+                    var p2 = data == PercentData
+                                     ? GetPointPercentData(data[i + 2], d)
+                                     : GetPointCostData(data[i + 2], d);
+
+                    if ((Math.Abs(p0.X - p2.X) < vanishArea && Math.Abs(p0.Y - p2.Y) < vanishArea))
                     {
-                        pointsToRemove.Add(data[i]);
+                        pointsToRemove.Add(data[i + 1]);
                         ++i;
                     }
                 }
