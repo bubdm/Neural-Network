@@ -59,7 +59,6 @@ namespace NN
             NetworkPresenter = new NetworkPresenter();
             NetworkPresenter.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             CtlNetPanel.Controls.Add(NetworkPresenter);
-            //CtlTime.SizeChanged += CtlTime_SizeChanged;
 
             PlotPresenter = new PlotterPresenter();
             PlotPresenter.Height = 200;
@@ -108,6 +107,7 @@ namespace NN
             if (File.Exists(name))
             { 
                 var network = new NetworkControl(name, OnNetworkUIChanged);
+                Config.Main.Set(Const.Param.NetworkName, name);
                 ReplaceNetworkControl(network);
                 if (network.IsValid())
                 {
@@ -200,7 +200,6 @@ namespace NN
             {
                 InputDataPresenter.RearrangeWithNewPointsCount(NetworkUI.InputNeuronsCount);
                 NetworkModel = NetworkUI.CreateNetworkDataModel();
-                //NetworkModel.FeedForward();
                 NetworkPresenter.SetNetwork(NetworkModel);
                 ToggleApplyChanges(Const.Toggle.Off);
             }
@@ -233,12 +232,13 @@ namespace NN
                 Round = 0;
                 StartTime = DateTime.Now;
 
-                Draw(0, 0, -1, 0, 0);
+                Draw(0, 1, -1, 0, 0);
 
                 CancellationToken = CancellationTokenSource.Token;
 
                 var ts = new ThreadStart(Work);
                 WorkThread = new Thread(ts);
+                WorkThread.Priority = ThreadPriority.Highest;
                 WorkThread.Start();
             }
         }
@@ -251,7 +251,6 @@ namespace NN
             int lastErrorOutput = -1;
             double lastErrorOutputActivation = 0;
             int lastErrorInput = 0;
-
 
             DateTime startTime = DateTime.Now;
             DateTime prevTime = DateTime.Now;
@@ -337,7 +336,9 @@ namespace NN
             var renderStart = DateTime.Now;
 
             NetworkPresenter.Render();          
-            PlotPresenter.AddPoint(percent);
+            PlotPresenter.AddPointPercentData(percent);
+            PlotPresenter.AddPointCostData(averageCost);
+            PlotPresenter.Draw();
 
             InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First(), NetworkModel.InputThreshold);
             var number = NetworkModel.GetNumberOfFirstLayerActiveNeurons();
@@ -361,7 +362,7 @@ namespace NN
             stat.Add("Output", max.Id.ToString() + $" ({Converter.DoubleToText(100 * max.Activation)}%)");
             if (lastErrorOutput > -1 && lastErrorOutput != max.Id && lastErrorOutputActivation != max.Activation)
             {
-                stat.Add("Last error output", $"{lastErrorInput}->{lastErrorOutput} ({Converter.DoubleToText(100 * lastErrorOutputActivation)}%)");
+                stat.Add("Last bad output", $"{lastErrorInput}={lastErrorOutput} ({Converter.DoubleToText(100 * lastErrorOutputActivation)}%)");
             }
             stat.Add("Cost", Converter.DoubleToText(NetworkModel.Cost((int)number)));
             stat.Add("Average cost", Converter.DoubleToText(averageCost));

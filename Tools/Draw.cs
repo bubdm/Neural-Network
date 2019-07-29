@@ -24,19 +24,50 @@ namespace Tools
                 return Color.FromArgb(alpha, (int)(50 * v), (int)(50 * v), (int)(255 * v));
         }
 
+        public static Color GetColorDradient(Color from, Color to, int alpha, double fraction)
+        {
+            if (fraction > 1)
+                fraction = 1;
+            else if (fraction < 0)
+                fraction = 0;
+
+            return Color.FromArgb(alpha,
+                                  (int)(from.R - fraction * (from.R - to.R)),
+                                  (int)(from.G - fraction * (from.G - to.G)),
+                                  (int)(from.B - fraction * (from.B - to.B)));
+        }
+
+        public static Color GetColorDradient(Color from, Color zero, Color to, int alpha, double fraction)
+        {
+            if (fraction < 0.5)
+            {
+                return GetColorDradient(from, zero, alpha, fraction * 2);
+            }
+            else
+            {
+                return GetColorDradient(zero, to, alpha, 2 * (fraction - 0.5));
+            }
+        }
+
         public static Brush GetBrush(double v)
         {
             return new SolidBrush(GetColor(v));
         }
-
+        
         public static Pen GetPen(double v, float width = 1, int alpha = 255)
         {
-            return new Pen(new SolidBrush(GetColor(v, alpha)), width);
+            if (width == 0)
+            {
+                width = Math.Abs(v) <= 1 ? 1 : (float)Math.Abs(v);
+                alpha = alpha == 255 ? (int)(alpha / (1 + (width - 1) / 2)) : alpha;
+            }
+
+            return new Pen(GetColor(v, alpha), width);
         }
 
         public static Pen GetPen(Color c, float width = 1)
         {
-            return new Pen(new SolidBrush(c), width);
+            return new Pen(c, width);
         }
 
         public static Color GetRandomColor(int offsetFromTop, Color? baseColor = null)

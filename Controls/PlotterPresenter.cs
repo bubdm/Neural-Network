@@ -9,9 +9,13 @@ using Tools;
 
 namespace NN.Controls
 {
+    using PlotPoints = List<Tuple<double, DateTime>>;
+    using PlotPoint = Tuple<double, DateTime>;
+
     class PlotterPresenter : PresenterControl
     {
-        List<Tuple<double, DateTime>> PercentData = new List<Tuple<double, DateTime>>();
+        PlotPoints PercentData = new PlotPoints();
+        PlotPoints CostData = new PlotPoints();
 
         int AxisOffset;
 
@@ -25,6 +29,16 @@ namespace NN.Controls
             StartRender();
             Clear();
 
+            DrawPlotter();
+            DrawPercentData();
+            DrawCostData();
+            DrawPercentLabel();
+
+            Invalidate();
+        }
+
+        public void DrawPlotter()
+        {
             var pen = Pens.Black;
 
             G.DrawLine(pen, AxisOffset, 0, AxisOffset, Height);
@@ -44,6 +58,11 @@ namespace NN.Controls
             {
                 G.DrawLine(pen, (float)x, (float)(Height - AxisOffset - step * y), (float)(x + AxisOffset), (float)(Height - AxisOffset - step * y));
             }
+        }
+
+        public void DrawPercentData()
+        {
+            Pen pen = null;
 
             for (int n = 1; n <= PercentData.Count; ++n)
             {
@@ -65,8 +84,8 @@ namespace NN.Controls
                     var prev = f;
                     foreach (var p in data)
                     {
-                        var pp = GetPoint(p, d);
-                        G.DrawLine(pen, GetPoint(prev, d), pp);
+                        var pp = GetPointPercentData(p, d);
+                        G.DrawLine(pen, GetPointPercentData(prev, d), pp);
 
                         if (n == PercentData.Count)
                         {
@@ -76,19 +95,58 @@ namespace NN.Controls
                     }
                 }
             }
-            
-            var font = new Font("Tahoma", 7, FontStyle.Bold);
-            G.TextRenderingHint = TextRenderingHint.AntiAlias;
-            G.DrawString(new DateTime(PercentData.Last().Item2.Subtract(PercentData.First().Item2).Ticks).ToString("HH:mm:ss") + " / " + Converter.DoubleToText(PercentData.Last().Item1, "N4") + " %", font, Brushes.Black, AxisOffset * 3, Height - AxisOffset - 20);
-            
-            Invalidate();
         }
 
-        private Point GetPoint(Tuple<double, DateTime> p1, long d)
+        public void DrawPercentLabel()
+        {
+            var font = new Font("Tahoma", 6.5f, FontStyle.Bold);
+            G.TextRenderingHint = TextRenderingHint.AntiAlias;
+            G.DrawString(new DateTime(PercentData.Last().Item2.Subtract(PercentData.First().Item2).Ticks).ToString("HH:mm:ss") + " / " + Converter.DoubleToText(PercentData.Last().Item1, "N4") + " %", font, Brushes.Black, AxisOffset * 3, Height - AxisOffset - 20);
+        }
+
+        public void DrawCostData()
+        {
+            for (int n = 0; n < CostData.Count; ++n)
+            {
+                var f = CostData.First();
+                var l = CostData.Last();
+
+                var d = l.Item2.Subtract(f.Item2).Ticks;
+
+                var prev = f;
+                foreach (var p in CostData)
+                {
+                    using (var pen = Tools.Draw.GetPen(Tools.Draw.GetColorDradient(Color.Green, Color.Yellow, Color.Red, 10, p.Item1), 1))
+                    { 
+                        var pp = GetPointCostData(p, d);
+                        G.DrawLine(pen, GetPointCostData(prev, d), pp);
+                        
+                        using (var brush = new SolidBrush(pen.Color))
+                        {
+                            G.FillEllipse(brush, pp.X - 7 / 2, pp.Y - 7 / 2, 7, 7);
+                        }
+                        
+
+                        prev = p;
+                    }
+                }
+            }
+        }
+
+        private Point GetPointPercentData(PlotPoint p1, long d)
         {
             var p0 = PercentData.First();
             var px = d == 0 ? AxisOffset : AxisOffset + (Width - AxisOffset) * p1.Item2.Subtract(p0.Item2).Ticks / d;
-            var py = (Height - AxisOffset) - (Height - AxisOffset) * (p1.Item1 / 100);
+            var py = (Height - AxisOffset) * (1 - (p1.Item1 / 100));
+
+            return new Point((int)px, (int)py);
+        }
+
+        private Point GetPointCostData(PlotPoint p1, long d)
+        {
+            var p0 = CostData.First();
+            var px = d == 0 ? AxisOffset : AxisOffset + (Width - AxisOffset) * p1.Item2.Subtract(p0.Item2).Ticks / d;
+            var py = (Height - AxisOffset) * (1 - Math.Min(1, p1.Item1));
 
             return new Point((int)px, (int)py);
         }
@@ -96,38 +154,56 @@ namespace NN.Controls
         public void ClearData()
         {
             PercentData.Clear();
+            CostData.Clear();
         }
 
-        public void AddPoint(double percent)
+        public void AddPointPercentData(double percent)
         {
-            if (PercentData.Count > 2)
-            {
-                var time = PercentData.Last().Item2.Subtract(PercentData.First().Item2);
+            Vanish(PercentData);
+            PercentData.Add(new PlotPoint(percent, DateTime.Now));
+        }
 
-                for (int i = 1; i < PercentData.Count; ++i)
+        private void Vanish(PlotPoints data)
+        {
+            if (data.Count > 2)
+            {
+                var pointsToRemove = new List<PlotPoint>();
+                var time = data.Last().Item2.Subtract(data.First().Item2);
+
+                //data = data.Take(10).ToList();
+                for (int i = 1; i < data.Count - 1; ++i)
                 {
-                    if ((double)PercentData[i].Item2.Subtract(PercentData[i - 1].Item2).Ticks / (double)time.Ticks < 0.01)
+                    var d = data == PercentData
+                                    ? PercentData.Last().Item2.Subtract(PercentData.First().Item2).Ticks
+                                    : CostData.Last().Item2.Subtract(CostData.First().Item2).Ticks;
+
+                    var p0 = data == PercentData
+                                     ? GetPointPercentData(data[i - 1], d)
+                                     : GetPointCostData(data[i - 1], d);
+
+                    var p1 = data == PercentData
+                                     ? GetPointPercentData(data[i], d)
+                                     : GetPointCostData(data[i], d);
+
+                    if ((p0.X == p1.X && Math.Abs(p0.Y - p1.Y) < 2)
+                     || (p0.Y == p1.Y && Math.Abs(p0.X - p1.X) < 2))
                     {
-                        PercentData.RemoveAt(i);
+                        pointsToRemove.Add(data[i]);
                         ++i;
                     }
                 }
-                /*
-                var last = PercentData.Last();
 
-                if (Math.Abs(last.Item1 - percent) < 0.5)
+                foreach (var p in pointsToRemove)
                 {
-                    PercentData.Remove(last);
-                    if (Math.Abs(PercentData.Last().Item1 - percent) >= 0.5)
-                    {
-                        PercentData.Add(last);
-                    }
-                } 
-                */
+                    data.Remove(p);
+                }
             }
+        }
 
-            PercentData.Add(new Tuple<double, DateTime>(percent, DateTime.Now));
-            Draw();
+        public void AddPointCostData(double cost)
+        {
+            Vanish(CostData);
+            CostData.Add(new PlotPoint(cost, DateTime.Now));
         }
     }
 }

@@ -89,7 +89,7 @@ namespace NN.Controls
                 {
                     if (fullState || ((neuron1.IsBias || neuron1.Activation > threshold) && neuron1.AxW(neuron2) != 0))
                     {
-                        using (var pen = Tools.Draw.GetPen(neuron1.AxW(neuron2)))
+                        using (var pen = Tools.Draw.GetPen(neuron1.AxW(neuron2), 0))
                         {
                             G.DrawLine(pen,
                                        LayerX(layer1), VERTICAL_OFFSET + VerticalShift(layer1) + neuron1.Id * VerticalDistance(layer1.Height),

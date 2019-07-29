@@ -12,7 +12,7 @@ namespace NN.Controls
     {
         public StatisticsPresenter()
         {
-            Font = new Font("Tahoma", 7, FontStyle.Bold);
+            Font = new Font("Tahoma", 6.5f, FontStyle.Bold);
         }
 
         public void DrawStat(Dictionary<string, string> stat)

@@ -65,7 +65,7 @@ namespace Tools
                     {
                         var value = Model.Layers[layer].Neurons[neuron].Weights[weight].Weight;
                         var hover = value == 0 ? 0 : 30 * Math.Sign(value);
-                        using (var pen = Draw.GetPen(value, value == 0 ? 1 : 2, alpha))
+                        using (var pen = Draw.GetPen(value, 0, alpha))
                         {
                             CtlPresenter.G.DrawLine(pen,
                                                     left - neuron + layer * 150 + weight,
