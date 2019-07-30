@@ -90,6 +90,18 @@ namespace Tools
                         {
                             ranges[layer].Add(4);
                         }
+                        if (value > 4)
+                        {
+                            ranges[layer].Add(5);
+                        }
+                        if (value > 5)
+                        {
+                            ranges[layer].Add(6);
+                        }
+                        if (value > 6)
+                        {
+                            ranges[layer].Add(7);
+                        }
                     }
                 }
             }

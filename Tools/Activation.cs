@@ -17,6 +17,8 @@ namespace Tools
         public static double LogisticSigmoid(double x)
         {
             return 1 / (1 + Math.Exp(-x));
+
+            //2/​(1+​exp(​(‑x)*​4))-​1
         }
 
         public static class Helper

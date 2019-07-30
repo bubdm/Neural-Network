@@ -312,15 +312,15 @@ namespace NN
 
                 if (MatrixPresenter.Count % 1000 == 0)
                 {
-                    using (var mev = new AutoResetEvent(false))
+                    using (var ev = new AutoResetEvent(false))
                     {
                         BeginInvoke((Action)(() =>
                         {
                             MatrixPresenter.Draw();
                             MatrixPresenter.ClearData();
-                            mev.Set();
+                            ev.Set();
                         }));
-                        mev.WaitOne();
+                        ev.WaitOne();
                     };
                 }
                 

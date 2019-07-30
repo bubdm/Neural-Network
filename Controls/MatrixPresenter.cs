@@ -109,6 +109,7 @@ namespace NN.Controls
 
             G.Flush(System.Drawing.Drawing2D.FlushIntention.Sync);
             Invalidate();
+            Update();
         }
     }
 }
