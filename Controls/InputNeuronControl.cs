@@ -13,7 +13,8 @@ namespace NN.Controls
 {
     public partial class InputNeuronControl : NeuronBase
     {
-        public InputNeuronControl()
+        public InputNeuronControl(long id)
+            : base(id, null,null)
         {
             InitializeComponent();
             Visible = false; // do not show it

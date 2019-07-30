@@ -77,6 +77,12 @@ namespace NN
             Tools.RandomizeMode.Helper.Invoke(RandomizeMode, this, RandomizerParamA);
         }
 
+        public void Activate()
+        {
+            Range.ForEach(Layers, layer => Range.ForEach(layer.Neurons, n => n.Activation = InputInitial1));
+            Tools.RandomizeMode.Helper.Invoke(RandomizeMode, this, RandomizerParamA);
+        }
+
         public void SetInputData()
         {
             Range.ForEach(Layers.First().Neurons.Where(n => !n.IsBias), n => n.Activation = InputInitial0);

@@ -77,7 +77,7 @@ namespace NN.Controls
 
         public void AddNeuron()
         {
-            var neuron = new InputNeuronControl();
+            var neuron = new InputNeuronControl(CtlFlow.Controls.Count);
             CtlFlow.Controls.Add(neuron);
         }
 

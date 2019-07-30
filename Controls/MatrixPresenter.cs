@@ -13,6 +13,12 @@ namespace NN.Controls
         long[] Output = new long[11];
         long[,] Matrix = new long[11, 11];
 
+        public long Count
+        {
+            get;
+            private set;
+        }
+
         public MatrixPresenter()
         {
             Font = new Font("Tahoma", 6.5f, FontStyle.Bold);
@@ -29,6 +35,7 @@ namespace NN.Controls
                     Matrix[x, y] = 0;
                 }
             }
+            Count = 0;
         }
 
         public void AddData(int input, int output)
@@ -36,6 +43,7 @@ namespace NN.Controls
             ++Input[input];
             ++Output[output];
             ++Matrix[input, output];
+            ++Count;
         }
 
         public void Draw()
@@ -99,6 +107,7 @@ namespace NN.Controls
             G.DrawString("Input", Font, Brushes.Black, - axisOffset - (Output.Length) * size, axisOffset - Font.Height - 1);
             G.RotateTransform(90);
 
+            G.Flush(System.Drawing.Drawing2D.FlushIntention.Sync);
             Invalidate();
         }
     }

@@ -24,14 +24,6 @@ namespace NN.Controls
             PointsRearrangeSnap = Config.Main.GetInt(Const.Param.PointsArrangeSnap, 10);
         }
 
-        public void SetPointsCount(int count)
-        {
-            if (PointsCount != count)
-            {
-                Rearrange(Width, PointsCount);
-            }
-        }
-
         private void DrawPoint(int x, int y, double value)
         {
             var brush = value == 0 ? Brushes.White : Draw.GetBrush(value);

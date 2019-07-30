@@ -247,8 +247,6 @@ namespace NN
 
                 Draw(new DrawData(true));
 
-                CancellationToken = CancellationTokenSource.Token;
-
                 var ts = new ThreadStart(Work);
                 WorkThread = new Thread(ts);
                 WorkThread.Priority = ThreadPriority.Highest;
@@ -264,7 +262,7 @@ namespace NN
             DateTime startTime = DateTime.Now;
             DateTime prevTime = DateTime.Now;
 
-            MatrixPresenter.ClearData();
+            ////MatrixPresenter.ClearData();
             var data = new DrawData(true);
 
             while (!CancellationToken.IsCancellationRequested)
@@ -311,6 +309,20 @@ namespace NN
                         data.AverageCost = (data.AverageCost * (total - 1) + cost) / total;
                     }
                 }
+
+                if (MatrixPresenter.Count % 1000 == 0)
+                {
+                    using (var mev = new AutoResetEvent(false))
+                    {
+                        BeginInvoke((Action)(() =>
+                        {
+                            MatrixPresenter.Draw();
+                            MatrixPresenter.ClearData();
+                            mev.Set();
+                        }));
+                        mev.WaitOne();
+                    };
+                }
                 
                 if (total == 10000 || DateTime.Now.Subtract(startTime).TotalSeconds >= 10)
                 {
@@ -331,26 +343,27 @@ namespace NN
 
             data.Percent = 100 * (double)correct / (double)total;
 
-            var ev = new AutoResetEvent(false);
-
-            BeginInvoke((Action)(() =>
+            using (var ev = new AutoResetEvent(false))
             {
-                try
+                BeginInvoke((Action)(() =>
                 {
-                    lock (ApplyChangesLocker)
+                    try
                     {
-                        Draw(data);
+                        lock (ApplyChangesLocker)
+                        {
+                            Draw(data);
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    int hha =1;
-                }
+                    catch (Exception ex)
+                    {
+                        int hha = 1;
+                    }
 
-                ev.Set();
-            }));
+                    ev.Set();
+                }));
 
-            ev.WaitOne();
+                ev.WaitOne();
+            };
         }
 
         private void Draw(DrawData data)
@@ -361,7 +374,7 @@ namespace NN
             PlotPresenter.AddPointPercentData(data.Percent);
             PlotPresenter.AddPointCostData(data.AverageCost);
             PlotPresenter.Draw();
-            MatrixPresenter.Draw();
+            ///MatrixPresenter.Draw();
 
             InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First(), NetworkModel.InputThreshold);
 
@@ -472,7 +485,10 @@ namespace NN
             {
                 return true;
             }
-            
+
+            WorkThread.Priority = ThreadPriority.Lowest;
+            Thread.CurrentThread.Priority = ThreadPriority.Highest;
+
             if (MessageBox.Show("Would you like to stop the network?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 StopRunning();

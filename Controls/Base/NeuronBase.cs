@@ -28,7 +28,10 @@ namespace NN.Controls
             OnNetworkUIChanged = onNetworkUIChanged;
 
             Id = id;
-            Config = config.Extend(Id);
+            if (config != null)
+            {
+                Config = config.Extend(Id);
+            }
         }
 
         public void StateChanged()

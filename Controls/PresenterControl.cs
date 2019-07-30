@@ -20,6 +20,16 @@ namespace NN.Controls
             Disposed += DrawBox_Disposed;
             SizeChanged += DrawBox_SizeChanged;
             BackColor = Color.White;
+
+            Disposed += PresenterControl_Disposed;
+        }
+
+        private void PresenterControl_Disposed(object sender, EventArgs e)
+        {
+            if (DrawArea != null)
+            {
+                DrawArea.Dispose();
+            }
         }
 
         private void DrawBox_SizeChanged(object sender, EventArgs e)
@@ -33,12 +43,13 @@ namespace NN.Controls
             {
                 IsRenderNeeded = false;
 
-                DrawArea = new Bitmap(Width, Height);
-                Image = DrawArea;
                 if (G != null)
                 {
+                    DrawArea.Dispose();
                     G.Dispose();
                 }
+                DrawArea = new Bitmap(Width, Height);
+                Image = DrawArea;
                 G = Graphics.FromImage(DrawArea);
                 //G.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             }

@@ -272,7 +272,7 @@ namespace NN.Controls
                 InputInitial1 = ActivationFunction.Helper.Invoke(InputLayer.ActivationFunc, InputLayer.Initial1)
             };
 
-            model.InitState();
+            model.Activate();
 
             var layers = GetLayersControls();
             for (int ln = 0; ln < layers.Count; ++ln)
