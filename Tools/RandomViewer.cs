@@ -44,9 +44,9 @@ namespace Tools
         }
 
         private void Render()
-        { 
+        {
             int left = 3 + (CtlPresenter.Width / 2) - ((Model.Layers.Count - 1) * 125) / 2;
-            int top = (CtlPresenter.Height / 2) - Model.Layers[0].Height / 2  - 30;
+            int top = (CtlPresenter.Height / 2) - Model.Layers[0].Height / 2 - 30;
             int distance = 50;
 
             int alpha = 200;
@@ -199,16 +199,13 @@ namespace Tools
 
         private void RandomViewer_Shown(object sender, EventArgs e)
         {
-            Render();
+            Render2();
         }
-    }
-}
 
-/*
-         private void Render()
-        { 
+        private void Render2()
+        {
             int left = 3 + (CtlPresenter.Width / 2) - ((Model.Layers.Count - 1) * 125) / 2;
-            int top = (CtlPresenter.Height / 2) - Model.Layers[0].Height / 2  - 30;
+            int top = (CtlPresenter.Height / 2) - Model.Layers[0].Height / 2 - 30;
             int distance = 50;
 
             int alpha = 100;
@@ -259,5 +256,5 @@ namespace Tools
 
             zeroColor.Dispose();
         }
-
-    */
+    }
+}

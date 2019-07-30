@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Base\IntBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Base\LayerBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -72,6 +75,12 @@
     </Compile>
     <Compile Include="Controls\MatrixPresenter.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\SettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SettingsControl.Designer.cs">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Config.cs" />
     <Compile Include="Controls\DataControl.cs">
@@ -178,6 +187,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\OutputNeuronControl.resx">
       <DependentUpon>OutputNeuronControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SettingsControl.resx">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

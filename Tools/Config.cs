@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace Tools
 {
+    public interface IConfigValue
+    {
+        void Load(Config config);
+        void Save(Config config);
+        bool IsValid();
+    }
+
     public class Config
     {
         public static Config Main = new Config("config.txt");

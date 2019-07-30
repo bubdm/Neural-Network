@@ -53,7 +53,11 @@ namespace Tools
             LearningRate,
             InputActivationFunc,
             InputInitial0,
-            InputInitial1
+            InputInitial1,
+
+            // Settings
+
+            SettingsSkipRoundsToDrawErrorMatrix
         }
     }
 

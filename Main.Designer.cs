@@ -61,13 +61,21 @@
             this.CtlMainMenuNewNeuron = new System.Windows.Forms.ToolStripMenuItem();
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuStart = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlSettingsPanel = new System.Windows.Forms.Panel();
+            this.CtlSettingsBottom = new System.Windows.Forms.Panel();
+            this.CtlApplySettingsButton = new System.Windows.Forms.Button();
+            this.CtlCancelSettingsButton = new System.Windows.Forms.Button();
+            this.CtlSettings = new NN.Controls.SettingsControl();
             this.CtlBottomPanel.SuspendLayout();
             this.CtlNetPanel.SuspendLayout();
             this.CtlManagerPanel.SuspendLayout();
             this.CtlTabs.SuspendLayout();
             this.CtlNetworkContextMenu.SuspendLayout();
+            this.CtlTabSettings.SuspendLayout();
             this.CtlManagerTools.SuspendLayout();
             this.CtlMenu.SuspendLayout();
+            this.CtlSettingsPanel.SuspendLayout();
+            this.CtlSettingsBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // CtlStart
@@ -235,6 +243,8 @@
             // 
             // CtlTabSettings
             // 
+            this.CtlTabSettings.Controls.Add(this.CtlSettingsPanel);
+            this.CtlTabSettings.Controls.Add(this.CtlSettingsBottom);
             this.CtlTabSettings.Location = new System.Drawing.Point(4, 25);
             this.CtlTabSettings.Name = "CtlTabSettings";
             this.CtlTabSettings.Size = new System.Drawing.Size(400, 340);
@@ -382,6 +392,52 @@
             this.CtlMenuStart.Size = new System.Drawing.Size(139, 26);
             this.CtlMenuStart.Text = "Start";
             // 
+            // CtlSettingsPanel
+            // 
+            this.CtlSettingsPanel.AutoScroll = true;
+            this.CtlSettingsPanel.Controls.Add(this.CtlSettings);
+            this.CtlSettingsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CtlSettingsPanel.Location = new System.Drawing.Point(0, 0);
+            this.CtlSettingsPanel.Name = "CtlSettingsPanel";
+            this.CtlSettingsPanel.Size = new System.Drawing.Size(400, 279);
+            this.CtlSettingsPanel.TabIndex = 3;
+            // 
+            // CtlSettingsBottom
+            // 
+            this.CtlSettingsBottom.Controls.Add(this.CtlCancelSettingsButton);
+            this.CtlSettingsBottom.Controls.Add(this.CtlApplySettingsButton);
+            this.CtlSettingsBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.CtlSettingsBottom.Location = new System.Drawing.Point(0, 279);
+            this.CtlSettingsBottom.Name = "CtlSettingsBottom";
+            this.CtlSettingsBottom.Size = new System.Drawing.Size(400, 61);
+            this.CtlSettingsBottom.TabIndex = 4;
+            // 
+            // CtlApplySettingsButton
+            // 
+            this.CtlApplySettingsButton.Location = new System.Drawing.Point(30, 15);
+            this.CtlApplySettingsButton.Name = "CtlApplySettingsButton";
+            this.CtlApplySettingsButton.Size = new System.Drawing.Size(75, 28);
+            this.CtlApplySettingsButton.TabIndex = 0;
+            this.CtlApplySettingsButton.Text = "Apply";
+            this.CtlApplySettingsButton.UseVisualStyleBackColor = true;
+            // 
+            // CtlCancelSettingsButton
+            // 
+            this.CtlCancelSettingsButton.Location = new System.Drawing.Point(163, 16);
+            this.CtlCancelSettingsButton.Name = "CtlCancelSettingsButton";
+            this.CtlCancelSettingsButton.Size = new System.Drawing.Size(75, 28);
+            this.CtlCancelSettingsButton.TabIndex = 1;
+            this.CtlCancelSettingsButton.Text = "Cancel";
+            this.CtlCancelSettingsButton.UseVisualStyleBackColor = true;
+            // 
+            // CtlSettings
+            // 
+            this.CtlSettings.Dock = System.Windows.Forms.DockStyle.Top;
+            this.CtlSettings.Location = new System.Drawing.Point(0, 0);
+            this.CtlSettings.Name = "CtlSettings";
+            this.CtlSettings.Size = new System.Drawing.Size(379, 505);
+            this.CtlSettings.TabIndex = 0;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -403,10 +459,13 @@
             this.CtlManagerPanel.ResumeLayout(false);
             this.CtlTabs.ResumeLayout(false);
             this.CtlNetworkContextMenu.ResumeLayout(false);
+            this.CtlTabSettings.ResumeLayout(false);
             this.CtlManagerTools.ResumeLayout(false);
             this.CtlManagerTools.PerformLayout();
             this.CtlMenu.ResumeLayout(false);
             this.CtlMenu.PerformLayout();
+            this.CtlSettingsPanel.ResumeLayout(false);
+            this.CtlSettingsBottom.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -444,6 +503,11 @@
         private System.Windows.Forms.ToolStripSeparator CtlMainMenuSeparator2;
         private System.Windows.Forms.ToolStripMenuItem CtlMainMenuNewNeuron;
         private System.Windows.Forms.ToolStripMenuItem CtlMainMenuSaveAs;
+        private System.Windows.Forms.Panel CtlSettingsBottom;
+        private System.Windows.Forms.Button CtlCancelSettingsButton;
+        private System.Windows.Forms.Button CtlApplySettingsButton;
+        private System.Windows.Forms.Panel CtlSettingsPanel;
+        private Controls.SettingsControl CtlSettings;
     }
 }
 

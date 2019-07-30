@@ -97,7 +97,26 @@ namespace NN
         {
             var networkName = Config.Main.GetString(Const.Param.NetworkName, null);
             LoadNetwork(networkName);
+            LoadSettings();
         }
+
+        private void LoadSettings()
+        {
+            CtlSettings.Load(Config.Main);
+        }
+
+        private bool SaveSettings()
+        {
+            if (!CtlSettings.IsValid())
+            {
+                MessageBox.Show("Settings parameter is invalid.", "Error");
+                return false;
+            }
+            CtlSettings.Save(Config.Main);
+            return true;
+        }
+
+        private Settings Settings => CtlSettings.Settings;
 
         private void LoadNetwork(string name)
         {
@@ -136,27 +155,21 @@ namespace NN
             }
         }
 
-        private bool IsValid()
-        {
-            return NetworkUI == null ? false : NetworkUI.IsValid();
-        }
-
         private bool SaveConfig()
         {
-            if (NetworkUI != null)
+            if (!SaveSettings())
             {
-                if (NetworkUI.IsValid())
-                {
-                    NetworkUI.SaveConfig();
-                    return true;
-                }
-                else
-                {
-                    MessageBox.Show("Network parameter is invalid", "Error");
-                }
+                return false;
             }
 
-            return false;
+            if (NetworkUI == null || !NetworkUI.IsValid())
+            {
+                MessageBox.Show("Network parameter is invalid", "Error");
+                return false;
+            }
+
+            NetworkUI.SaveConfig();
+            return true;
         }
 
         private void CreateDirectories()
@@ -247,8 +260,7 @@ namespace NN
 
                 Draw(new DrawData(true));
 
-                var ts = new ThreadStart(Work);
-                WorkThread = new Thread(ts);
+                WorkThread = new Thread(new ThreadStart(Work));
                 WorkThread.Priority = ThreadPriority.Highest;
                 WorkThread.Start();
             }
@@ -310,7 +322,7 @@ namespace NN
                     }
                 }
 
-                if (MatrixPresenter.Count % 1000 == 0)
+                if (MatrixPresenter.Count % Settings.SkipRoundsToDrawErrorMatrix == 0)
                 {
                     using (var ev = new AutoResetEvent(false))
                     {

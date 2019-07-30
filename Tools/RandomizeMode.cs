@@ -71,6 +71,77 @@ namespace Tools
             }
         }
 
+        public static void Xavier(NetworkDataModel network, double? a)
+        {
+            if (!a.HasValue)
+            {
+                a = 1;
+            }
+
+            foreach (var layer in network.Layers)
+            {
+                foreach (var neuron in layer.Neurons)
+                {
+                    foreach (var weight in neuron.Weights)
+                    {
+                        if (layer.Previous == null)
+                        {
+                            weight.Weight = Rand.GetFlatRandom();
+                        }
+                        else
+                        {
+                            weight.Weight = a.Value * Rand.GetFlatRandom() * Math.Sqrt(1 / layer.Previous.Neurons.Count);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void He_et_al(NetworkDataModel network, double? a)
+        {
+            if (!a.HasValue)
+            {
+                a = 1;
+            }
+
+            foreach (var layer in network.Layers)
+            {
+                foreach (var neuron in layer.Neurons)
+                {
+                    foreach (var weight in neuron.Weights)
+                    {
+                        if (layer.Previous == null)
+                        {
+                            weight.Weight = Rand.GetFlatRandom();
+                        }
+                        else
+                        {
+                            weight.Weight = a.Value * Rand.GetFlatRandom() * Math.Sqrt(2 / layer.Previous.Neurons.Count);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void Constant(NetworkDataModel network, double? a)
+        {
+            if (!a.HasValue)
+            {
+                a = 0;
+            }
+
+            foreach (var layer in network.Layers)
+            {
+                foreach (var neuron in layer.Neurons)
+                {
+                    foreach (var weight in neuron.Weights)
+                    {
+                        weight.Weight = a.Value;
+                    }
+                }
+            }
+        }
+
         public static class Helper
         {
             public static string[] GetItems()
