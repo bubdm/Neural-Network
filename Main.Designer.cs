@@ -49,7 +49,7 @@
             this.CtlManagerTools = new System.Windows.Forms.Panel();
             this.CtlApplyChanges = new System.Windows.Forms.Button();
             this.CtlMenu = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMenuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMainMenuNewNetwork = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMainMenuLoadNetwork = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMainMenuSaveAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,7 +59,7 @@
             this.CtlMainMenuDeleteLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMainMenuSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.CtlMainMenuNewNeuron = new System.Windows.Forms.ToolStripMenuItem();
-            this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMenuRun = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMenuStart = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlSettingsPanel = new System.Windows.Forms.Panel();
             this.CtlSettingsBottom = new System.Windows.Forms.Panel();
@@ -142,7 +142,6 @@
             // 
             // CtlDataPanel
             // 
-            this.CtlDataPanel.AutoScroll = true;
             this.CtlDataPanel.BackColor = System.Drawing.Color.White;
             this.CtlDataPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.CtlDataPanel.Dock = System.Windows.Forms.DockStyle.Left;
@@ -289,17 +288,17 @@
             this.CtlMenu.BackColor = System.Drawing.SystemColors.Control;
             this.CtlMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.CtlMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.runToolStripMenuItem});
+            this.CtlMenuFile,
+            this.CtlMenuRun});
             this.CtlMenu.Location = new System.Drawing.Point(0, 0);
             this.CtlMenu.Name = "CtlMenu";
             this.CtlMenu.Size = new System.Drawing.Size(408, 28);
             this.CtlMenu.TabIndex = 0;
             this.CtlMenu.Text = "menuStrip1";
             // 
-            // fileToolStripMenuItem
+            // CtlMenuFile
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CtlMenuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CtlMainMenuNewNetwork,
             this.CtlMainMenuLoadNetwork,
             this.CtlMainMenuSaveAs,
@@ -309,9 +308,9 @@
             this.CtlMainMenuDeleteLayer,
             this.CtlMainMenuSeparator2,
             this.CtlMainMenuNewNeuron});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
-            this.fileToolStripMenuItem.Text = "&File";
+            this.CtlMenuFile.Name = "CtlMenuFile";
+            this.CtlMenuFile.Size = new System.Drawing.Size(44, 24);
+            this.CtlMenuFile.Text = "&File";
             // 
             // CtlMainMenuNewNetwork
             // 
@@ -377,13 +376,13 @@
             this.CtlMainMenuNewNeuron.Size = new System.Drawing.Size(236, 26);
             this.CtlMainMenuNewNeuron.Text = "New Neuron";
             // 
-            // runToolStripMenuItem
+            // CtlMenuRun
             // 
-            this.runToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CtlMenuRun.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CtlMenuStart});
-            this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
-            this.runToolStripMenuItem.Text = "&Run";
+            this.CtlMenuRun.Name = "CtlMenuRun";
+            this.CtlMenuRun.Size = new System.Drawing.Size(46, 24);
+            this.CtlMenuRun.Text = "&Run";
             // 
             // CtlMenuStart
             // 
@@ -435,6 +434,7 @@
             this.CtlSettings.Dock = System.Windows.Forms.DockStyle.Top;
             this.CtlSettings.Location = new System.Drawing.Point(0, 0);
             this.CtlSettings.Name = "CtlSettings";
+            this.CtlSettings.Settings = null;
             this.CtlSettings.Size = new System.Drawing.Size(379, 505);
             this.CtlSettings.TabIndex = 0;
             // 
@@ -483,8 +483,8 @@
         private System.Windows.Forms.TabControl CtlTabs;
         private System.Windows.Forms.TabPage CtlTabSettings;
         private System.Windows.Forms.MenuStrip CtlMenu;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CtlMenuFile;
+        private System.Windows.Forms.ToolStripMenuItem CtlMenuRun;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuStart;
         private System.Windows.Forms.TabPage CtlTabNetwork;
         private System.Windows.Forms.ContextMenuStrip CtlNetworkContextMenu;

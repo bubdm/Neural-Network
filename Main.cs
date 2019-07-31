@@ -644,6 +644,7 @@ namespace NN
             try
             {
                 SaveConfig();
+                //LoadConfig(); need to create input neurons 
             }
             catch (Exception ex)
             {

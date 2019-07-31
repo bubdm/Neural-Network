@@ -48,7 +48,7 @@ namespace NN.Controls
 
         public void Draw()
         {
-            int size = 8;
+            int size = 9;
 
             StartRender();
             Clear();
@@ -77,9 +77,11 @@ namespace NN.Controls
             {
                 for (int x = 0; x < Input.Length; ++x)
                 {
-                    using (var brush = new SolidBrush(Tools.Draw.GetColorDradient(Color.LightGray, x == y ? Color.Green : Color.Red, 255, (double)Matrix[y, x] / (double)(x == y ? goodMax : badMax))))
+                    var value = (double)Matrix[y, x] / (double)(x == y ? goodMax : badMax);
+                    using (var brush = new SolidBrush(Tools.Draw.GetColorDradient(Color.LightGray, x == y ? Color.Green : Color.Red, 255, value)))
                     {
                         G.FillRectangle(brush, axisOffset + x * size, axisOffset + y * size, size, size);
+                        G.DrawRectangle(Pens.Silver, axisOffset + x * size, axisOffset + y * size, size, size);
                     }
                 }
             }
@@ -87,18 +89,20 @@ namespace NN.Controls
             long outputMax = Math.Max(Output.Max(), 1);
             for (int x = 0; x < Output.Length; ++x)
             {
-                using (var brush = new SolidBrush(Tools.Draw.GetColorDradient(Color.Gray, Color.Green, 100, (double)Output[x] / (double)outputMax)))
+                using (var brush = new SolidBrush(Tools.Draw.GetColorDradient(Color.White, Output[x] > Input[x] ? Color.Red : Output[x] < Input[x] ? Color.Blue : Color.Green, 100, (double)Output[x] / (double)outputMax)))
                 {
                     G.FillRectangle(brush, axisOffset + x * size, 2 + axisOffset + (Input.Length) * size, size, (int)(bound * (double)Output[x] / (double)outputMax));
+                    G.DrawRectangle(Pens.Silver, axisOffset + x * size, 2 + axisOffset + (Input.Length) * size, size, (int)(bound * (double)Output[x] / (double)outputMax));
                 }        
             }
 
             long inputMax = Math.Max(Input.Max(), 1);
             for (int y = 0; y < Input.Length; ++y)
             {
-                using (var brush = new SolidBrush(Tools.Draw.GetColorDradient(Color.Gray, Color.Green, 100, (double)Input[y] / (double)inputMax)))
+                using (var brush = new SolidBrush(Tools.Draw.GetColorDradient(Color.White, Color.Green, 100, (double)Input[y] / (double)inputMax)))
                 {
                     G.FillRectangle(brush, 2 + axisOffset + (Output.Length) * size, axisOffset + y * size, (int)(bound * (double)Input[y] / (double)inputMax), size);
+                    G.DrawRectangle(Pens.Silver, 2 + axisOffset + (Output.Length) * size, axisOffset + y * size, (int)(bound * (double)Input[y] / (double)inputMax), size);
                 }
             }
 

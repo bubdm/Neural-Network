@@ -55,6 +55,12 @@ namespace NN.Controls
 
         private void CtlInputCount_ValueChanged(object sender, EventArgs e)
         {
+            var controls = CtlFlow.Controls.OfType<InputNeuronControl>().ToList();
+            foreach (var control in controls)
+            {
+                CtlFlow.Controls.Remove(control);
+            }          
+            Range.For((int)CtlInputCount.Value, n => CtlFlow.Controls.SetChildIndex(AddNeuron(), 0));
             OnNetworkUIChanged(Notification.ParameterChanged.NeuronsCount, null);
         }
 
@@ -75,10 +81,11 @@ namespace NN.Controls
             Range.ForEach(neurons, n => AddBias(n));
         }
 
-        public void AddNeuron()
+        public InputNeuronControl AddNeuron()
         {
             var neuron = new InputNeuronControl(CtlFlow.Controls.Count);
             CtlFlow.Controls.Add(neuron);
+            return neuron;
         }
 
         public override void AddNeuron(long id)
