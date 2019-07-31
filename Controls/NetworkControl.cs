@@ -227,7 +227,7 @@ namespace NN.Controls
             var layers = Config.GetArray(Const.Param.HiddenLayers);
             Range.For(layers.Length, i => AddLayer(layers[i]));
 
-            CtlTabsLayers.SelectedIndex = Config.GetInt(Const.Param.CurrentLayerIndex, 0);
+            CtlTabsLayers.SelectedIndex = Config.GetInt(Const.Param.CurrentLayerIndex, 0).Value;
             CtlTabsLayers.ResumeLayout();
         }
 
@@ -238,7 +238,7 @@ namespace NN.Controls
             return result.ToArray();
         }
 
-        public int InputNeuronsCount => InputLayer.Config.GetInt(Const.Param.InputNeuronsCount);
+        public int InputNeuronsCount => InputLayer.GetNeuronsControls().Where(c => !c.IsBias).Count();
 
         private string Randomizer => CtlRandomizer.SelectedItem.ToString();
         private double? RandomizerParamA => Converter.TextToDouble(CtlRandomizerParamA.Text);

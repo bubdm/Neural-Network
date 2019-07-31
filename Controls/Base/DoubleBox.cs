@@ -9,7 +9,7 @@ using Tools;
 
 namespace NN.Controls
 {
-    public class IntBox : TextBox, IConfigValue
+    public class DoubleBox : TextBox, IConfigValue
     {
         public event Action Changed = new Action(() => { });
 
@@ -25,13 +25,13 @@ namespace NN.Controls
             set;
         }
 
-        public int MinimumValue
+        public double MinimumValue
         {
             get;
             set;
         }
 
-        public int MaximumValue
+        public double MaximumValue
         {
             get;
             set;
@@ -43,12 +43,12 @@ namespace NN.Controls
             set;
         }
 
-        public IntBox()
+        public DoubleBox()
         {
-            TextChanged += IntBox_TextChanged;
+            TextChanged += DoubleBox_TextChanged;
         }
 
-        private void IntBox_TextChanged(object sender, EventArgs e)
+        private void DoubleBox_TextChanged(object sender, EventArgs e)
         {
             if (IsValid())
             {
@@ -68,7 +68,7 @@ namespace NN.Controls
                 return true;
             }
 
-            return Converter.TryTextToInt(Text, out int? value) && value >= MinimumValue && value <= MaximumValue;
+            return Converter.TryTextToDouble(Text, out double? value) && value >= MinimumValue && value <= MaximumValue;
         }
 
         public bool IsNull()
@@ -76,12 +76,12 @@ namespace NN.Controls
             return String.IsNullOrEmpty(Text);
         }
 
-        public int Value => IsValid() ? Converter.TextToInt(Text).Value : throw new InvalidValueException(ConfigParameter, Text);
-        public int? ValueOrNull => IsNull() && IsNullAllowed ? (int?)null : IsValid() ? int.Parse(Text) : throw new InvalidValueException(ConfigParameter, Text);
+        public double Value => IsValid() ? Converter.TextToDouble(Text).Value : throw new InvalidValueException(ConfigParameter, Text);
+        public double? ValueOrNull => IsNull() && IsNullAllowed ? (double?)null : IsValid() ? Converter.TextToDouble(Text) : throw new InvalidValueException(ConfigParameter, Text);
 
         public void Load(Config config)
         {
-            Text = Converter.IntToText(config.GetInt(ConfigParameter, Converter.TextToInt(DefaultValue)));
+            Text = Converter.DoubleToText(config.GetDouble(ConfigParameter, Converter.TextToDouble(DefaultValue)));
         }
 
         public void Save(Config config)

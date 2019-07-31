@@ -20,8 +20,8 @@ namespace NN.Controls
 
         public DataControl() 
         {
-            PointSize = Config.Main.GetInt(Const.Param.PointSize, 7);
-            PointsRearrangeSnap = Config.Main.GetInt(Const.Param.PointsArrangeSnap, 10);
+            PointSize = Config.Main.GetInt(Const.Param.PointSize, 7).Value;
+            PointsRearrangeSnap = Config.Main.GetInt(Const.Param.PointsArrangeSnap, 10).Value;
         }
 
         private void DrawPoint(int x, int y, double value)

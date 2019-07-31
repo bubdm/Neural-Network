@@ -58,6 +58,15 @@ namespace Tools
         }
     }
 
+    public class InvalidValueException : Exception
+    {
+        public InvalidValueException(Const.Param param, string value)
+            : base($"Invalid value {param.ToString()} = '{value}'.")
+        {
+            //
+        }
+    }
+
     public static class Initializer
     {
         public static void FillComboBox(Type helper, ComboBox cb, Config config, Const.Param param, string defaultValue)
@@ -90,6 +99,39 @@ namespace Tools
 
     public static class Converter
     {
+        public static int? TextToInt(string text, int? defaultValue = null)
+        {
+            return String.IsNullOrEmpty(text) ? defaultValue : int.TryParse(text, out int a) ? a : defaultValue;
+        }
+
+        public static int TextToInt(string text, int defaultValue)
+        {
+            return String.IsNullOrEmpty(text) ? defaultValue : int.TryParse(text, out int a) ? a : defaultValue;
+        }
+
+        public static bool TryTextToInt(string text, out int? result, int? defaultValue = null)
+        {
+            if (String.IsNullOrEmpty(text))
+            {
+                result = defaultValue;
+                return true;
+            }
+
+            if (int.TryParse(text, out int d))
+            {
+                result = d;
+                return true;
+            }
+
+            result = null;
+            return false;
+        }
+
+        public static string IntToText(int? d)
+        { 
+            return d.HasValue ? d.Value.ToString() : null;
+        }
+
         public static double? TextToDouble(string text, double? defaultValue = null)
         {
             return String.IsNullOrEmpty(text) ? defaultValue : double.TryParse(text, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, Culture.Current, out double a) ? a : defaultValue;

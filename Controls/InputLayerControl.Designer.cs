@@ -35,9 +35,9 @@
             this.CtlMenuAddBias = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlInitial1Label = new System.Windows.Forms.Label();
             this.CtlInitial0Label = new System.Windows.Forms.Label();
-            this.CtlInitial1 = new System.Windows.Forms.TextBox();
+            this.CtlInitial1 = new NN.Controls.DoubleBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.CtlInitial0 = new System.Windows.Forms.TextBox();
+            this.CtlInitial0 = new NN.Controls.DoubleBox();
             this.CtlActivationFunc = new System.Windows.Forms.ComboBox();
             this.CtlActivationFuncLabel = new System.Windows.Forms.Label();
             this.CtlHeadPanel.SuspendLayout();
@@ -132,10 +132,17 @@
             // CtlInitial1
             // 
             this.CtlInitial1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlInitial1.BackColor = System.Drawing.Color.White;
+            this.CtlInitial1.ConfigParameter = Tools.Const.Param.InputInitial1;
+            this.CtlInitial1.DefaultValue = "1";
+            this.CtlInitial1.IsNullAllowed = false;
             this.CtlInitial1.Location = new System.Drawing.Point(293, 37);
+            this.CtlInitial1.MaximumValue = 100D;
+            this.CtlInitial1.MinimumValue = -100D;
             this.CtlInitial1.Name = "CtlInitial1";
             this.CtlInitial1.Size = new System.Drawing.Size(57, 22);
             this.CtlInitial1.TabIndex = 3;
+            this.CtlInitial1.Text = "1";
             // 
             // contextMenuStrip1
             // 
@@ -146,10 +153,17 @@
             // CtlInitial0
             // 
             this.CtlInitial0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlInitial0.BackColor = System.Drawing.Color.White;
+            this.CtlInitial0.ConfigParameter = Tools.Const.Param.InputInitial0;
+            this.CtlInitial0.DefaultValue = "0";
+            this.CtlInitial0.IsNullAllowed = false;
             this.CtlInitial0.Location = new System.Drawing.Point(178, 37);
+            this.CtlInitial0.MaximumValue = 100D;
+            this.CtlInitial0.MinimumValue = -100D;
             this.CtlInitial0.Name = "CtlInitial0";
             this.CtlInitial0.Size = new System.Drawing.Size(57, 22);
             this.CtlInitial0.TabIndex = 4;
+            this.CtlInitial0.Text = "0";
             // 
             // CtlActivationFunc
             // 
@@ -197,8 +211,8 @@
         private System.Windows.Forms.NumericUpDown CtlInputCount;
         private System.Windows.Forms.ContextMenuStrip CtlContextMenu;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuAddBias;
-        private System.Windows.Forms.TextBox CtlInitial0;
-        private System.Windows.Forms.TextBox CtlInitial1;
+        private DoubleBox CtlInitial0;
+        private DoubleBox CtlInitial1;
         private System.Windows.Forms.Label CtlInitial0Label;
         private System.Windows.Forms.Label CtlInitial1Label;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;

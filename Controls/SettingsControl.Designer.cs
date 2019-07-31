@@ -68,7 +68,7 @@
             // CtlSkipRoundsToDrawErrorMatrix
             // 
             this.CtlSkipRoundsToDrawErrorMatrix.ConfigParameter = Tools.Const.Param.SettingsSkipRoundsToDrawErrorMatrix;
-            this.CtlSkipRoundsToDrawErrorMatrix.DefaultValue = 1000;
+            this.CtlSkipRoundsToDrawErrorMatrix.DefaultValue = "1000";
             this.CtlSkipRoundsToDrawErrorMatrix.Location = new System.Drawing.Point(138, 37);
             this.CtlSkipRoundsToDrawErrorMatrix.MaximumValue = 100000;
             this.CtlSkipRoundsToDrawErrorMatrix.MinimumValue = 1;

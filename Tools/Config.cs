@@ -11,6 +11,7 @@ namespace Tools
     {
         void Load(Config config);
         void Save(Config config);
+        void Vanish(Config config);
         bool IsValid();
         void SetChangeEvent(Action action);
     }
@@ -53,9 +54,9 @@ namespace Tools
             }
         }
 
-        public int GetInt(Const.Param name, int defaultValue = 0)
+        public int? GetInt(Const.Param name, int? defaultValue = null)
         {
-            return (int)GetDouble(name, defaultValue);
+            return (int?)GetDouble(name, defaultValue);
         }
 
         public bool GetBool(Const.Param name, bool defaultValue = false)

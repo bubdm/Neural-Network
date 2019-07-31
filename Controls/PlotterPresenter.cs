@@ -21,7 +21,7 @@ namespace NN.Controls
 
         public PlotterPresenter()
         {
-            AxisOffset = Config.Main.GetInt(Const.Param.AxisOffset, 6);
+            AxisOffset = Config.Main.GetInt(Const.Param.AxisOffset, 6).Value;
         }
 
         public void Draw()

@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Base\DoubleBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Base\IntBox.cs">
       <SubType>Component</SubType>
     </Compile>

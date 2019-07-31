@@ -13,7 +13,7 @@ namespace NN.Controls
 {
     public partial class SettingsControl : UserControl, IConfigValue
     {
-        public event Action Changed;
+        public event Action Changed = new Action(() => { });
 
         object Locker = new object();
         Settings _Settings;
@@ -55,6 +55,11 @@ namespace NN.Controls
             Range.ForEach(CtlPanel.Controls.OfType<IConfigValue>(), c => c.Save(config));
         }
 
+        public void Vanish(Config config)
+        {
+            Range.ForEach(CtlPanel.Controls.OfType<IConfigValue>(), c => c.Vanish(config));
+        }
+
         public bool IsValid()
         {
             return CtlPanel.Controls.OfType<IConfigValue>().All(c => c.IsValid());
@@ -62,6 +67,7 @@ namespace NN.Controls
 
         public void SetChangeEvent(Action action)
         {
+            Changed -= action;
             Changed += action;
         }
 
