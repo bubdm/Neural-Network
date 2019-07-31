@@ -38,13 +38,6 @@ namespace NN
         public Main()
         {
             InitializeComponent();
-
-            CtlDataPanel.AutoScroll = false;
-            CtlDataPanel.HorizontalScroll.Maximum = 0;
-            CtlDataPanel.HorizontalScroll.Enabled = false;
-            CtlDataPanel.HorizontalScroll.Visible = false;
-            CtlDataPanel.AutoScroll = true;
-
             Load += Main_Load; 
         }
 

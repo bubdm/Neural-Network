@@ -77,7 +77,7 @@ namespace NN.Controls
         }
 
         public int Value => IsValid() ? (IsNull() ? throw new InvalidValueException(ConfigParameter, "null") : Converter.TextToInt(Text).Value) : throw new InvalidValueException(ConfigParameter, Text);
-        public int? ValueOrNull => IsNull() && IsNullAllowed ? (int?)null : IsValid() ? int.Parse(Text) : throw new InvalidValueException(ConfigParameter, Text);
+        public int? ValueOrNull => IsNull() && IsNullAllowed ? (int?)null : IsValid() ? Converter.TextToInt(Text) : throw new InvalidValueException(ConfigParameter, Text);
 
         public void Load(Config config)
         {
