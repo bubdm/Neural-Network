@@ -99,9 +99,7 @@ namespace NN.Controls
         public override bool IsValid()
         {
             bool result = CtlInitial0.IsValid() && CtlInitial1.IsValid();
-            var neurons = GetNeuronsControls();
-            Range.ForEach(neurons, n => result &= n.IsValid());
-            return result;
+            return result &= GetNeuronsControls().All(n => n.IsValid());
         }
 
         public override void SaveConfig()

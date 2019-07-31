@@ -45,14 +45,13 @@ namespace NN.Controls
             }
 
             CtlTabsLayers.SelectedIndexChanged += CtlTabsLayers_SelectedIndexChanged;
-            CtlRandomizerParamA.TextChanged += CtlRandomizerParamA_TextChanged;
+            CtlRandomizerParamA.Changed += OnChanged;
             CtlRandomizer.SelectedValueChanged += CtlRandomizer_SelectedValueChanged;
-            CtlLearningRate.TextChanged += CtlLearningRate_TextChanged;
+            CtlLearningRate.Changed += OnChanged;
         }
 
-        private void CtlLearningRate_TextChanged(object sender, EventArgs e)
+        private void OnChanged()
         {
-            CtlLearningRate.BackColor = IsValidLearningRate() ? Color.White : Color.Tomato;
             OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
 
@@ -60,11 +59,6 @@ namespace NN.Controls
         {
             CtlLearningRateLabel.Focus();
             OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
-        }
-
-        private void CtlRandomizerParamA_TextChanged(object sender, EventArgs e)
-        {
-            CtlRandomizerParamA.BackColor = IsValidRandomizeParamA() ? Color.White : Color.Tomato;
         }
 
         private void CtlTabsLayers_SelectedIndexChanged(object sender, EventArgs e)
@@ -160,38 +154,20 @@ namespace NN.Controls
             }
         }
 
-        private bool IsValidRandomizeParamA()
-        {
-            return Converter.TryTextToDouble(CtlRandomizerParamA.Text, out double? d);
-        }
-
-        private bool IsValidLearningRate()
-        {
-            if (Converter.TryTextToDouble(CtlLearningRate.Text, out double? d))
-            {
-                return d.HasValue && 0 < d && d <= 1;
-            }
-
-            return false;
-        }
 
         public bool IsValid()
         {
-            bool result = true;
-            result &= IsValidRandomizeParamA();
-            result &= IsValidLearningRate();
-
-            var layers = GetLayersControls();
-            Range.ForEach(layers, l => result &= l.IsValid());
-            return result;
+            bool result = CtlRandomizerParamA.IsValid() && CtlLearningRate.IsValid();
+            return result &= GetLayersControls().All(c => c.IsValid());
         }
 
         public void SaveConfig()
         {
             Config.Set(Const.Param.CurrentLayerIndex, CtlTabsLayers.SelectedIndex);
             Config.Set(Const.Param.RandomizeMode, Randomizer);
-            Config.Set(Const.Param.RandomizeModeParamA, CtlRandomizerParamA.Text);
-            Config.Set(Const.Param.LearningRate, CtlLearningRate.Text);
+
+            CtlRandomizerParamA.Save(Config);
+            CtlLearningRate.Save(Config);
 
             var layers = GetLayersControls();
             Range.ForEach(layers, l => l.SaveConfig());
@@ -218,8 +194,8 @@ namespace NN.Controls
         private void LoadConfig()
         {
             RandomizeMode.Helper.FillComboBox(CtlRandomizer, Config, Const.Param.RandomizeMode, nameof(RandomizeMode.Random));
-            CtlRandomizerParamA.Text = Config.GetString(Const.Param.RandomizeModeParamA);
-            CtlLearningRate.Text = Config.GetString(Const.Param.LearningRate, "0.05");
+            CtlRandomizerParamA.Load(Config);
+            CtlLearningRate.Load(Config);
 
             //
 
@@ -233,16 +209,14 @@ namespace NN.Controls
 
         public int[] GetLayersSize()
         {
-            var result = new List<int>();
-            Range.ForEach(GetLayersControls(), l => result.Add(l.NeuronsCount));
-            return result.ToArray();
+            return GetLayersControls().Select(l => l.NeuronsCount).ToArray();
         }
 
         public int InputNeuronsCount => InputLayer.GetNeuronsControls().Where(c => !c.IsBias).Count();
 
         private string Randomizer => CtlRandomizer.SelectedItem.ToString();
-        private double? RandomizerParamA => Converter.TextToDouble(CtlRandomizerParamA.Text);
-        private double? LearningRate => Converter.TextToDouble(CtlLearningRate.Text);
+        private double? RandomizerParamA => CtlRandomizerParamA.ValueOrNull;
+        private double LearningRate => CtlLearningRate.Value;
 
         public Type ActiveLayerType => CtlTabsLayers.SelectedTab.Controls[0].GetType();
 
@@ -267,7 +241,7 @@ namespace NN.Controls
             {
                 RandomizeMode = Randomizer,
                 RandomizerParamA = RandomizerParamA,
-                LearningRate = LearningRate.Value,
+                LearningRate = LearningRate,
                 InputInitial0 = ActivationFunction.Helper.Invoke(InputLayer.ActivationFunc, InputLayer.Initial0),
                 InputInitial1 = ActivationFunction.Helper.Invoke(InputLayer.ActivationFunc, InputLayer.Initial1)
             };

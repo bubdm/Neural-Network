@@ -76,7 +76,7 @@ namespace NN.Controls
             return String.IsNullOrEmpty(Text);
         }
 
-        public int Value => IsValid() ? Converter.TextToInt(Text).Value : throw new InvalidValueException(ConfigParameter, Text);
+        public int Value => IsValid() ? (IsNull() ? throw new InvalidValueException(ConfigParameter, "null") : Converter.TextToInt(Text).Value) : throw new InvalidValueException(ConfigParameter, Text);
         public int? ValueOrNull => IsNull() && IsNullAllowed ? (int?)null : IsValid() ? int.Parse(Text) : throw new InvalidValueException(ConfigParameter, Text);
 
         public void Load(Config config)
@@ -86,7 +86,7 @@ namespace NN.Controls
 
         public void Save(Config config)
         {
-            config.Set(ConfigParameter, Value);
+            config.Set(ConfigParameter, IsNullAllowed ? ValueOrNull : Value);
         }
 
         public void Vanish(Config config)

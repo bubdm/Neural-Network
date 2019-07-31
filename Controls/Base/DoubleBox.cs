@@ -19,7 +19,7 @@ namespace NN.Controls
             set;
         }
 
-        public string DefaultValue
+        public Double? DefaultValue
         {
             get;
             set;
@@ -76,17 +76,17 @@ namespace NN.Controls
             return String.IsNullOrEmpty(Text);
         }
 
-        public double Value => IsValid() ? Converter.TextToDouble(Text).Value : throw new InvalidValueException(ConfigParameter, Text);
+        public double Value => IsValid() ? (IsNull() ? throw new InvalidValueException(ConfigParameter, "null") : Converter.TextToDouble(Text).Value) : throw new InvalidValueException(ConfigParameter, Text);
         public double? ValueOrNull => IsNull() && IsNullAllowed ? (double?)null : IsValid() ? Converter.TextToDouble(Text) : throw new InvalidValueException(ConfigParameter, Text);
 
         public void Load(Config config)
         {
-            Text = Converter.DoubleToText(config.GetDouble(ConfigParameter, Converter.TextToDouble(DefaultValue)));
+            Text = Converter.DoubleToText(config.GetDouble(ConfigParameter, DefaultValue));
         }
 
         public void Save(Config config)
         {
-            config.Set(ConfigParameter, Value);
+            config.Set(ConfigParameter, IsNullAllowed ? ValueOrNull : Value);
         }
 
         public void Vanish(Config config)

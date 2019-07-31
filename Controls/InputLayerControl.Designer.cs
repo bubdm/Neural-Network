@@ -134,7 +134,7 @@
             this.CtlInitial1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlInitial1.BackColor = System.Drawing.Color.White;
             this.CtlInitial1.ConfigParameter = Tools.Const.Param.InputInitial1;
-            this.CtlInitial1.DefaultValue = "1";
+            this.CtlInitial1.DefaultValue = 1D;
             this.CtlInitial1.IsNullAllowed = false;
             this.CtlInitial1.Location = new System.Drawing.Point(293, 37);
             this.CtlInitial1.MaximumValue = 100D;
@@ -155,7 +155,7 @@
             this.CtlInitial0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlInitial0.BackColor = System.Drawing.Color.White;
             this.CtlInitial0.ConfigParameter = Tools.Const.Param.InputInitial0;
-            this.CtlInitial0.DefaultValue = "0";
+            this.CtlInitial0.DefaultValue = 0D;
             this.CtlInitial0.IsNullAllowed = false;
             this.CtlInitial0.Location = new System.Drawing.Point(178, 37);
             this.CtlInitial0.MaximumValue = 100D;

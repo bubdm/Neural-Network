@@ -32,7 +32,7 @@
             this.CtlWeightsIniterLabel = new System.Windows.Forms.Label();
             this.CtlWeightsIniter = new System.Windows.Forms.ComboBox();
             this.CtlWeightsIniterParamALabel = new System.Windows.Forms.Label();
-            this.CtlWeightsIniterParamA = new System.Windows.Forms.TextBox();
+            this.CtlWeightsIniterParamA = new NN.Controls.DoubleBox();
             this.CtlIsBias = new System.Windows.Forms.CheckBox();
             this.CtlIsBiasConnected = new System.Windows.Forms.CheckBox();
             this.CtlNumber = new System.Windows.Forms.Label();
@@ -42,7 +42,7 @@
             this.CtlActivationIniterLabel = new System.Windows.Forms.Label();
             this.CtlActivationIniter = new System.Windows.Forms.ComboBox();
             this.CtlActivationIniterParamALabel = new System.Windows.Forms.Label();
-            this.CtlActivationIniterParamA = new System.Windows.Forms.TextBox();
+            this.CtlActivationIniterParamA = new NN.Controls.DoubleBox();
             this.CtlHeadPanel.SuspendLayout();
             this.CtlWeightsPanel.SuspendLayout();
             this.CtlActivationPanel.SuspendLayout();
@@ -91,13 +91,18 @@
             // CtlWeightsIniterParamA
             // 
             this.CtlWeightsIniterParamA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlWeightsIniterParamA.BackColor = System.Drawing.Color.White;
+            this.CtlWeightsIniterParamA.ConfigParameter = Tools.Const.Param.WeightsInitializerParamA;
+            this.CtlWeightsIniterParamA.DefaultValue = null;
+            this.CtlWeightsIniterParamA.IsNullAllowed = true;
             this.CtlWeightsIniterParamA.Location = new System.Drawing.Point(288, 0);
+            this.CtlWeightsIniterParamA.MaximumValue = 100D;
             this.CtlWeightsIniterParamA.MinimumSize = new System.Drawing.Size(4, 4);
+            this.CtlWeightsIniterParamA.MinimumValue = -100D;
             this.CtlWeightsIniterParamA.Name = "CtlWeightsIniterParamA";
             this.CtlWeightsIniterParamA.Size = new System.Drawing.Size(75, 22);
             this.CtlWeightsIniterParamA.TabIndex = 4;
             this.CtlWeightsIniterParamA.TabStop = false;
-            this.CtlWeightsIniterParamA.Text = "1";
             // 
             // CtlIsBias
             // 
@@ -204,8 +209,14 @@
             // CtlActivationIniterParamA
             // 
             this.CtlActivationIniterParamA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlActivationIniterParamA.BackColor = System.Drawing.Color.White;
+            this.CtlActivationIniterParamA.ConfigParameter = Tools.Const.Param.ActivationInitializerParamA;
+            this.CtlActivationIniterParamA.DefaultValue = 1D;
+            this.CtlActivationIniterParamA.IsNullAllowed = false;
             this.CtlActivationIniterParamA.Location = new System.Drawing.Point(288, 0);
+            this.CtlActivationIniterParamA.MaximumValue = 100D;
             this.CtlActivationIniterParamA.MinimumSize = new System.Drawing.Size(4, 4);
+            this.CtlActivationIniterParamA.MinimumValue = -100D;
             this.CtlActivationIniterParamA.Name = "CtlActivationIniterParamA";
             this.CtlActivationIniterParamA.Size = new System.Drawing.Size(75, 22);
             this.CtlActivationIniterParamA.TabIndex = 4;
@@ -223,7 +234,7 @@
             this.Controls.Add(this.CtlUpperBorder);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "NeuronControl";
-            this.Size = new System.Drawing.Size(366, 127);
+            this.Size = new System.Drawing.Size(366, 93);
             this.CtlHeadPanel.ResumeLayout(false);
             this.CtlHeadPanel.PerformLayout();
             this.CtlWeightsPanel.ResumeLayout(false);
@@ -240,7 +251,7 @@
         private System.Windows.Forms.Label CtlWeightsIniterLabel;
         private System.Windows.Forms.ComboBox CtlWeightsIniter;
         private System.Windows.Forms.Label CtlWeightsIniterParamALabel;
-        private System.Windows.Forms.TextBox CtlWeightsIniterParamA;
+        private DoubleBox CtlWeightsIniterParamA;
         private System.Windows.Forms.Label CtlNumber;
         protected System.Windows.Forms.CheckBox CtlIsBias;
         protected System.Windows.Forms.CheckBox CtlIsBiasConnected;
@@ -250,6 +261,6 @@
         private System.Windows.Forms.Label CtlActivationIniterLabel;
         private System.Windows.Forms.ComboBox CtlActivationIniter;
         private System.Windows.Forms.Label CtlActivationIniterParamALabel;
-        private System.Windows.Forms.TextBox CtlActivationIniterParamA;
+        private DoubleBox CtlActivationIniterParamA;
     }
 }
