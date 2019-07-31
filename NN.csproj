@@ -76,7 +76,7 @@
     <Compile Include="Controls\InputNeuronControl.Designer.cs">
       <DependentUpon>InputNeuronControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MatrixPresenter.cs">
+    <Compile Include="Controls\Presenter\MatrixPresenter.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\SettingsControl.cs">
@@ -116,7 +116,7 @@
     <Compile Include="Controls\HiddenLayerControl.Designer.cs">
       <DependentUpon>HiddenLayerControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NetworkPresenter.cs">
+    <Compile Include="Controls\Presenter\NetworkPresenter.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\NetworkControl.cs">
@@ -131,10 +131,10 @@
     <Compile Include="Controls\NeuronControl.Designer.cs">
       <DependentUpon>NeuronControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PlotterPresenter.cs">
+    <Compile Include="Controls\Presenter\PlotterPresenter.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\StatisticsPresenter.cs">
+    <Compile Include="Controls\Presenter\StatisticsPresenter.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Models\LayerDataModel.cs" />
