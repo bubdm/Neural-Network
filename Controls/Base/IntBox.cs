@@ -19,7 +19,7 @@ namespace NN.Controls
             set;
         }
 
-        public string DefaultValue
+        public int? DefaultValue
         {
             get;
             set;
@@ -81,7 +81,7 @@ namespace NN.Controls
 
         public void Load(Config config)
         {
-            Text = Converter.IntToText(config.GetInt(ConfigParameter, Converter.TextToInt(DefaultValue)));
+            Text = Converter.IntToText(config.GetInt(ConfigParameter, DefaultValue));
         }
 
         public void Save(Config config)
