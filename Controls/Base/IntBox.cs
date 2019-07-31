@@ -11,6 +11,8 @@ namespace NN.Controls
 {
     public class IntBox : TextBox, IConfigValue
     {
+        public event Action Changed;
+
         public Const.Param ConfigParameter
         {
             get;
@@ -42,29 +44,23 @@ namespace NN.Controls
 
         private void IntBox_TextChanged(object sender, EventArgs e)
         {
-            BackColor = IsValid() ? Color.White : Color.Tomato;
+            if (IsValid())
+            {
+                BackColor = Color.White;
+                Changed();
+            }
+            else
+            {
+                BackColor = Color.Tomato;
+            }
         }
 
         public bool IsValid()
         {
-            if (int.TryParse(Text, out int value))
-            {
-                if (value >= MinimumValue && value <= MaximumValue)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return int.TryParse(Text, out int value) && value >= MinimumValue && value <= MaximumValue;
         }
 
-        public int Value
-        {
-            get
-            {
-                return IsValid() ? int.Parse(Text) : DefaultValue;
-            }
-        }
+        public int Value => IsValid() ? int.Parse(Text) : DefaultValue;
 
         public void Load(Config config)
         {
@@ -74,6 +70,12 @@ namespace NN.Controls
         public void Save(Config config)
         {
             config.Set(ConfigParameter, Value);
+        }
+
+        public void SetChangeEvent(Action action)
+        {
+            Changed -= action;
+            Changed += action;
         }
     }
 }

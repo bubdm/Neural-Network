@@ -398,7 +398,7 @@
             this.CtlSettingsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CtlSettingsPanel.Location = new System.Drawing.Point(0, 0);
             this.CtlSettingsPanel.Name = "CtlSettingsPanel";
-            this.CtlSettingsPanel.Size = new System.Drawing.Size(400, 279);
+            this.CtlSettingsPanel.Size = new System.Drawing.Size(400, 301);
             this.CtlSettingsPanel.TabIndex = 3;
             // 
             // CtlSettingsBottom
@@ -406,28 +406,34 @@
             this.CtlSettingsBottom.Controls.Add(this.CtlCancelSettingsButton);
             this.CtlSettingsBottom.Controls.Add(this.CtlApplySettingsButton);
             this.CtlSettingsBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.CtlSettingsBottom.Location = new System.Drawing.Point(0, 279);
+            this.CtlSettingsBottom.Location = new System.Drawing.Point(0, 301);
             this.CtlSettingsBottom.Name = "CtlSettingsBottom";
-            this.CtlSettingsBottom.Size = new System.Drawing.Size(400, 61);
+            this.CtlSettingsBottom.Size = new System.Drawing.Size(400, 39);
             this.CtlSettingsBottom.TabIndex = 4;
             // 
             // CtlApplySettingsButton
             // 
-            this.CtlApplySettingsButton.Location = new System.Drawing.Point(30, 15);
+            this.CtlApplySettingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlApplySettingsButton.Enabled = false;
+            this.CtlApplySettingsButton.Location = new System.Drawing.Point(235, 6);
             this.CtlApplySettingsButton.Name = "CtlApplySettingsButton";
             this.CtlApplySettingsButton.Size = new System.Drawing.Size(75, 28);
             this.CtlApplySettingsButton.TabIndex = 0;
             this.CtlApplySettingsButton.Text = "Apply";
             this.CtlApplySettingsButton.UseVisualStyleBackColor = true;
+            this.CtlApplySettingsButton.Click += new System.EventHandler(this.CtlApplySettingsButton_Click);
             // 
             // CtlCancelSettingsButton
             // 
-            this.CtlCancelSettingsButton.Location = new System.Drawing.Point(163, 16);
+            this.CtlCancelSettingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlCancelSettingsButton.Enabled = false;
+            this.CtlCancelSettingsButton.Location = new System.Drawing.Point(316, 6);
             this.CtlCancelSettingsButton.Name = "CtlCancelSettingsButton";
             this.CtlCancelSettingsButton.Size = new System.Drawing.Size(75, 28);
             this.CtlCancelSettingsButton.TabIndex = 1;
             this.CtlCancelSettingsButton.Text = "Cancel";
             this.CtlCancelSettingsButton.UseVisualStyleBackColor = true;
+            this.CtlCancelSettingsButton.Click += new System.EventHandler(this.CtlCancelSettingsButton_Click);
             // 
             // CtlSettings
             // 

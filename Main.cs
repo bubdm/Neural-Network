@@ -103,6 +103,16 @@ namespace NN
         private void LoadSettings()
         {
             CtlSettings.Load(Config.Main);
+            CtlSettings.Changed -= OnSettingsChanged;
+            CtlSettings.Changed += OnSettingsChanged;
+            CtlApplySettingsButton.Enabled = false;
+            CtlCancelSettingsButton.Enabled = false;
+        }
+
+        private void OnSettingsChanged()
+        {
+            CtlApplySettingsButton.Enabled = true;
+            CtlCancelSettingsButton.Enabled = true;
         }
 
         private bool SaveSettings()
@@ -113,6 +123,8 @@ namespace NN
                 return false;
             }
             CtlSettings.Save(Config.Main);
+            CtlApplySettingsButton.Enabled = false;
+            CtlCancelSettingsButton.Enabled = false;
             return true;
         }
 
@@ -644,7 +656,6 @@ namespace NN
             try
             {
                 SaveConfig();
-                //LoadConfig(); need to create input neurons 
             }
             catch (Exception ex)
             {
@@ -684,6 +695,16 @@ namespace NN
         private void CtlMainMenuDeleteLayer_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void CtlApplySettingsButton_Click(object sender, EventArgs e)
+        {
+            SaveSettings();
+        }
+
+        private void CtlCancelSettingsButton_Click(object sender, EventArgs e)
+        {
+            LoadSettings();
         }
     }
 }

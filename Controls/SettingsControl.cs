@@ -13,6 +13,8 @@ namespace NN.Controls
 {
     public partial class SettingsControl : UserControl, IConfigValue
     {
+        public event Action Changed;
+
         object Locker = new object();
         Settings _Settings;
         public Settings Settings
@@ -37,41 +39,35 @@ namespace NN.Controls
         public SettingsControl()
         {
             InitializeComponent();
+            Range.ForEach(CtlPanel.Controls.OfType<IConfigValue>(), c => c.SetChangeEvent(OnChanged));
         }
 
         public void Load(Config config)
         {
             var settings = new Settings();
-
-            foreach (var value in CtlPanel.Controls.OfType<IConfigValue>())
-            {
-                value.Load(config);
-            }
-
+            Range.ForEach(CtlPanel.Controls.OfType<IConfigValue>(), c => c.Load(config));
             settings.SkipRoundsToDrawErrorMatrix = CtlSkipRoundsToDrawErrorMatrix.Value;
-
             Settings = settings;
         }
 
         public void Save(Config config)
         {
-            foreach (var value in CtlPanel.Controls.OfType<IConfigValue>())
-            {
-                value.Save(config);
-            }
+            Range.ForEach(CtlPanel.Controls.OfType<IConfigValue>(), c => c.Save(config));
         }
 
         public bool IsValid()
         {
-            foreach (var value in CtlPanel.Controls.OfType<IConfigValue>())
-            {
-                if (!value.IsValid())
-                {
-                    return false;
-                }
-            }
+            return CtlPanel.Controls.OfType<IConfigValue>().All(c => c.IsValid());
+        }
 
-            return true;
+        public void SetChangeEvent(Action action)
+        {
+            Changed += action;
+        }
+
+        private void OnChanged()
+        {
+            Changed();
         }
     }
 

@@ -12,6 +12,7 @@ namespace Tools
         void Load(Config config);
         void Save(Config config);
         bool IsValid();
+        void SetChangeEvent(Action action);
     }
 
     public class Config
