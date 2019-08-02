@@ -230,6 +230,8 @@ namespace NN.Controls
             var model = new NetworkDataModel(Id, GetLayersSize())
             {
                 Color = CtlColor.BackColor,
+                //Statistic = new Statistic(true),
+                //DynamicStatistic = new DynamicStatistic(),
                 RandomizeMode = Randomizer,
                 RandomizerParamA = RandomizerParamA,
                 LearningRate = LearningRate,
@@ -296,11 +298,14 @@ namespace NN.Controls
 
         private void CtlColor_Click(object sender, EventArgs e)
         {
-            var colorDialog = new ColorDialog();
-            colorDialog.Color = CtlColor.BackColor;
-            if (colorDialog.ShowDialog() == DialogResult.OK)
+            using (var colorDialog = new ColorDialog())
             {
-                CtlColor.BackColor = colorDialog.Color;
+                colorDialog.Color = CtlColor.BackColor;
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    CtlColor.BackColor = colorDialog.Color;
+                    OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+                }
             }
         }
 

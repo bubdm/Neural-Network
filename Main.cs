@@ -554,18 +554,19 @@ namespace NN
                 return;
             }
 
-            var loadDialog = new OpenFileDialog
+            using (var loadDialog = new OpenFileDialog
             {
                 InitialDirectory = Path.GetFullPath("Networks\\"),
                 DefaultExt = "txt",
                 Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
                 FilterIndex = 2,
                 RestoreDirectory = true
-            };
-
-            if (loadDialog.ShowDialog() == DialogResult.OK)
+            })
             {
-                LoadNetworksManager(loadDialog.FileName);
+                if (loadDialog.ShowDialog() == DialogResult.OK)
+                {
+                    LoadNetworksManager(loadDialog.FileName);
+                }
             }
         }
 
@@ -691,49 +692,39 @@ namespace NN
         private void CtlTabs_SelectedIndexChanged(object sender, EventArgs e)
         {
             // newly selected network must not affect NetworksManager until it saved
+
+            if (NetworksManager != null && NetworksManager.SelectedNetworkModel != null)
+            {
+                NetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
+            }
         }
 
         private void CtlMainMenuAddNetwork_Click(object sender, EventArgs e)
         {
             NetworksManager.AddNetwork();
+            ApplyChangesToStandingNetworks();
         }
 
         private void CtlMainMenuDeleteNetwork_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show($"Would you really like to delete Network {CtlTabs.SelectedIndex}?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                var network = CtlTabs.SelectedTab.Controls[0] as NetworkControl;
-                network.VanishConfig();
-
-                CtlTabs.TabPages.Remove(CtlTabs.SelectedTab);
-                ResetNetworksTabsNames();
-                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
-            }
-        }
-
-        private void ResetNetworksTabsNames()
-        {
-            for (int i = 1; i < CtlTabs.TabCount; ++i)
-            {
-                CtlTabs.TabPages[i].Text = $"Network {i}";
-            }
+            NetworksManager.DeleteNetwork();
         }
 
         private void CtlMainMenuAddLayer_Click(object sender, EventArgs e)
         {
-            (CtlTabs.SelectedTab.Controls[0] as NetworkControl).AddLayer();
+            NetworksManager.SelectedNetwork.AddLayer();
             OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
 
         private void CtlMainMenuDeleteLayer_Click(object sender, EventArgs e)
         {
-            (CtlTabs.SelectedTab.Controls[0] as NetworkControl).DeleteLayer();
+            NetworksManager.SelectedNetwork.DeleteLayer();
             OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
         }
 
         private void CtlMainMenuAddNeuron_Click(object sender, EventArgs e)
         {
-            (CtlTabs.SelectedTab.Controls[0] as NetworkControl).SelectedLayer.AddNeuron();
+            NetworksManager.SelectedNetwork.SelectedLayer.AddNeuron();
         }
 
         private void CtlMenuNetwork_Click(object sender, EventArgs e)

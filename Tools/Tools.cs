@@ -54,7 +54,7 @@ namespace Tools
     {
         public long Rounds;
         public long CorrectRounds;
-        public double Percent => 100 * (double)CorrectRounds / (double)Rounds;
+        public double Percent => Rounds == 0 ? 0 : 100 * (double)CorrectRounds / (double)Rounds;
         public double AverageCost;
 
         public int LastBadOutput;

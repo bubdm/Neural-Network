@@ -22,6 +22,7 @@ namespace NN.Controls
 
             if (stat == null)
             {
+                Invalidate();
                 return;
             }
 

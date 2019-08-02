@@ -105,6 +105,7 @@ namespace NN.Controls
 
             if (model == null)
             {
+                Invalidate();
                 return;
             }
 

@@ -96,7 +96,10 @@ namespace NN.Controls
         {
             var font = new Font("Tahoma", 6.5f, FontStyle.Bold);
             G.TextRenderingHint = TextRenderingHint.AntiAlias;
-            G.DrawString(new DateTime(data.Last().Item2.Subtract(data.First().Item2).Ticks).ToString("HH:mm:ss") + " / " + Converter.DoubleToText(data.Last().Item1, "N4") + " %", font, Brushes.Black, AxisOffset * 3, Height - AxisOffset - 20);
+            using (var brush = new SolidBrush(color))
+            {
+                G.DrawString(new DateTime(data.Last().Item2.Subtract(data.First().Item2).Ticks).ToString("HH:mm:ss") + " / " + Converter.DoubleToText(data.Last().Item1, "N4") + " %", font, brush, AxisOffset * 3, Height - AxisOffset - 20);
+            }
         }
 
         private Point GetPointPercentData(DynamicStatistic.PlotPoints data, DynamicStatistic.PlotPoint point, long d)

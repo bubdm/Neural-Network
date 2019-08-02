@@ -33,7 +33,7 @@ namespace NN.Controls
 
         public int InputNeuronsCount => Models.First().Layers[0].Neurons.Where(c => !c.IsBias).Count();
 
-        NetworkControl SelectedNetwork => Tabs.SelectedTab.Controls[0] as NetworkControl;
+        public NetworkControl SelectedNetwork => Tabs.SelectedTab.Controls[0] as NetworkControl;
         public NetworkDataModel SelectedNetworkModel => SelectedNetwork == null ? null : Models.FirstOrDefault(m => m.VisualId == SelectedNetwork.Id);
 
         List<NetworkControl> Networks
@@ -51,26 +51,27 @@ namespace NN.Controls
 
         public Config CreateNewManager()
         {
-            var saveDialog = new SaveFileDialog
+            using (var saveDialog = new SaveFileDialog
             {
                 InitialDirectory = Path.GetFullPath("Networks\\"),
                 DefaultExt = "txt",
                 Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
                 FilterIndex = 2,
                 RestoreDirectory = true
-            };
-
-            if (saveDialog.ShowDialog() == DialogResult.OK)
+            })
             {
-                if (File.Exists(saveDialog.FileName))
+                if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    File.Delete(saveDialog.FileName);
-                }
+                    if (File.Exists(saveDialog.FileName))
+                    {
+                        File.Delete(saveDialog.FileName);
+                    }
 
-                var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
-                var config = new Config(saveDialog.FileName);
-                Config.Main.Set(Const.Param.NetworksManagerName, saveDialog.FileName);
-                return config;
+                    var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
+                    var config = new Config(saveDialog.FileName);
+                    Config.Main.Set(Const.Param.NetworksManagerName, saveDialog.FileName);
+                    return config;
+                }
             }
 
             return null;
@@ -83,20 +84,6 @@ namespace NN.Controls
                 Tabs.TabPages.RemoveAt(1);
             }
         }
-        /*
-        public void InitNetworkTabs()
-        {
-
-
-            foreach (var network in Networks)
-            {
-                var tab = new TabPage($"Network {Tabs.TabCount}");
-                tab.Controls.Add(network);
-                Tabs.TabPages.Add(tab);
-            }
-            Tabs.SelectedIndex = Config.GetInt(Const.Param.SelectedNetworkIndex, 0).Value + 1;
-        }
-        */
 
         private void LoadConfig()
         {
@@ -121,6 +108,28 @@ namespace NN.Controls
             var tab = new TabPage($"Network {Tabs.TabCount}");
             tab.Controls.Add(network);
             Tabs.TabPages.Add(tab);
+            Tabs.SelectedIndex = Tabs.TabPages.IndexOf(tab);
+        }
+
+        public void DeleteNetwork()
+        {
+            if (MessageBox.Show($"Would you really like to delete Network {Tabs.SelectedIndex}?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                SelectedNetwork.VanishConfig();
+                var index = Tabs.TabPages.IndexOf(Tabs.SelectedTab);
+                Tabs.TabPages.Remove(Tabs.SelectedTab);
+                Tabs.SelectedIndex = index - 1;
+                ResetNetworksTabsNames();
+                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            }
+        }
+
+        private void ResetNetworksTabsNames()
+        {
+            for (int i = 1; i < Tabs.TabCount; ++i)
+            {
+                Tabs.TabPages[i].Text = $"Network {i}";
+            }
         }
 
         public bool IsValid()
@@ -142,23 +151,24 @@ namespace NN.Controls
 
         public void SaveAs()
         {
-            var saveDialog = new SaveFileDialog
+            using (var saveDialog = new SaveFileDialog
             {
                 InitialDirectory = Path.GetFullPath("Networks\\"),
                 DefaultExt = "txt",
                 Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
                 FilterIndex = 2,
                 RestoreDirectory = true
-            };
-
-            if (saveDialog.ShowDialog() == DialogResult.OK)
+            })
             {
-                if (File.Exists(saveDialog.FileName))
+                if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    File.Delete(saveDialog.FileName);
-                }
+                    if (File.Exists(saveDialog.FileName))
+                    {
+                        File.Delete(saveDialog.FileName);
+                    }
 
-                File.Copy(Config.Main.GetString(Const.Param.NetworksManagerName), saveDialog.FileName);
+                    File.Copy(Config.Main.GetString(Const.Param.NetworksManagerName), saveDialog.FileName);
+                }
             }
         }
 
@@ -172,6 +182,8 @@ namespace NN.Controls
         public void RefreshNetworksDataModels()
         {
             Models = CreateNetworksDataModels();
+            //ResetModelsStatistic();
+            //ResetModelsDynamicStatistic();
         }
 
         public void MergeModels(List<NetworkDataModel> models)
