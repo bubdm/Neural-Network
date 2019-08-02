@@ -92,11 +92,10 @@ namespace NN
         {
             if (NetworksManager != null)
             {
-                var selectedModel = NetworksManager.GetSelectedNetworkModel(CtlTabs);
                 if (IsRunning)
-                    NetworkPresenter.RenderRunning(selectedModel);
+                    NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
                 else
-                    NetworkPresenter.RenderStanding(selectedModel);
+                    NetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
             }
         }
 
@@ -240,7 +239,7 @@ namespace NN
                 InputDataPresenter.RearrangeWithNewPointsCount(NetworksManager.InputNeuronsCount);
                 var newModels = NetworksManager.CreateNetworksDataModels();
                 NetworksManager.MergeModels(newModels);
-                NetworkPresenter.RenderRunning(NetworksManager.GetSelectedNetworkModel(CtlTabs));
+                NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
                 ToggleApplyChanges(Const.Toggle.Off);
             }
         }
@@ -250,8 +249,8 @@ namespace NN
             lock (ApplyChangesLocker)
             {
                 InputDataPresenter.RearrangeWithNewPointsCount(NetworksManager.InputNeuronsCount);
-                var newModels = NetworksManager.CreateNetworksDataModels();
-                NetworkPresenter.RenderStanding(NetworksManager.GetSelectedNetworkModel(CtlTabs));
+                NetworksManager.RefreshNetworksDataModels();
+                NetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
                 ToggleApplyChanges(Const.Toggle.Off);
             }
         }
@@ -394,7 +393,7 @@ namespace NN
         {
             var renderStart = DateTime.Now;
 
-            NetworkPresenter.RenderRunning(NetworksManager.GetSelectedNetworkModel(CtlTabs));
+            NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
             InputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
 
             foreach (var model in models)
@@ -402,9 +401,9 @@ namespace NN
                 model.DynamicStatistic.Add(model.Statistic.Percent, model.Statistic.AverageCost);
             }
 
-            PlotPresenter.Draw(models, NetworksManager.GetSelectedNetworkModel(CtlTabs));
+            PlotPresenter.Draw(models, NetworksManager.SelectedNetworkModel);
 
-            var selected = NetworksManager.GetSelectedNetworkModel(CtlTabs);
+            var selected = NetworksManager.SelectedNetworkModel;
 
             if (selected == null)
             {
@@ -590,11 +589,7 @@ namespace NN
         }
 
         private void ReplaceNetworksManagerControl(NetworksManager manager)
-    {   
-            while (CtlTabs.TabCount > 1)
-            {
-                CtlTabs.TabPages.RemoveAt(1);
-            }
+        {   
 
             if (manager == null)
             {
@@ -610,7 +605,6 @@ namespace NN
             else
             {
                 NetworksManager = manager;
-                NetworksManager.InitNetworkTabs();
 
                 Text = "Neural Network | " + Path.GetFileNameWithoutExtension(Config.Main.GetString(Const.Param.NetworksManagerName));
 

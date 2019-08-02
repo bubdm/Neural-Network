@@ -12,9 +12,8 @@ namespace NN.Controls
     public class NetworksManager
     {
         public readonly Config Config;
-        public List<NetworkDataModel> Models = new List<NetworkDataModel>();
+        public List<NetworkDataModel> Models;
 
-        List<NetworkControl> Networks = new List<NetworkControl>();
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
         readonly TabControl Tabs;
@@ -23,27 +22,31 @@ namespace NN.Controls
         {
             OnNetworkUIChanged = onNetworkUIChanged;
             Tabs = tabs;
-
+           
             Config = String.IsNullOrEmpty(name) ? CreateNewManager() : new Config(name);
             if (Config != null)
             {
+                ClearNetworks();
                 LoadConfig();
             }
         }
 
-        public int InputNeuronsCount => Networks.First().InputLayer.GetNeuronsControls().Where(c => !c.IsBias).Count();
+        public int InputNeuronsCount => Models.First().Layers[0].Neurons.Where(c => !c.IsBias).Count();
 
-        public NetworkDataModel GetSelectedNetworkModel(TabControl tab)
+        NetworkControl SelectedNetwork => Tabs.SelectedTab.Controls[0] as NetworkControl;
+        public NetworkDataModel SelectedNetworkModel => SelectedNetwork == null ? null : Models.FirstOrDefault(m => m.VisualId == SelectedNetwork.Id);
+
+        List<NetworkControl> Networks
         {
-            if (tab.SelectedIndex > 0) // not Settings
+            get
             {
-                var network = tab.SelectedTab.Controls[0] as NetworkControl;
-                if (Networks.IndexOf(network) > -1)
+                var result = new List<NetworkControl>();
+                for (int i = 1; i < Tabs.TabCount; ++i)
                 {
-                    return Models[Networks.IndexOf(network)];
+                    result.Add(Tabs.TabPages[i].Controls[0] as NetworkControl);
                 }
+                return result;
             }
-            return null; // new unsaved network
         }
 
         public Config CreateNewManager()
@@ -73,12 +76,17 @@ namespace NN.Controls
             return null;
         }
 
-        public void InitNetworkTabs()
+        private void ClearNetworks()
         {
             while (Tabs.TabCount > 1)
             {
                 Tabs.TabPages.RemoveAt(1);
             }
+        }
+        /*
+        public void InitNetworkTabs()
+        {
+
 
             foreach (var network in Networks)
             {
@@ -88,6 +96,7 @@ namespace NN.Controls
             }
             Tabs.SelectedIndex = Config.GetInt(Const.Param.SelectedNetworkIndex, 0).Value + 1;
         }
+        */
 
         private void LoadConfig()
         {
@@ -97,6 +106,8 @@ namespace NN.Controls
                 networks = new long[] { Const.UnknownId };
             }
             Range.For(networks.Length, i => AddNetwork(networks[i]));
+            Tabs.SelectedIndex = Config.GetInt(Const.Param.SelectedNetworkIndex, 0).Value + 1;
+            RefreshNetworksDataModels();
         }
 
         public void AddNetwork()
@@ -107,9 +118,6 @@ namespace NN.Controls
         private void AddNetwork(long id)
         {
             var network = new NetworkControl(id, Config, OnNetworkUIChanged);
-            Networks.Add(network);
-            //Models.Add(network.CreateNetworkDataModel());
-
             var tab = new TabPage($"Network {Tabs.TabCount}");
             tab.Controls.Add(network);
             Tabs.TabPages.Add(tab);
@@ -124,12 +132,7 @@ namespace NN.Controls
         {
             Config.Set(Const.Param.Networks, Networks.Select(l => l.Id));
             Config.Set(Const.Param.SelectedNetworkIndex, Tabs.SelectedIndex - 1);
-            for (int i = 1; i < Tabs.TabCount; ++i)
-            {
-                var network = Tabs.TabPages[i].Controls[0] as NetworkControl;
-                network.SaveConfig();
-                //Range.ForEach(Networks, n => n.SaveConfig());
-            }
+            Range.ForEach(Networks, n => n.SaveConfig());
         }
 
         public void ResetLayersTabsNames()
@@ -161,9 +164,14 @@ namespace NN.Controls
 
         public List<NetworkDataModel> CreateNetworksDataModels()
         {
-            Models.Clear();
-            Range.ForEach(Networks, n => Models.Add(n.CreateNetworkDataModel()));
-            return Models;
+            var result = new List<NetworkDataModel>();
+            Range.ForEach(Networks, n => result.Add(n.CreateNetworkDataModel()));
+            return result;
+        }
+
+        public void RefreshNetworksDataModels()
+        {
+            Models = CreateNetworksDataModels();
         }
 
         public void MergeModels(List<NetworkDataModel> models)
