@@ -9,6 +9,24 @@ using System.Threading;
 
 namespace Tools
 {
+    public static class Extension
+    {
+        public static void Dispatch(this Control c, Action action)
+        {
+            if (c.InvokeRequired)
+            {
+                var timer = new System.Timers.Timer(20);
+                timer.Elapsed += (s, e) => { c.BeginInvoke(action); };
+                timer.AutoReset = false;
+                timer.Start();
+            }
+            else
+            {
+                c.BeginInvoke(action);
+            }
+        }
+    }
+
     public static class Culture
     {
         static CultureInfo CurrentCulture;

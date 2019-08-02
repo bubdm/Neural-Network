@@ -51,6 +51,7 @@
             // 
             // CtlMainPanel
             // 
+            this.CtlMainPanel.BackColor = System.Drawing.Color.White;
             this.CtlMainPanel.Controls.Add(this.CtlColor);
             this.CtlMainPanel.Controls.Add(this.CtlColorLabel);
             this.CtlMainPanel.Controls.Add(this.CtlRandomViewerButton);
@@ -160,6 +161,7 @@
             this.CtlTabsLayers.Controls.Add(this.CtlTabOutput);
             this.CtlTabsLayers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CtlTabsLayers.Location = new System.Drawing.Point(0, 103);
+            this.CtlTabsLayers.Margin = new System.Windows.Forms.Padding(0);
             this.CtlTabsLayers.Name = "CtlTabsLayers";
             this.CtlTabsLayers.SelectedIndex = 0;
             this.CtlTabsLayers.Size = new System.Drawing.Size(410, 132);
@@ -220,9 +222,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ContextMenuStrip = this.CtlContextMenu;
             this.Controls.Add(this.CtlTabsLayers);
             this.Controls.Add(this.CtlMainPanel);
+            this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "NetworkControl";
             this.Size = new System.Drawing.Size(410, 235);
             this.CtlMainPanel.ResumeLayout(false);

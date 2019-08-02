@@ -128,12 +128,15 @@
             // 
             this.CtlActivationFunc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlActivationFunc.BackColor = System.Drawing.Color.White;
             this.CtlActivationFunc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CtlActivationFunc.FormattingEnabled = true;
             this.CtlActivationFunc.Location = new System.Drawing.Point(178, 34);
+            this.CtlActivationFunc.Margin = new System.Windows.Forms.Padding(0);
             this.CtlActivationFunc.Name = "CtlActivationFunc";
             this.CtlActivationFunc.Size = new System.Drawing.Size(172, 24);
             this.CtlActivationFunc.TabIndex = 5;
+            this.CtlActivationFunc.TabStop = false;
             // 
             // CtlActivationFuncLabel
             // 

@@ -170,6 +170,12 @@
     </Compile>
     <Compile Include="Tools\Range.cs" />
     <Compile Include="Tools\Tools.cs" />
+    <EmbeddedResource Include="Controls\Base\DoubleBox.resx">
+      <DependentUpon>DoubleBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Base\IntBox.resx">
+      <DependentUpon>IntBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Base\NeuronBase.resx">
       <DependentUpon>NeuronBase.cs</DependentUpon>
     </EmbeddedResource>

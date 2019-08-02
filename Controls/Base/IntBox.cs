@@ -99,5 +99,16 @@ namespace NN.Controls
             Changed -= action;
             Changed += action;
         }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // IntBox
+            // 
+            this.BackColor = System.Drawing.Color.White;
+            this.ResumeLayout(false);
+
+        }
     }
 }

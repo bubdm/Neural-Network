@@ -33,7 +33,7 @@ namespace NN.Controls
             InitializeComponent();
             Dock = DockStyle.Fill;
             OnNetworkUIChanged = onNetworkUIChanged;                    
-
+            
             //https://stackoverflow.com/questions/1532301/visual-studio-tabcontrol-tabpages-insert-not-working
             __h = CtlTabsLayers.Handle;
 
@@ -46,6 +46,23 @@ namespace NN.Controls
             CtlRandomizerParamA.Changed += OnChanged;
             CtlRandomizer.SelectedValueChanged += CtlRandomizer_SelectedValueChanged;
             CtlLearningRate.Changed += OnChanged;
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            CtlTabsLayers.SuspendLayout();
+            base.OnResize(e);
+            CtlTabsLayers.ResumeLayout();// .Visible = true;
+        }
+
+        public void ResizeBegin()
+        {
+            CtlTabsLayers.SuspendLayout();
+        }
+
+        public void ResizeEnd()
+        {
+            CtlTabsLayers.ResumeLayout();
         }
 
         private void OnChanged()

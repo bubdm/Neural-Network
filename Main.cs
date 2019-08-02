@@ -38,7 +38,26 @@ namespace NN
         public Main()
         {
             InitializeComponent();
-            Load += Main_Load; 
+            Load += Main_Load;
+
+            Resize += Main_Resize;
+            SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.SupportsTransparentBackColor, false);
+        }
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
+        }
+
+        private void Main_Resize(object sender, EventArgs e)
+        {
+            //Update();
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -85,13 +104,25 @@ namespace NN
 
         protected override void OnResizeBegin(EventArgs e)
         {
-            CtlBottomPanel.SuspendLayout();
+            if (NetworksManager != null)
+            {
+                //NetworksManager.SelectedNetwork.ResizeBegin();
+            }
+
+            //CtlManagerPanel.SuspendLayout();
+            //CtlBottomPanel.SuspendLayout();
             CtlInputDataPresenter.SuspendLayout();
             base.OnResizeBegin(e);
         }
         protected override void OnResizeEnd(EventArgs e)
         {
-            CtlBottomPanel.ResumeLayout();
+            if (NetworksManager != null)
+            {
+                //NetworksManager.SelectedNetwork.ResizeEnd();
+            }
+
+            //CtlManagerPanel.ResumeLayout();
+            //CtlBottomPanel.ResumeLayout();
             CtlInputDataPresenter.ResumeLayout();
             base.OnResizeEnd(e);
         }
@@ -100,10 +131,13 @@ namespace NN
         {
             if (NetworksManager != null)
             {
-                if (IsRunning)
-                    NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
-                else
-                    NetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
+                NetworkPresenter.Dispatch(() =>
+                {
+                    if (IsRunning)
+                        NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
+                    else
+                        NetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
+                });
             }
         }
 
