@@ -11,7 +11,7 @@ namespace NN.Controls
 {
     public class DoubleBox : TextBox, IConfigValue
     {
-        public event Action Changed = new Action(() => { });
+        public event Action Changed = delegate { };
 
         public Const.Param ConfigParameter
         {

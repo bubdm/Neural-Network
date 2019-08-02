@@ -105,7 +105,7 @@ namespace NN.Controls
 
             if (model == null)
             {
-                Invalidate();
+                CtlBox.Invalidate();
                 return;
             }
 
@@ -119,7 +119,7 @@ namespace NN.Controls
                 Range.ForEach(model.Layers, layer => DrawLayerNeurons(fullState, model, layer));
             }
 
-            Invalidate();
+            CtlBox.Invalidate();
         }
 
         public void RenderStanding(NetworkDataModel model)

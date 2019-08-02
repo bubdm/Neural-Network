@@ -1,0 +1,2 @@
+PointSize:7
+PointsArrangeSnap:10

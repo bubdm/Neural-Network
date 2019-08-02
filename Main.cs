@@ -30,7 +30,6 @@ namespace NN
 
         // Visual controls
 
-        DataPresenter InputDataPresenter;
         NetworkPresenter NetworkPresenter;
         PlotterPresenter PlotPresenter;
         StatisticsPresenter StatisticsPresenter;
@@ -46,10 +45,6 @@ namespace NN
         {
             //Config.Main.Clear();
             CreateDirectories();
-
-            InputDataPresenter = new DataPresenter();
-            InputDataPresenter.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            CtlDataPanel.Controls.Add(InputDataPresenter);
 
             NetworkPresenter = new NetworkPresenter();
             NetworkPresenter.Anchor = AnchorStyles.Top | AnchorStyles.Left;
@@ -86,6 +81,19 @@ namespace NN
             CtlTime.BringToFront();
 
             LoadConfig();
+        }
+
+        protected override void OnResizeBegin(EventArgs e)
+        {
+            CtlBottomPanel.SuspendLayout();
+            CtlInputDataPresenter.SuspendLayout();
+            base.OnResizeBegin(e);
+        }
+        protected override void OnResizeEnd(EventArgs e)
+        {
+            CtlBottomPanel.ResumeLayout();
+            CtlInputDataPresenter.ResumeLayout();
+            base.OnResizeEnd(e);
         }
 
         private void NetworkPresenter_SizeChanged(object sender, EventArgs e)
@@ -155,7 +163,7 @@ namespace NN
 
             if (File.Exists(name))
             { 
-                var manager = new NetworksManager(CtlTabs, name, OnNetworkUIChanged);
+                var manager = new NetworksManager(CtlInputDataPresenter, CtlTabs, name, OnNetworkUIChanged);
                 Config.Main.Set(Const.Param.NetworksManagerName, name);
                 ReplaceNetworksManagerControl(manager);
                 if (manager.IsValid())
@@ -236,7 +244,7 @@ namespace NN
         {
             lock (ApplyChangesLocker)
             {
-                InputDataPresenter.RearrangeWithNewPointsCount(NetworksManager.InputNeuronsCount);
+                CtlInputDataPresenter.RearrangeWithNewPointsCount();
                 var newModels = NetworksManager.CreateNetworksDataModels();
                 NetworksManager.MergeModels(newModels);
                 NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
@@ -248,7 +256,7 @@ namespace NN
         {
             lock (ApplyChangesLocker)
             {
-                InputDataPresenter.RearrangeWithNewPointsCount(NetworksManager.InputNeuronsCount);
+                CtlInputDataPresenter.RearrangeWithNewPointsCount();
                 NetworksManager.RefreshNetworksDataModels();
                 NetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
                 ToggleApplyChanges(Const.Toggle.Off);
@@ -275,7 +283,7 @@ namespace NN
                 MatrixPresenter.ClearData();
 
                 NetworksManager.PrepareModelsForRound();
-                InputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
+                CtlInputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
                 NetworksManager.FeedForward(); // initialize state
 
                 Round = 0;
@@ -394,7 +402,7 @@ namespace NN
             var renderStart = DateTime.Now;
 
             NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
-            InputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
+            CtlInputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
 
             foreach (var model in models)
             {
@@ -483,11 +491,6 @@ namespace NN
             }
         }
 
-        private void CtlDataPanel_SizeChanged(object sender, EventArgs e)
-        {
-            InputDataPresenter.RearrangeWithNewWidth(CtlDataPanel.Width);
-        }
-
         private void CtlMenuNew_Click(object sender, EventArgs e)
         {
             CreateNetworksManager();
@@ -532,7 +535,7 @@ namespace NN
                 return;
             }
 
-            var network = new NetworksManager(CtlTabs, null, OnNetworkUIChanged);
+            var network = new NetworksManager(CtlInputDataPresenter, CtlTabs, null, OnNetworkUIChanged);
             if (network.Config != null)
             {
                 ReplaceNetworksManagerControl(network);
@@ -590,11 +593,11 @@ namespace NN
         }
 
         private void ReplaceNetworksManagerControl(NetworksManager manager)
-        {   
+        {
+            NetworksManager = manager;
 
             if (manager == null)
-            {
-                NetworksManager = null;
+            {               
                 Text = "Neural Network";
 
                 CtlStart.Enabled = false;
@@ -605,8 +608,6 @@ namespace NN
             }
             else
             {
-                NetworksManager = manager;
-
                 Text = "Neural Network | " + Path.GetFileNameWithoutExtension(Config.Main.GetString(Const.Param.NetworksManagerName));
 
                 CtlStart.Enabled = true;
@@ -666,7 +667,8 @@ namespace NN
             {
                 if (MessageBox.Show("Would you like network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    LoadConfig(); 
+                    ApplyChangesToStandingNetworks();
+                    //LoadConfig(); 
                 }
             }
         }
@@ -697,7 +699,7 @@ namespace NN
             {
                 if (IsRunning)
                 {
-                    InputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
+                    CtlInputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
                     NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
                 }
                 else

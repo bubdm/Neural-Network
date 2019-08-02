@@ -13,7 +13,7 @@ namespace NN.Controls
 {
     public partial class SettingsControl : UserControl, IConfigValue
     {
-        public event Action Changed = new Action(() => { });
+        public event Action Changed = delegate { };
 
         object Locker = new object();
         Settings _Settings;

@@ -41,7 +41,7 @@ namespace NN.Controls
                 DrawLabel(selectedModel.DynamicStatistic.PercentData, selectedModel.Color);
             }
 
-            Invalidate();
+            CtlBox.Invalidate();
         }
 
         public void DrawPlotter()
@@ -156,6 +156,20 @@ namespace NN.Controls
                     data.Remove(p);
                 }
             }
+        }
+
+        private void InitializeComponent()
+        {
+            ((System.ComponentModel.ISupportInitialize)(this.CtlBox)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // PlotterPresenter
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.Name = "PlotterPresenter";
+            ((System.ComponentModel.ISupportInitialize)(this.CtlBox)).EndInit();
+            this.ResumeLayout(false);
+
         }
     }
 }

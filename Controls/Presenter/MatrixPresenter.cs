@@ -112,8 +112,21 @@ namespace NN.Controls
             G.RotateTransform(90);
 
             G.Flush(System.Drawing.Drawing2D.FlushIntention.Sync);
-            Invalidate();
-            Update();
+            CtlBox.Invalidate();
+        }
+
+        private void InitializeComponent()
+        {
+            ((System.ComponentModel.ISupportInitialize)(this.CtlBox)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // MatrixPresenter
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.Name = "MatrixPresenter";
+            ((System.ComponentModel.ISupportInitialize)(this.CtlBox)).EndInit();
+            this.ResumeLayout(false);
+
         }
     }
 }

@@ -32,9 +32,11 @@
             // 
             // InputNeuronControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.DoubleBuffered = true;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.CausesValidation = false;
+            this.Enabled = false;
             this.Name = "InputNeuronControl";
             this.Size = new System.Drawing.Size(150, 0);
             this.ResumeLayout(false);

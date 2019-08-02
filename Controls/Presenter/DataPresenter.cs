@@ -1,7 +1,8 @@
-﻿using NN;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,25 +11,58 @@ using Tools;
 
 namespace NN.Controls
 {
-    class DataPresenter : PresenterControl
+    public partial class DataPresenter : UserControl
     {
+        public Action<int> ValueChanged = delegate { };
+
         int PointSize;
         int PointsRearrangeSnap;
         int PointsCount;
         double Threshold;
         double[] Data;
 
-        public DataPresenter() 
+        public DataPresenter()
         {
+            InitializeComponent();
+
             PointSize = Config.Main.GetInt(Const.Param.PointSize, 7).Value;
             PointsRearrangeSnap = Config.Main.GetInt(Const.Param.PointsArrangeSnap, 10).Value;
+
+            CtlInputCount.ValueChanged += CtlInputCount_ValueChanged;
+            SizeChanged += DataPresenter_SizeChanged;
+        }
+
+        private void DataPresenter_SizeChanged(object sender, EventArgs e)
+        {
+            Rearrange(Const.CurrentValue);
+        }
+
+        public int InputCount => (int)CtlInputCount.Value;
+
+        public void LoadConfig(Config config, Action<int> onValueChanged)
+        {
+            CtlInputCount.Minimum = Config.Main.GetInt(Const.Param.InputNeuronsMinCount, 10).Value;
+            CtlInputCount.Maximum = Config.Main.GetInt(Const.Param.InputNeuronsMaxCount, 10000).Value;
+
+            ValueChanged = onValueChanged;
+            CtlInputCount.Value = config.GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount).Value;        
+        }
+
+        public void SaveConfig(Config config)
+        {
+            config.Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
+        }
+
+        private void CtlInputCount_ValueChanged(object sender, EventArgs e)
+        {
+            ValueChanged((int)CtlInputCount.Value);
         }
 
         private void DrawPoint(int x, int y, double value)
         {
             var brush = value == 0 ? Brushes.White : Draw.GetBrush(value);
-            G.FillRectangle(brush, x * PointSize, y * PointSize, PointSize, PointSize);
-            G.DrawRectangle(Pens.Black, x * PointSize, y * PointSize, PointSize, PointSize);
+            CtlPresenter.G.FillRectangle(brush, x * PointSize, y * PointSize, PointSize, PointSize);
+            CtlPresenter.G.DrawRectangle(Pens.Black, x * PointSize, y * PointSize, PointSize, PointSize);
             if (brush != Brushes.White)
             {
                 brush.Dispose();
@@ -45,46 +79,34 @@ namespace NN.Controls
         {
             Threshold = model.InputThreshold;
             Data = new double[model.Layers.First().Neurons.Where(n => !n.IsBias).Count()];
-            Range.ForEach(model.Layers.First().Neurons.Where(n => !n.IsBias), neuron => Data[neuron.Id] = neuron.Activation);    
-            Rearrange(Width, PointsCount);
+            Range.ForEach(model.Layers.First().Neurons.Where(n => !n.IsBias), neuron => Data[neuron.Id] = neuron.Activation);
+            Rearrange(PointsCount);
         }
 
-        public void RearrangeWithNewWidth(int width)
+        public void RearrangeWithNewPointsCount()
         {
-            Rearrange(width, Const.CurrentValue);
+            Rearrange((int)CtlInputCount.Value);
         }
 
-        public void RearrangeWithNewPointsCount(int pointsCount)
-        {
-            Rearrange(Const.CurrentValue, pointsCount);
-        }
-
-        private void Rearrange(int width, int pointsCount)
+        private void Rearrange(int pointsCount)
         {
             if (pointsCount == Const.CurrentValue)
             {
                 pointsCount = PointsCount;
             }
-            else 
+            else
             {
                 PointsCount = pointsCount;
             }
 
-            if (width == Const.CurrentValue)
-            {
-                width = Width;
-            }
-            else
-            {
-                width = Math.Max(width, PointsRearrangeSnap * PointSize);
-            }
+            var width = Math.Max(Width, PointsRearrangeSnap * PointSize);
 
             int snaps = width / (PointsRearrangeSnap * PointSize);
 
-            Width = width;
-            Height = 1 + PointSize * (int)Math.Ceiling(1 + (double)(PointsCount / (snaps * PointsRearrangeSnap)));
+            //Width = width;
+            CtlPresenter.Height = 1 + PointSize * (int)Math.Ceiling(1 + (double)(PointsCount / (snaps * PointsRearrangeSnap)));
 
-            StartRender();
+            CtlPresenter.StartRender();
 
             Range.For(PointsCount, p =>
             {
@@ -97,7 +119,7 @@ namespace NN.Controls
                 Range.For(Data.Length, y => TogglePoint(y, Data[y] > Threshold ? Data[y] : 0));
             }
 
-            Invalidate();
+            CtlPresenter.CtlBox.Invalidate();
         }
 
         private Tuple<int, int> GetPointPosition(int pointNumber)

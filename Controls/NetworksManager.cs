@@ -16,12 +16,14 @@ namespace NN.Controls
 
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
-        readonly TabControl Tabs;
+        readonly TabControl CtlTabs;
+        readonly DataPresenter CtlInputData;
 
-        public NetworksManager(TabControl tabs, string name, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+        public NetworksManager(DataPresenter inputData, TabControl tabs, string name, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
             OnNetworkUIChanged = onNetworkUIChanged;
-            Tabs = tabs;
+            CtlInputData = inputData;
+            CtlTabs = tabs;
            
             Config = String.IsNullOrEmpty(name) ? CreateNewManager() : new Config(name);
             if (Config != null)
@@ -31,11 +33,11 @@ namespace NN.Controls
             }
         }
 
-        public int InputNeuronsCount => Models.First().Layers[0].Neurons.Where(c => !c.IsBias).Count();
+        //public int InputNeuronsCount => Models.First().Layers[0].Neurons.Where(c => !c.IsBias).Count();
 
         NetworkDataModel _prevSelectedNetworkModel;
 
-        public NetworkControl SelectedNetwork => Tabs.SelectedTab.Controls[0] as NetworkControl;
+        public NetworkControl SelectedNetwork => CtlTabs.SelectedTab.Controls[0] as NetworkControl;
         public NetworkDataModel SelectedNetworkModel
         {
             get
@@ -51,9 +53,9 @@ namespace NN.Controls
             get
             {
                 var result = new List<NetworkControl>();
-                for (int i = 1; i < Tabs.TabCount; ++i)
+                for (int i = 1; i < CtlTabs.TabCount; ++i)
                 {
-                    result.Add(Tabs.TabPages[i].Controls[0] as NetworkControl);
+                    result.Add(CtlTabs.TabPages[i].Controls[0] as NetworkControl);
                 }
                 return result;
             }
@@ -89,9 +91,9 @@ namespace NN.Controls
 
         private void ClearNetworks()
         {
-            while (Tabs.TabCount > 1)
+            while (CtlTabs.TabCount > 1)
             {
-                Tabs.TabPages.RemoveAt(1);
+                CtlTabs.TabPages.RemoveAt(1);
             }
         }
 
@@ -103,8 +105,20 @@ namespace NN.Controls
                 networks = new long[] { Const.UnknownId };
             }
             Range.For(networks.Length, i => AddNetwork(networks[i]));
-            Tabs.SelectedIndex = Config.GetInt(Const.Param.SelectedNetworkIndex, 0).Value + 1;
+            CtlTabs.SelectedIndex = Config.GetInt(Const.Param.SelectedNetworkIndex, 0).Value + 1;
+            CtlInputData.LoadConfig(Config, OnInputDataChanged);
+            OnInputDataChanged(CtlInputData.InputCount);
+            ResetLayersTabsNames();
             RefreshNetworksDataModels();
+        }
+
+        private void OnInputDataChanged(int newCount)
+        {
+            foreach (var network in Networks)
+            {
+                network.InputLayer.OnInputDataChanged(newCount);
+            }
+            OnNetworkUIChanged(Notification.ParameterChanged.NeuronsCount, null);
         }
 
         public void AddNetwork()
@@ -115,20 +129,20 @@ namespace NN.Controls
         private void AddNetwork(long id)
         {
             var network = new NetworkControl(id, Config, OnNetworkUIChanged);
-            var tab = new TabPage($"Network {Tabs.TabCount}");
+            var tab = new TabPage($"Network {CtlTabs.TabCount}");
             tab.Controls.Add(network);
-            Tabs.TabPages.Add(tab);
-            Tabs.SelectedIndex = Tabs.TabPages.IndexOf(tab);
+            CtlTabs.TabPages.Add(tab);
+            CtlTabs.SelectedIndex = CtlTabs.TabPages.IndexOf(tab);
         }
 
         public void DeleteNetwork()
         {
-            if (MessageBox.Show($"Would you really like to delete Network {Tabs.SelectedIndex}?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show($"Would you really like to delete Network {CtlTabs.SelectedIndex}?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 SelectedNetwork.VanishConfig();
-                var index = Tabs.TabPages.IndexOf(Tabs.SelectedTab);
-                Tabs.TabPages.Remove(Tabs.SelectedTab);
-                Tabs.SelectedIndex = index - 1;
+                var index = CtlTabs.TabPages.IndexOf(CtlTabs.SelectedTab);
+                CtlTabs.TabPages.Remove(CtlTabs.SelectedTab);
+                CtlTabs.SelectedIndex = index - 1;
                 ResetNetworksTabsNames();
                 OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
             }
@@ -136,9 +150,9 @@ namespace NN.Controls
 
         private void ResetNetworksTabsNames()
         {
-            for (int i = 1; i < Tabs.TabCount; ++i)
+            for (int i = 1; i < CtlTabs.TabCount; ++i)
             {
-                Tabs.TabPages[i].Text = $"Network {i}";
+                CtlTabs.TabPages[i].Text = $"Network {i}";
             }
         }
 
@@ -149,8 +163,10 @@ namespace NN.Controls
 
         public void SaveConfig()
         {
+            CtlInputData.SaveConfig(Config);
+
             Config.Set(Const.Param.Networks, Networks.Select(l => l.Id));
-            Config.Set(Const.Param.SelectedNetworkIndex, Tabs.SelectedIndex - 1);
+            Config.Set(Const.Param.SelectedNetworkIndex, CtlTabs.SelectedIndex - 1);
             Range.ForEach(Networks, n => n.SaveConfig());
         }
 

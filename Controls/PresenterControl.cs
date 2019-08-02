@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,15 +10,17 @@ using System.Windows.Forms;
 
 namespace NN.Controls
 {
-    class PresenterControl : PictureBox
+    public partial class PresenterControl : UserControl
     {
         public Graphics G;
 
         Bitmap DrawArea;
         bool IsRenderNeeded = true;
 
-        public PresenterControl() 
+        public PresenterControl()
         {
+            InitializeComponent();
+
             Disposed += DrawBox_Disposed;
             SizeChanged += DrawBox_SizeChanged;
             BackColor = Color.White;
@@ -49,7 +53,7 @@ namespace NN.Controls
                     G.Dispose();
                 }
                 DrawArea = new Bitmap(Width, Height);
-                Image = DrawArea;
+                CtlBox.Image = DrawArea;
                 G = Graphics.FromImage(DrawArea);
                 //G.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             }

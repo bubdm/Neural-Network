@@ -22,7 +22,6 @@ namespace NN.Controls
 
             LoadConfig();
 
-            CtlInputCount.ValueChanged += CtlInputCount_ValueChanged;
             CtlInitial0.Changed += ParameterChanged;
             CtlInitial1.Changed += ParameterChanged;
             CtlActivationFunc.SelectedIndexChanged += CtlActivationFunc_SelectedIndexChanged;
@@ -40,34 +39,27 @@ namespace NN.Controls
         }
 
         public override bool IsInput => true;
-        public override int NeuronsCount => (int)(CtlInputCount.Value + GetNeuronsControls().Count(n => n.IsBias));
+        public override int NeuronsCount => GetNeuronsControls().Count;
 
         public double Initial0 => CtlInitial0.Value;
         public double Initial1 => CtlInitial1.Value;
         public string ActivationFunc => CtlActivationFunc.SelectedItem.ToString();
 
-        private void CtlInputCount_ValueChanged(object sender, EventArgs e)
+        public void OnInputDataChanged(int newCount)
         {
             var controls = CtlFlow.Controls.OfType<InputNeuronControl>().ToList();
             foreach (var control in controls)
             {
                 CtlFlow.Controls.Remove(control);
             }          
-            Range.For((int)CtlInputCount.Value, n => CtlFlow.Controls.SetChildIndex(AddNeuron(), 0));
-            OnNetworkUIChanged(Notification.ParameterChanged.NeuronsCount, null);
+            Range.For(newCount, n => CtlFlow.Controls.SetChildIndex(AddNeuron(), 0));
         }
 
         private void LoadConfig()
         {
-            CtlInputCount.Minimum = Config.Main.GetInt(Const.Param.InputNeuronsMinCount, 10).Value;
-            CtlInputCount.Maximum = Config.Main.GetInt(Const.Param.InputNeuronsMaxCount, 10000).Value;
-            CtlInputCount.Value = Config.GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount).Value;
-
             ActivationFunction.Helper.FillComboBox(CtlActivationFunc, Config, Const.Param.InputActivationFunc, nameof(ActivationFunction.None));
             CtlInitial0.Load(Config);
             CtlInitial1.Load(Config);
-
-            Range.For((int)CtlInputCount.Value, n => AddNeuron());
 
             var neurons = Config.GetArray(Const.Param.Neurons);
             Range.ForEach(neurons, n => AddBias(n));
@@ -104,7 +96,6 @@ namespace NN.Controls
 
         public override void SaveConfig()
         {
-            Config.Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
             Config.Set(Const.Param.InputActivationFunc, CtlActivationFunc.SelectedItem.ToString());
             CtlInitial0.Save(Config);
             CtlInitial1.Save(Config);

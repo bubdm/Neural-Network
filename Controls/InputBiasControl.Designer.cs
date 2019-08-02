@@ -34,7 +34,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.DoubleBuffered = true;
+            this.DoubleBuffered = false;
             this.Name = "InputBiasControl";
             this.ResumeLayout(false);
 

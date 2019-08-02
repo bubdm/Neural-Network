@@ -58,7 +58,6 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ContextMenuStrip = this.CtlContextMenu;
-            this.DoubleBuffered = true;
             this.Name = "HiddenLayerControl";
             this.Size = new System.Drawing.Size(224, 117);
             this.Controls.SetChildIndex(this.CtlHeadPanel, 0);

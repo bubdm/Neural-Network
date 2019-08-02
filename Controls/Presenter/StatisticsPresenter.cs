@@ -35,7 +35,21 @@ namespace NN.Controls
                 y += Font.Height;
             };
 
-            Invalidate();
+            CtlBox.Invalidate();
+        }
+
+        private void InitializeComponent()
+        {
+            ((System.ComponentModel.ISupportInitialize)(this.CtlBox)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // StatisticsPresenter
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.Name = "StatisticsPresenter";
+            ((System.ComponentModel.ISupportInitialize)(this.CtlBox)).EndInit();
+            this.ResumeLayout(false);
+
         }
     }
 }

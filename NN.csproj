@@ -77,8 +77,20 @@
       <DependentUpon>InputNeuronControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\NetworksManager.cs" />
+    <Compile Include="Controls\PresenterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PresenterControl.Designer.cs">
+      <DependentUpon>PresenterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Presenter\DataPresenter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Presenter\DataPresenter.Designer.cs">
+      <DependentUpon>DataPresenter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Presenter\MatrixPresenter.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\SettingsControl.cs">
       <SubType>UserControl</SubType>
@@ -87,9 +99,6 @@
       <DependentUpon>SettingsControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Config.cs" />
-    <Compile Include="Controls\Presenter\DataPresenter.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\OutputLayerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -101,9 +110,6 @@
     </Compile>
     <Compile Include="Controls\OutputNeuronControl.Designer.cs">
       <DependentUpon>OutputNeuronControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PresenterControl.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\InputLayerControl.cs">
       <SubType>UserControl</SubType>
@@ -118,7 +124,7 @@
       <DependentUpon>HiddenLayerControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Presenter\NetworkPresenter.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\NetworkControl.cs">
       <SubType>UserControl</SubType>
@@ -133,10 +139,10 @@
       <DependentUpon>NeuronControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Presenter\PlotterPresenter.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\Presenter\StatisticsPresenter.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Models\LayerDataModel.cs" />
     <Compile Include="Main.cs">
@@ -194,6 +200,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\OutputNeuronControl.resx">
       <DependentUpon>OutputNeuronControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PresenterControl.resx">
+      <DependentUpon>PresenterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Presenter\DataPresenter.resx">
+      <DependentUpon>DataPresenter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Presenter\MatrixPresenter.resx">
+      <DependentUpon>MatrixPresenter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Presenter\PlotterPresenter.resx">
+      <DependentUpon>PlotterPresenter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Presenter\StatisticsPresenter.resx">
+      <DependentUpon>StatisticsPresenter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SettingsControl.resx">
       <DependentUpon>SettingsControl.cs</DependentUpon>

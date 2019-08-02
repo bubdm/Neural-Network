@@ -33,7 +33,6 @@
             // OutputLayerControl
             // 
             this.BackColor = System.Drawing.Color.White;
-            this.DoubleBuffered = true;
             this.Name = "OutputLayerControl";
             this.ResumeLayout(false);
 
