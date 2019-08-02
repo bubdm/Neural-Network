@@ -22,7 +22,7 @@ namespace NN.Controls
 
             if (stat == null)
             {
-                Invalidate();
+                CtlBox.Invalidate();
                 return;
             }
 
