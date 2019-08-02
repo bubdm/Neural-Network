@@ -191,6 +191,7 @@
             this.ContextMenuStrip = this.CtlContextMenu;
             this.Controls.Add(this.CtlInputCount);
             this.Controls.Add(this.CtlInputCountLabel);
+            this.DoubleBuffered = true;
             this.Name = "InputLayerControl";
             this.Size = new System.Drawing.Size(353, 160);
             this.Controls.SetChildIndex(this.CtlHeadPanel, 0);

@@ -18,8 +18,8 @@ namespace NN.Controls
             InitializeComponent();
         }
 
-        public OutputLayerControl(Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
-            : base(Const.OutputLayerId, config, onNetworkUIChanged)
+        public OutputLayerControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+            : base(id, config, onNetworkUIChanged)
         {
             InitializeComponent();
 
@@ -41,7 +41,7 @@ namespace NN.Controls
 
         public override void AddNeuron(long id)
         {
-            var neuron = new OutputNeuronControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);
+            var neuron = new OutputNeuronControl(id, Config, OnNetworkUIChanged);
             CtlFlow.Controls.Add(neuron);
 
             if (id == Const.UnknownId)

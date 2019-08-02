@@ -23,13 +23,14 @@ namespace NN
         CancellationTokenSource CancellationTokenSource;
         public static object ApplyChangesLocker = new object();
 
-        NetworkDataModel NetworkModel;
+        NetworksManager NetworksManager;
+
         DateTime StartTime;
         long Round;
 
         // Visual controls
 
-        DataControl InputDataPresenter;
+        DataPresenter InputDataPresenter;
         NetworkPresenter NetworkPresenter;
         PlotterPresenter PlotPresenter;
         StatisticsPresenter StatisticsPresenter;
@@ -46,13 +47,14 @@ namespace NN
             //Config.Main.Clear();
             CreateDirectories();
 
-            InputDataPresenter = new DataControl();
+            InputDataPresenter = new DataPresenter();
             InputDataPresenter.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             CtlDataPanel.Controls.Add(InputDataPresenter);
 
             NetworkPresenter = new NetworkPresenter();
             NetworkPresenter.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             CtlNetPanel.Controls.Add(NetworkPresenter);
+            NetworkPresenter.SizeChanged += NetworkPresenter_SizeChanged;
 
             PlotPresenter = new PlotterPresenter();
             PlotPresenter.Height = 200;
@@ -86,10 +88,22 @@ namespace NN
             LoadConfig();
         }
 
+        private void NetworkPresenter_SizeChanged(object sender, EventArgs e)
+        {
+            if (NetworksManager != null)
+            {
+                var selectedModel = NetworksManager.GetSelectedNetworkModel(CtlTabs);
+                if (IsRunning)
+                    NetworkPresenter.RenderRunning(selectedModel);
+                else
+                    NetworkPresenter.RenderStanding(selectedModel);
+            }
+        }
+
         private void LoadConfig()
         {
-            var networkName = Config.Main.GetString(Const.Param.NetworkName, null);
-            LoadNetwork(networkName);
+            var name = Config.Main.GetString(Const.Param.NetworksManagerName, null);
+            LoadNetworksManager(name);
             LoadSettings();
         }
 
@@ -123,7 +137,7 @@ namespace NN
 
         private Settings Settings => CtlSettings.Settings;
 
-        private void LoadNetwork(string name)
+        private void LoadNetworksManager(string name)
         {
             if (!StopRequest())
             {
@@ -142,12 +156,12 @@ namespace NN
 
             if (File.Exists(name))
             { 
-                var network = new NetworkControl(name, OnNetworkUIChanged);
-                Config.Main.Set(Const.Param.NetworkName, name);
-                ReplaceNetworkControl(network);
-                if (network.IsValid())
+                var manager = new NetworksManager(CtlTabs, name, OnNetworkUIChanged);
+                Config.Main.Set(Const.Param.NetworksManagerName, name);
+                ReplaceNetworksManagerControl(manager);
+                if (manager.IsValid())
                 {
-                    ApplyChangesToStandingNetwork();
+                    ApplyChangesToStandingNetworks();
                 }
                 else
                 {
@@ -157,6 +171,7 @@ namespace NN
             else
             {
                 MessageBox.Show($"Network '{name}' is not found!", "Error", MessageBoxButtons.OK);
+                Config.Main.Set(Const.Param.NetworksManagerName, "");
             }
         }
 
@@ -167,13 +182,19 @@ namespace NN
                 return false;
             }
 
-            if (NetworkUI == null || !NetworkUI.IsValid())
+            if (NetworksManager != null) 
             {
-                MessageBox.Show("Network parameter is invalid", "Error");
-                return false;
+                if (!NetworksManager.IsValid())
+                {
+                    MessageBox.Show("Network parameter is invalid", "Error");
+                    return false;
+                }
+                else
+                {
+                    NetworksManager.SaveConfig();
+                }
             }
-
-            NetworkUI.SaveConfig();
+            
             return true;
         }
 
@@ -205,32 +226,32 @@ namespace NN
 
             if (param == Notification.ParameterChanged.NeuronsCount)
             {
-                if (NetworkUI != null)
+                if (NetworksManager != null)
                 {
-                    NetworkUI.ResetLayersTabsNames();
+                    NetworksManager.ResetLayersTabsNames();
                 }
             }
         }
 
-        private void ApplyChangesToRunningNetwork()
+        private void ApplyChangesToRunningNetworks()
         {
             lock (ApplyChangesLocker)
             {
-                InputDataPresenter.RearrangeWithNewPointsCount(NetworkUI.InputNeuronsCount);
-                var model = NetworkUI.CreateNetworkDataModel();
-                NetworkModel = NetworkModel.Merge(model);
-                NetworkPresenter.UpdateNetwork(NetworkModel);
+                InputDataPresenter.RearrangeWithNewPointsCount(NetworksManager.InputNeuronsCount);
+                var newModels = NetworksManager.CreateNetworksDataModels();
+                NetworksManager.MergeModels(newModels);
+                NetworkPresenter.RenderRunning(NetworksManager.GetSelectedNetworkModel(CtlTabs));
                 ToggleApplyChanges(Const.Toggle.Off);
             }
         }
 
-        private void ApplyChangesToStandingNetwork()
+        private void ApplyChangesToStandingNetworks()
         {
             lock (ApplyChangesLocker)
             {
-                InputDataPresenter.RearrangeWithNewPointsCount(NetworkUI.InputNeuronsCount);
-                NetworkModel = NetworkUI.CreateNetworkDataModel();
-                NetworkPresenter.SetNetwork(NetworkModel);
+                InputDataPresenter.RearrangeWithNewPointsCount(NetworksManager.InputNeuronsCount);
+                var newModels = NetworksManager.CreateNetworksDataModels();
+                NetworkPresenter.RenderStanding(NetworksManager.GetSelectedNetworkModel(CtlTabs));
                 ToggleApplyChanges(Const.Toggle.Off);
             }
         }
@@ -241,7 +262,7 @@ namespace NN
         {
             if (SaveConfig())
             {
-                ApplyChangesToStandingNetwork();
+                ApplyChangesToStandingNetworks();
 
                 CancellationTokenSource = new CancellationTokenSource();
                 CancellationToken = CancellationTokenSource.Token;
@@ -250,22 +271,20 @@ namespace NN
                 CtlReset.Enabled = false;
                 CtlStop.Enabled = true;
                 CtlMenuDeleteNetwork.Enabled = false;
-                NetworkPresenter.IsNetworkRunning = true;
-
-                NetworkModel.InitState();
-                PlotPresenter.ClearData();
+                
+                NetworksManager.PrepareModelsForRun();
                 MatrixPresenter.ClearData();
 
-                NetworkModel.SetInputData();
-                InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First(), NetworkModel.InputThreshold);
-                NetworkModel.FeedForward(); // initialize state
+                NetworksManager.PrepareModelsForRound();
+                InputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
+                NetworksManager.FeedForward(); // initialize state
 
                 Round = 0;
                 StartTime = DateTime.Now;
 
-                Draw(new DrawData(true));
+                DrawModels(NetworksManager.Models);
 
-                WorkThread = new Thread(new ThreadStart(Work));
+                WorkThread = new Thread(new ThreadStart(RunNetwork));
                 WorkThread.Priority = ThreadPriority.Highest;
                 WorkThread.Start();
             }
@@ -273,58 +292,55 @@ namespace NN
 
         private void RunNetwork()
         {
-            long total = 0;
-            long correct = 0;
-
-            DateTime startTime = DateTime.Now;
             DateTime prevTime = DateTime.Now;
-
-            ////MatrixPresenter.ClearData();
-            var data = new DrawData(true);
 
             while (!CancellationToken.IsCancellationRequested)
             {
                 lock (ApplyChangesLocker)
                 {
-                    NetworkModel.SetInputData();
-                    NetworkModel.FeedForward();
+                    NetworksManager.PrepareModelsForRound();
 
-                    var output = NetworkModel.GetMaxActivatedOutputNeuron();
-                    var input = NetworkModel.GetNumberOfFirstLayerActiveNeurons();
-                    var cost = NetworkModel.Cost(input);
-                    if (input == output.Id)
+                    foreach (var model in NetworksManager.Models)
                     {
-                        ++correct;
+                        model.FeedForward();
 
-                        data.LastGoodInput = input;
-                        data.LastGoodOutput = output.Id;
-                        data.LastGoodOutputActivation = output.Activation;
-                        data.LastGoodCost = cost;
+                        var output = model.GetMaxActivatedOutputNeuron();
+                        var input = model.GetNumberOfFirstLayerActiveNeurons();
+                        var cost = model.Cost(input);
+                        if (input == output.Id)
+                        {
+                            ++model.Statistic.CorrectRounds;
+
+                            model.Statistic.LastGoodInput = input;
+                            model.Statistic.LastGoodOutput = output.Id;
+                            model.Statistic.LastGoodOutputActivation = output.Activation;
+                            model.Statistic.LastGoodCost = cost;
+                        }
+                        else
+                        {
+                            model.Statistic.LastBadInput = input;
+                            model.Statistic.LastBadOutput = output.Id;
+                            model.Statistic.LastBadOutputActivation = output.Activation;
+                            model.Statistic.LastBadCost = cost;
+                        }
+
+                        MatrixPresenter.AddData(input, output.Id);
+
+                        ++model.Statistic.Rounds;
+
+                        model.BackPropagation(input);
+
+                        if (model.Statistic.Rounds == 1)
+                        {
+                            model.Statistic.AverageCost = cost;
+                        }
+                        else
+                        {
+                            model.Statistic.AverageCost = (model.Statistic.AverageCost * (model.Statistic.Rounds - 1) + cost) / model.Statistic.Rounds;
+                        }
                     }
-                    else
-                    {
-                        data.LastBadInput = input;
-                        data.LastBadOutput = output.Id;
-                        data.LastBadOutputActivation = output.Activation;
-                        data.LastBadCost = cost;
-                    }
 
-                    MatrixPresenter.AddData(input, output.Id);
-
-                    ++total;
                     ++Round;
-
-                    NetworkModel.BackPropagation(input);
-
-                    
-                    if (total == 1)
-                    {
-                        data.AverageCost = cost;
-                    }
-                    else
-                    {
-                        data.AverageCost = (data.AverageCost * (total - 1) + cost) / total;
-                    }
                 }
 
                 if (MatrixPresenter.Count % Settings.SkipRoundsToDrawErrorMatrix == 0)
@@ -341,9 +357,29 @@ namespace NN
                     };
                 }
                 
-                if (total == 10000 || DateTime.Now.Subtract(startTime).TotalSeconds >= 10)
+                if (Round % Settings.SkipRoundsToDrawNetworks == 0)// || DateTime.Now.Subtract(startTime).TotalSeconds >= 10)
                 {
-                    break;
+                    using (var ev = new AutoResetEvent(false))
+                    {
+                        BeginInvoke((Action)(() =>
+                        {
+                            try
+                            {
+                                lock (ApplyChangesLocker)
+                                {
+                                    DrawModels(NetworksManager.Models);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                int hha = 1;
+                            }
+
+                            ev.Set();
+                        }));
+
+                        ev.WaitOne();
+                    };
                 }
                 
                 if ((long)DateTime.Now.Subtract(prevTime).TotalSeconds >= 1)
@@ -352,104 +388,80 @@ namespace NN
                     BeginInvoke((Action)(() => CtlTime.Text = "Time: " + DateTime.Now.Subtract(StartTime).ToString(@"hh\:mm\:ss")));
                 }
             }
-
-            if (CancellationToken.IsCancellationRequested)
-            {
-                return;
-            }
-
-            data.Percent = 100 * (double)correct / (double)total;
-
-            using (var ev = new AutoResetEvent(false))
-            {
-                BeginInvoke((Action)(() =>
-                {
-                    try
-                    {
-                        lock (ApplyChangesLocker)
-                        {
-                            Draw(data);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        int hha = 1;
-                    }
-
-                    ev.Set();
-                }));
-
-                ev.WaitOne();
-            };
         }
 
-        private void Draw(DrawData data)
+        private void DrawModels(List<NetworkDataModel> models)
         {
             var renderStart = DateTime.Now;
 
-            NetworkPresenter.Render();          
-            PlotPresenter.AddPointPercentData(data.Percent);
-            PlotPresenter.AddPointCostData(data.AverageCost);
-            PlotPresenter.Draw();
-            ///MatrixPresenter.Draw();
+            NetworkPresenter.RenderRunning(NetworksManager.GetSelectedNetworkModel(CtlTabs));
+            InputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
 
-            InputDataPresenter.SetInputDataAndDraw(NetworkModel.Layers.First(), NetworkModel.InputThreshold);
-
-            var stat = new Dictionary<string, string>();
-            var span = DateTime.Now.Subtract(StartTime);
-            stat.Add("Time", new DateTime(span.Ticks).ToString(@"HH\:mm\:ss"));
-
-            if (data.Percent > 0)
+            foreach (var model in models)
             {
-                var remains = new DateTime((long)(span.Ticks * 100 / data.Percent) - span.Ticks);
-                stat.Add("Time remaining", new DateTime(remains.Ticks).ToString(@"HH\:mm\:ss"));
+                model.DynamicStatistic.Add(model.Statistic.Percent, model.Statistic.AverageCost);
+            }
+
+            PlotPresenter.Draw(models, NetworksManager.GetSelectedNetworkModel(CtlTabs));
+
+            var selected = NetworksManager.GetSelectedNetworkModel(CtlTabs);
+
+            if (selected == null)
+            {
+                StatisticsPresenter.Draw(null);
             }
             else
             {
-                stat.Add("Time remaining", "N/A");
+                var stat = new Dictionary<string, string>();
+                var span = DateTime.Now.Subtract(StartTime);
+                stat.Add("Time", new DateTime(span.Ticks).ToString(@"HH\:mm\:ss"));
+
+                if (selected.Statistic.Percent > 0)
+                {
+                    var remains = new DateTime((long)(span.Ticks * 100 / selected.Statistic.Percent) - span.Ticks);
+                    stat.Add("Time remaining", new DateTime(remains.Ticks).ToString(@"HH\:mm\:ss"));
+                }
+                else
+                {
+                    stat.Add("Time remaining", "N/A");
+                }
+
+                if (selected.Statistic.LastGoodOutput > -1)
+                {
+                    stat.Add("Last good output", $"{selected.Statistic.LastGoodInput}={selected.Statistic.LastGoodOutput} ({Converter.DoubleToText(100 * selected.Statistic.LastGoodOutputActivation, "N6")}%)");
+                    stat.Add("Last good cost", Converter.DoubleToText(selected.Statistic.LastGoodCost, "N6"));
+
+                }
+                else
+                {
+                    stat.Add("Last good output", "none");
+                    stat.Add("Last good cost", "none");
+                }
+
+                if (selected.Statistic.LastBadOutput > -1)
+                {
+                    stat.Add("Last bad output", $"{selected.Statistic.LastBadInput}={selected.Statistic.LastBadOutput} ({Converter.DoubleToText(100 * selected.Statistic.LastBadOutputActivation, "N6")}%)");
+                    stat.Add("Last bad cost", Converter.DoubleToText(selected.Statistic.LastBadCost, "N6"));
+                }
+                else
+                {
+                    stat.Add("Last bad output", "none");
+                    stat.Add("Last bad cost", "none");
+                }
+
+                stat.Add("Average cost", Converter.DoubleToText(selected.Statistic.AverageCost, "N6"));
+                stat.Add("Percent", Converter.DoubleToText(selected.Statistic.Percent, "N6") + " %");
+                stat.Add("Learning rate", Converter.DoubleToText(selected.LearningRate));
+                stat.Add("Rounds", Round.ToString());
+                stat.Add("Rounds/sec", ((int)((double)Round / DateTime.Now.Subtract(StartTime).TotalSeconds)).ToString());
+
+                var renderStop = DateTime.Now;
+
+                stat.Add("Render time, msec", ((int)(renderStop.Subtract(renderStart).TotalMilliseconds)).ToString());
+                StatisticsPresenter.Draw(stat);
             }
-
-            if (data.LastGoodOutput > -1)
-            {
-                stat.Add("Last good output", $"{data.LastGoodInput}={data.LastGoodOutput} ({Converter.DoubleToText(100 * data.LastGoodOutputActivation, "N6")}%)");
-                stat.Add("Last good cost", Converter.DoubleToText(data.LastGoodCost, "N6"));
-
-            }
-            else
-            {
-                stat.Add("Last good output", "none");
-                stat.Add("Last good cost", "none");
-            }
-
-            if (data.LastBadOutput > -1)
-            {
-                stat.Add("Last bad output", $"{data.LastBadInput}={data.LastBadOutput} ({Converter.DoubleToText(100 * data.LastBadOutputActivation, "N6")}%)");
-                stat.Add("Last bad cost", Converter.DoubleToText(data.LastBadCost, "N6"));
-            }
-            else
-            {
-                stat.Add("Last bad output", "none");
-                stat.Add("Last bad cost", "none");
-            }
-
-            stat.Add("Average cost", Converter.DoubleToText(data.AverageCost, "N6"));
-            stat.Add("Percent", Converter.DoubleToText(data.Percent, "N6") + " %");
-            stat.Add("Learning rate", Converter.DoubleToText(NetworkModel.LearningRate));
-            stat.Add("Rounds", Round.ToString());
-            stat.Add("Rounds/sec", ((int)((double)Round / DateTime.Now.Subtract(StartTime).TotalSeconds)).ToString());
-
-            var renderStop = DateTime.Now;
-
-            stat.Add("Render time, msec", ((int)(renderStop.Subtract(renderStart).TotalMilliseconds)).ToString());
-            StatisticsPresenter.DrawStat(stat);
-        }
-
-        private void Work()
-        {
-            while (!CancellationToken.IsCancellationRequested)
-            {
-                RunNetwork();
-            }
+            
+            NetworksManager.ResetModelsStatistic();
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -477,22 +489,21 @@ namespace NN
             InputDataPresenter.RearrangeWithNewWidth(CtlDataPanel.Width);
         }
 
-        private void CtlMenuNewNetwork_Click(object sender, EventArgs e)
+        private void CtlMenuNew_Click(object sender, EventArgs e)
         {
-            CreateNetwork();
+            CreateNetworksManager();
         }
 
-        private void CtlMenuLoadNetwork_Click(object sender, EventArgs e)
+        private void CtlMenuLoad_Click(object sender, EventArgs e)
         {
-            LoadNetwork();
-            //ToggleApplyChanges(Const.Toggle.Off);
+            LoadNetworksManager();
         }
 
         private void CtlMenuDeleteNetwork_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Would you really like to delete the network?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                DeleteNetwork();
+                DeleteNetworksManager();
             }
         }
 
@@ -515,22 +526,20 @@ namespace NN
             return false;
         }
 
-        private void CreateNetwork()
+        private void CreateNetworksManager()
         {
             if (!StopRequest())
             {
                 return;
             }
 
-            var network = new NetworkControl(null, OnNetworkUIChanged);
+            var network = new NetworksManager(CtlTabs, null, OnNetworkUIChanged);
             if (network.Config != null)
             {
-                ReplaceNetworkControl(network);
-                //Config.Main.Set(Const.Param.NetworkName, network.Config.GetString(Const.Param.NetworkName));
-
+                ReplaceNetworksManagerControl(network);
                 if (network.IsValid())
                 {
-                    ApplyChangesToStandingNetwork();
+                    ApplyChangesToStandingNetworks();
                 }
                 else
                 {
@@ -539,7 +548,7 @@ namespace NN
             }
         }
 
-        private void LoadNetwork()
+        private void LoadNetworksManager()
         {
             if (!StopRequest())
             {
@@ -557,13 +566,13 @@ namespace NN
 
             if (loadDialog.ShowDialog() == DialogResult.OK)
             {
-                LoadNetwork(loadDialog.FileName);
+                LoadNetworksManager(loadDialog.FileName);
             }
         }
 
-        private void DeleteNetwork()
+        private void DeleteNetworksManager()
         {
-            var name = Config.Main.GetString(Const.Param.NetworkName);
+            var name = Config.Main.GetString(Const.Param.NetworksManagerName);
             if (!String.IsNullOrEmpty(name))
             {
                 if (!File.Exists(name))
@@ -576,48 +585,44 @@ namespace NN
                     File.Delete(name);
                 }
 
-                ReplaceNetworkControl(null);
+                ReplaceNetworksManagerControl(null);
             }
         }
 
-        private void ReplaceNetworkControl(NetworkControl network)
-        {   
-            if (NetworkUI != null)
+        private void ReplaceNetworksManagerControl(NetworksManager manager)
+    {   
+            while (CtlTabs.TabCount > 1)
             {
-                CtlTabNetwork.Controls.Remove(NetworkUI);
+                CtlTabs.TabPages.RemoveAt(1);
             }
 
-            if (network == null)
+            if (manager == null)
             {
+                NetworksManager = null;
                 Text = "Neural Network";
+
                 CtlStart.Enabled = false;
-                CtlMenuDeleteNetwork.Enabled = false;
-                CtlMainMenuDeleteNetwork.Enabled = false;
-                CtlMainMenuDeleteLayer.Enabled = false;
-                CtlMainMenuAddLayer.Enabled = false;
-                CtlMainMenuNewNeuron.Enabled = false;
-                CtlMainMenuSaveAs.Enabled = false;
                 CtlReset.Enabled = false;
+                CtlMainMenuSaveAs.Enabled = false;
+                CtlMenuNetwork.Enabled = false;
+                CtlNetworkContextMenu.Enabled = false;  
             }
             else
             {
-                CtlTabNetwork.Controls.Add(network);
-                CtlTabs.SelectedTab = CtlTabNetwork;
-                Text = "Neural Network | " + Path.GetFileNameWithoutExtension(Config.Main.GetString(Const.Param.NetworkName));
+                NetworksManager = manager;
+                NetworksManager.InitNetworkTabs();
+
+                Text = "Neural Network | " + Path.GetFileNameWithoutExtension(Config.Main.GetString(Const.Param.NetworksManagerName));
+
                 CtlStart.Enabled = true;
                 CtlReset.Enabled = true;
-                CtlMenuDeleteNetwork.Enabled = true;
-                CtlMainMenuDeleteNetwork.Enabled = true;
-                CtlMainMenuDeleteLayer.Enabled = network.ActiveLayerType == typeof(HiddenLayerControl);
-                CtlMainMenuAddLayer.Enabled = true;
-                CtlMainMenuNewNeuron.Enabled = network.ActiveLayerType != typeof(InputLayerControl);
                 CtlMainMenuSaveAs.Enabled = true;
+                CtlMenuNetwork.Enabled = true;
+                CtlNetworkContextMenu.Enabled = true;
             }
 
             OnNetworkUIChanged(Notification.ParameterChanged.Structure);
         }
-
-        private NetworkControl NetworkUI => CtlTabNetwork.Controls.Count > 0 ? CtlTabNetwork.Controls[0] as NetworkControl : null;
 
         private void CtlStop_Click(object sender, EventArgs e)
         {
@@ -636,12 +641,11 @@ namespace NN
             CtlStart.Enabled = true;
             CtlStop.Enabled = false;
             CtlReset.Enabled = true;
-            CtlMenuDeleteNetwork.Enabled = true;
         }
 
         private void CtlReset_Click(object sender, EventArgs e)
         {
-            ApplyChangesToStandingNetwork();
+            ApplyChangesToStandingNetworks();
         }
 
         private void CtlApplyChanges_Click(object sender, EventArgs e)
@@ -660,7 +664,7 @@ namespace NN
             {
                 if (MessageBox.Show("Would you like running network to apply changes?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    ApplyChangesToRunningNetwork();
+                    ApplyChangesToRunningNetworks();
                 }
             }
             else
@@ -676,18 +680,8 @@ namespace NN
         {
             if (SaveConfig())
             {
-                NetworkUI.SaveAs();
+                NetworksManager.SaveAs();
             }
-        }
-
-        private void CtlMainMenuAddLayer_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void CtlMainMenuDeleteLayer_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void CtlApplySettingsButton_Click(object sender, EventArgs e)
@@ -698,6 +692,67 @@ namespace NN
         private void CtlCancelSettingsButton_Click(object sender, EventArgs e)
         {
             LoadSettings();
+        }
+
+        private void CtlTabs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // newly selected network must not affect NetworksManager until it saved
+        }
+
+        private void CtlMainMenuAddNetwork_Click(object sender, EventArgs e)
+        {
+            NetworksManager.AddNetwork();
+        }
+
+        private void CtlMainMenuDeleteNetwork_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show($"Would you really like to delete Network {CtlTabs.SelectedIndex}?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                var network = CtlTabs.SelectedTab.Controls[0] as NetworkControl;
+                network.VanishConfig();
+
+                CtlTabs.TabPages.Remove(CtlTabs.SelectedTab);
+                ResetNetworksTabsNames();
+                OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+            }
+        }
+
+        private void ResetNetworksTabsNames()
+        {
+            for (int i = 1; i < CtlTabs.TabCount; ++i)
+            {
+                CtlTabs.TabPages[i].Text = $"Network {i}";
+            }
+        }
+
+        private void CtlMainMenuAddLayer_Click(object sender, EventArgs e)
+        {
+            (CtlTabs.SelectedTab.Controls[0] as NetworkControl).AddLayer();
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+        }
+
+        private void CtlMainMenuDeleteLayer_Click(object sender, EventArgs e)
+        {
+            (CtlTabs.SelectedTab.Controls[0] as NetworkControl).DeleteLayer();
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, null);
+        }
+
+        private void CtlMainMenuAddNeuron_Click(object sender, EventArgs e)
+        {
+            (CtlTabs.SelectedTab.Controls[0] as NetworkControl).SelectedLayer.AddNeuron();
+        }
+
+        private void CtlMenuNetwork_Click(object sender, EventArgs e)
+        {
+            CtlMainMenuDeleteNetwork.Enabled = CtlTabs.SelectedIndex > 0;
+            CtlMainMenuAddLayer.Enabled = CtlTabs.SelectedIndex > 0;
+            CtlMainMenuDeleteLayer.Enabled = CtlTabs.SelectedIndex > 0 && (CtlTabs.SelectedTab.Controls[0] as NetworkControl).IsSelectedLayerHidden;
+            CtlMainMenuAddNeuron.Enabled = CtlTabs.SelectedIndex > 0;    
+        }
+
+        private void CtlNetworkContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            CtlMenuDeleteNetwork.Enabled = CtlTabs.SelectedIndex > 0;
         }
     }
 }

@@ -42,7 +42,8 @@
             this.CtlMenuAddNeuron,
             this.CtlMenuDeleteNeuron});
             this.CtlContextMenu.Name = "CtlContextMenu";
-            this.CtlContextMenu.Size = new System.Drawing.Size(123, 52);
+            this.CtlContextMenu.Size = new System.Drawing.Size(211, 80);
+            this.CtlContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.CtlContextMenu_Opening);
             // 
             // CtlMenuAddNeuron
             // 
@@ -54,8 +55,8 @@
             // CtlMenuDeleteNeuron
             // 
             this.CtlMenuDeleteNeuron.Name = "CtlMenuDeleteNeuron";
-            this.CtlMenuDeleteNeuron.Size = new System.Drawing.Size(122, 24);
-            this.CtlMenuDeleteNeuron.Text = "Delete";
+            this.CtlMenuDeleteNeuron.Size = new System.Drawing.Size(210, 24);
+            this.CtlMenuDeleteNeuron.Text = "Delete...";
             this.CtlMenuDeleteNeuron.Click += new System.EventHandler(this.CtlMenuDeleteNeuron_Click);
             // 
             // NeuronBase

@@ -27,7 +27,7 @@ namespace NN.Controls
             InitializeComponent();
             OnNetworkUIChanged = onNetworkUIChanged;
 
-            Id = id;
+            Id = UniqId.GetId(id);
             if (config != null)
             {
                 Config = config.Extend(Id);
@@ -91,6 +91,11 @@ namespace NN.Controls
 
         private void CtlMenuDeleteNeuron_Click(object sender, EventArgs e)
         {
+            DeleteNeuron();
+        }
+
+        private void DeleteNeuron()
+        {
             if (Parent.Controls.OfType<NeuronBase>().Count() == 1)
             {
                 MessageBox.Show("At least one neuron must exist.", "Warning", MessageBoxButtons.OK);
@@ -114,7 +119,7 @@ namespace NN.Controls
 
         private void CtlMenuAddNeuron_Click(object sender, EventArgs e)
         {
-            (Parent.Parent as LayerBase).AddNeuron(Const.UnknownId);
+            (Parent.Parent as LayerBase).AddNeuron();
         }
 
         private void NeuronBase_Layout(object sender, LayoutEventArgs e)
@@ -130,6 +135,11 @@ namespace NN.Controls
             }
             Height = height;
             ResumeLayout();
+        }
+
+        private void CtlContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            CtlMenuDeleteNeuron.Enabled = Parent.Controls.OfType<NeuronBase>().Count() > 1;
         }
     }
 }

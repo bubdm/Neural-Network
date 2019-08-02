@@ -15,10 +15,15 @@ namespace NN.Controls
             Font = new Font("Tahoma", 6.5f, FontStyle.Bold);
         }
 
-        public void DrawStat(Dictionary<string, string> stat)
+        public void Draw(Dictionary<string, string> stat)
         {
             StartRender();
             Clear();
+
+            if (stat == null)
+            {
+                return;
+            }
 
             G.TextRenderingHint = TextRenderingHint.AntiAlias;
 

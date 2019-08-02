@@ -20,43 +20,14 @@ namespace NN.Controls
         const int BIAS_SIZE = 14;
         const int BIAS_RADIUS = BIAS_SIZE / 2;
 
-        public bool IsNetworkRunning;
-
-        NetworkDataModel NetworkModel;
-
         public NetworkPresenter()
         {
             Dock = DockStyle.Fill;
-            SizeChanged += NetworkPresenter_SizeChanged;
         }
 
-        private void NetworkPresenter_SizeChanged(object sender, EventArgs e)
+        public int LayerDistance(NetworkDataModel model)
         {
-            if (NetworkModel != null)
-            {
-                if (IsNetworkRunning)
-                    Render();
-                else
-                    RenderFullState();
-            }
-        }
-
-        public int LayerDistance()
-        {
-            return (Width - 2 * HORIZONTAL_OFFSET) / (NetworkModel.Layers.Count - 1);
-        }
-
-        public void SetNetwork(NetworkDataModel network)
-        {
-            IsNetworkRunning = false;
-            NetworkModel = network;
-            RenderFullState();
-        }
-
-        public void UpdateNetwork(NetworkDataModel network)
-        {
-            NetworkModel = network;
-            Render();
+            return (Width - 2 * HORIZONTAL_OFFSET) / (model.Layers.Count - 1);
         }
 
         private float VerticalDistance(int count)
@@ -64,24 +35,24 @@ namespace NN.Controls
             return Math.Min(((float)Height - 220) / count, NEURON_MAX_DIST);
         }
 
-        private int LayerX(LayerDataModel layer)
+        private int LayerX(NetworkDataModel model, LayerDataModel layer)
         {
-            return HORIZONTAL_OFFSET + LayerDistance() * layer.Id;
+            return HORIZONTAL_OFFSET + LayerDistance(model) * layer.Id;
         }
 
-        private float MaxHeight()
+        private float MaxHeight(NetworkDataModel model)
         {
-            return NetworkModel.Layers.Max(layer => layer.Height * VerticalDistance(layer.Height));
+            return model.Layers.Max(layer => layer.Height * VerticalDistance(layer.Height));
         }
 
-        private float VerticalShift(LayerDataModel layer)
+        private float VerticalShift(NetworkDataModel model, LayerDataModel layer)
         {
-            return (MaxHeight() - layer.Height * VerticalDistance(layer.Height)) / 2;
+            return (MaxHeight(model) - layer.Height * VerticalDistance(layer.Height)) / 2;
         }
 
-        private void DrawLayersLinks(bool fullState, LayerDataModel layer1 , LayerDataModel layer2)
+        private void DrawLayersLinks(bool fullState, NetworkDataModel model, LayerDataModel layer1 , LayerDataModel layer2)
         {
-            double threshold = NetworkModel.Layers.First() == layer1 ? NetworkModel.InputThreshold : 0;
+            double threshold = model.Layers.First() == layer1 ? model.InputThreshold : 0;
 
             Range.ForEach(layer1.Neurons, layer2.Neurons, (neuron1, neuron2) =>
             {
@@ -92,17 +63,17 @@ namespace NN.Controls
                         using (var pen = Tools.Draw.GetPen(neuron1.AxW(neuron2), 1))
                         {
                             G.DrawLine(pen,
-                                       LayerX(layer1), VERTICAL_OFFSET + VerticalShift(layer1) + neuron1.Id * VerticalDistance(layer1.Height),
-                                       LayerX(layer2), VERTICAL_OFFSET + VerticalShift(layer2) + neuron2.Id * VerticalDistance(layer2.Height));
+                                       LayerX(model, layer1), VERTICAL_OFFSET + VerticalShift(model, layer1) + neuron1.Id * VerticalDistance(layer1.Height),
+                                       LayerX(model, layer2), VERTICAL_OFFSET + VerticalShift(model, layer2) + neuron2.Id * VerticalDistance(layer2.Height));
                         }
                     }
                 }
             });
         }
 
-        private void DrawLayerNeurons(bool fullState, LayerDataModel layer)
+        private void DrawLayerNeurons(bool fullState, NetworkDataModel model, LayerDataModel layer)
         {
-            double threshold = NetworkModel.Layers.First() == layer ? NetworkModel.InputThreshold : 0;
+            double threshold = model.Layers.First() == layer ? model.InputThreshold : 0;
 
             Range.ForEach(layer.Neurons, neuron =>
             {
@@ -113,45 +84,51 @@ namespace NN.Controls
                         if (neuron.IsBias)
                         {
                             G.FillEllipse(Brushes.Orange,
-                                          LayerX(layer) - BIAS_RADIUS,
-                                          VERTICAL_OFFSET + VerticalShift(layer) + neuron.Id * VerticalDistance(layer.Height) - BIAS_RADIUS,
+                                          LayerX(model, layer) - BIAS_RADIUS,
+                                          VERTICAL_OFFSET + VerticalShift(model, layer) + neuron.Id * VerticalDistance(layer.Height) - BIAS_RADIUS,
                                           BIAS_SIZE, BIAS_SIZE);
                         }
 
                         G.FillEllipse(brush,
-                                      LayerX(layer) - NEURON_RADIUS,
-                                      VERTICAL_OFFSET + VerticalShift(layer) + neuron.Id * VerticalDistance(layer.Height) - NEURON_RADIUS,
+                                      LayerX(model, layer) - NEURON_RADIUS,
+                                      VERTICAL_OFFSET + VerticalShift(model, layer) + neuron.Id * VerticalDistance(layer.Height) - NEURON_RADIUS,
                                       NEURON_SIZE, NEURON_SIZE);
                     }
                 }
             });
         }
 
-        private void Draw(bool fullState)
+        private void Draw(bool fullState, NetworkDataModel model)
         {
             StartRender();
             Clear();
+
+            if (model == null)
+            {
+                return;
+            }
+
             lock (Main.ApplyChangesLocker)
             {
-                if (NetworkModel.Layers.Count > 0)
+                if (model.Layers.Count > 0)
                 {
-                    Range.ForEachTrimEnd(NetworkModel.Layers, -1, layer => DrawLayersLinks(fullState, layer, layer.Next));
+                    Range.ForEachTrimEnd(model.Layers, -1, layer => DrawLayersLinks(fullState, model, layer, layer.Next));
                 }
 
-                Range.ForEach(NetworkModel.Layers, layer => DrawLayerNeurons(fullState, layer));
+                Range.ForEach(model.Layers, layer => DrawLayerNeurons(fullState, model, layer));
             }
 
             Invalidate();
         }
 
-        public void RenderFullState()
+        public void RenderStanding(NetworkDataModel model)
         {
-            Draw(true);
+            Draw(true, model);
         }
 
-        public void Render()
+        public void RenderRunning(NetworkDataModel model)
         {
-            Draw(false);
+            Draw(false, model);
         }
     }
 }

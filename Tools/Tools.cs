@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Globalization;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Tools
 {
@@ -26,9 +27,34 @@ namespace Tools
         }
     }
 
-    public class DrawData
+    public static class UniqId
     {
-        public double Percent;
+        static long _prevId;
+        public static long GetId(long existingId)
+        {
+            if (existingId > Const.UnknownId)
+            {
+                return existingId;
+            }
+
+            long id;
+            do
+            {
+                id = DateTime.Now.Ticks;
+                Thread.Sleep(0);
+            }
+            while (id <= _prevId);
+
+            _prevId = id;
+            return id;
+        }
+    }
+
+    public class Statistic
+    {
+        public long Rounds;
+        public long CorrectRounds;
+        public double Percent => 100 * (double)CorrectRounds / (double)Rounds;
         public double AverageCost;
 
         public int LastBadOutput;
@@ -41,9 +67,10 @@ namespace Tools
         public int LastGoodInput;
         public double LastGoodCost;
 
-        public DrawData(bool init)
+        public Statistic(bool init)
         {
-            Percent = 0;
+            Rounds = 0;
+            CorrectRounds = 0;
             AverageCost = 1;
 
             LastBadOutput = -1;
@@ -55,6 +82,33 @@ namespace Tools
             LastGoodOutputActivation = 0;
             LastGoodInput = 0;
             LastGoodCost = 0;
+        }
+    }
+
+    public class DynamicStatistic
+    {
+        public PlotPoints PercentData = new PlotPoints();
+        public PlotPoints CostData = new PlotPoints();
+
+        public void Add(double percent, double cost)
+        {
+            var now = DateTime.Now;
+            PercentData.Add(new PlotPoint(percent, now));
+            CostData.Add(new PlotPoint(cost, now));
+        }
+
+        public class PlotPoint : Tuple<double, DateTime>
+        {
+            public PlotPoint(double v, DateTime t)
+                : base(v, t)
+            {
+                //
+            }
+        }
+
+        public class PlotPoints : List<PlotPoint>
+        {
+            //
         }
     }
 

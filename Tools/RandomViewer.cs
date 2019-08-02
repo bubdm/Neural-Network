@@ -18,7 +18,7 @@ namespace Tools
         double? A;
         double Mult;
 
-        NetworkDataModel Model = new NetworkDataModel(new int[] { 100, 100, 100, 100, 100, 100 });
+        NetworkDataModel Model = new NetworkDataModel(Const.UnknownId, new int[] { 100, 100, 100, 100, 100, 100 });
 
         public RandomViewer()
         {

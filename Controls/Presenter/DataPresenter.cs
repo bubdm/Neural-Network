@@ -10,7 +10,7 @@ using Tools;
 
 namespace NN.Controls
 {
-    class DataControl : PresenterControl
+    class DataPresenter : PresenterControl
     {
         int PointSize;
         int PointsRearrangeSnap;
@@ -18,7 +18,7 @@ namespace NN.Controls
         double Threshold;
         double[] Data;
 
-        public DataControl() 
+        public DataPresenter() 
         {
             PointSize = Config.Main.GetInt(Const.Param.PointSize, 7).Value;
             PointsRearrangeSnap = Config.Main.GetInt(Const.Param.PointsArrangeSnap, 10).Value;
@@ -41,13 +41,12 @@ namespace NN.Controls
             DrawPoint(pos.Item1, pos.Item2, value);
         }
 
-        public void SetInputDataAndDraw(LayerDataModel layer, double threshold)
+        public void SetInputDataAndDraw(NetworkDataModel model)
         {
-            Threshold = threshold;
-            Data = new double[layer.Neurons.Where(n => !n.IsBias).Count()];
-            Range.ForEach(layer.Neurons.Where(n => !n.IsBias), neuron => Data[neuron.Id] = neuron.Activation);    
+            Threshold = model.InputThreshold;
+            Data = new double[model.Layers.First().Neurons.Where(n => !n.IsBias).Count()];
+            Range.ForEach(model.Layers.First().Neurons.Where(n => !n.IsBias), neuron => Data[neuron.Id] = neuron.Activation);    
             Rearrange(Width, PointsCount);
-            Invalidate();
         }
 
         public void RearrangeWithNewWidth(int width)
@@ -97,6 +96,8 @@ namespace NN.Controls
             {
                 Range.For(Data.Length, y => TogglePoint(y, Data[y] > Threshold ? Data[y] : 0));
             }
+
+            Invalidate();
         }
 
         private Tuple<int, int> GetPointPosition(int pointNumber)

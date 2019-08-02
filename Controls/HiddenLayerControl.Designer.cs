@@ -34,6 +34,10 @@
             this.CtlContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
+            // CtlHeadPanel
+            // 
+            this.CtlHeadPanel.Size = new System.Drawing.Size(224, 40);
+            // 
             // CtlContextMenu
             // 
             this.CtlContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -54,8 +58,10 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.White;
             this.ContextMenuStrip = this.CtlContextMenu;
+            this.DoubleBuffered = true;
             this.Name = "HiddenLayerControl";
             this.Size = new System.Drawing.Size(224, 117);
+            this.Controls.SetChildIndex(this.CtlHeadPanel, 0);
             this.CtlContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 

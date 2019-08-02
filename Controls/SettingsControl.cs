@@ -39,15 +39,13 @@ namespace NN.Controls
         public SettingsControl()
         {
             InitializeComponent();
-            Range.ForEach(CtlPanel.Controls.OfType<IConfigValue>(), c => c.SetChangeEvent(OnChanged));
         }
 
         public void Load(Config config)
         {
-            var settings = new Settings();
             Range.ForEach(CtlPanel.Controls.OfType<IConfigValue>(), c => c.Load(config));
-            settings.SkipRoundsToDrawErrorMatrix = CtlSkipRoundsToDrawErrorMatrix.Value;
-            Settings = settings;
+            Range.ForEach(CtlPanel.Controls.OfType<IConfigValue>(), c => c.SetChangeEvent(OnChanged));
+            OnChanged();
         }
 
         public void Save(Config config)
@@ -73,6 +71,11 @@ namespace NN.Controls
 
         private void OnChanged()
         {
+            var settings = new Settings();
+            settings.SkipRoundsToDrawErrorMatrix = CtlSkipRoundsToDrawErrorMatrix.Value;
+            settings.SkipRoundsToDrawNetworks = CtlSkipRoundsToDrawNetworks.Value;
+            Settings = settings;
+
             Changed();
         }
     }
@@ -80,6 +83,7 @@ namespace NN.Controls
     public class Settings
     {
         public int SkipRoundsToDrawErrorMatrix;
+        public int SkipRoundsToDrawNetworks;
     }
 
 }

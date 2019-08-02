@@ -14,36 +14,34 @@ namespace NN.Controls
 {
     public partial class NetworkControl : UserControl
     {
+        public readonly long Id;
         public Config Config;
         Action<Notification.ParameterChanged, object> OnNetworkUIChanged;
 
-        public readonly InputLayerControl InputLayer;
-        readonly OutputLayerControl OutputLayer;
+        public InputLayerControl InputLayer
+        {
+            get;
+            private set;
+        }
+
+        OutputLayerControl OutputLayer;
 
         readonly IntPtr __h;
 
-        public NetworkControl(string name, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+        public NetworkControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
         {
             InitializeComponent();
-            OnNetworkUIChanged = onNetworkUIChanged;
-
             Dock = DockStyle.Fill;
+            OnNetworkUIChanged = onNetworkUIChanged;                    
 
             //https://stackoverflow.com/questions/1532301/visual-studio-tabcontrol-tabpages-insert-not-working
             __h = CtlTabsLayers.Handle;
 
-            Config = String.IsNullOrEmpty(name) ? CreateNewNetwork() : new Config(name);
-            if (Config != null)
-            {
-                InputLayer = new InputLayerControl(Config, onNetworkUIChanged);
-                CtlTabInput.Controls.Add(InputLayer);
+            Id = UniqId.GetId(id);
+            Config = config.Extend(Id);
 
-                OutputLayer = new OutputLayerControl(Config, onNetworkUIChanged);
-                CtlTabOutput.Controls.Add(OutputLayer);
-
-                LoadConfig();
-            }
-
+            LoadConfig();
+            
             CtlTabsLayers.SelectedIndexChanged += CtlTabsLayers_SelectedIndexChanged;
             CtlRandomizerParamA.Changed += OnChanged;
             CtlRandomizer.SelectedValueChanged += CtlRandomizer_SelectedValueChanged;
@@ -66,9 +64,14 @@ namespace NN.Controls
             CtlMenuDeleteLayer.Enabled = CtlTabsLayers.SelectedIndex > 0 && CtlTabsLayers.SelectedIndex < CtlTabsLayers.TabCount - 1;
         }
 
+        public void AddLayer()
+        {
+            AddLayer(Const.UnknownId);
+        }
+
         private void AddLayer(long id)
         {
-            var layer = new HiddenLayerControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);
+            var layer = new HiddenLayerControl(id, Config, OnNetworkUIChanged);
             var tab = new TabPage();
             tab.Controls.Add(layer);
             CtlTabsLayers.TabPages.Insert(CtlTabsLayers.TabCount - 1, tab);
@@ -102,80 +105,46 @@ namespace NN.Controls
 
         private void CtlMenuAddLayer_Click(object sender, EventArgs e)
         {
-            AddLayer(Const.UnknownId);
+            AddLayer();
         }
-
-        public Config CreateNewNetwork()
-        {
-            var saveDialog = new SaveFileDialog
-            {
-                InitialDirectory = Path.GetFullPath("Networks\\"),
-                DefaultExt = "txt",
-                Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
-                FilterIndex = 2,
-                RestoreDirectory = true
-            };
-
-            if (saveDialog.ShowDialog() == DialogResult.OK)
-            {
-                if (File.Exists(saveDialog.FileName))
-                {
-                    File.Delete(saveDialog.FileName);
-                }
-
-                var name = Path.GetFileNameWithoutExtension(saveDialog.FileName);
-                var config = new Config(saveDialog.FileName);
-                Config.Main.Set(Const.Param.NetworkName, saveDialog.FileName);
-                return config;
-            }
- 
-            return null;
-         }
-
-        public void SaveAs()
-        {
-            var saveDialog = new SaveFileDialog
-            {
-                InitialDirectory = Path.GetFullPath("Networks\\"),
-                DefaultExt = "txt",
-                Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
-                FilterIndex = 2,
-                RestoreDirectory = true
-            };
-
-            if (saveDialog.ShowDialog() == DialogResult.OK)
-            {
-                if (File.Exists(saveDialog.FileName))
-                {
-                    File.Delete(saveDialog.FileName);
-                }
-
-                File.Copy(Config.Main.GetString(Const.Param.NetworkName), saveDialog.FileName);
-            }
-        }
-
 
         public bool IsValid()
         {
-            bool result = CtlRandomizerParamA.IsValid() && CtlLearningRate.IsValid();
-            return result &= GetLayersControls().All(c => c.IsValid());
+            return CtlRandomizerParamA.IsValid() &&
+                   CtlLearningRate.IsValid() &&
+                   GetLayersControls().All(c => c.IsValid());
         }
 
         public void SaveConfig()
         {
-            Config.Set(Const.Param.CurrentLayerIndex, CtlTabsLayers.SelectedIndex);
+            Config.Set(Const.Param.SelectedLayerIndex, CtlTabsLayers.SelectedIndex);
             Config.Set(Const.Param.RandomizeMode, Randomizer);
+            Config.Set(Const.Param.Color, $"{CtlColor.BackColor.A},{CtlColor.BackColor.R},{CtlColor.BackColor.G},{CtlColor.BackColor.B}");
 
             CtlRandomizerParamA.Save(Config);
             CtlLearningRate.Save(Config);
 
             var layers = GetLayersControls();
             Range.ForEach(layers, l => l.SaveConfig());
-            Config.Set(Const.Param.HiddenLayers, layers.Where(l => l.IsHidden).Select(l => l.Id));
+            Config.Set(Const.Param.Layers, layers.Select(l => l.Id));
 
             //
 
             ResetLayersTabsNames();
+        }
+
+        public void VanishConfig()
+        {
+            Config.Remove(Const.Param.SelectedLayerIndex);
+            Config.Remove(Const.Param.RandomizeMode);
+            Config.Remove(Const.Param.Color);
+
+            CtlRandomizerParamA.Vanish(Config);
+            CtlLearningRate.Vanish(Config);
+
+            var layers = GetLayersControls();
+            Range.ForEach(layers, l => l.VanishConfig());
+            Config.Remove(Const.Param.Layers);
         }
 
         public List<LayerBase> GetLayersControls()
@@ -196,14 +165,30 @@ namespace NN.Controls
             RandomizeMode.Helper.FillComboBox(CtlRandomizer, Config, Const.Param.RandomizeMode, nameof(RandomizeMode.Random));
             CtlRandomizerParamA.Load(Config);
             CtlLearningRate.Load(Config);
+            var color = Config.GetArray(Const.Param.Color, "255,255,255,255");
+            CtlColor.BackColor = Color.FromArgb((int)color[0], (int)color[1], (int)color[2], (int)color[3]);
 
             //
 
             CtlTabsLayers.SuspendLayout();
-            var layers = Config.GetArray(Const.Param.HiddenLayers);
-            Range.For(layers.Length, i => AddLayer(layers[i]));
+            var layers = Config.GetArray(Const.Param.Layers);
 
-            CtlTabsLayers.SelectedIndex = Config.GetInt(Const.Param.CurrentLayerIndex, 0).Value;
+            var inputLayerId = layers.Length > 0 ? layers[0] : Const.UnknownId;
+            var outputLayerId = layers.Length > 0 ? layers[layers.Length - 1] : Const.UnknownId;
+
+            InputLayer = new InputLayerControl(inputLayerId, Config, OnNetworkUIChanged);
+            CtlTabInput.Controls.Add(InputLayer);
+
+            OutputLayer = new OutputLayerControl(outputLayerId, Config, OnNetworkUIChanged);
+            CtlTabOutput.Controls.Add(OutputLayer);
+           
+            Range.ForEach(layers, l =>
+            {
+                if (l != layers.First() && l != layers.Last())
+                    AddLayer(l);
+            });
+
+            CtlTabsLayers.SelectedIndex = Config.GetInt(Const.Param.SelectedLayerIndex, 0).Value;
             CtlTabsLayers.ResumeLayout();
         }
 
@@ -218,13 +203,18 @@ namespace NN.Controls
         private double? RandomizerParamA => CtlRandomizerParamA.ValueOrNull;
         private double LearningRate => CtlLearningRate.Value;
 
-        public Type ActiveLayerType => CtlTabsLayers.SelectedTab.Controls[0].GetType();
+        public LayerBase SelectedLayer => CtlTabsLayers.SelectedTab.Controls[0] as LayerBase;
+        public Type SelectedLayerType => CtlTabsLayers.SelectedTab.Controls[0].GetType();
+        public bool IsSelectedLayerHidden => SelectedLayerType == typeof(HiddenLayerControl);
 
         private void CtlMenuDeleteLayer_Click(object sender, EventArgs e)
         {
-            var layerIndex = CtlTabsLayers.TabPages.IndexOf(CtlTabsLayers.SelectedTab);
+            DeleteLayer();
+        }
 
-            if (MessageBox.Show($"Would you really like to delete layer L{layerIndex}?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
+        public void DeleteLayer()
+        {
+            if (MessageBox.Show($"Would you really like to delete layer L{CtlTabsLayers.SelectedIndex + 1}?", "Confirm", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 var layer = CtlTabsLayers.SelectedTab.Controls[0] as HiddenLayerControl;
                 layer.VanishConfig();
@@ -237,8 +227,9 @@ namespace NN.Controls
 
         public NetworkDataModel CreateNetworkDataModel()
         {
-            var model = new NetworkDataModel(GetLayersSize())
+            var model = new NetworkDataModel(Id, GetLayersSize())
             {
+                Color = CtlColor.BackColor,
                 RandomizeMode = Randomizer,
                 RandomizerParamA = RandomizerParamA,
                 LearningRate = LearningRate,
@@ -301,6 +292,21 @@ namespace NN.Controls
         {
             var viewer = new RandomViewer(Randomizer, RandomizerParamA);
             viewer.Show();
+        }
+
+        private void CtlColor_Click(object sender, EventArgs e)
+        {
+            var colorDialog = new ColorDialog();
+            colorDialog.Color = CtlColor.BackColor;
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                CtlColor.BackColor = colorDialog.Color;
+            }
+        }
+
+        private void CtlContextMenu_Opening(object sender, CancelEventArgs e)
+        {
+            CtlMenuDeleteLayer.Enabled = IsSelectedLayerHidden;
         }
     }
 }

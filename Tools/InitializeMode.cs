@@ -14,7 +14,7 @@ namespace Tools
     {
         public static double None(double? a)
         {
-            return Const.InitializerSkipValue;
+            return Const.SkipValue;
         }
 
         public static double Constant(double? a)

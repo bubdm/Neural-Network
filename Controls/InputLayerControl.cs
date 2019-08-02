@@ -13,8 +13,8 @@ namespace NN.Controls
 {
     public partial class InputLayerControl : LayerBase
     {
-        public InputLayerControl(Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
-            : base(Const.InputLayerId, config, onNetworkUIChanged)
+        public InputLayerControl(long id, Config config, Action<Notification.ParameterChanged, object> onNetworkUIChanged)
+            : base(id, config, onNetworkUIChanged)
         {
             InitializeComponent();
             CtlHeadPanel.Visible = true;
@@ -87,7 +87,7 @@ namespace NN.Controls
 
         public void AddBias(long id)
         {
-            var neuron = new InputBiasControl(id == Const.UnknownId ? DateTime.Now.Ticks : id, Config, OnNetworkUIChanged);
+            var neuron = new InputBiasControl(id, Config, OnNetworkUIChanged);
             CtlFlow.Controls.Add(neuron);
 
             if (id == Const.UnknownId)

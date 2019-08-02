@@ -1,6 +1,7 @@
 ﻿using NN.Controls;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,6 +12,7 @@ namespace NN
 {
     public class NetworkDataModel
     {
+        public long VisualId;
         public ListX<LayerDataModel> Layers = new ListX<LayerDataModel>();
         public double LearningRate;
         public string RandomizeMode;
@@ -18,8 +20,13 @@ namespace NN
         public double InputInitial0;
         public double InputInitial1;
 
-        public NetworkDataModel(int[] layersSize)
+        public Statistic Statistic;
+        public DynamicStatistic DynamicStatistic;
+        public Color Color;
+
+        public NetworkDataModel(long visualId, int[] layersSize)
         {
+            VisualId = visualId;
             Range.For(layersSize.Length, n =>
                 CreateLayer(layersSize[n], n < layersSize.Length - 1 ? layersSize[n + 1] : 0));
         }
@@ -35,22 +42,6 @@ namespace NN
         }
 
         public double InputThreshold => (InputInitial0 + InputInitial1) / 2;
-
-        private void RandHe()
-        {
-            /*
-            Range.For(L.Length, l =>
-            {
-                Range.For(L[l].Height, L[l].Width, (y, x) =>
-                {
-                    if (l > 0)
-                        L[l].W[y, x] = Math.Abs(GetRand() * Math.Sqrt(2 / L[l - 1].Height));
-                    else
-                        L[l].W[y, x] = GetRand();
-                });
-            });
-            */
-        }
 
         public void ClearErrors()
         {
@@ -81,12 +72,6 @@ namespace NN
         {
             Range.ForEach(Layers, layer => Range.ForEach(layer.Neurons, n => n.Activation = InputInitial1));
             Tools.RandomizeMode.Helper.Invoke(RandomizeMode, this, RandomizerParamA);
-        }
-
-        public void SetInputData()
-        {
-            Range.ForEach(Layers.First().Neurons.Where(n => !n.IsBias), n => n.Activation = InputInitial0);
-            Range.For(Rand.Flat.Next(11), i => Layers.First().Neurons.RandomElementTrimEnd(Layers.First().BiasCount).Activation = InputInitial1);
         }
 
         public int GetNumberOfFirstLayerActiveNeurons()
@@ -141,9 +126,12 @@ namespace NN
             });
         }
 
-        public NetworkDataModel Merge(NetworkDataModel model)
+        public NetworkDataModel Merge(NetworkDataModel newModel)
         {
-            foreach (var newLayer in model.Layers)
+            newModel.Statistic = Statistic;
+            newModel.DynamicStatistic = DynamicStatistic;
+
+            foreach (var newLayer in newModel.Layers)
             {
                 var layer = Layers.Find(l => l.VisualId == newLayer.VisualId);
                 if (layer != null)
@@ -179,7 +167,7 @@ namespace NN
                 }
             }
 
-            return model;
+            return newModel;
         }
     }
 }

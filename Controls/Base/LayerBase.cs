@@ -36,7 +36,7 @@ namespace NN.Controls
             CtlFlow.HorizontalScroll.Visible = false;
             CtlFlow.AutoScroll = true;
 
-            Id = id;
+            Id = UniqId.GetId(id);
             Config = config.Extend(Id);
         }
 
@@ -49,6 +49,11 @@ namespace NN.Controls
         public List<NeuronBase> GetNeuronsControls()
         {
             return CtlFlow.Controls.OfType<NeuronBase>().ToList();
+        }
+
+        public void AddNeuron()
+        {
+            AddNeuron(Const.UnknownId);
         }
 
         public virtual void AddNeuron(long id)
