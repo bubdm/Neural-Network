@@ -33,7 +33,7 @@ namespace NN.Controls
                 DrawPlotter();
 
                 DrawData(model.DynamicStatistic.PercentData, model.Color, GetPointPercentData);
-                DrawData(model.DynamicStatistic.CostData, Color.FromArgb(150, model.Color), GetPointCostData);
+                DrawData(model.DynamicStatistic.CostData, Color.FromArgb(100, model.Color), GetPointCostData);
             }
 
             if (selectedModel != null)

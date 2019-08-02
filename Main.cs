@@ -693,9 +693,17 @@ namespace NN
         {
             // newly selected network must not affect NetworksManager until it saved
 
-            if (NetworksManager != null && NetworksManager.SelectedNetworkModel != null)
+            if (NetworksManager != null)
             {
-                NetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
+                if (IsRunning)
+                {
+                    InputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
+                    NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
+                }
+                else
+                {
+                    NetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
+                }
             }
         }
 

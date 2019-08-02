@@ -33,8 +33,18 @@ namespace NN.Controls
 
         public int InputNeuronsCount => Models.First().Layers[0].Neurons.Where(c => !c.IsBias).Count();
 
+        NetworkDataModel _prevSelectedNetworkModel;
+
         public NetworkControl SelectedNetwork => Tabs.SelectedTab.Controls[0] as NetworkControl;
-        public NetworkDataModel SelectedNetworkModel => SelectedNetwork == null ? null : Models.FirstOrDefault(m => m.VisualId == SelectedNetwork.Id);
+        public NetworkDataModel SelectedNetworkModel
+        {
+            get
+            {
+                var selected = SelectedNetwork == null ? _prevSelectedNetworkModel : Models.FirstOrDefault(m => m.VisualId == SelectedNetwork.Id);
+                _prevSelectedNetworkModel = selected;
+                return selected;
+            }
+        }
 
         List<NetworkControl> Networks
         {
