@@ -141,10 +141,10 @@ namespace Tools
 
     public static class Initializer
     {
-        public static void FillComboBox(Type helper, ComboBox cb, Config config, Const.Param param, string defaultValue)
+        public static void FillComboBox(Type helper, ComboBox cb, Config config, Const.Param param, string defaultValue, string method)
         {
             cb.Items.Clear();
-            var items = (string[])helper.GetMethod("GetItems").Invoke(null, null);
+            var items = (string[])helper.GetMethod(method).Invoke(null, null);
             foreach (var i in items)
             {
                 cb.Items.Add(i);

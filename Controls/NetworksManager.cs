@@ -246,7 +246,7 @@ namespace NN.Controls
                 Range.ForEach(model.Layers.First().Neurons.Where(n => !n.IsBias), n => n.Activation = model.InputInitial0);
                 if (model == Models.First())
                 {
-                    NetworkTask.Helper.Invoke(CtlInputData.Task, model);
+                    CtlInputData.Task.DoInput(model);
                 }               
             }
 

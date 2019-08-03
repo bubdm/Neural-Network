@@ -64,7 +64,7 @@ namespace Tools
 
             public static void FillComboBox(ComboBox cb, Config config, Const.Param param, string defaultValue)
             {
-                Initializer.FillComboBox(typeof(InitializeMode.Helper), cb, config, param, defaultValue);
+                Initializer.FillComboBox(typeof(InitializeMode.Helper), cb, config, param, defaultValue, "GetItems");
             }
         }
     }

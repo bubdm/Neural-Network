@@ -21,7 +21,7 @@ namespace NN.Controls
         double Threshold;
         double[] Data;
 
-        public string Task; 
+        public INetworkTask Task; 
 
         public DataPresenter()
         {
@@ -37,7 +37,7 @@ namespace NN.Controls
 
         private void CtlTask_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Task = CtlTask.SelectedItem.ToString();
+            Task = NetworkTask.Helper.GetInstance(CtlTask.SelectedItem.ToString());
         }
 
         private void DataPresenter_SizeChanged(object sender, EventArgs e)
@@ -52,7 +52,7 @@ namespace NN.Controls
             CtlInputCount.Minimum = Config.Main.GetInt(Const.Param.InputNeuronsMinCount, 10).Value;
             CtlInputCount.Maximum = Config.Main.GetInt(Const.Param.InputNeuronsMaxCount, 10000).Value;
 
-            NetworkTask.Helper.FillComboBox(CtlTask, config, Const.Param.Task, null);
+            NetworkTask.Helper.FillComboBoxWithClasses(CtlTask, config, Const.Param.Task, null);
 
             ValueChanged = onValueChanged;
             CtlInputCount.Value = config.GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount).Value; 
