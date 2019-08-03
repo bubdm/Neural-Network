@@ -30,6 +30,11 @@ namespace Tools
 
             public static double Invoke(string name, double a)
             {
+                if (name == nameof(None))
+                {
+                    return a;
+                }
+
                 var method = typeof(ActivationFunction).GetMethod(name);
                 return (double)method.Invoke(null, new object[] { a });
             }
@@ -57,6 +62,11 @@ namespace Tools
         {
             public static double Invoke(string name, double a)
             {
+                if (name == nameof(None))
+                {
+                    return a;
+                }
+
                 var method = typeof(ActivationFunctionDerivative).GetMethod(name);
                 return (double)method.Invoke(null, new object[] { a });
             }
