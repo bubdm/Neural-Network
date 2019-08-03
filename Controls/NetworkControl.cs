@@ -273,6 +273,9 @@ namespace NN.Controls
                     neuronModel.IsBias = neurons[nn].IsBias;
                     neuronModel.IsBiasConnected = neurons[nn].IsBiasConnected;
 
+                    neuronModel.ActivationFunc = neurons[nn].ActivationFunc;
+                    neuronModel.ActivationFuncParamA = neurons[nn].ActivationFuncParamA;
+
                     neuronModel.WeightsInitializer = neurons[nn].WeightsInitializer;
                     neuronModel.WeightsInitializerParamA = neurons[nn].WeightsInitializerParamA;
                     double initValue = InitializeMode.Helper.Invoke(neurons[nn].WeightsInitializer, neurons[nn].WeightsInitializerParamA);

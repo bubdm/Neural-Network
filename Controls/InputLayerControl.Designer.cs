@@ -38,12 +38,16 @@
             this.CtlInitial0 = new NN.Controls.DoubleBox();
             this.CtlActivationFunc = new System.Windows.Forms.ComboBox();
             this.CtlActivationFuncLabel = new System.Windows.Forms.Label();
+            this.CtlActivationFuncParamALabel = new System.Windows.Forms.Label();
+            this.CtlActivationFuncParamA = new NN.Controls.DoubleBox();
             this.CtlHeadPanel.SuspendLayout();
             this.CtlContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // CtlHeadPanel
             // 
+            this.CtlHeadPanel.Controls.Add(this.CtlActivationFuncParamALabel);
+            this.CtlHeadPanel.Controls.Add(this.CtlActivationFuncParamA);
             this.CtlHeadPanel.Controls.Add(this.CtlActivationFuncLabel);
             this.CtlHeadPanel.Controls.Add(this.CtlActivationFunc);
             this.CtlHeadPanel.Controls.Add(this.CtlInitial0);
@@ -131,22 +135,48 @@
             this.CtlActivationFunc.BackColor = System.Drawing.Color.White;
             this.CtlActivationFunc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CtlActivationFunc.FormattingEnabled = true;
-            this.CtlActivationFunc.Location = new System.Drawing.Point(178, 34);
+            this.CtlActivationFunc.Location = new System.Drawing.Point(145, 31);
             this.CtlActivationFunc.Margin = new System.Windows.Forms.Padding(0);
             this.CtlActivationFunc.Name = "CtlActivationFunc";
-            this.CtlActivationFunc.Size = new System.Drawing.Size(172, 24);
+            this.CtlActivationFunc.Size = new System.Drawing.Size(101, 24);
             this.CtlActivationFunc.TabIndex = 5;
             this.CtlActivationFunc.TabStop = false;
             // 
             // CtlActivationFuncLabel
             // 
             this.CtlActivationFuncLabel.AutoSize = true;
-            this.CtlActivationFuncLabel.Location = new System.Drawing.Point(74, 37);
+            this.CtlActivationFuncLabel.Location = new System.Drawing.Point(41, 34);
             this.CtlActivationFuncLabel.Name = "CtlActivationFuncLabel";
             this.CtlActivationFuncLabel.Size = new System.Drawing.Size(104, 17);
             this.CtlActivationFuncLabel.TabIndex = 6;
             this.CtlActivationFuncLabel.Text = "Activation func:";
             this.CtlActivationFuncLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CtlActivationFuncParamALabel
+            // 
+            this.CtlActivationFuncParamALabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlActivationFuncParamALabel.AutoSize = true;
+            this.CtlActivationFuncParamALabel.Location = new System.Drawing.Point(249, 34);
+            this.CtlActivationFuncParamALabel.Name = "CtlActivationFuncParamALabel";
+            this.CtlActivationFuncParamALabel.Size = new System.Drawing.Size(20, 17);
+            this.CtlActivationFuncParamALabel.TabIndex = 7;
+            this.CtlActivationFuncParamALabel.Text = "a:";
+            // 
+            // CtlActivationFuncParamA
+            // 
+            this.CtlActivationFuncParamA.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CtlActivationFuncParamA.BackColor = System.Drawing.Color.White;
+            this.CtlActivationFuncParamA.ConfigParameter = Tools.Const.Param.ActivationFuncParamA;
+            this.CtlActivationFuncParamA.DefaultValue = null;
+            this.CtlActivationFuncParamA.IsNullAllowed = true;
+            this.CtlActivationFuncParamA.Location = new System.Drawing.Point(275, 31);
+            this.CtlActivationFuncParamA.MaximumValue = 100D;
+            this.CtlActivationFuncParamA.MinimumSize = new System.Drawing.Size(4, 4);
+            this.CtlActivationFuncParamA.MinimumValue = -100D;
+            this.CtlActivationFuncParamA.Name = "CtlActivationFuncParamA";
+            this.CtlActivationFuncParamA.Size = new System.Drawing.Size(75, 22);
+            this.CtlActivationFuncParamA.TabIndex = 8;
+            this.CtlActivationFuncParamA.TabStop = false;
             // 
             // InputLayerControl
             // 
@@ -171,5 +201,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Label CtlActivationFuncLabel;
         private System.Windows.Forms.ComboBox CtlActivationFunc;
+        private System.Windows.Forms.Label CtlActivationFuncParamALabel;
+        private DoubleBox CtlActivationFuncParamA;
     }
 }

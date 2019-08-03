@@ -25,6 +25,7 @@ namespace NN.Controls
             CtlInitial0.Changed += ParameterChanged;
             CtlInitial1.Changed += ParameterChanged;
             CtlActivationFunc.SelectedIndexChanged += CtlActivationFunc_SelectedIndexChanged;
+            CtlActivationFuncParamA.Changed += ParameterChanged;
         }
 
         private void ParameterChanged()
@@ -44,6 +45,7 @@ namespace NN.Controls
         public double Initial0 => CtlInitial0.Value;
         public double Initial1 => CtlInitial1.Value;
         public string ActivationFunc => CtlActivationFunc.SelectedItem.ToString();
+        public double ActivationFuncParamA => CtlActivationFuncParamA.Value;
 
         public void OnInputDataChanged(int newCount)
         {
@@ -57,9 +59,10 @@ namespace NN.Controls
 
         private void LoadConfig()
         {
-            ActivationFunction.Helper.FillComboBox(CtlActivationFunc, Config, Const.Param.InputActivationFunc, nameof(ActivationFunction.None));
+            ActivationFunction.Helper.FillComboBox(CtlActivationFunc, Config, Const.Param.ActivationFunc, nameof(ActivationFunction.None));
             CtlInitial0.Load(Config);
             CtlInitial1.Load(Config);
+            CtlActivationFuncParamA.Load(Config);
 
             var neurons = Config.GetArray(Const.Param.Neurons);
             Range.ForEach(neurons, n => AddBias(n));
@@ -69,6 +72,8 @@ namespace NN.Controls
         {
             var neuron = new InputNeuronControl(CtlFlow.Controls.Count);
             CtlFlow.Controls.Add(neuron);
+            neuron.ActivationFunc = CtlActivationFunc.SelectedItem.ToString();
+            neuron.ActivationFuncParamA = CtlActivationFuncParamA.ValueOrNull;
             return neuron;
         }
 
@@ -90,15 +95,16 @@ namespace NN.Controls
 
         public override bool IsValid()
         {
-            bool result = CtlInitial0.IsValid() && CtlInitial1.IsValid();
+            bool result = CtlInitial0.IsValid() && CtlInitial1.IsValid() && CtlActivationFuncParamA.IsValid();
             return result &= GetNeuronsControls().All(n => n.IsValid());
         }
 
         public override void SaveConfig()
         {
-            Config.Set(Const.Param.InputActivationFunc, CtlActivationFunc.SelectedItem.ToString());
+            Config.Set(Const.Param.ActivationFunc, CtlActivationFunc.SelectedItem.ToString());
             CtlInitial0.Save(Config);
             CtlInitial1.Save(Config);
+            CtlActivationFuncParamA.Save(Config);
 
             var neurons = GetNeuronsControls().Where(n => n.IsBias);
             Config.Set(Const.Param.Neurons, neurons.Select(n => n.Id));
@@ -111,7 +117,8 @@ namespace NN.Controls
             Config.Remove(Const.Param.Neurons);
             CtlInitial0.Vanish(Config);
             CtlInitial1.Vanish(Config);
-            Config.Remove(Const.Param.InputActivationFunc);
+            CtlActivationFuncParamA.Vanish(Config);
+            Config.Remove(Const.Param.ActivationFunc);
             Range.ForEach(GetNeuronsControls(), n => n.VanishConfig());
         }
 

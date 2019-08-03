@@ -24,10 +24,12 @@ namespace NN.Controls
         public override double? WeightsInitializerParamA => null;
         public override bool IsBias => false;
         public override bool IsBiasConnected => false;
+        public override string ActivationFunc { get; set; }
+        public override double? ActivationFuncParamA { get; set; }
 
         public override void OrdinalNumberChanged(int number)
         {
-
+            //
         }
 
         public override bool IsValid()
@@ -37,12 +39,12 @@ namespace NN.Controls
 
         public override void SaveConfig()
         {
-            
+            //
         }
 
         public override void VanishConfig()
         {
-
+            //
         }
     }
 }

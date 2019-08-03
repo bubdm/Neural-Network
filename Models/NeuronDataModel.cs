@@ -24,6 +24,9 @@ namespace NN
         public string WeightsInitializer;
         public double? WeightsInitializerParamA;
 
+        public string ActivationFunc;
+        public double? ActivationFuncParamA;
+
         public ListX<WeightDataModel> Weights = new ListX<WeightDataModel>();
 
         public NeuronDataModel(int id, int weightsCount)

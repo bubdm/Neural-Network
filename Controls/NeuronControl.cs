@@ -31,6 +31,14 @@ namespace NN.Controls
             CtlWeightsIniter.SelectedIndexChanged += CtlWeightsIniter_SelectedIndexChanged;
             CtlIsBias.CheckedChanged += CtlIsBias_CheckedChanged;
             CtlIsBiasConnected.CheckedChanged += CtlIsBiasConnected_CheckedChanged;
+            CtlActivationFunc.SelectedIndexChanged += CtlActivationFunc_SelectedIndexChanged;
+            CtlActivationFuncParamA.Changed += OnChanged;
+        }
+
+        private void CtlActivationFunc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CtlActivationFuncParamALabel.Focus();
+            OnNetworkUIChanged(Notification.ParameterChanged.Structure, false);
         }
 
         private void OnChanged()
@@ -74,6 +82,8 @@ namespace NN.Controls
         public override double? WeightsInitializerParamA => CtlWeightsIniterParamA.ValueOrNull;
         public override bool IsBias => CtlIsBias.Checked;
         public override bool IsBiasConnected => CtlIsBiasConnected.Checked && IsBias;
+        public override string ActivationFunc => CtlActivationFunc.SelectedItem.ToString();
+        public override double? ActivationFuncParamA => CtlActivationFuncParamA.ValueOrNull;
 
         public void LoadConfig()
         {
@@ -87,7 +97,10 @@ namespace NN.Controls
 
             InitializeMode.Helper.FillComboBox(CtlActivationIniter, Config, Const.Param.ActivationInitializer, nameof(InitializeMode.Constant));
             CtlActivationIniterParamA.Load(Config);
-            
+
+            ActivationFunction.Helper.FillComboBox(CtlActivationFunc, Config, Const.Param.ActivationFunc, nameof(ActivationFunction.LogisticSigmoid));
+            CtlActivationFuncParamA.Load(Config);
+
             StateChanged();
         }
 
@@ -116,6 +129,10 @@ namespace NN.Controls
 
             Config.Set(Const.Param.WeightsInitializer, CtlWeightsIniter.SelectedItem.ToString());
             CtlWeightsIniterParamA.Save(Config);
+
+            Config.Set(Const.Param.ActivationFunc, CtlActivationFunc.SelectedItem.ToString());
+            CtlActivationFuncParamA.Save(Config);
+
             Config.Set(Const.Param.IsBias, CtlIsBias.Checked);
             Config.Set(Const.Param.IsBiasConnected, CtlIsBias.Checked && CtlIsBiasConnected.Checked);
         }
@@ -126,9 +143,11 @@ namespace NN.Controls
             Config.Remove(Const.Param.WeightsInitializer);
             Config.Remove(Const.Param.IsBias);
             Config.Remove(Const.Param.IsBiasConnected);
+            Config.Remove(Const.Param.ActivationFunc);
 
             CtlWeightsIniterParamA.Vanish(Config);
             CtlActivationIniterParamA.Vanish(Config);
+            CtlActivationFuncParamA.Vanish(Config);
         }
     }
 }

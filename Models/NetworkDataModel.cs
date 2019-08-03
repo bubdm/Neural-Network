@@ -86,13 +86,16 @@ namespace NN
             {
                 if (nextNeuron.IsBias && nextNeuron.IsBiasConnected)
                 {
-                    nextNeuron.Activation = ActivationFunction.LogisticSigmoid(Range.SumForEach(layer.Neurons.Where(n => n.IsBias), bias => bias.AxW(nextNeuron)));
+                    nextNeuron.Activation = ActivationFunction.Helper.Invoke(nextNeuron.ActivationFunc, Range.SumForEach(layer.Neurons.Where(n => n.IsBias), bias => bias.AxW(nextNeuron)));
                 }
 
                 if (!nextNeuron.IsBias)
                 {
-                    nextNeuron.Activation = ActivationFunction.LogisticSigmoid(Range.SumForEach(layer.Neurons, neuron => neuron.AxW(nextNeuron)));
+                    nextNeuron.Activation = ActivationFunction.Helper.Invoke(nextNeuron.ActivationFunc, Range.SumForEach(layer.Neurons, neuron => neuron.AxW(nextNeuron)));
                 }
+
+                // not connected bias doesn't change it's activation
+
             }));
         }
 
@@ -102,7 +105,7 @@ namespace NN
 
             ClearErrors();
             Range.ForEach(Layers.Last().Neurons, neuron =>
-            neuron.Error = ((neuron.Id == targetValue ? 1 : 0) - neuron.Activation) * Derivative.LogisticSigmoid(neuron.Activation));
+            neuron.Error = ((neuron.Id == targetValue ? 1 : 0) - neuron.Activation) * ActivationFunctionDerivative.Helper.Invoke(neuron.ActivationFunc, neuron.Activation));
 
             Range.BackEachTrimEnd(Layers, -1, layer =>
             {
@@ -110,9 +113,21 @@ namespace NN
                 {
                     neuronPrev.Error = Range.SumForEach(layer.Neurons, neuron =>
                     {
-                        return neuronPrev.IsBias && !neuron.IsBiasConnected
-                               ? 0
-                               : neuron.Error * neuronPrev.WeightTo(neuron).Weight * Derivative.LogisticSigmoid(neuronPrev.Activation);
+                        if (neuronPrev.IsBias)
+                        {
+                            if (neuron.IsBiasConnected)
+                            {
+                                return neuron.Error * neuronPrev.WeightTo(neuron).Weight * ActivationFunctionDerivative.Helper.Invoke(neuronPrev.ActivationFunc, neuronPrev.Activation);
+                            }
+                            else
+                            {
+                                return neuron.Error * neuronPrev.WeightTo(neuron).Weight * ActivationFunctionDerivative.Helper.Invoke(neuronPrev.ActivationFunc, neuronPrev.Activation);
+                            }
+                        }
+                        else
+                        {
+                            return neuron.Error * neuronPrev.WeightTo(neuron).Weight * ActivationFunctionDerivative.Helper.Invoke(neuronPrev.ActivationFunc, neuronPrev.Activation);
+                        }
                     });
                     int f = 1;
                 });

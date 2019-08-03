@@ -54,10 +54,11 @@ namespace Tools
             IsBias,
             IsBiasConnected,
             LearningRate,
-            InputActivationFunc,
             InputInitial0,
             InputInitial1,
             Color,
+            ActivationFunc,
+            ActivationFuncParamA,
 
             // Settings
 

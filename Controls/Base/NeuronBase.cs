@@ -59,6 +59,18 @@ namespace NN.Controls
             get { throw new NotImplementedException(); }
         }
 
+        public virtual string ActivationFunc
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public virtual double? ActivationFuncParamA
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
         public virtual bool IsBias
         {
             get { throw new NotImplementedException(); }
@@ -124,17 +136,22 @@ namespace NN.Controls
 
         private void NeuronBase_Layout(object sender, LayoutEventArgs e)
         {
-            int height = 0;
-            SuspendLayout();
-            foreach (Control c in Controls)
+            bool designMode = (LicenseManager.UsageMode == LicenseUsageMode.Designtime);
+
+            if (!designMode)
             {
-                if (c.Visible)
+                int height = 0;
+                SuspendLayout();
+                foreach (Control c in Controls)
                 {
-                    height += c.Height;
+                    if (c.Visible)
+                    {
+                        height += c.Height;
+                    }
                 }
+                Height = height;
+                ResumeLayout();
             }
-            Height = height;
-            ResumeLayout();
         }
 
         private void CtlContextMenu_Opening(object sender, CancelEventArgs e)
