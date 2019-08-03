@@ -246,9 +246,11 @@ namespace NN.Controls
                 Range.ForEach(model.Layers.First().Neurons.Where(n => !n.IsBias), n => n.Activation = model.InputInitial0);
                 if (model == Models.First())
                 {
-                    Range.For(Rand.Flat.Next(11), i => model.Layers.First().Neurons.RandomElementTrimEnd(model.Layers.First().BiasCount).Activation = model.InputInitial1);
-                }
+                    NetworkTask.Helper.Invoke(CtlInputData.Task, model);
+                }               
             }
+
+            // copy first layer state to other networks
 
             foreach (var model in Models)
             {

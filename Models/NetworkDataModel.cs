@@ -14,15 +14,17 @@ namespace NN
     {
         public long VisualId;
         public ListX<LayerDataModel> Layers = new ListX<LayerDataModel>();
+
         public double LearningRate;
         public string RandomizeMode;
         public double? RandomizerParamA;
         public double InputInitial0;
         public double InputInitial1;
+        public string Task;
 
         public Statistic Statistic;
         public DynamicStatistic DynamicStatistic;
-        public Color Color;
+        public Color Color;       
 
         public NetworkDataModel(long visualId, int[] layersSize)
         {

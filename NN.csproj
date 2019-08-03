@@ -169,6 +169,7 @@
       <DependentUpon>RandomViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools\Range.cs" />
+    <Compile Include="Tools\Task.cs" />
     <Compile Include="Tools\Tools.cs" />
     <EmbeddedResource Include="Controls\Base\DoubleBox.resx">
       <DependentUpon>DoubleBox.cs</DependentUpon>

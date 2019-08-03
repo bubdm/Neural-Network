@@ -59,6 +59,7 @@ namespace Tools
             Color,
             ActivationFunc,
             ActivationFuncParamA,
+            Task,
 
             // Settings
 

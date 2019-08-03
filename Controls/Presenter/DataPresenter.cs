@@ -21,6 +21,8 @@ namespace NN.Controls
         double Threshold;
         double[] Data;
 
+        public string Task; 
+
         public DataPresenter()
         {
             InitializeComponent();
@@ -30,6 +32,12 @@ namespace NN.Controls
 
             CtlInputCount.ValueChanged += CtlInputCount_ValueChanged;
             SizeChanged += DataPresenter_SizeChanged;
+            CtlTask.SelectedIndexChanged += CtlTask_SelectedIndexChanged;
+        }
+
+        private void CtlTask_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Task = CtlTask.SelectedItem.ToString();
         }
 
         private void DataPresenter_SizeChanged(object sender, EventArgs e)
@@ -44,13 +52,16 @@ namespace NN.Controls
             CtlInputCount.Minimum = Config.Main.GetInt(Const.Param.InputNeuronsMinCount, 10).Value;
             CtlInputCount.Maximum = Config.Main.GetInt(Const.Param.InputNeuronsMaxCount, 10000).Value;
 
+            NetworkTask.Helper.FillComboBox(CtlTask, config, Const.Param.Task, null);
+
             ValueChanged = onValueChanged;
-            CtlInputCount.Value = config.GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount).Value;        
+            CtlInputCount.Value = config.GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount).Value; 
         }
 
         public void SaveConfig(Config config)
         {
             config.Set(Const.Param.InputNeuronsCount, (int)CtlInputCount.Value);
+            config.Set(Const.Param.Task, CtlTask.SelectedItem.ToString());
         }
 
         private void CtlInputCount_ValueChanged(object sender, EventArgs e)

@@ -28,6 +28,8 @@ namespace NN
         DateTime StartTime;
         long Round;
 
+        //Label CtlAutoSize;
+
         public Main()
         {
             InitializeComponent();
@@ -90,6 +92,8 @@ namespace NN
 
         private void NetworkPresenter_SizeChanged(object sender, EventArgs e)
         {
+            CtlNetworkPresenter.Height = Math.Max(CtlNetworkPresenter.Height, 400);
+
             if (NetworksManager != null)
             {
                 CtlNetworkPresenter.Dispatch(() =>
