@@ -103,7 +103,6 @@ namespace NN.Controls
 
             int snaps = width / (PointsRearrangeSnap * PointSize);
 
-            //Width = width;
             CtlPresenter.Height = 1 + PointSize * (int)Math.Ceiling(1 + (double)(PointsCount / (snaps * PointsRearrangeSnap)));
 
             CtlPresenter.StartRender();

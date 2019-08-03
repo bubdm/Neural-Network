@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.CtlPresenter = new NN.Controls.PresenterControl();
-            ((System.ComponentModel.ISupportInitialize)(this.CtlPresenter)).BeginInit();
             this.SuspendLayout();
             // 
             // CtlPresenter
@@ -54,7 +53,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Randomizer Viewer";
             this.Shown += new System.EventHandler(this.RandomViewer_Shown);
-            ((System.ComponentModel.ISupportInitialize)(this.CtlPresenter)).EndInit();
             this.ResumeLayout(false);
 
         }

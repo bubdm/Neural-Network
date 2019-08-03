@@ -28,13 +28,6 @@ namespace NN
         DateTime StartTime;
         long Round;
 
-        // Visual controls
-
-        NetworkPresenter NetworkPresenter;
-        PlotterPresenter PlotPresenter;
-        StatisticsPresenter StatisticsPresenter;
-        MatrixPresenter MatrixPresenter;
-
         public Main()
         {
             InitializeComponent();
@@ -65,38 +58,8 @@ namespace NN
             //Config.Main.Clear();
             CreateDirectories();
 
-            NetworkPresenter = new NetworkPresenter();
-            NetworkPresenter.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            CtlNetPanel.Controls.Add(NetworkPresenter);
-            NetworkPresenter.SizeChanged += NetworkPresenter_SizeChanged;
-
-            PlotPresenter = new PlotterPresenter();
-            PlotPresenter.Height = 200;
-            PlotPresenter.Width = 200;
-            PlotPresenter.Left = 0;
-            PlotPresenter.Top = NetworkPresenter.Height - PlotPresenter.Height;
-            CtlNetPanel.Controls.Add(PlotPresenter);
-            PlotPresenter.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            PlotPresenter.BringToFront();
-
-            StatisticsPresenter = new StatisticsPresenter();
-            StatisticsPresenter.Height = 200;
-            StatisticsPresenter.Width = 300;
-            StatisticsPresenter.Left = PlotPresenter.Left + PlotPresenter.Width;
-            StatisticsPresenter.Top = NetworkPresenter.Height - StatisticsPresenter.Height;
-            CtlNetPanel.Controls.Add(StatisticsPresenter);
-            StatisticsPresenter.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            StatisticsPresenter.BringToFront();
-
-            MatrixPresenter = new MatrixPresenter();
-            MatrixPresenter.Height = 200;
-            MatrixPresenter.Width = 200;
-            MatrixPresenter.Left = StatisticsPresenter.Left + StatisticsPresenter.Width;
-            MatrixPresenter.Top = NetworkPresenter.Height - MatrixPresenter.Height;
-            CtlNetPanel.Controls.Add(MatrixPresenter);
-            MatrixPresenter.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            MatrixPresenter.BringToFront();
-
+            CtlNetworkPresenter.SizeChanged += NetworkPresenter_SizeChanged;
+     
             CtlTime.BringToFront();
 
             LoadConfig();
@@ -131,12 +94,12 @@ namespace NN
         {
             if (NetworksManager != null)
             {
-                NetworkPresenter.Dispatch(() =>
+                CtlNetworkPresenter.Dispatch(() =>
                 {
                     if (IsRunning)
-                        NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
+                        CtlNetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
                     else
-                        NetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
+                        CtlNetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
                 });
             }
         }
@@ -281,7 +244,7 @@ namespace NN
                 CtlInputDataPresenter.RearrangeWithNewPointsCount();
                 var newModels = NetworksManager.CreateNetworksDataModels();
                 NetworksManager.MergeModels(newModels);
-                NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
+                CtlNetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
                 ToggleApplyChanges(Const.Toggle.Off);
             }
         }
@@ -292,7 +255,7 @@ namespace NN
             {
                 CtlInputDataPresenter.RearrangeWithNewPointsCount();
                 NetworksManager.RefreshNetworksDataModels();
-                NetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
+                CtlNetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
                 ToggleApplyChanges(Const.Toggle.Off);
             }
         }
@@ -314,7 +277,7 @@ namespace NN
                 CtlMenuDeleteNetwork.Enabled = false;
                 
                 NetworksManager.PrepareModelsForRun();
-                MatrixPresenter.ClearData();
+                CtlMatrixPresenter.ClearData();
 
                 NetworksManager.PrepareModelsForRound();
                 CtlInputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
@@ -365,7 +328,7 @@ namespace NN
                             model.Statistic.LastBadCost = cost;
                         }
 
-                        MatrixPresenter.AddData(input, output.Id);
+                        CtlMatrixPresenter.AddData(input, output.Id);
 
                         ++model.Statistic.Rounds;
 
@@ -384,14 +347,14 @@ namespace NN
                     ++Round;
                 }
 
-                if (MatrixPresenter.Count % Settings.SkipRoundsToDrawErrorMatrix == 0)
+                if (CtlMatrixPresenter.Count % Settings.SkipRoundsToDrawErrorMatrix == 0)
                 {
                     using (var ev = new AutoResetEvent(false))
                     {
                         BeginInvoke((Action)(() =>
                         {
-                            MatrixPresenter.Draw();
-                            MatrixPresenter.ClearData();
+                            CtlMatrixPresenter.Draw();
+                            CtlMatrixPresenter.ClearData();
                             ev.Set();
                         }));
                         ev.WaitOne();
@@ -435,7 +398,7 @@ namespace NN
         {
             var renderStart = DateTime.Now;
 
-            NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
+            CtlNetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
             CtlInputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
 
             foreach (var model in models)
@@ -443,13 +406,13 @@ namespace NN
                 model.DynamicStatistic.Add(model.Statistic.Percent, model.Statistic.AverageCost);
             }
 
-            PlotPresenter.Draw(models, NetworksManager.SelectedNetworkModel);
+            CtlPlotPresenter.Draw(models, NetworksManager.SelectedNetworkModel);
 
             var selected = NetworksManager.SelectedNetworkModel;
 
             if (selected == null)
             {
-                StatisticsPresenter.Draw(null);
+                CtlStatisticsPresenter.Draw(null);
             }
             else
             {
@@ -499,7 +462,7 @@ namespace NN
                 var renderStop = DateTime.Now;
 
                 stat.Add("Render time, msec", ((int)(renderStop.Subtract(renderStart).TotalMilliseconds)).ToString());
-                StatisticsPresenter.Draw(stat);
+                CtlStatisticsPresenter.Draw(stat);
             }
             
             NetworksManager.ResetModelsStatistic();
@@ -734,11 +697,11 @@ namespace NN
                 if (IsRunning)
                 {
                     CtlInputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
-                    NetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
+                    CtlNetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
                 }
                 else
                 {
-                    NetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
+                    CtlNetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
                 }
             }
         }

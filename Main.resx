@@ -190,7 +190,7 @@
     <value>CtlNetPanel</value>
   </data>
   <data name="&gt;&gt;CtlTime.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
   <data name="CtlReset.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -314,6 +314,117 @@
   </data>
   <data name="CtlNetPanel.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="CtlMatrixPresenter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="CtlMatrixPresenter.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 6.5pt, style=Bold</value>
+  </data>
+  <data name="CtlMatrixPresenter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>500, 241</value>
+  </data>
+  <data name="CtlMatrixPresenter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 3, 2</value>
+  </data>
+  <data name="CtlMatrixPresenter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 200</value>
+  </data>
+  <data name="CtlMatrixPresenter.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;CtlMatrixPresenter.Name" xml:space="preserve">
+    <value>CtlMatrixPresenter</value>
+  </data>
+  <data name="&gt;&gt;CtlMatrixPresenter.Type" xml:space="preserve">
+    <value>NN.Controls.MatrixPresenter, NN, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CtlMatrixPresenter.Parent" xml:space="preserve">
+    <value>CtlNetPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlMatrixPresenter.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CtlStatisticsPresenter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="CtlStatisticsPresenter.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Tahoma, 6.5pt, style=Bold</value>
+  </data>
+  <data name="CtlStatisticsPresenter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 241</value>
+  </data>
+  <data name="CtlStatisticsPresenter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="CtlStatisticsPresenter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 200</value>
+  </data>
+  <data name="CtlStatisticsPresenter.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;CtlStatisticsPresenter.Name" xml:space="preserve">
+    <value>CtlStatisticsPresenter</value>
+  </data>
+  <data name="&gt;&gt;CtlStatisticsPresenter.Type" xml:space="preserve">
+    <value>NN.Controls.StatisticsPresenter, NN, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CtlStatisticsPresenter.Parent" xml:space="preserve">
+    <value>CtlNetPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlStatisticsPresenter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CtlPlotPresenter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="CtlPlotPresenter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 241</value>
+  </data>
+  <data name="CtlPlotPresenter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="CtlPlotPresenter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 200</value>
+  </data>
+  <data name="CtlPlotPresenter.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotPresenter.Name" xml:space="preserve">
+    <value>CtlPlotPresenter</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotPresenter.Type" xml:space="preserve">
+    <value>NN.Controls.PlotterPresenter, NN, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotPresenter.Parent" xml:space="preserve">
+    <value>CtlNetPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotPresenter.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CtlNetworkPresenter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="CtlNetworkPresenter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CtlNetworkPresenter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>765, 441</value>
+  </data>
+  <data name="CtlNetworkPresenter.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;CtlNetworkPresenter.Name" xml:space="preserve">
+    <value>CtlNetworkPresenter</value>
+  </data>
+  <data name="&gt;&gt;CtlNetworkPresenter.Type" xml:space="preserve">
+    <value>NN.Controls.NetworkPresenter, NN, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CtlNetworkPresenter.Parent" xml:space="preserve">
+    <value>CtlNetPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlNetworkPresenter.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="CtlNetPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -806,9 +917,6 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>1339, 500</value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
