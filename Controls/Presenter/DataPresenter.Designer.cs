@@ -60,7 +60,7 @@
             this.CtlHead.Dock = System.Windows.Forms.DockStyle.Top;
             this.CtlHead.Location = new System.Drawing.Point(0, 0);
             this.CtlHead.Name = "CtlHead";
-            this.CtlHead.Size = new System.Drawing.Size(197, 80);
+            this.CtlHead.Size = new System.Drawing.Size(197, 85);
             this.CtlHead.TabIndex = 2;
             // 
             // CtlInputCount
@@ -72,7 +72,7 @@
             0,
             0,
             0});
-            this.CtlInputCount.Location = new System.Drawing.Point(90, 32);
+            this.CtlInputCount.Location = new System.Drawing.Point(90, 55);
             this.CtlInputCount.Name = "CtlInputCount";
             this.CtlInputCount.Size = new System.Drawing.Size(104, 22);
             this.CtlInputCount.TabIndex = 0;
@@ -80,7 +80,7 @@
             // CtlInputCountLabel
             // 
             this.CtlInputCountLabel.AutoSize = true;
-            this.CtlInputCountLabel.Location = new System.Drawing.Point(3, 34);
+            this.CtlInputCountLabel.Location = new System.Drawing.Point(3, 57);
             this.CtlInputCountLabel.Name = "CtlInputCountLabel";
             this.CtlInputCountLabel.Size = new System.Drawing.Size(82, 17);
             this.CtlInputCountLabel.TabIndex = 1;
@@ -90,9 +90,9 @@
             // 
             this.CtlPresenter.BackColor = System.Drawing.Color.White;
             this.CtlPresenter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.CtlPresenter.Location = new System.Drawing.Point(0, 80);
+            this.CtlPresenter.Location = new System.Drawing.Point(0, 85);
             this.CtlPresenter.Name = "CtlPresenter";
-            this.CtlPresenter.Size = new System.Drawing.Size(197, 66);
+            this.CtlPresenter.Size = new System.Drawing.Size(197, 49);
             this.CtlPresenter.TabIndex = 1;
             // 
             // CtlTaskLabel
@@ -110,9 +110,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CtlTask.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CtlTask.FormattingEnabled = true;
-            this.CtlTask.Location = new System.Drawing.Point(52, 2);
+            this.CtlTask.Location = new System.Drawing.Point(6, 25);
             this.CtlTask.Name = "CtlTask";
-            this.CtlTask.Size = new System.Drawing.Size(142, 24);
+            this.CtlTask.Size = new System.Drawing.Size(188, 24);
             this.CtlTask.TabIndex = 3;
             this.CtlTask.TabStop = false;
             // 

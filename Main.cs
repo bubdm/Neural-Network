@@ -53,6 +53,8 @@ namespace NN
         private void Main_Resize(object sender, EventArgs e)
         {
             //Update();
+
+            
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -88,6 +90,8 @@ namespace NN
             //CtlBottomPanel.ResumeLayout();
             CtlInputDataPresenter.ResumeLayout();
             base.OnResizeEnd(e);
+
+            Width = 16 * Height / 9;
         }
 
         private void NetworkPresenter_SizeChanged(object sender, EventArgs e)

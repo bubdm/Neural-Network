@@ -30,7 +30,7 @@ namespace NN.Controls
             foreach (var model in models)
             {
                 Vanish(model.DynamicStatistic.PercentData, GetPointPercentData);
-                Vanish(model.DynamicStatistic.CostData, GetPointPercentData);
+                Vanish(model.DynamicStatistic.CostData, GetPointCostData);
 
                 DrawData(model.DynamicStatistic.PercentData, model.Color, GetPointPercentData, false);
                 DrawData(model.DynamicStatistic.CostData, Color.FromArgb(80, model.Color), GetPointCostData, true);
@@ -89,7 +89,7 @@ namespace NN.Controls
 
                         if (isRect)
                         {
-                            G.FillRectangle(brush, pp.X - 7 / 2, pp.Y - 7 / 2, 7, 7);
+                            G.FillRectangle(brush, pp.X - 6 / 2, pp.Y - 6 / 2, 6, 6);
                         }
                         else
                         {
@@ -139,7 +139,7 @@ namespace NN.Controls
                 var pointsToRemove = new List<DynamicStatistic.PlotPoint>();
                 var time = data.Last().Item2.Subtract(data.First().Item2);
 
-                for (int i = 0; i < data.Count * 0.8; i += 2)
+                for (int i = 0; i < data.Count * 0.8; ++i)
                 {
                     var d = data.Last().Item2.Subtract(data.First().Item2).Ticks;
                     var p0 = func(data, data[i], d);
@@ -148,15 +148,15 @@ namespace NN.Controls
                     if ((Math.Abs(p0.X - p2.X) < vanishArea && Math.Abs(p0.Y - p2.Y) < vanishArea))
                     {
                         pointsToRemove.Add(data[i + 1]);
-                        ++i;
+                        //i += 2;
                     }
                     else
                     {
-                        var p1 = func(data, data[i + 2], d);
+                        var p1 = func(data, data[i + 1], d);
                         if ((p0.X == p1.X && p1.X == p2.X) || (p0.Y == p1.Y && p1.Y == p2.Y))
                         {
                             pointsToRemove.Add(data[i + 1]);
-                            ++i;
+                            //i += 2;
                         }
                     }
                 }
