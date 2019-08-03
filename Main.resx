@@ -129,7 +129,7 @@
     <value>NoControl</value>
   </data>
   <data name="CtlTime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>662, 479</value>
+    <value>667, 479</value>
   </data>
   <data name="CtlTime.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 15</value>
@@ -178,10 +178,634 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CtlDataSplitter.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>0</value>
   </data>
   <data name="CtlNetPanel.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="&gt;&gt;CtlMatrixPresenter.Name" xml:space="preserve">
+    <value>CtlMatrixPresenter</value>
+  </data>
+  <data name="&gt;&gt;CtlMatrixPresenter.Type" xml:space="preserve">
+    <value>NN.Controls.MatrixPresenter, NN, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CtlMatrixPresenter.Parent" xml:space="preserve">
+    <value>CtlNetPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlMatrixPresenter.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CtlStatisticsPresenter.Name" xml:space="preserve">
+    <value>CtlStatisticsPresenter</value>
+  </data>
+  <data name="&gt;&gt;CtlStatisticsPresenter.Type" xml:space="preserve">
+    <value>NN.Controls.StatisticsPresenter, NN, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CtlStatisticsPresenter.Parent" xml:space="preserve">
+    <value>CtlNetPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlStatisticsPresenter.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotPresenter.Name" xml:space="preserve">
+    <value>CtlPlotPresenter</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotPresenter.Type" xml:space="preserve">
+    <value>NN.Controls.PlotterPresenter, NN, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotPresenter.Parent" xml:space="preserve">
+    <value>CtlNetPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotPresenter.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CtlNetworkPresenter.Name" xml:space="preserve">
+    <value>CtlNetworkPresenter</value>
+  </data>
+  <data name="&gt;&gt;CtlNetworkPresenter.Type" xml:space="preserve">
+    <value>NN.Controls.NetworkPresenter, NN, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CtlNetworkPresenter.Parent" xml:space="preserve">
+    <value>CtlNetPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlNetworkPresenter.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="CtlNetPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="CtlNetPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>152, 0</value>
+  </data>
+  <data name="CtlNetPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>772, 500</value>
+  </data>
+  <data name="CtlNetPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;CtlNetPanel.Name" xml:space="preserve">
+    <value>CtlNetPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlNetPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlNetPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CtlNetPanel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CtlPlotSplitter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="CtlPlotSplitter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CtlPlotSplitter.Location" type="System.Drawing.Point, System.Drawing">
+    <value>924, 0</value>
+  </data>
+  <data name="CtlPlotSplitter.Size" type="System.Drawing.Size, System.Drawing">
+    <value>5, 500</value>
+  </data>
+  <data name="CtlPlotSplitter.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotSplitter.Name" xml:space="preserve">
+    <value>CtlPlotSplitter</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotSplitter.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Splitter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotSplitter.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CtlPlotSplitter.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CtlManagerPanel.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CtlTabs.Name" xml:space="preserve">
+    <value>CtlTabs</value>
+  </data>
+  <data name="&gt;&gt;CtlTabs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlTabs.Parent" xml:space="preserve">
+    <value>CtlManagerPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlTabs.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerTools.Name" xml:space="preserve">
+    <value>CtlManagerTools</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerTools.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerTools.Parent" xml:space="preserve">
+    <value>CtlManagerPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerTools.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CtlManagerPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="CtlManagerPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>929, 0</value>
+  </data>
+  <data name="CtlManagerPanel.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>410, 2</value>
+  </data>
+  <data name="CtlManagerPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 500</value>
+  </data>
+  <data name="CtlManagerPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerPanel.Name" xml:space="preserve">
+    <value>CtlManagerPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerPanel.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <metadata name="CtlNetworkContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>152, 17</value>
+  </metadata>
+  <data name="CtlNetworkContextMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 52</value>
+  </data>
+  <data name="&gt;&gt;CtlNetworkContextMenu.Name" xml:space="preserve">
+    <value>CtlNetworkContextMenu</value>
+  </data>
+  <data name="&gt;&gt;CtlNetworkContextMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsPanel.Name" xml:space="preserve">
+    <value>CtlSettingsPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsPanel.Parent" xml:space="preserve">
+    <value>CtlTabSettings</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsBottom.Name" xml:space="preserve">
+    <value>CtlSettingsBottom</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsBottom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsBottom.Parent" xml:space="preserve">
+    <value>CtlTabSettings</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsBottom.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CtlTabSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 25</value>
+  </data>
+  <data name="CtlTabSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>400, 397</value>
+  </data>
+  <data name="CtlTabSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CtlTabSettings.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="&gt;&gt;CtlTabSettings.Name" xml:space="preserve">
+    <value>CtlTabSettings</value>
+  </data>
+  <data name="&gt;&gt;CtlTabSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlTabSettings.Parent" xml:space="preserve">
+    <value>CtlTabs</value>
+  </data>
+  <data name="&gt;&gt;CtlTabSettings.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CtlTabs.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="CtlTabs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 72</value>
+  </data>
+  <data name="CtlTabs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>408, 426</value>
+  </data>
+  <data name="CtlTabs.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CtlTabs.Name" xml:space="preserve">
+    <value>CtlTabs</value>
+  </data>
+  <data name="&gt;&gt;CtlTabs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlTabs.Parent" xml:space="preserve">
+    <value>CtlManagerPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlTabs.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CtlMenuAddNetwork.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 24</value>
+  </data>
+  <data name="CtlMenuAddNetwork.Text" xml:space="preserve">
+    <value>Add Network...</value>
+  </data>
+  <data name="CtlMenuDeleteNetwork.Size" type="System.Drawing.Size, System.Drawing">
+    <value>191, 24</value>
+  </data>
+  <data name="CtlMenuDeleteNetwork.Text" xml:space="preserve">
+    <value>Delete Network...</value>
+  </data>
+  <data name="CtlSettingsPanel.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CtlSettings.Name" xml:space="preserve">
+    <value>CtlSettings</value>
+  </data>
+  <data name="&gt;&gt;CtlSettings.Type" xml:space="preserve">
+    <value>NN.Controls.SettingsControl, NN, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CtlSettings.Parent" xml:space="preserve">
+    <value>CtlSettingsPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlSettings.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CtlSettingsPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="CtlSettingsPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CtlSettingsPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>400, 358</value>
+  </data>
+  <data name="CtlSettingsPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsPanel.Name" xml:space="preserve">
+    <value>CtlSettingsPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsPanel.Parent" xml:space="preserve">
+    <value>CtlTabSettings</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CtlCancelSettingsButton.Name" xml:space="preserve">
+    <value>CtlCancelSettingsButton</value>
+  </data>
+  <data name="&gt;&gt;CtlCancelSettingsButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlCancelSettingsButton.Parent" xml:space="preserve">
+    <value>CtlSettingsBottom</value>
+  </data>
+  <data name="&gt;&gt;CtlCancelSettingsButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CtlApplySettingsButton.Name" xml:space="preserve">
+    <value>CtlApplySettingsButton</value>
+  </data>
+  <data name="&gt;&gt;CtlApplySettingsButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlApplySettingsButton.Parent" xml:space="preserve">
+    <value>CtlSettingsBottom</value>
+  </data>
+  <data name="&gt;&gt;CtlApplySettingsButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CtlSettingsBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="CtlSettingsBottom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 358</value>
+  </data>
+  <data name="CtlSettingsBottom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>400, 39</value>
+  </data>
+  <data name="CtlSettingsBottom.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsBottom.Name" xml:space="preserve">
+    <value>CtlSettingsBottom</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsBottom.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsBottom.Parent" xml:space="preserve">
+    <value>CtlTabSettings</value>
+  </data>
+  <data name="&gt;&gt;CtlSettingsBottom.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CtlCancelSettingsButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="CtlCancelSettingsButton.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CtlCancelSettingsButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CtlCancelSettingsButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>316, 6</value>
+  </data>
+  <data name="CtlCancelSettingsButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 28</value>
+  </data>
+  <data name="CtlCancelSettingsButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CtlCancelSettingsButton.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="&gt;&gt;CtlCancelSettingsButton.Name" xml:space="preserve">
+    <value>CtlCancelSettingsButton</value>
+  </data>
+  <data name="&gt;&gt;CtlCancelSettingsButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlCancelSettingsButton.Parent" xml:space="preserve">
+    <value>CtlSettingsBottom</value>
+  </data>
+  <data name="&gt;&gt;CtlCancelSettingsButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CtlApplySettingsButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="CtlApplySettingsButton.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CtlApplySettingsButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CtlApplySettingsButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 6</value>
+  </data>
+  <data name="CtlApplySettingsButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 28</value>
+  </data>
+  <data name="CtlApplySettingsButton.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CtlApplySettingsButton.Text" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="&gt;&gt;CtlApplySettingsButton.Name" xml:space="preserve">
+    <value>CtlApplySettingsButton</value>
+  </data>
+  <data name="&gt;&gt;CtlApplySettingsButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlApplySettingsButton.Parent" xml:space="preserve">
+    <value>CtlSettingsBottom</value>
+  </data>
+  <data name="&gt;&gt;CtlApplySettingsButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="CtlMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="&gt;&gt;CtlApplyChanges.Name" xml:space="preserve">
+    <value>CtlApplyChanges</value>
+  </data>
+  <data name="&gt;&gt;CtlApplyChanges.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlApplyChanges.Parent" xml:space="preserve">
+    <value>CtlManagerTools</value>
+  </data>
+  <data name="&gt;&gt;CtlApplyChanges.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CtlMenu.Name" xml:space="preserve">
+    <value>CtlMenu</value>
+  </data>
+  <data name="&gt;&gt;CtlMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlMenu.Parent" xml:space="preserve">
+    <value>CtlManagerTools</value>
+  </data>
+  <data name="&gt;&gt;CtlMenu.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CtlManagerTools.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="CtlManagerTools.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CtlManagerTools.Size" type="System.Drawing.Size, System.Drawing">
+    <value>408, 72</value>
+  </data>
+  <data name="CtlManagerTools.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerTools.Name" xml:space="preserve">
+    <value>CtlManagerTools</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerTools.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerTools.Parent" xml:space="preserve">
+    <value>CtlManagerPanel</value>
+  </data>
+  <data name="&gt;&gt;CtlManagerTools.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CtlApplyChanges.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="CtlApplyChanges.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CtlApplyChanges.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CtlApplyChanges.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 41</value>
+  </data>
+  <data name="CtlApplyChanges.Size" type="System.Drawing.Size, System.Drawing">
+    <value>408, 31</value>
+  </data>
+  <data name="CtlApplyChanges.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CtlApplyChanges.Text" xml:space="preserve">
+    <value>Save and apply network changes</value>
+  </data>
+  <data name="&gt;&gt;CtlApplyChanges.Name" xml:space="preserve">
+    <value>CtlApplyChanges</value>
+  </data>
+  <data name="&gt;&gt;CtlApplyChanges.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlApplyChanges.Parent" xml:space="preserve">
+    <value>CtlManagerTools</value>
+  </data>
+  <data name="&gt;&gt;CtlApplyChanges.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="CtlMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="CtlMenu.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CtlMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>408, 28</value>
+  </data>
+  <data name="CtlMenu.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CtlMenu.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;CtlMenu.Name" xml:space="preserve">
+    <value>CtlMenu</value>
+  </data>
+  <data name="&gt;&gt;CtlMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlMenu.Parent" xml:space="preserve">
+    <value>CtlManagerTools</value>
+  </data>
+  <data name="&gt;&gt;CtlMenu.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CtlMenuFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 24</value>
+  </data>
+  <data name="CtlMenuFile.Text" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <data name="CtlMainMenuNew.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Ctrl+N</value>
+  </data>
+  <data name="CtlMainMenuNew.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 26</value>
+  </data>
+  <data name="CtlMainMenuNew.Text" xml:space="preserve">
+    <value>New...</value>
+  </data>
+  <data name="CtlMainMenuLoad.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 26</value>
+  </data>
+  <data name="CtlMainMenuLoad.Text" xml:space="preserve">
+    <value>Load...</value>
+  </data>
+  <data name="CtlMainMenuSaveAs.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CtlMainMenuSaveAs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 26</value>
+  </data>
+  <data name="CtlMainMenuSaveAs.Text" xml:space="preserve">
+    <value>Save As...</value>
+  </data>
+  <data name="CtlMainMenuSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 6</value>
+  </data>
+  <data name="CtlMenuNetwork.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CtlMenuNetwork.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 24</value>
+  </data>
+  <data name="CtlMenuNetwork.Text" xml:space="preserve">
+    <value>&amp;Network</value>
+  </data>
+  <data name="CtlMainMenuAddNetwork.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 26</value>
+  </data>
+  <data name="CtlMainMenuAddNetwork.Text" xml:space="preserve">
+    <value>Add Network...</value>
+  </data>
+  <data name="CtlMainMenuDeleteNetwork.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 26</value>
+  </data>
+  <data name="CtlMainMenuDeleteNetwork.Text" xml:space="preserve">
+    <value>Delete Network...</value>
+  </data>
+  <data name="CtlMainMenuSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 6</value>
+  </data>
+  <data name="CtlMainMenuAddLayer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 26</value>
+  </data>
+  <data name="CtlMainMenuAddLayer.Text" xml:space="preserve">
+    <value>Add Layer</value>
+  </data>
+  <data name="CtlMainMenuDeleteLayer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 26</value>
+  </data>
+  <data name="CtlMainMenuDeleteLayer.Text" xml:space="preserve">
+    <value>Delete Layer...</value>
+  </data>
+  <data name="CtlMainMenuSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 6</value>
+  </data>
+  <data name="CtlMainMenuAddNeuron.Size" type="System.Drawing.Size, System.Drawing">
+    <value>197, 26</value>
+  </data>
+  <data name="CtlMainMenuAddNeuron.Text" xml:space="preserve">
+    <value>Add Neuron</value>
+  </data>
+  <data name="CtlMenuRun.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 24</value>
+  </data>
+  <data name="CtlMenuRun.Text" xml:space="preserve">
+    <value>&amp;Run</value>
+  </data>
+  <data name="CtlMenuStart.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CtlMenuStart.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>F5</value>
+  </data>
+  <data name="CtlMenuStart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 26</value>
+  </data>
+  <data name="CtlMenuStart.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="CtlMenuStop.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CtlMenuStop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 26</value>
+  </data>
+  <data name="CtlMenuStop.Text" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="CtlMenuReset.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 26</value>
+  </data>
+  <data name="CtlMenuReset.Text" xml:space="preserve">
+    <value>Reset</value>
   </data>
   <data name="CtlMatrixPresenter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -277,7 +901,7 @@
     <value>0, 0</value>
   </data>
   <data name="CtlNetworkPresenter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>765, 498</value>
+    <value>770, 498</value>
   </data>
   <data name="CtlNetworkPresenter.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -293,87 +917,6 @@
   </data>
   <data name="&gt;&gt;CtlNetworkPresenter.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <data name="CtlNetPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="CtlNetPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>157, 0</value>
-  </data>
-  <data name="CtlNetPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>767, 500</value>
-  </data>
-  <data name="CtlNetPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="&gt;&gt;CtlNetPanel.Name" xml:space="preserve">
-    <value>CtlNetPanel</value>
-  </data>
-  <data name="&gt;&gt;CtlNetPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlNetPanel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CtlNetPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="CtlPlotSplitter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="CtlPlotSplitter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CtlPlotSplitter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>924, 0</value>
-  </data>
-  <data name="CtlPlotSplitter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>5, 500</value>
-  </data>
-  <data name="CtlPlotSplitter.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;CtlPlotSplitter.Name" xml:space="preserve">
-    <value>CtlPlotSplitter</value>
-  </data>
-  <data name="&gt;&gt;CtlPlotSplitter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Splitter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlPlotSplitter.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CtlPlotSplitter.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="CtlManagerPanel.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <metadata name="CtlNetworkContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>152, 17</value>
-  </metadata>
-  <data name="CtlMenuAddNetwork.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 24</value>
-  </data>
-  <data name="CtlMenuAddNetwork.Text" xml:space="preserve">
-    <value>Add Network...</value>
-  </data>
-  <data name="CtlMenuDeleteNetwork.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 24</value>
-  </data>
-  <data name="CtlMenuDeleteNetwork.Text" xml:space="preserve">
-    <value>Delete Network...</value>
-  </data>
-  <data name="CtlNetworkContextMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 52</value>
-  </data>
-  <data name="&gt;&gt;CtlNetworkContextMenu.Name" xml:space="preserve">
-    <value>CtlNetworkContextMenu</value>
-  </data>
-  <data name="&gt;&gt;CtlNetworkContextMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CtlSettingsPanel.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
   </data>
   <data name="CtlSettings.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -398,390 +941,6 @@
   </data>
   <data name="&gt;&gt;CtlSettings.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="CtlSettingsPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="CtlSettingsPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="CtlSettingsPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>400, 358</value>
-  </data>
-  <data name="CtlSettingsPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;CtlSettingsPanel.Name" xml:space="preserve">
-    <value>CtlSettingsPanel</value>
-  </data>
-  <data name="&gt;&gt;CtlSettingsPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlSettingsPanel.Parent" xml:space="preserve">
-    <value>CtlTabSettings</value>
-  </data>
-  <data name="&gt;&gt;CtlSettingsPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="CtlCancelSettingsButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="CtlCancelSettingsButton.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CtlCancelSettingsButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CtlCancelSettingsButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>316, 6</value>
-  </data>
-  <data name="CtlCancelSettingsButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 28</value>
-  </data>
-  <data name="CtlCancelSettingsButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="CtlCancelSettingsButton.Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="&gt;&gt;CtlCancelSettingsButton.Name" xml:space="preserve">
-    <value>CtlCancelSettingsButton</value>
-  </data>
-  <data name="&gt;&gt;CtlCancelSettingsButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlCancelSettingsButton.Parent" xml:space="preserve">
-    <value>CtlSettingsBottom</value>
-  </data>
-  <data name="&gt;&gt;CtlCancelSettingsButton.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="CtlApplySettingsButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="CtlApplySettingsButton.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CtlApplySettingsButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CtlApplySettingsButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>235, 6</value>
-  </data>
-  <data name="CtlApplySettingsButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 28</value>
-  </data>
-  <data name="CtlApplySettingsButton.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="CtlApplySettingsButton.Text" xml:space="preserve">
-    <value>Apply</value>
-  </data>
-  <data name="&gt;&gt;CtlApplySettingsButton.Name" xml:space="preserve">
-    <value>CtlApplySettingsButton</value>
-  </data>
-  <data name="&gt;&gt;CtlApplySettingsButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlApplySettingsButton.Parent" xml:space="preserve">
-    <value>CtlSettingsBottom</value>
-  </data>
-  <data name="&gt;&gt;CtlApplySettingsButton.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="CtlSettingsBottom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
-  </data>
-  <data name="CtlSettingsBottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 358</value>
-  </data>
-  <data name="CtlSettingsBottom.Size" type="System.Drawing.Size, System.Drawing">
-    <value>400, 39</value>
-  </data>
-  <data name="CtlSettingsBottom.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;CtlSettingsBottom.Name" xml:space="preserve">
-    <value>CtlSettingsBottom</value>
-  </data>
-  <data name="&gt;&gt;CtlSettingsBottom.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlSettingsBottom.Parent" xml:space="preserve">
-    <value>CtlTabSettings</value>
-  </data>
-  <data name="&gt;&gt;CtlSettingsBottom.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="CtlTabSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 25</value>
-  </data>
-  <data name="CtlTabSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>400, 397</value>
-  </data>
-  <data name="CtlTabSettings.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="CtlTabSettings.Text" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="&gt;&gt;CtlTabSettings.Name" xml:space="preserve">
-    <value>CtlTabSettings</value>
-  </data>
-  <data name="&gt;&gt;CtlTabSettings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlTabSettings.Parent" xml:space="preserve">
-    <value>CtlTabs</value>
-  </data>
-  <data name="&gt;&gt;CtlTabSettings.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="CtlTabs.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="CtlTabs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 72</value>
-  </data>
-  <data name="CtlTabs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 426</value>
-  </data>
-  <data name="CtlTabs.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;CtlTabs.Name" xml:space="preserve">
-    <value>CtlTabs</value>
-  </data>
-  <data name="&gt;&gt;CtlTabs.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlTabs.Parent" xml:space="preserve">
-    <value>CtlManagerPanel</value>
-  </data>
-  <data name="&gt;&gt;CtlTabs.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="CtlApplyChanges.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
-  </data>
-  <data name="CtlApplyChanges.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CtlApplyChanges.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CtlApplyChanges.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 41</value>
-  </data>
-  <data name="CtlApplyChanges.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 31</value>
-  </data>
-  <data name="CtlApplyChanges.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="CtlApplyChanges.Text" xml:space="preserve">
-    <value>Save and apply network changes</value>
-  </data>
-  <data name="&gt;&gt;CtlApplyChanges.Name" xml:space="preserve">
-    <value>CtlApplyChanges</value>
-  </data>
-  <data name="&gt;&gt;CtlApplyChanges.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlApplyChanges.Parent" xml:space="preserve">
-    <value>CtlManagerTools</value>
-  </data>
-  <data name="&gt;&gt;CtlApplyChanges.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <metadata name="CtlMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="CtlMainMenuNew.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+N</value>
-  </data>
-  <data name="CtlMainMenuNew.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 26</value>
-  </data>
-  <data name="CtlMainMenuNew.Text" xml:space="preserve">
-    <value>New...</value>
-  </data>
-  <data name="CtlMainMenuLoad.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 26</value>
-  </data>
-  <data name="CtlMainMenuLoad.Text" xml:space="preserve">
-    <value>Load...</value>
-  </data>
-  <data name="CtlMainMenuSaveAs.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CtlMainMenuSaveAs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 26</value>
-  </data>
-  <data name="CtlMainMenuSaveAs.Text" xml:space="preserve">
-    <value>Save As...</value>
-  </data>
-  <data name="CtlMainMenuSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 6</value>
-  </data>
-  <data name="CtlMenuFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 24</value>
-  </data>
-  <data name="CtlMenuFile.Text" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
-  <data name="CtlMainMenuAddNetwork.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 26</value>
-  </data>
-  <data name="CtlMainMenuAddNetwork.Text" xml:space="preserve">
-    <value>Add Network...</value>
-  </data>
-  <data name="CtlMainMenuDeleteNetwork.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 26</value>
-  </data>
-  <data name="CtlMainMenuDeleteNetwork.Text" xml:space="preserve">
-    <value>Delete Network...</value>
-  </data>
-  <data name="CtlMainMenuSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 6</value>
-  </data>
-  <data name="CtlMainMenuAddLayer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 26</value>
-  </data>
-  <data name="CtlMainMenuAddLayer.Text" xml:space="preserve">
-    <value>Add Layer</value>
-  </data>
-  <data name="CtlMainMenuDeleteLayer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 26</value>
-  </data>
-  <data name="CtlMainMenuDeleteLayer.Text" xml:space="preserve">
-    <value>Delete Layer...</value>
-  </data>
-  <data name="CtlMainMenuSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 6</value>
-  </data>
-  <data name="CtlMainMenuAddNeuron.Size" type="System.Drawing.Size, System.Drawing">
-    <value>197, 26</value>
-  </data>
-  <data name="CtlMainMenuAddNeuron.Text" xml:space="preserve">
-    <value>Add Neuron</value>
-  </data>
-  <data name="CtlMenuNetwork.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CtlMenuNetwork.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 24</value>
-  </data>
-  <data name="CtlMenuNetwork.Text" xml:space="preserve">
-    <value>&amp;Network</value>
-  </data>
-  <data name="CtlMenuStart.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CtlMenuStart.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>F5</value>
-  </data>
-  <data name="CtlMenuStart.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 26</value>
-  </data>
-  <data name="CtlMenuStart.Text" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="CtlMenuStop.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CtlMenuStop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 26</value>
-  </data>
-  <data name="CtlMenuStop.Text" xml:space="preserve">
-    <value>Stop</value>
-  </data>
-  <data name="CtlMenuReset.Size" type="System.Drawing.Size, System.Drawing">
-    <value>216, 26</value>
-  </data>
-  <data name="CtlMenuReset.Text" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-  <data name="CtlMenuRun.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 24</value>
-  </data>
-  <data name="CtlMenuRun.Text" xml:space="preserve">
-    <value>&amp;Run</value>
-  </data>
-  <data name="CtlMenu.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="CtlMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 28</value>
-  </data>
-  <data name="CtlMenu.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="CtlMenu.Text" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;CtlMenu.Name" xml:space="preserve">
-    <value>CtlMenu</value>
-  </data>
-  <data name="&gt;&gt;CtlMenu.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlMenu.Parent" xml:space="preserve">
-    <value>CtlManagerTools</value>
-  </data>
-  <data name="&gt;&gt;CtlMenu.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="CtlManagerTools.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="CtlManagerTools.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="CtlManagerTools.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 72</value>
-  </data>
-  <data name="CtlManagerTools.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;CtlManagerTools.Name" xml:space="preserve">
-    <value>CtlManagerTools</value>
-  </data>
-  <data name="&gt;&gt;CtlManagerTools.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlManagerTools.Parent" xml:space="preserve">
-    <value>CtlManagerPanel</value>
-  </data>
-  <data name="&gt;&gt;CtlManagerTools.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="CtlManagerPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="CtlManagerPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>929, 0</value>
-  </data>
-  <data name="CtlManagerPanel.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>410, 2</value>
-  </data>
-  <data name="CtlManagerPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 500</value>
-  </data>
-  <data name="CtlManagerPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="&gt;&gt;CtlManagerPanel.Name" xml:space="preserve">
-    <value>CtlManagerPanel</value>
-  </data>
-  <data name="&gt;&gt;CtlManagerPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlManagerPanel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CtlManagerPanel.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="CtlInputDataPresenter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Left</value>

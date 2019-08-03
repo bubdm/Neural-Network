@@ -11,9 +11,32 @@ namespace Tools
 {
     public static class NetworkTask
     {
+        static Dictionary<int, double[]> _arrays = new Dictionary<int, double[]>();
+
         public static void CountDotsSymmetric(NetworkDataModel model)
         {
-            Range.For(Rand.Flat.Next(11), i => model.Layers.First().Neurons.RandomElementTrimEnd(model.Layers.First().BiasCount).Activation = model.InputInitial1);
+            int bound = 10;
+
+            int number = Rand.Flat.Next(bound + 1);
+            if (number == 0)
+            {
+                return;
+            }
+
+            if (!_arrays.ContainsKey(bound))
+            {
+                _arrays.Add(bound, new double[bound]);
+            }
+
+            for (int i = 0; i < _arrays[bound].Length; ++i)
+            {
+                _arrays[bound][i] = i < number ? model.InputInitial1 : model.InputInitial0;
+            }
+
+            var shaffle = _arrays[bound].OrderBy(a => Rand.Flat.Next()).ToArray();
+
+            int k = 0;
+            Range.ForEach(model.Layers.First().Neurons.Where(n => !n.IsBias), n => n.Activation = shaffle[k++]);
         }
 
         public static void CountDotsAsymmetric(NetworkDataModel model)

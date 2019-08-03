@@ -369,10 +369,10 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.CtlDataSplitter);
             this.Controls.Add(this.CtlNetPanel);
             this.Controls.Add(this.CtlPlotSplitter);
             this.Controls.Add(this.CtlManagerPanel);
-            this.Controls.Add(this.CtlDataSplitter);
             this.Controls.Add(this.CtlInputDataPresenter);
             this.DoubleBuffered = true;
             this.Name = "Main";
