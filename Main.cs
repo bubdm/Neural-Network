@@ -281,7 +281,6 @@ namespace NN
                 CtlMenuDeleteNetwork.Enabled = false;
                 
                 NetworksManager.PrepareModelsForRun();
-                CtlMatrixPresenter.ClearData();
 
                 NetworksManager.PrepareModelsForRound();
                 CtlInputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
@@ -332,7 +331,7 @@ namespace NN
                             model.Statistic.LastBadCost = cost;
                         }
 
-                        CtlMatrixPresenter.AddData(input, output.Id);
+                        model.ErrorMatrix.AddData(input, output.Id);
 
                         ++model.Statistic.Rounds;
 
@@ -351,14 +350,14 @@ namespace NN
                     ++Round;
                 }
 
-                if (CtlMatrixPresenter.Count % Settings.SkipRoundsToDrawErrorMatrix == 0)
+                if (NetworksManager.Models[0].ErrorMatrix.Count % Settings.SkipRoundsToDrawErrorMatrix == 0)
                 {
                     using (var ev = new AutoResetEvent(false))
                     {
                         BeginInvoke((Action)(() =>
                         {
-                            CtlMatrixPresenter.Draw();
-                            CtlMatrixPresenter.ClearData();
+                            CtlMatrixPresenter.Draw(NetworksManager.Models, NetworksManager.SelectedNetworkModel);
+                            NetworksManager.ResetErrorMatrix();
                             ev.Set();
                         }));
                         ev.WaitOne();

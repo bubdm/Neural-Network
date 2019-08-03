@@ -237,6 +237,7 @@ namespace NN.Controls
             Range.ForEach(Models, m => m.InitState());
             ResetModelsDynamicStatistic();
             ResetModelsStatistic();
+            ResetErrorMatrix();
         }
 
         public void PrepareModelsForRound()
@@ -277,6 +278,11 @@ namespace NN.Controls
         private void ResetModelsDynamicStatistic()
         {
             Range.ForEach(Models, m => m.DynamicStatistic = new DynamicStatistic());
+        }
+
+        public void ResetErrorMatrix()
+        {
+            Range.ForEach(Models, m => m.ErrorMatrix = new ErrorMatrix());
         }
     }
 }

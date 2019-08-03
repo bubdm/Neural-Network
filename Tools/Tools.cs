@@ -130,6 +130,41 @@ namespace Tools
         }
     }
 
+    public class ErrorMatrix
+    {
+        public long[] Input = new long[11];
+        public long[] Output = new long[11];
+        public long[,] Matrix = new long[11, 11];
+
+        public long Count
+        {
+            get;
+            private set;
+        }
+
+        public void AddData(int input, int output)
+        {
+            ++Input[input];
+            ++Output[output];
+            ++Matrix[input, output];
+            ++Count;
+        }
+
+        public void ClearData()
+        {
+            Array.Clear(Input, 0, Input.Length);
+            Array.Clear(Output, 0, Output.Length);
+            for (int y = 0; y < Input.Length; ++y)
+            {
+                for (int x = 0; x < Output.Length; ++x)
+                {
+                    Matrix[x, y] = 0;
+                }
+            }
+            Count = 0;
+        }
+    }
+
     public class InvalidValueException : Exception
     {
         public InvalidValueException(Const.Param param, string value)

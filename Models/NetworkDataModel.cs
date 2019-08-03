@@ -24,6 +24,7 @@ namespace NN
 
         public Statistic Statistic;
         public DynamicStatistic DynamicStatistic;
+        public ErrorMatrix ErrorMatrix;
         public Color Color;       
 
         public NetworkDataModel(long visualId, int[] layersSize)

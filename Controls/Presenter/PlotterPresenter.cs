@@ -25,12 +25,12 @@ namespace NN.Controls
             StartRender();
             Clear();
 
+            DrawPlotter();
+
             foreach (var model in models)
             {
                 Vanish(model.DynamicStatistic.PercentData, GetPointPercentData);
                 Vanish(model.DynamicStatistic.CostData, GetPointPercentData);
-
-                DrawPlotter();
 
                 DrawData(model.DynamicStatistic.PercentData, model.Color, GetPointPercentData, false);
                 DrawData(model.DynamicStatistic.CostData, Color.FromArgb(80, model.Color), GetPointCostData, true);
@@ -48,14 +48,12 @@ namespace NN.Controls
         {
             var pen = Pens.Black;
 
-            G.DrawLine(pen, AxisOffset, 0, AxisOffset, Height);
-            G.DrawLine(pen, 0, Height - AxisOffset, Width, Height - AxisOffset);
-
             double step = ((double)Width - AxisOffset) / 10;
             double y = Height - AxisOffset - AxisOffset / 2;
             double x = 0;
             for (x = 0; x < 11; ++x)
             {
+                G.DrawLine(Pens.LightGray, (float)(AxisOffset + step * x), (float)y, (float)(AxisOffset + step * x), 0);
                 G.DrawLine(pen, (float)(AxisOffset + step * x), (float)y, (float)(AxisOffset + step * x), (float)(y + AxisOffset));
             }
 
@@ -63,8 +61,12 @@ namespace NN.Controls
             x = AxisOffset / 2;
             for (y = 0; y < 11; ++y)
             {
-                G.DrawLine(pen, (float)x, (float)(Height - AxisOffset - step * y), (float)(x + AxisOffset), (float)(Height - AxisOffset - step * y));
+                G.DrawLine(Pens.LightGray, (float)x, (float)(Height - AxisOffset - step * y), Width, (float)(Height - AxisOffset - step * y));
+                G.DrawLine(pen, (float)x, (float)(Height - AxisOffset - step * y), (float)(x + AxisOffset), (float)(Height - AxisOffset - step * y));           
             }
+
+            G.DrawLine(pen, AxisOffset, 0, AxisOffset, Height);
+            G.DrawLine(pen, 0, Height - AxisOffset, Width, Height - AxisOffset);
         }
 
         private void DrawData(DynamicStatistic.PlotPoints data, Color color, PointFunc func, bool isRect)
