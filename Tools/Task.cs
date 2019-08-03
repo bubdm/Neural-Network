@@ -11,7 +11,7 @@ namespace Tools
 {
     public interface INetworkTask
     {
-        void DoInput(NetworkDataModel model);
+        void Do(NetworkDataModel model);
     }
 
     public static class NetworkTask
@@ -22,7 +22,7 @@ namespace Tools
         {
             public static INetworkTask Instance = new CountDotsSymmetric();
 
-            public void DoInput(NetworkDataModel model)
+            public void Do(NetworkDataModel model)
             {
                 int bound = 10;
 
@@ -53,7 +53,7 @@ namespace Tools
         {
             public static INetworkTask Instance = new CountDotsAsymmetric();
 
-            public void DoInput(NetworkDataModel model)
+            public void Do(NetworkDataModel model)
             {
                 Range.For(Rand.Flat.Next(11), i => model.Layers.First().Neurons.RandomElementTrimEnd(model.Layers.First().BiasCount).Activation = model.InputInitial1);
             }
@@ -71,9 +71,9 @@ namespace Tools
                 return (INetworkTask)typeof(NetworkTask).GetNestedTypes().Where(c => c.Name == name).First().GetField("Instance").GetValue(null);
             }
 
-            public static void FillComboBoxWithClasses(ComboBox cb, Config config, Const.Param param, string defaultValue)
+            public static void FillComboBox(ComboBox cb, Config config, Const.Param param, string defaultValue)
             {
-                Initializer.FillComboBox(typeof(NetworkTask.Helper), cb, config, param, defaultValue, "GetItems");
+                Initializer.FillComboBox(typeof(NetworkTask.Helper), cb, config, param, defaultValue);
             }
         }
     }

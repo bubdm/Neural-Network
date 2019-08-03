@@ -249,13 +249,11 @@ namespace NN.Controls
             var model = new NetworkDataModel(Id, GetLayersSize())
             {
                 Color = CtlColor.BackColor,
-                //Statistic = new Statistic(true),
-                //DynamicStatistic = new DynamicStatistic(),
                 RandomizeMode = Randomizer,
                 RandomizerParamA = RandomizerParamA,
                 LearningRate = LearningRate,
-                InputInitial0 = ActivationFunction.Helper.Invoke(InputLayer.ActivationFunc, InputLayer.Initial0),
-                InputInitial1 = ActivationFunction.Helper.Invoke(InputLayer.ActivationFunc, InputLayer.Initial1)
+                InputInitial0 = ActivationFunction.Helper.GetInstance(InputLayer.ActivationFunc).Do(InputLayer.Initial0, null),
+                InputInitial1 = ActivationFunction.Helper.GetInstance(InputLayer.ActivationFunc).Do(InputLayer.Initial1, null)
             };
 
             model.Activate();
@@ -273,7 +271,8 @@ namespace NN.Controls
                     neuronModel.IsBias = neurons[nn].IsBias;
                     neuronModel.IsBiasConnected = neurons[nn].IsBiasConnected;
 
-                    neuronModel.ActivationFunc = neurons[nn].ActivationFunc;
+                    neuronModel.ActivationFunction = ActivationFunction.Helper.GetInstance(neurons[nn].ActivationFunc);
+                    neuronModel.ActivationDerivative = ActivationDerivative.Helper.GetInstance(neurons[nn].ActivationFunc);
                     neuronModel.ActivationFuncParamA = neurons[nn].ActivationFuncParamA;
 
                     neuronModel.WeightsInitializer = neurons[nn].WeightsInitializer;

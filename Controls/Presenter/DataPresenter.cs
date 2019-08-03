@@ -52,7 +52,7 @@ namespace NN.Controls
             CtlInputCount.Minimum = Config.Main.GetInt(Const.Param.InputNeuronsMinCount, 10).Value;
             CtlInputCount.Maximum = Config.Main.GetInt(Const.Param.InputNeuronsMaxCount, 10000).Value;
 
-            NetworkTask.Helper.FillComboBoxWithClasses(CtlTask, config, Const.Param.Task, null);
+            NetworkTask.Helper.FillComboBox(CtlTask, config, Const.Param.Task, null);
 
             ValueChanged = onValueChanged;
             CtlInputCount.Value = config.GetInt(Const.Param.InputNeuronsCount, Const.DefaultInputNeuronsCount).Value; 

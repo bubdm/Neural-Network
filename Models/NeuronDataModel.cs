@@ -24,7 +24,8 @@ namespace NN
         public string WeightsInitializer;
         public double? WeightsInitializerParamA;
 
-        public string ActivationFunc;
+        public IActivationFunction ActivationFunction;
+        public IActivationFunction ActivationDerivative;
         public double? ActivationFuncParamA;
 
         public ListX<WeightDataModel> Weights = new ListX<WeightDataModel>();

@@ -7,68 +7,79 @@ using System.Windows.Forms;
 
 namespace Tools
 {
+    public interface IActivationFunction
+    {
+        double Do(double x, double? a);
+    }
+
     public static class ActivationFunction
     {
-        public static double None(double x)
+        public class None : IActivationFunction
         {
-            return x;
+            public static IActivationFunction Instance = new None();
+
+            public double Do(double x, double? a)
+            {
+                return x;
+            }
         }
 
-        public static double LogisticSigmoid(double x)
+        public class LogisticSigmoid : IActivationFunction
         {
-            return 1 / (1 + Math.Exp(-x));
+            public static IActivationFunction Instance = new LogisticSigmoid();
 
-            //2/​(1+​exp(​(‑x)*​4))-​1
+            public double Do(double x, double? a)
+            {
+                return 1 / (1 + Math.Exp(-x));           //2/​(1+​exp(​(‑x)*​4))-​1
+            }
         }
 
         public static class Helper
         {
             public static string[] GetItems()
             {
-                return typeof(ActivationFunction).GetMethods().Where(r => r.IsStatic).Select(r => r.Name).ToArray();
+                return typeof(ActivationFunction).GetNestedTypes().Where(c => typeof(IActivationFunction).IsAssignableFrom(c)).Select(c => c.Name).ToArray();
             }
 
-            public static double Invoke(string name, double a)
+            public static IActivationFunction GetInstance(string name)
             {
-                if (name == nameof(None))
-                {
-                    return a;
-                }
-
-                var method = typeof(ActivationFunction).GetMethod(name);
-                return (double)method.Invoke(null, new object[] { a });
+                return (IActivationFunction)typeof(ActivationFunction).GetNestedTypes().Where(c => c.Name == name).First().GetField("Instance").GetValue(null);
             }
 
             public static void FillComboBox(ComboBox cb, Config config, Const.Param param, string defaultValue)
             {
-                Initializer.FillComboBox(typeof(ActivationFunction.Helper), cb, config, param, defaultValue, "GetItems");
+                Initializer.FillComboBox(typeof(ActivationFunction.Helper), cb, config, param, defaultValue);
             }
         }
     }
 
-    public static class ActivationFunctionDerivative
+    public static class ActivationDerivative
     {
-        public static double None(double x)
+        public class None : IActivationFunction
         {
-            return x;
+            public static IActivationFunction Instance = new None();
+
+            public double Do(double x, double? a)
+            {
+                return x;
+            }
         }
 
-        public static double LogisticSigmoid(double x)
+        public class LogisticSigmoid : IActivationFunction
         {
-            return x * (1 - x);
+            public static IActivationFunction Instance = new LogisticSigmoid();
+
+            public double Do(double x, double? a)
+            {
+                return x * (1 - x);
+            }
         }
 
         public static class Helper
         {
-            public static double Invoke(string name, double a)
+            public static IActivationFunction GetInstance(string name)
             {
-                if (name == nameof(None))
-                {
-                    return a;
-                }
-
-                var method = typeof(ActivationFunctionDerivative).GetMethod(name);
-                return (double)method.Invoke(null, new object[] { a });
+                return (IActivationFunction)typeof(ActivationDerivative).GetNestedTypes().Where(c => c.Name == name).First().GetField("Instance").GetValue(null);
             }
         }
     }
