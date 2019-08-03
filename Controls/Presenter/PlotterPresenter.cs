@@ -32,8 +32,8 @@ namespace NN.Controls
 
                 DrawPlotter();
 
-                DrawData(model.DynamicStatistic.PercentData, model.Color, GetPointPercentData);
-                DrawData(model.DynamicStatistic.CostData, Color.FromArgb(100, model.Color), GetPointCostData);
+                DrawData(model.DynamicStatistic.PercentData, model.Color, GetPointPercentData, false);
+                DrawData(model.DynamicStatistic.CostData, Color.FromArgb(80, model.Color), GetPointCostData, true);
             }
 
             if (selectedModel != null)
@@ -67,7 +67,7 @@ namespace NN.Controls
             }
         }
 
-        public void DrawData(DynamicStatistic.PlotPoints data, Color color, PointFunc func)
+        public void DrawData(DynamicStatistic.PlotPoints data, Color color, PointFunc func, bool isRect)
         {
             using (var pen = new Pen(color))
             using (var brush = new SolidBrush(color))
@@ -84,7 +84,15 @@ namespace NN.Controls
                     {
                         var pp = func(data, p, d);
                         G.DrawLine(pen, func(data, prev, d), pp);
-                        G.FillEllipse(brush, pp.X - 7 / 2, pp.Y - 7 / 2, 7, 7);
+
+                        if (isRect)
+                        {
+                            G.FillRectangle(brush, pp.X - 7 / 2, pp.Y - 7 / 2, 7, 7);
+                        }
+                        else
+                        {
+                            G.FillEllipse(brush, pp.X - 7 / 2, pp.Y - 7 / 2, 7, 7);
+                        }
 
                         prev = p;
                     }
