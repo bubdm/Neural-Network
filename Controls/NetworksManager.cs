@@ -108,7 +108,6 @@ namespace NN.Controls
             CtlTabs.SelectedIndex = Config.GetInt(Const.Param.SelectedNetworkIndex, 0).Value + 1;
             CtlInputData.LoadConfig(Config, OnInputDataChanged);
             OnInputDataChanged(CtlInputData.InputCount);
-            ResetLayersTabsNames();
             RefreshNetworksDataModels();
         }
 
@@ -118,6 +117,7 @@ namespace NN.Controls
             {
                 network.InputLayer.OnInputDataChanged(newCount);
             }
+            ResetLayersTabsNames();
             OnNetworkUIChanged(Notification.ParameterChanged.NeuronsCount, null);
         }
 

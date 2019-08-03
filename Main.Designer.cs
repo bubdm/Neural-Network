@@ -30,16 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.CtlStart = new System.Windows.Forms.Button();
             this.CtlTime = new System.Windows.Forms.Label();
-            this.CtlBottomPanel = new System.Windows.Forms.Panel();
-            this.CtlReset = new System.Windows.Forms.Button();
-            this.CtlStop = new System.Windows.Forms.Button();
             this.CtlDataSplitter = new System.Windows.Forms.Splitter();
             this.CtlNetPanel = new System.Windows.Forms.Panel();
-            this.CtlStatisticsPresenter = new NN.Controls.StatisticsPresenter();
-            this.CtlPlotPresenter = new NN.Controls.PlotterPresenter();
-            this.CtlNetworkPresenter = new NN.Controls.NetworkPresenter();
             this.CtlPlotSplitter = new System.Windows.Forms.Splitter();
             this.CtlManagerPanel = new System.Windows.Forms.Panel();
             this.CtlTabs = new System.Windows.Forms.TabControl();
@@ -48,7 +41,6 @@
             this.CtlMenuDeleteNetwork = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlTabSettings = new System.Windows.Forms.TabPage();
             this.CtlSettingsPanel = new System.Windows.Forms.Panel();
-            this.CtlSettings = new NN.Controls.SettingsControl();
             this.CtlSettingsBottom = new System.Windows.Forms.Panel();
             this.CtlCancelSettingsButton = new System.Windows.Forms.Button();
             this.CtlApplySettingsButton = new System.Windows.Forms.Button();
@@ -68,9 +60,16 @@
             this.CtlMainMenuDeleteLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMainMenuSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.CtlMainMenuAddNeuron = new System.Windows.Forms.ToolStripMenuItem();
-            this.CtlInputDataPresenter = new NN.Controls.DataPresenter();
+            this.CtlMenuRun = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMenuStart = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMenuStop = new System.Windows.Forms.ToolStripMenuItem();
+            this.CtlMenuReset = new System.Windows.Forms.ToolStripMenuItem();
             this.CtlMatrixPresenter = new NN.Controls.MatrixPresenter();
-            this.CtlBottomPanel.SuspendLayout();
+            this.CtlStatisticsPresenter = new NN.Controls.StatisticsPresenter();
+            this.CtlPlotPresenter = new NN.Controls.PlotterPresenter();
+            this.CtlNetworkPresenter = new NN.Controls.NetworkPresenter();
+            this.CtlSettings = new NN.Controls.SettingsControl();
+            this.CtlInputDataPresenter = new NN.Controls.DataPresenter();
             this.CtlNetPanel.SuspendLayout();
             this.CtlManagerPanel.SuspendLayout();
             this.CtlTabs.SuspendLayout();
@@ -82,40 +81,10 @@
             this.CtlMenu.SuspendLayout();
             this.SuspendLayout();
             // 
-            // CtlStart
-            // 
-            resources.ApplyResources(this.CtlStart, "CtlStart");
-            this.CtlStart.Name = "CtlStart";
-            this.CtlStart.UseVisualStyleBackColor = true;
-            this.CtlStart.Click += new System.EventHandler(this.CtlStart_Click);
-            // 
             // CtlTime
             // 
             resources.ApplyResources(this.CtlTime, "CtlTime");
             this.CtlTime.Name = "CtlTime";
-            // 
-            // CtlBottomPanel
-            // 
-            this.CtlBottomPanel.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.CtlBottomPanel.Controls.Add(this.CtlReset);
-            this.CtlBottomPanel.Controls.Add(this.CtlStop);
-            this.CtlBottomPanel.Controls.Add(this.CtlStart);
-            resources.ApplyResources(this.CtlBottomPanel, "CtlBottomPanel");
-            this.CtlBottomPanel.Name = "CtlBottomPanel";
-            // 
-            // CtlReset
-            // 
-            resources.ApplyResources(this.CtlReset, "CtlReset");
-            this.CtlReset.Name = "CtlReset";
-            this.CtlReset.UseVisualStyleBackColor = true;
-            this.CtlReset.Click += new System.EventHandler(this.CtlReset_Click);
-            // 
-            // CtlStop
-            // 
-            resources.ApplyResources(this.CtlStop, "CtlStop");
-            this.CtlStop.Name = "CtlStop";
-            this.CtlStop.UseVisualStyleBackColor = true;
-            this.CtlStop.Click += new System.EventHandler(this.CtlStop_Click);
             // 
             // CtlDataSplitter
             // 
@@ -129,30 +98,12 @@
             resources.ApplyResources(this.CtlNetPanel, "CtlNetPanel");
             this.CtlNetPanel.BackColor = System.Drawing.Color.White;
             this.CtlNetPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CtlNetPanel.Controls.Add(this.CtlTime);
             this.CtlNetPanel.Controls.Add(this.CtlMatrixPresenter);
             this.CtlNetPanel.Controls.Add(this.CtlStatisticsPresenter);
             this.CtlNetPanel.Controls.Add(this.CtlPlotPresenter);
             this.CtlNetPanel.Controls.Add(this.CtlNetworkPresenter);
-            this.CtlNetPanel.Controls.Add(this.CtlTime);
             this.CtlNetPanel.Name = "CtlNetPanel";
-            // 
-            // CtlStatisticsPresenter
-            // 
-            resources.ApplyResources(this.CtlStatisticsPresenter, "CtlStatisticsPresenter");
-            this.CtlStatisticsPresenter.BackColor = System.Drawing.Color.White;
-            this.CtlStatisticsPresenter.Name = "CtlStatisticsPresenter";
-            // 
-            // CtlPlotPresenter
-            // 
-            resources.ApplyResources(this.CtlPlotPresenter, "CtlPlotPresenter");
-            this.CtlPlotPresenter.BackColor = System.Drawing.Color.White;
-            this.CtlPlotPresenter.Name = "CtlPlotPresenter";
-            // 
-            // CtlNetworkPresenter
-            // 
-            this.CtlNetworkPresenter.BackColor = System.Drawing.Color.White;
-            resources.ApplyResources(this.CtlNetworkPresenter, "CtlNetworkPresenter");
-            this.CtlNetworkPresenter.Name = "CtlNetworkPresenter";
             // 
             // CtlPlotSplitter
             // 
@@ -215,13 +166,6 @@
             this.CtlSettingsPanel.Controls.Add(this.CtlSettings);
             this.CtlSettingsPanel.Name = "CtlSettingsPanel";
             // 
-            // CtlSettings
-            // 
-            this.CtlSettings.BackColor = System.Drawing.Color.White;
-            resources.ApplyResources(this.CtlSettings, "CtlSettings");
-            this.CtlSettings.Name = "CtlSettings";
-            this.CtlSettings.Settings = null;
-            // 
             // CtlSettingsBottom
             // 
             this.CtlSettingsBottom.Controls.Add(this.CtlCancelSettingsButton);
@@ -264,7 +208,8 @@
             this.CtlMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.CtlMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CtlMenuFile,
-            this.CtlMenuNetwork});
+            this.CtlMenuNetwork,
+            this.CtlMenuRun});
             resources.ApplyResources(this.CtlMenu, "CtlMenu");
             this.CtlMenu.Name = "CtlMenu";
             // 
@@ -355,17 +300,69 @@
             resources.ApplyResources(this.CtlMainMenuAddNeuron, "CtlMainMenuAddNeuron");
             this.CtlMainMenuAddNeuron.Click += new System.EventHandler(this.CtlMainMenuAddNeuron_Click);
             // 
-            // CtlInputDataPresenter
+            // CtlMenuRun
             // 
-            this.CtlInputDataPresenter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            resources.ApplyResources(this.CtlInputDataPresenter, "CtlInputDataPresenter");
-            this.CtlInputDataPresenter.Name = "CtlInputDataPresenter";
+            this.CtlMenuRun.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CtlMenuStart,
+            this.CtlMenuStop,
+            this.CtlMenuReset});
+            this.CtlMenuRun.Name = "CtlMenuRun";
+            resources.ApplyResources(this.CtlMenuRun, "CtlMenuRun");
+            // 
+            // CtlMenuStart
+            // 
+            resources.ApplyResources(this.CtlMenuStart, "CtlMenuStart");
+            this.CtlMenuStart.Name = "CtlMenuStart";
+            this.CtlMenuStart.Click += new System.EventHandler(this.CtlStart_Click);
+            // 
+            // CtlMenuStop
+            // 
+            resources.ApplyResources(this.CtlMenuStop, "CtlMenuStop");
+            this.CtlMenuStop.Name = "CtlMenuStop";
+            this.CtlMenuStop.Click += new System.EventHandler(this.CtlStop_Click);
+            // 
+            // CtlMenuReset
+            // 
+            this.CtlMenuReset.Name = "CtlMenuReset";
+            resources.ApplyResources(this.CtlMenuReset, "CtlMenuReset");
+            this.CtlMenuReset.Click += new System.EventHandler(this.CtlReset_Click);
             // 
             // CtlMatrixPresenter
             // 
             resources.ApplyResources(this.CtlMatrixPresenter, "CtlMatrixPresenter");
             this.CtlMatrixPresenter.BackColor = System.Drawing.Color.White;
             this.CtlMatrixPresenter.Name = "CtlMatrixPresenter";
+            // 
+            // CtlStatisticsPresenter
+            // 
+            resources.ApplyResources(this.CtlStatisticsPresenter, "CtlStatisticsPresenter");
+            this.CtlStatisticsPresenter.BackColor = System.Drawing.Color.White;
+            this.CtlStatisticsPresenter.Name = "CtlStatisticsPresenter";
+            // 
+            // CtlPlotPresenter
+            // 
+            resources.ApplyResources(this.CtlPlotPresenter, "CtlPlotPresenter");
+            this.CtlPlotPresenter.BackColor = System.Drawing.Color.White;
+            this.CtlPlotPresenter.Name = "CtlPlotPresenter";
+            // 
+            // CtlNetworkPresenter
+            // 
+            this.CtlNetworkPresenter.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.CtlNetworkPresenter, "CtlNetworkPresenter");
+            this.CtlNetworkPresenter.Name = "CtlNetworkPresenter";
+            // 
+            // CtlSettings
+            // 
+            this.CtlSettings.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.CtlSettings, "CtlSettings");
+            this.CtlSettings.Name = "CtlSettings";
+            this.CtlSettings.Settings = null;
+            // 
+            // CtlInputDataPresenter
+            // 
+            this.CtlInputDataPresenter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.CtlInputDataPresenter, "CtlInputDataPresenter");
+            this.CtlInputDataPresenter.Name = "CtlInputDataPresenter";
             // 
             // Main
             // 
@@ -377,11 +374,9 @@
             this.Controls.Add(this.CtlManagerPanel);
             this.Controls.Add(this.CtlDataSplitter);
             this.Controls.Add(this.CtlInputDataPresenter);
-            this.Controls.Add(this.CtlBottomPanel);
             this.DoubleBuffered = true;
             this.Name = "Main";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
-            this.CtlBottomPanel.ResumeLayout(false);
             this.CtlNetPanel.ResumeLayout(false);
             this.CtlManagerPanel.ResumeLayout(false);
             this.CtlTabs.ResumeLayout(false);
@@ -398,9 +393,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button CtlStart;
         private System.Windows.Forms.Label CtlTime;
-        private System.Windows.Forms.Panel CtlBottomPanel;
         private System.Windows.Forms.Splitter CtlDataSplitter;
         private System.Windows.Forms.Panel CtlNetPanel;
         private System.Windows.Forms.Splitter CtlPlotSplitter;
@@ -413,8 +406,6 @@
         private System.Windows.Forms.ContextMenuStrip CtlNetworkContextMenu;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuAddNetwork;
         private System.Windows.Forms.ToolStripMenuItem CtlMenuDeleteNetwork;
-        private System.Windows.Forms.Button CtlStop;
-        private System.Windows.Forms.Button CtlReset;
         private System.Windows.Forms.Button CtlApplyChanges;
         private System.Windows.Forms.ToolStripMenuItem CtlMainMenuNew;
         private System.Windows.Forms.ToolStripMenuItem CtlMainMenuLoad;
@@ -438,6 +429,10 @@
         private Controls.PlotterPresenter CtlPlotPresenter;
         private Controls.StatisticsPresenter CtlStatisticsPresenter;
         private Controls.MatrixPresenter CtlMatrixPresenter;
+        private System.Windows.Forms.ToolStripMenuItem CtlMenuRun;
+        private System.Windows.Forms.ToolStripMenuItem CtlMenuStart;
+        private System.Windows.Forms.ToolStripMenuItem CtlMenuStop;
+        private System.Windows.Forms.ToolStripMenuItem CtlMenuReset;
     }
 }
 

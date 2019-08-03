@@ -57,7 +57,7 @@
             this.CtlSkipRoundsToDrawNetworks.ConfigParameter = Tools.Const.Param.SettingsSkipRoundsToDrawNetworks;
             this.CtlSkipRoundsToDrawNetworks.DefaultValue = 10000;
             this.CtlSkipRoundsToDrawNetworks.IsNullAllowed = false;
-            this.CtlSkipRoundsToDrawNetworks.Location = new System.Drawing.Point(139, 76);
+            this.CtlSkipRoundsToDrawNetworks.Location = new System.Drawing.Point(138, 65);
             this.CtlSkipRoundsToDrawNetworks.MaximumValue = 100000;
             this.CtlSkipRoundsToDrawNetworks.MinimumValue = 1;
             this.CtlSkipRoundsToDrawNetworks.Name = "CtlSkipRoundsToDrawNetworks";
@@ -67,11 +67,11 @@
             // CtlSkipRoundsToDrawSelectedNetworkLabel
             // 
             this.CtlSkipRoundsToDrawSelectedNetworkLabel.AutoSize = true;
-            this.CtlSkipRoundsToDrawSelectedNetworkLabel.Location = new System.Drawing.Point(12, 76);
+            this.CtlSkipRoundsToDrawSelectedNetworkLabel.Location = new System.Drawing.Point(12, 68);
             this.CtlSkipRoundsToDrawSelectedNetworkLabel.Name = "CtlSkipRoundsToDrawSelectedNetworkLabel";
-            this.CtlSkipRoundsToDrawSelectedNetworkLabel.Size = new System.Drawing.Size(120, 17);
+            this.CtlSkipRoundsToDrawSelectedNetworkLabel.Size = new System.Drawing.Size(97, 17);
             this.CtlSkipRoundsToDrawSelectedNetworkLabel.TabIndex = 7;
-            this.CtlSkipRoundsToDrawSelectedNetworkLabel.Text = "Draw error matrix:";
+            this.CtlSkipRoundsToDrawSelectedNetworkLabel.Text = "Draw network:";
             // 
             // CtlSkipRoundsToDrawErrorMatrix
             // 
@@ -89,7 +89,7 @@
             // CtlSkipRoundsForActionLabel
             // 
             this.CtlSkipRoundsForActionLabel.AutoSize = true;
-            this.CtlSkipRoundsForActionLabel.Location = new System.Drawing.Point(12, 11);
+            this.CtlSkipRoundsForActionLabel.Location = new System.Drawing.Point(12, 10);
             this.CtlSkipRoundsForActionLabel.Name = "CtlSkipRoundsForActionLabel";
             this.CtlSkipRoundsForActionLabel.Size = new System.Drawing.Size(128, 17);
             this.CtlSkipRoundsForActionLabel.TabIndex = 3;

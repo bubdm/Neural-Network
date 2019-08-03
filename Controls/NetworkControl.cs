@@ -118,6 +118,8 @@ namespace NN.Controls
                     CtlTabsLayers.TabPages[i].Text = $"L{i} ({layers[i].NeuronsCount})";
                 }
             }
+
+            Refresh();
         }
 
         private void CtlMenuAddLayer_Click(object sender, EventArgs e)

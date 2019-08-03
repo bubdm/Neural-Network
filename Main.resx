@@ -118,47 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CtlStart.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CtlStart.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CtlStart.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 7.8pt</value>
-  </data>
-  <data name="CtlStart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CtlStart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 13</value>
-  </data>
-  <data name="CtlStart.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 32</value>
-  </data>
-  <data name="CtlStart.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="CtlStart.Text" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="&gt;&gt;CtlStart.Name" xml:space="preserve">
-    <value>CtlStart</value>
-  </data>
-  <data name="&gt;&gt;CtlStart.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlStart.Parent" xml:space="preserve">
-    <value>CtlBottomPanel</value>
-  </data>
-  <data name="&gt;&gt;CtlStart.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="CtlTime.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="CtlTime.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 7pt</value>
   </data>
@@ -166,11 +129,12 @@
     <value>NoControl</value>
   </data>
   <data name="CtlTime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>662, 422</value>
+    <value>662, 479</value>
   </data>
   <data name="CtlTime.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 15</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CtlTime.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
@@ -190,103 +154,7 @@
     <value>CtlNetPanel</value>
   </data>
   <data name="&gt;&gt;CtlTime.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="CtlReset.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="CtlReset.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CtlReset.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 7.8pt</value>
-  </data>
-  <data name="CtlReset.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CtlReset.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 13</value>
-  </data>
-  <data name="CtlReset.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 32</value>
-  </data>
-  <data name="CtlReset.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="CtlReset.Text" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-  <data name="&gt;&gt;CtlReset.Name" xml:space="preserve">
-    <value>CtlReset</value>
-  </data>
-  <data name="&gt;&gt;CtlReset.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlReset.Parent" xml:space="preserve">
-    <value>CtlBottomPanel</value>
-  </data>
-  <data name="&gt;&gt;CtlReset.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="CtlStop.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="CtlStop.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CtlStop.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 7.8pt</value>
-  </data>
-  <data name="CtlStop.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CtlStop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>115, 13</value>
-  </data>
-  <data name="CtlStop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>97, 32</value>
-  </data>
-  <data name="CtlStop.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="CtlStop.Text" xml:space="preserve">
-    <value>Stop</value>
-  </data>
-  <data name="&gt;&gt;CtlStop.Name" xml:space="preserve">
-    <value>CtlStop</value>
-  </data>
-  <data name="&gt;&gt;CtlStop.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlStop.Parent" xml:space="preserve">
-    <value>CtlBottomPanel</value>
-  </data>
-  <data name="&gt;&gt;CtlStop.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="CtlBottomPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
-  </data>
-  <data name="CtlBottomPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 443</value>
-  </data>
-  <data name="CtlBottomPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1339, 57</value>
-  </data>
-  <data name="CtlBottomPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;CtlBottomPanel.Name" xml:space="preserve">
-    <value>CtlBottomPanel</value>
-  </data>
-  <data name="&gt;&gt;CtlBottomPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CtlBottomPanel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CtlBottomPanel.ZOrder" xml:space="preserve">
-    <value>6</value>
   </data>
   <data name="CtlDataSplitter.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -295,7 +163,7 @@
     <value>152, 0</value>
   </data>
   <data name="CtlDataSplitter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>5, 443</value>
+    <value>5, 500</value>
   </data>
   <data name="CtlDataSplitter.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -322,7 +190,7 @@
     <value>Tahoma, 6.5pt, style=Bold</value>
   </data>
   <data name="CtlMatrixPresenter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>500, 241</value>
+    <value>500, 298</value>
   </data>
   <data name="CtlMatrixPresenter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 2, 3, 2</value>
@@ -343,7 +211,7 @@
     <value>CtlNetPanel</value>
   </data>
   <data name="&gt;&gt;CtlMatrixPresenter.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="CtlStatisticsPresenter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -352,7 +220,7 @@
     <value>Tahoma, 6.5pt, style=Bold</value>
   </data>
   <data name="CtlStatisticsPresenter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>200, 241</value>
+    <value>200, 298</value>
   </data>
   <data name="CtlStatisticsPresenter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -373,13 +241,13 @@
     <value>CtlNetPanel</value>
   </data>
   <data name="&gt;&gt;CtlStatisticsPresenter.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CtlPlotPresenter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
   <data name="CtlPlotPresenter.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 241</value>
+    <value>0, 298</value>
   </data>
   <data name="CtlPlotPresenter.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -400,7 +268,7 @@
     <value>CtlNetPanel</value>
   </data>
   <data name="&gt;&gt;CtlPlotPresenter.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="CtlNetworkPresenter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -409,7 +277,7 @@
     <value>0, 0</value>
   </data>
   <data name="CtlNetworkPresenter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>765, 441</value>
+    <value>765, 498</value>
   </data>
   <data name="CtlNetworkPresenter.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -424,7 +292,7 @@
     <value>CtlNetPanel</value>
   </data>
   <data name="&gt;&gt;CtlNetworkPresenter.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="CtlNetPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -433,7 +301,7 @@
     <value>157, 0</value>
   </data>
   <data name="CtlNetPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>767, 443</value>
+    <value>767, 500</value>
   </data>
   <data name="CtlNetPanel.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -460,7 +328,7 @@
     <value>924, 0</value>
   </data>
   <data name="CtlPlotSplitter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>5, 443</value>
+    <value>5, 500</value>
   </data>
   <data name="CtlPlotSplitter.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -514,7 +382,7 @@
     <value>0, 0</value>
   </data>
   <data name="CtlSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>379, 505</value>
+    <value>400, 111</value>
   </data>
   <data name="CtlSettings.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -538,7 +406,7 @@
     <value>0, 0</value>
   </data>
   <data name="CtlSettingsPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>400, 301</value>
+    <value>400, 358</value>
   </data>
   <data name="CtlSettingsPanel.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -625,7 +493,7 @@
     <value>Bottom</value>
   </data>
   <data name="CtlSettingsBottom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 301</value>
+    <value>0, 358</value>
   </data>
   <data name="CtlSettingsBottom.Size" type="System.Drawing.Size, System.Drawing">
     <value>400, 39</value>
@@ -649,7 +517,7 @@
     <value>4, 25</value>
   </data>
   <data name="CtlTabSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>400, 340</value>
+    <value>400, 397</value>
   </data>
   <data name="CtlTabSettings.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -676,7 +544,7 @@
     <value>0, 72</value>
   </data>
   <data name="CtlTabs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 369</value>
+    <value>408, 426</value>
   </data>
   <data name="CtlTabs.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -807,6 +675,39 @@
   <data name="CtlMenuNetwork.Text" xml:space="preserve">
     <value>&amp;Network</value>
   </data>
+  <data name="CtlMenuStart.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CtlMenuStart.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>F5</value>
+  </data>
+  <data name="CtlMenuStart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 26</value>
+  </data>
+  <data name="CtlMenuStart.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="CtlMenuStop.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CtlMenuStop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 26</value>
+  </data>
+  <data name="CtlMenuStop.Text" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="CtlMenuReset.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 26</value>
+  </data>
+  <data name="CtlMenuReset.Text" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="CtlMenuRun.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 24</value>
+  </data>
+  <data name="CtlMenuRun.Text" xml:space="preserve">
+    <value>&amp;Run</value>
+  </data>
   <data name="CtlMenu.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -865,7 +766,7 @@
     <value>410, 2</value>
   </data>
   <data name="CtlManagerPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 443</value>
+    <value>410, 500</value>
   </data>
   <data name="CtlManagerPanel.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -889,7 +790,7 @@
     <value>0, 0</value>
   </data>
   <data name="CtlInputDataPresenter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 443</value>
+    <value>152, 500</value>
   </data>
   <data name="CtlInputDataPresenter.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -917,6 +818,9 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>1339, 500</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
@@ -1012,6 +916,30 @@
     <value>CtlMainMenuAddNeuron</value>
   </data>
   <data name="&gt;&gt;CtlMainMenuAddNeuron.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlMenuRun.Name" xml:space="preserve">
+    <value>CtlMenuRun</value>
+  </data>
+  <data name="&gt;&gt;CtlMenuRun.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlMenuStart.Name" xml:space="preserve">
+    <value>CtlMenuStart</value>
+  </data>
+  <data name="&gt;&gt;CtlMenuStart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlMenuStop.Name" xml:space="preserve">
+    <value>CtlMenuStop</value>
+  </data>
+  <data name="&gt;&gt;CtlMenuStop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CtlMenuReset.Name" xml:space="preserve">
+    <value>CtlMenuReset</value>
+  </data>
+  <data name="&gt;&gt;CtlMenuReset.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

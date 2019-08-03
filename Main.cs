@@ -59,8 +59,6 @@ namespace NN
             CreateDirectories();
 
             CtlNetworkPresenter.SizeChanged += NetworkPresenter_SizeChanged;
-     
-            CtlTime.BringToFront();
 
             LoadConfig();
         }
@@ -227,6 +225,7 @@ namespace NN
         private void OnNetworkUIChanged(Notification.ParameterChanged param, object newValue = null) 
         {
             ToggleApplyChanges(Const.Toggle.On);
+            CtlMenuStart.Enabled = false;
 
             if (param == Notification.ParameterChanged.NeuronsCount)
             {
@@ -257,10 +256,11 @@ namespace NN
                 NetworksManager.RefreshNetworksDataModels();
                 CtlNetworkPresenter.RenderStanding(NetworksManager.SelectedNetworkModel);
                 ToggleApplyChanges(Const.Toggle.Off);
+                CtlMenuStart.Enabled = true;
             }
         }
 
-        private bool IsRunning => CtlStop.Enabled;
+        private bool IsRunning => CtlMenuStop.Enabled;
 
         private void CtlStart_Click(object sender, EventArgs e)
         {
@@ -271,9 +271,9 @@ namespace NN
                 CancellationTokenSource = new CancellationTokenSource();
                 CancellationToken = CancellationTokenSource.Token;
 
-                CtlStart.Enabled = false;
-                CtlReset.Enabled = false;
-                CtlStop.Enabled = true;
+                CtlMenuStart.Enabled = false;
+                CtlMenuReset.Enabled = false;
+                CtlMenuStop.Enabled = true;
                 CtlMenuDeleteNetwork.Enabled = false;
                 
                 NetworksManager.PrepareModelsForRun();
@@ -597,8 +597,8 @@ namespace NN
             {               
                 Text = "Neural Network";
 
-                CtlStart.Enabled = false;
-                CtlReset.Enabled = false;
+                CtlMenuStart.Enabled = false;
+                CtlMenuReset.Enabled = false;
                 CtlMainMenuSaveAs.Enabled = false;
                 CtlMenuNetwork.Enabled = false;
                 CtlNetworkContextMenu.Enabled = false;  
@@ -607,8 +607,8 @@ namespace NN
             {
                 Text = "Neural Network | " + Path.GetFileNameWithoutExtension(Config.Main.GetString(Const.Param.NetworksManagerName));
 
-                CtlStart.Enabled = true;
-                CtlReset.Enabled = true;
+                CtlMenuStart.Enabled = true;
+                CtlMenuReset.Enabled = true;
                 CtlMainMenuSaveAs.Enabled = true;
                 CtlMenuNetwork.Enabled = true;
                 CtlNetworkContextMenu.Enabled = true;
@@ -631,9 +631,9 @@ namespace NN
                 WorkThread = null;
             }
 
-            CtlStart.Enabled = true;
-            CtlStop.Enabled = false;
-            CtlReset.Enabled = true;
+            CtlMenuStart.Enabled = true;
+            CtlMenuStop.Enabled = false;
+            CtlMenuReset.Enabled = true;
         }
 
         private void CtlReset_Click(object sender, EventArgs e)
