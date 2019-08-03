@@ -700,8 +700,13 @@ namespace NN
             {
                 if (IsRunning)
                 {
-                    CtlInputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
-                    CtlNetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
+                    lock (ApplyChangesLocker)
+                    {
+                        CtlInputDataPresenter.SetInputDataAndDraw(NetworksManager.Models.First());
+                        CtlNetworkPresenter.RenderRunning(NetworksManager.SelectedNetworkModel);
+                        CtlPlotPresenter.Draw(NetworksManager.Models, NetworksManager.SelectedNetworkModel);
+                        CtlStatisticsPresenter.Draw(null);
+                    }
                 }
                 else
                 {

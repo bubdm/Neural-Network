@@ -44,7 +44,7 @@ namespace NN.Controls
             CtlBox.Invalidate();
         }
 
-        public void DrawPlotter()
+        private void DrawPlotter()
         {
             var pen = Pens.Black;
 
@@ -67,7 +67,7 @@ namespace NN.Controls
             }
         }
 
-        public void DrawData(DynamicStatistic.PlotPoints data, Color color, PointFunc func, bool isRect)
+        private void DrawData(DynamicStatistic.PlotPoints data, Color color, PointFunc func, bool isRect)
         {
             using (var pen = new Pen(color))
             using (var brush = new SolidBrush(color))
@@ -100,7 +100,7 @@ namespace NN.Controls
             }
         }
 
-        public void DrawLabel(DynamicStatistic.PlotPoints data, Color color)
+        private void DrawLabel(DynamicStatistic.PlotPoints data, Color color)
         {
             var font = new Font("Tahoma", 6.5f, FontStyle.Bold);
             G.TextRenderingHint = TextRenderingHint.AntiAlias;
@@ -164,20 +164,6 @@ namespace NN.Controls
                     data.Remove(p);
                 }
             }
-        }
-
-        private void InitializeComponent()
-        {
-            ((System.ComponentModel.ISupportInitialize)(this.CtlBox)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // PlotterPresenter
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.Name = "PlotterPresenter";
-            ((System.ComponentModel.ISupportInitialize)(this.CtlBox)).EndInit();
-            this.ResumeLayout(false);
-
         }
     }
 }
